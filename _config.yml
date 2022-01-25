@@ -1,0 +1,144 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+
+# Site
+title: Li.
+subtitle:
+description:
+keywords:
+author: 李英平
+language:
+timezone:
+
+# URL
+## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+url: http://Bye-lemon.github.io
+root: /
+# permalink: :year/:month/:day/:title/
+permalink: post/:abbrlink/
+permalink_defaults:
+abbrlink:
+  alg: crc16
+  rep: hex
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+new_post_name: :title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link:
+  enable: true # Open external links in new tab
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace:
+
+# Home page setting
+# path: Root path for your blogs index page. (default = '')
+# per_page: Posts displayed per page. (0 = disable pagination)
+# order_by: Posts order. (Order by date descending by default)
+index_generator:
+  path: ''
+  per_page: 10
+  order_by: -date
+
+# index2 generator是否包含官方的hexo-generator-index，默认true（包含）
+#index2_include_index: true
+index2_generator:
+  index: true
+  exclude:
+    - category 论文笔记 # 不包含分类为论文笔记的文章
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 10
+pagination_dir: page
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: archer
+## hexo-blog-encrypt
+encrypt:
+  enable: true
+# hexo-helper-live2d
+live2d:
+  enable: true
+  scriptFrom: local
+  pluginRootPath: live2dw/
+  pluginJsPath: lib/
+  pluginModelPath: assets/
+  tagMode: false
+  log: false
+  model:
+    use: live2d-widget-model-tororo
+  display:
+    position: right
+    width: 150
+    height: 300
+  mobile:
+    show: false
+
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  - type: git
+    repo: git@github.com:Bye-lemon/Bye-lemon.github.io.git
+    branch: master
+    token: "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"
+  - type: git
+    repo: git@github.com:Bye-lemon/Bye-lemon.github.io.git
+    branch: src
+    token: "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"
+    extend_dirs: /
+    ignore_hidden: false
+    ignore_pattern:
+      public: .
+
+# Archer Request
+jsonContent:
+  meta: true
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: true
+    excerpt: false
+    categories: true
+    tags: true

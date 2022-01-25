@@ -1,0 +1,37 @@
+{
+  "name": "hexo-site",
+  "version": "0.0.0",
+  "private": true,
+  "hexo": {
+    "version": "5.4.0"
+  },
+  "dependencies": {
+    "cross-spawn-async": "^2.2.5",
+    "hexo": "^5.4.0",
+    "hexo-abbrlink": "^2.2.1",
+    "hexo-blog-encrypt": "^3.1.5",
+    "hexo-deployer-git": "^3.0.0",
+    "hexo-filter-mermaid-diagrams": "^1.0.5",
+    "hexo-fs": "^3.1.0",
+    "hexo-generator-archive": "^1.0.0",
+    "hexo-generator-baidu-sitemap": "^0.1.9",
+    "hexo-generator-category": "^1.0.0",
+    "hexo-generator-feed": "^3.0.0",
+    "hexo-generator-index": "^2.0.0",
+    "hexo-generator-index-pin-top": "^0.2.2",
+    "hexo-generator-index2": "^0.2.0",
+    "hexo-generator-json-content": "^4.2.3",
+    "hexo-generator-tag": "^1.0.0",
+    "hexo-helper-live2d": "^3.1.1",
+    "hexo-pdf": "^1.1.1",
+    "hexo-renderer-ejs": "^1.0.0",
+    "hexo-renderer-kramed": "^0.1.4",
+    "hexo-renderer-mathjax": "^0.6.0",
+    "hexo-renderer-pandoc": "^0.3.0",
+    "hexo-renderer-stylus": "^2.0.1",
+    "hexo-server": "^2.0.0",
+    "hexo-util": "^2.4.0",
+    "hexo-wordcount": "^6.0.1",
+    "live2d-widget-model-tororo": "^1.0.5"
+  }
+}

@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="李英平">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="李英平">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog,李英平,程序员,DUT">
+    
+    <meta name="description" content="">
+    <meta name="description" content="信息安全概论 计算机网络安全的基本概念 信息就是消息，是关于客观事实的可通讯的知识。信息可以被交流、存储和使用。信息在信源和信宿之间传递的，其中信息由信源产生，又能被信宿访问。  为了保证传递的有效性，我们希望：  信源是可用的、可靠的、受保护的；  传递是可控的、保密的；  信宿所获得信息是期望的、完整的、不可否认的。    表达信源、信息、信宿以及信息传递地有效性的图示：  信息安全的ISO定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《计算机网络安全教程》读书笔记">
+<meta property="og:url" content="http://bye-lemon.github.io/post/f2f7/index.html">
+<meta property="og:site_name" content="Li.">
+<meta property="og:description" content="信息安全概论 计算机网络安全的基本概念 信息就是消息，是关于客观事实的可通讯的知识。信息可以被交流、存储和使用。信息在信源和信宿之间传递的，其中信息由信源产生，又能被信宿访问。  为了保证传递的有效性，我们希望：  信源是可用的、可靠的、受保护的；  传递是可控的、保密的；  信宿所获得信息是期望的、完整的、不可否认的。    表达信源、信息、信宿以及信息传递地有效性的图示：  信息安全的ISO定">
+<meta property="og:locale">
+<meta property="og:image" content="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200303192952.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200303130916.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/%E5%9B%BE%E7%89%871.png">
+<meta property="article:published_time" content="2020-03-03T04:11:52.000Z">
+<meta property="article:modified_time" content="2021-01-17T05:45:09.000Z">
+<meta property="article:author" content="李英平">
+<meta property="article:tag" content="DUT">
+<meta property="article:tag" content="备考">
+<meta property="article:tag" content="信息安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200303192952.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>《计算机网络安全教程》读书笔记 · Li Yingping&#39;s Studio</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20210823" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20210823" as="style">
+    <link rel="stylesheet" href="/css/dark.css" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="/css/mobile.css?v=20210823" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20210823" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20210823" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Li." type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>Li Yingping's Studio.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">Li Yingping&#39;s Studio.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">《计算机网络安全教程》读书笔记</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                《计算机网络安全教程》读书笔记
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="DUT">DUT</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="备考">备考</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="信息安全">信息安全</a>
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">8.5k</span>阅读时长: <span class="post-count reading-time">31 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2020/03/03</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="信息安全概论"><a href="#信息安全概论" class="headerlink" title="信息安全概论"></a>信息安全概论</h2><hr>
+<h3 id="计算机网络安全的基本概念"><a href="#计算机网络安全的基本概念" class="headerlink" title="计算机网络安全的基本概念"></a>计算机网络安全的基本概念</h3><ul>
+<li><p><strong>信息</strong>就是<strong>消息</strong>，是关于客观事实的<strong>可通讯的知识</strong>。信息可以被<strong>交流</strong>、<strong>存储</strong>和<strong>使用</strong>。信息在<strong>信源</strong>和<strong>信宿</strong>之间传递的，其中信息由信源产生，又能被信宿访问。</p>
+</li>
+<li><p>为了保证传递的<strong>有效性</strong>，我们希望：</p>
+<ul>
+<li><p>信源是<strong>可用的</strong>、<strong>可靠的</strong>、<strong>受保护的</strong>；</p>
+</li>
+<li><p>传递是<strong>可控的</strong>、<strong>保密的</strong>；</p>
+</li>
+<li><p>信宿所获得信息是<strong>期望的</strong>、<strong>完整的</strong>、<strong>不可否认的</strong>。</p>
+</li>
+</ul>
+</li>
+<li><p>表达信源、信息、信宿以及信息传递地有效性的图示：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200303192952.png" alt=""></p>
+</li>
+<li><p><strong>信息安全</strong>的ISO定义：采用的技术和管理手段为数据处理系统建立的安全保护，保护计算机硬件、软件和数据不因偶然和恶意的原因遭到破坏、更改和泄露。</p>
+</li>
+<li><p>现代信息安全的内涵包括了三个层面：</p>
+<ul>
+<li><p>信息安全：机密性、完整性、不可否认性、可用性；</p>
+</li>
+<li><p>网络安全：保障各种网络资源稳定可靠的运行，受控合法地使用；</p>
+</li>
+<li><p>信息系统安全：网络可靠性、系统本身的缺陷、恶意攻击或破坏、信息安全问题。</p>
+</li>
+</ul>
+</li>
+<li><p>信息安全工作的目标就是为了在安全法律、法规、政策的支持与指导下，通过采用合适的安全技术与安全管理措施，实现信息安全的各基本需求。</p>
+</li>
+<li><p>计算机网络安全的需求：</p>
+<ul>
+<li><p><strong>保密性(Confidentiality)</strong>：确保信息只被授权人访问</p>
+</li>
+<li><p><strong>完整性(Integrity)</strong>：保护信息和信息处理方法的准确性和原始性</p>
+</li>
+<li><p><strong>可用性(Availability)</strong>：确保授权的用户在需要时可以访问信息</p>
+</li>
+<li><p><strong>可审查性(Accountability)</strong>：确保实体的行动可被跟踪</p>
+</li>
+<li><p><strong>可控性(Controllability)</strong>：是对安全措施信任的基础，保障是指系统具有足够的能力保护无意的错误以及能够抵抗故意渗透</p>
+</li>
+</ul>
+</li>
+<li><p>计算机网络安全的层次：<strong>物理安全</strong>、<strong>逻辑安全</strong>、<strong>操作系统安全</strong>和<strong>联网安全</strong>。</p>
+</li>
+<li><p>计算机网络安全设计的内容包括先进的技术、严格的管理和威严的法律。</p>
+</li>
+</ul>
+<h3 id="计算机网络的中的安全威胁"><a href="#计算机网络的中的安全威胁" class="headerlink" title="计算机网络的中的安全威胁"></a>计算机网络的中的安全威胁</h3><ul>
+<li><p>计算机网络实体面临威胁，<strong>实体</strong>是指计算机网络中的各种关键设备，包括各种<strong>计算机</strong>、<strong>网络和通信设备</strong>、<strong>存放数据的媒体</strong>、<strong>传输线路</strong>、<strong>供配电系统</strong>，以及<strong>防雷系统</strong>和<strong>抗电磁干扰系统</strong>等。</p>
+</li>
+<li><p>计算机网络系统面临的威胁把包括<strong>窃听</strong>、<strong>重传</strong>、<strong>伪造</strong>、<strong>篡改</strong>、<strong>非授权访问</strong>、<strong>拒绝服务攻击</strong>、<strong>行为访问</strong>、<strong>旁路控制</strong>、<strong>电磁/射频截获</strong>、<strong>人员疏忽</strong>等。</p>
+</li>
+<li><p>恶意程序的威胁包括<strong>计算机病毒</strong>、<strong>网络蠕虫</strong>、<strong>间谍软件</strong>和<strong>木马程序</strong>。</p>
+</li>
+<li><p>计算机网络面临来自潜在对手的威胁，包括来自国家、黑客、恐怖分子、工业竞争的带来的恶意攻击和粗心或未受到良好训练的工作人员带来的非恶意破坏。</p>
+</li>
+</ul>
+<h3 id="计算机网络中的不安全因素"><a href="#计算机网络中的不安全因素" class="headerlink" title="计算机网络中的不安全因素"></a>计算机网络中的不安全因素</h3><ul>
+<li><p>不安全的主要外部因素：</p>
+<ul>
+<li><p><strong>偶然因素</strong>：电源故障、设备功能失常、软件漏洞、逻辑错误等；</p>
+</li>
+<li><p><strong>自然灾害</strong>：地震、风暴、水灾、火灾、环境污染；</p>
+</li>
+<li><p><strong>人为因素</strong>：主动恶意的攻击或非专业人员的无心之失。</p>
+</li>
+</ul>
+</li>
+<li><p>人为因素的攻击主要分为以下几个方面：</p>
+<ul>
+<li><p><strong>被动攻击</strong>：监视明文、解密通信数据、口令嗅探、通信量分析</p>
+</li>
+<li><p><strong>主动攻击</strong>：修改、重放、会话拦截、伪装和利用、拒绝服务</p>
+</li>
+<li><p><strong>临近攻击</strong>：修改数据或手机信息、系统干涉、物理破坏</p>
+</li>
+<li><p><strong>内部人员攻击</strong>和<strong>分发攻击</strong></p>
+</li>
+</ul>
+</li>
+<li><p>被动攻击主要威胁信息的<strong>保密性</strong>，通常采用<strong>数据加密</strong>的方式预防；主动攻击主要威胁信息的<strong>完整性</strong>、<strong>可用性</strong>和<strong>真实性</strong>，其应对主要靠<strong>数据加密</strong>和适当的<strong>身份鉴别</strong>。</p>
+</li>
+<li><p>不安全的主要内部因素：</p>
+<ul>
+<li><p>互联网的不安全性：网络的开放性、国际性和自由性、网络协议及应用软件的漏洞</p>
+</li>
+<li><p>操作系统的不安全性：漏洞、后门、操作系统程序的动态链接性、进程的远程创建与激活</p>
+</li>
+<li><p>数据库的安全问题</p>
+</li>
+<li><p>传输线路的安全问题</p>
+</li>
+<li><p>网络安全管理问题：缺少安全管理人员、缺少安全管理技术规范、缺少定期测试与检查、缺少安全监控等</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="计算机网络安全的体系结构"><a href="#计算机网络安全的体系结构" class="headerlink" title="计算机网络安全的体系结构"></a>计算机网络安全的体系结构</h3><ul>
+<li><p>一个典型的安全信息传输模型如下：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200303130916.png" alt=""></p>
+</li>
+<li><p>安全的信息传输包括两个方面的内容：</p>
+<ul>
+<li><p>对发送多个信息进行安全转换，如进行加密；</p>
+</li>
+<li><p>收发双方共享的某些秘密信息，如加密密钥。</p>
+</li>
+</ul>
+</li>
+<li><p>可信任的第三方的作用：</p>
+<ul>
+<li><p>负责向通信双方分发秘密信息；</p>
+</li>
+<li><p>通信双方发生争执的时候进行仲裁。</p>
+</li>
+</ul>
+</li>
+<li><p>设计安全服务应该包含以下四个方面：</p>
+<ul>
+<li><p>设计一个恰当的<strong>安全变换算法</strong>；</p>
+</li>
+<li><p>产生安全变换中所需要的<strong>秘密信息</strong>；</p>
+</li>
+<li><p>设计<strong>分配和共享秘密信息的方法</strong>；</p>
+</li>
+<li><p>知名通信的黄芳使用的<strong>协议</strong>。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>OSI安全体系结构</strong>定义了以下五类安全服务，<strong>鉴别服务</strong>、<strong>访问控制服务</strong>、<strong>数据机密性服务</strong>、<strong>数据完整性服务</strong>和<strong>抗抵赖性</strong>。</p>
+</li>
+<li><p>阻止安全攻击及恢复系统的机制成为<strong>安全机制</strong>。</p>
+</li>
+<li><p>ISO定义的安全机制包括<strong>加密机制</strong>、<strong>数字签名机制</strong>、<strong>访问控制机制</strong>、<strong>数据完整性机制</strong>、<strong>鉴别交换机制</strong>、<strong>通信业务流填充机制</strong>、<strong>路由控制机制</strong>和<strong>公正机制</strong>。</p>
+</li>
+<li><p>安全目标、安全需求、安全服务、安全机制的关系：</p>
+<ul>
+<li><p>全部安全需求的实现才能达到安全目标</p>
+</li>
+<li><p>不同的安全服务的联合能够实现不同的安全需求</p>
+</li>
+<li><p>一个安全服务可能是多个安全需求的组成要素</p>
+</li>
+<li><p>不同的安全机制联合能够完成不同的安全服务</p>
+</li>
+<li><p>一个安全机制也可能是多个安全服务的构成要素</p>
+</li>
+</ul>
+</li>
+<li><p><strong>P2DR模型</strong>是一种常用的信息安全模型，分别指<strong>Protection保护</strong>、<strong>Detection检测</strong>、<strong>Response响应</strong>、<strong>Policy策略</strong>。</p>
+</li>
+<li><p>P2DR模型通过两个公式来描述安全的要求，<script type="math/tex">P_t>D_t+R_t</script>，指入侵者危害安全目标之前就能够被检测到并及时处理；<script type="math/tex">E_t=D_t+R_t</script>，如果<script type="math/tex">P_t=0</script>，意义是安全目标系统被暴露的时间越小越安全。</p>
+</li>
+<li><p>P2DR理论说明了安全不能单纯靠静态防护。也不能单纯靠技术手段解决。但P2DR模型也有一个明显的弱点，就是忽略了内在的变化因素。</p>
+</li>
+<li><p><strong>MP2DDR模型</strong>包括：<strong>管理</strong>、<strong>安全策略</strong>、<strong>访问控制机制</strong>、<strong>入侵检测机制</strong>、<strong>安全响应机制</strong>和<strong>备份恢复机制</strong>。</p>
+</li>
+<li><p>网络安全技术包括：<strong>物理安全措施</strong>、<strong>数据传输的安全措施</strong>、<strong>内外网隔离技术</strong>、<strong>入侵检测技术</strong>、<strong>访问控制技术</strong>、<strong>审计技术</strong>、<strong>安全漏洞检测技术</strong>、<strong>防病毒技术</strong>、<strong>备份技术</strong>和<strong>计算机网络终端安全技术</strong>。</p>
+</li>
+</ul>
+<h2 id="物理安全"><a href="#物理安全" class="headerlink" title="物理安全"></a>物理安全</h2><hr>
+<h3 id="物理安全概述"><a href="#物理安全概述" class="headerlink" title="物理安全概述"></a>物理安全概述</h3><ul>
+<li><p>物理安全是整个计算机网络系统安全的前提，是保护计算机网络设备、设施以及其他媒体免遭地震、水灾、火灾等环境事故、人为操作失误或各种计算机犯罪行为导致的破坏的过程。</p>
+</li>
+<li><p>物理安全主要考虑的问题是<strong>环境、场地和设备的安全</strong>、<strong>物理访问控制</strong>和<strong>应急处置计划</strong>。物理安全包括四个方面：<strong>机房环境安全</strong>、<strong>通信线路安全</strong>、<strong>设备安全</strong>和<strong>电源安全</strong>。</p>
+</li>
+<li><p>物理安全是相对的。</p>
+</li>
+</ul>
+<h3 id="机房环境安全"><a href="#机房环境安全" class="headerlink" title="机房环境安全"></a>机房环境安全</h3><ul>
+<li><p>机房环境安全包括计算机机房的<strong>安全保卫技术</strong>、计算机机房温湿度等<strong>环境条件保持技术</strong>、计算机机房的<strong>用电安全技术</strong>和计算机机房<strong>安全管理技术</strong>。</p>
+</li>
+<li><p>机房环境需要满足<strong>安全要求</strong>、<strong>防盗要求</strong>、<strong>三度要求</strong>（机房的<strong>温度</strong>、<strong>湿度</strong>、<strong>洁净度</strong>并称三度）、<strong>防静电要求</strong>、<strong>接地与防雷要求</strong>、<strong>防火和防水措施</strong>。</p>
+</li>
+</ul>
+<h3 id="通信线路安全"><a href="#通信线路安全" class="headerlink" title="通信线路安全"></a>通信线路安全</h3><ul>
+<li><p>电缆加压技术通过向线缆的两端充气加压，并监测压力来监视线路，如果出现压力下降，意味着电缆可能被破坏了。</p>
+</li>
+<li><p>光纤通信技术使用光纤作为通信线路，光纤没有电磁辐射，不能被电磁感应窃听，但是光纤有长度限制，超过一定长度需要使用度至七放大信号，复制器给光纤通信带来了安全薄弱环节。</p>
+</li>
+<li><p>Modem通信安全：当允许用户通过拨号连接到Modem访问计算机网络系统时，要确保Modem的电话号码不被列于电话簿上。</p>
+</li>
+</ul>
+<h3 id="设备安全"><a href="#设备安全" class="headerlink" title="设备安全"></a>设备安全</h3><ul>
+<li>计算机网络的硬件设备要做好维护和管理工作，电磁兼容和电磁辐射的防护工作、信息存储媒体的安全管理工作等。</li>
+</ul>
+<h3 id="电源安全"><a href="#电源安全" class="headerlink" title="电源安全"></a>电源安全</h3><ul>
+<li><p>电源系统电压的波动、浪涌电流和突然断电等意外情况的发生容易导致计算机系统存储信息的丢失、存储设备的损坏等安全问题。</p>
+</li>
+<li><p>室内电源的安全要考虑电力能源的可靠供应、电源对用电设备安全的潜在威胁等，这样的威胁包括脉动与噪声和电磁干扰。</p>
+</li>
+</ul>
+<h2 id="密码学概论"><a href="#密码学概论" class="headerlink" title="密码学概论"></a>密码学概论</h2><hr>
+<h3 id="密码系统概述"><a href="#密码系统概述" class="headerlink" title="密码系统概述"></a>密码系统概述</h3><ul>
+<li><p>一个典型的加密通信的模型如下图所示：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/%E5%9B%BE%E7%89%871.png" alt=""></p>
+</li>
+<li><p>密码学的目的是保证在不安全信道上的通信不会被破译者理解通信的内容。</p>
+</li>
+<li><p>密码系统的定义：密码体制是一个五元组<script type="math/tex">\{M, C, K, E, D\}</script>，其中<script type="math/tex">M</script>是所有可能的明文（消息）的集合，称为<strong>明文空间</strong>，<script type="math/tex">C</script>是所有可能的密文的集合，称为<strong>密文空间</strong>，<script type="math/tex">K</script>是一个可能密钥的有限集，称为<strong>密钥空间</strong>，加密和解密是一种映射，<script type="math/tex">e_k:=M\rightarrow C</script>，<script type="math/tex">d_k:=C\rightarrow M</script>，且有<script type="math/tex">d_k(e_k(m))=m</script>成立。</p>
+</li>
+<li><p>所有的加密算法的安全性都基于<strong>密钥的安全性</strong>，而不是基于算法细节的安全性。</p>
+</li>
+<li><p>消息（Message）被称为<strong>明文（PlainText）</strong>，用某种方法伪装消息以隐藏它的内容的过程称为<strong>加密（Encryption）</strong>，被加密的消息称为<strong>密文（Cipher）</strong>，把密文变成明文的过程称为<strong>解密（Decryption）</strong>，加密和解密所用的秘密信息称为<strong>密钥（Key）</strong>。</p>
+</li>
+<li><p><strong>密码学（Cryptology）</strong>作为数学的一个分支，包括<strong>密码编码学（Cryptography）</strong>和<strong>密码分析学（Cryptanalysis）</strong>，从事消息保密技术和科学的叫做<strong>密码编码者（Cryptographer）</strong>，从事密码分析的专业人员称为<strong>密码分析者（Cryptanalyst）</strong>。</p>
+</li>
+<li><p>密码学可以为通信提供<strong>机密性</strong>、<strong>鉴别</strong>、<strong>数据完整性</strong>和<strong>抗否认性</strong>。</p>
+</li>
+</ul>
+<h3 id="密码分析概述"><a href="#密码分析概述" class="headerlink" title="密码分析概述"></a>密码分析概述</h3><ul>
+<li><p>密码分析学是在不知道密钥的情况下恢复出明文的科学，成功的密码分析能恢复出消息的明文或密钥。</p>
+</li>
+<li><p>密钥通过非密码分析的方式丢失叫做<strong>泄露</strong>。</p>
+</li>
+<li><p>对于对称密码体制的攻击方式有两种：</p>
+<ul>
+<li><p><strong>穷举攻击（Brute Force Search）</strong>：试遍所有可能的密钥对所获取的明文进行解密，直至得到正确的明文；或用一个确定的密钥对所有可能的明文进行加密，直至得到所获得的密文。</p>
+</li>
+<li><p><strong>密码分析</strong>：依赖加密算法的性质和明文的一般特征等试图破译密码得到明文或试图获得密钥的过程。</p>
+</li>
+</ul>
+</li>
+<li><p>穷举攻击是最基本也是最基本也是比较有效的一种攻击方法。理论上，可以尝试所有密钥，不过穷举攻击的代价与密钥长度成正比，密码算法可以通过增大密钥位数或加大解密算法的复杂性来对抗穷举攻击。</p>
+</li>
+<li><p>密码分析的<strong>Kerckhoff假设</strong>：分析一个密码系统是否安全，一般是假定攻击者知道所使用的密码系统的情况下进行分析的，这包括<strong>密文</strong>、<strong>明文的统计特征</strong>、<strong>加密体制</strong>、<strong>密钥空间及其统计特性</strong>。</p>
+</li>
+<li><p>根据密码分析者所指的信息量，对密码的攻击分为：</p>
+<ul>
+<li><p><strong>唯密文攻击（Cipher-Only Attack）</strong>：密码分析者仅知道<strong>加密算法</strong>和<strong>待破译的密文</strong>；</p>
+</li>
+<li><p><strong>已知明文攻击（Known-Plaintext Attack）</strong>：密码分析者除知道<strong>加密算法</strong>和<strong>待破译的密文</strong>外，还知道<strong>一定数量的明文和对应的密文</strong>；</p>
+</li>
+<li><p><strong>选择明文攻击（Chosen-Plaintext Attack）</strong>：密码分析者除知道<strong>加密算法</strong>和<strong>待破译的密文</strong>外，还可以知道<strong>选择的明文和对应的密文</strong>；</p>
+</li>
+<li><p><strong>选择密文攻击（Chosen-Ciphertext Attack）</strong>：密码分析者除知道<strong>加密算法</strong>和<strong>待破译的密文</strong>外，还可以知道<strong>选择的密文和对应的明文</strong>；</p>
+</li>
+<li><p><strong>选择文本攻击（Chosen Text Attack）</strong>：密码分析者除知道<strong>加密算法</strong>和<strong>待破译的密文</strong>外，还可以知道<strong>任意选择的明文和对应的密文</strong>；</p>
+</li>
+</ul>
+</li>
+<li><p>在上述五种攻击类型中，唯密文攻击的难度最大，因为攻击者可以利用的信息最少。对于密码设计者而言，被设计得加密算法一般要经受的住已知明文的攻击。</p>
+</li>
+<li><p>如果无论攻击者有多少密文，由一个加密算法产生的这些密文中包含的信息不足以唯一决定对应的明文，也无论用什么技术方法进行攻击都不能被攻破，这种加密算法是<strong>绝对安全(Unconditional Security)</strong>的。除<strong>一次性密码本（One-Time Pad）</strong>外，没有绝对安全的加密算法。</p>
+</li>
+<li><p>常用的密码分析方法包括：</p>
+<ul>
+<li><p><strong>线性密码分析</strong>：线性密码分析是一种已知明文的统计攻击，它以寻求线性近似为基础，通过寻找现代密码算法变换的线性近似来攻击。</p>
+</li>
+<li><p><strong>差分密码攻击</strong>：差分密码分析通过分析明文对差值对密文对差值的影响来恢复某些密码位。差分密码分析可以用来攻击任何由迭代一个固定的论函数的结构的密码。</p>
+</li>
+</ul>
+</li>
+<li><p>满足以下两个条件中的一个或两个的算法称为<strong>计算上安全（Computational Security）</strong>的算法：</p>
+<ul>
+<li><p>破译该密码的成本超过被加密信息的价值；</p>
+</li>
+<li><p>破译改密码的时间超过该信息有用的生命周期。</p>
+</li>
+</ul>
+</li>
+<li><p>计算上安全是指在计算能力有限的的情况下(如计算所需时间比宇宙生存时间还长)，无法破解此密文。当下使用的加密算法一般是计算上安全的。</p>
+</li>
+<li><p>加密算法的主要要求：</p>
+<ul>
+<li><p>对密文破译攻击极为困难；</p>
+</li>
+<li><p>在有效地防破译地前提下，密钥长度应很小；</p>
+</li>
+<li><p>加密、解密地操作流程简便易行；</p>
+</li>
+<li><p>错码率及错码地扩散程度低；</p>
+</li>
+<li><p>加密后原信息地长度不受影响。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="密码学历史"><a href="#密码学历史" class="headerlink" title="密码学历史"></a>密码学历史</h3><ul>
+<li><p>密码学是一门古老而深奥的科学，密码学的发展经历了三个阶段：<strong>古代加密方法</strong>、<strong>古典密码</strong>、<strong>近代密码</strong>。</p>
+</li>
+<li><p>古代加密算法包括：古希腊隐写术、斯巴达Scytale加密工具、我国古代的藏头诗、藏尾诗、漏格诗、绘画等。</p>
+</li>
+<li><p>古典加密算法主要使用<strong>字符替换</strong>和<strong>字符位置置乱</strong>技术。</p>
+<ul>
+<li><p>字符替换技术是将明文字母替换成其他字母、数字或符号。分为<strong>单字母代换密码</strong>和<strong>多字母代换密码</strong>，单字母代换密码又分为<strong>单表代换密码</strong>和<strong>多表代换密码</strong>。</p>
+</li>
+<li><p>字符位置置乱保持明文字母不变，只是打乱明文字母的位置和次序。</p>
+</li>
+</ul>
+</li>
+<li><p>近代密码的里程碑：</p>
+<ul>
+<li><p>1949年，Shannon发表了论文”保密系统的通信理论“，被认为是近代密码的第一次飞跃。</p>
+</li>
+<li><p>1976年，W.Diffie和M.Hellman在《密码编程学的新方向》一文中提出公开密钥的思想，掀开公钥密码研究的序幕，这是第二次飞跃。</p>
+</li>
+<li><p>1977年，RSA公钥密码体制提出，是密码学史上的又一里程碑。</p>
+</li>
+<li><p>1997年，美国公布了数据加密标准DES。</p>
+</li>
+<li><p>1994年，美国颁布了密钥托管加密标准EES和数字签名标准DSS。</p>
+</li>
+<li><p>2001年，美国颁布了高级数据加密标准AES。</p>
+</li>
+</ul>
+</li>
+<li><p>近代密码学发展的两大里程碑是<strong>数据加密标准DES</strong>和<strong>公开密钥密码体制</strong>。</p>
+</li>
+<li><p><strong>密码体制</strong>指一个密码系统采用的基本工作方式，从原理上可以分为两大类<strong>对称密码体制</strong>和<strong>非对称密码体制</strong>。</p>
+<ul>
+<li><p>对称密码体制系统的保密性取决于<strong>密钥的安全性</strong>，密钥的管理、传输和分配重要且十分复杂，其优点在于保密强度高、运算速度快，缺点是密钥数目大、密钥分配困难、无法实现不可否认服务。</p>
+</li>
+<li><p>非对称密码体制的加密密钥是公开的，解密密钥必须保密，其对密钥的产生、分配和管理简单，适合计算机网络系统，优点在于可以实现信息的公开加密、实现不可否认服务，缺点在于加解密运算复杂且速度慢。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="古典密码学"><a href="#古典密码学" class="headerlink" title="古典密码学"></a>古典密码学</h3><h4 id="字符替换技术"><a href="#字符替换技术" class="headerlink" title="字符替换技术"></a>字符替换技术</h4><h5 id="单表替换密码"><a href="#单表替换密码" class="headerlink" title="单表替换密码"></a>单表替换密码</h5><ul>
+<li><p><strong>单表替换密码</strong>又称<strong>简单替换密码</strong>，就是明文的一个字符用一个相应的密文字符去替换，其代表是<strong>凯撒（Caesar）密码</strong>。</p>
+</li>
+<li><p>单表替换密码可以写成字母替换表的形式也可以写成函数的形式，典型的有<strong>加法密码</strong>、<strong>乘法密码</strong>和<strong>仿射密码</strong>。</p>
+</li>
+<li><p>加法密码中，对于每个<script type="math/tex">c, m\in Z_n</script>，其加密和解密算法为：</p>
+<script type="math/tex; mode=display">C=E_k(m)=(m+k)\mod n</script><script type="math/tex; mode=display">M=D_k(c)=(c-k)\mod n</script><script type="math/tex; mode=display">k\in (0, n)</script></li>
+<li><p>Caesar密码是典型的加法密码，由Julius Caesar发明，将字母表中的每个字母用它后面的第三个字母替换，相当于密钥为3的加法密码。</p>
+</li>
+<li><p>加法密码安全性较差，其密钥只有25个。</p>
+</li>
+<li><p>乘法密码中，对于每个<script type="math/tex">c, m\in Z_n</script>，其加密和解密算法为：</p>
+<script type="math/tex; mode=display">C=E_k(m)=(mk)\mod n</script><script type="math/tex; mode=display">M=D_k(c)=(ck^{-1})\mod n</script><script type="math/tex; mode=display">\gcd (k, n) = 1</script></li>
+<li><p>乘法密码又称<strong>采样密码</strong>，因为秘文字母相当于明文字母按照下标每隔<script type="math/tex">k</script>位取出一个字母排列而成。</p>
+</li>
+<li><p>乘法密码的密钥空间大小为<script type="math/tex">n</script>的欧拉函数值<script type="math/tex">\phi (n)</script>，即与其互素的数字的个数，对于英文字母，其密钥空间大小为<script type="math/tex">\phi(n)=\phi(26)=12</script>。</p>
+</li>
+<li><p>仿射密码是加法密码和乘法密码的结合，加法密码和乘法密码分别是<script type="math/tex">k_2=0</script>和<script type="math/tex">k_1=1</script>时的特例，仿射密码中，对于每个<script type="math/tex">c, m\in Z_n</script>，其加密和解密算法为：</p>
+<script type="math/tex; mode=display">C=E_k(m)=(mk_1+k_2)\mod n</script><script type="math/tex; mode=display">M=D_k(c)=((c-k_2)k^{-1})\mod n</script><script type="math/tex; mode=display">\gcd (k_1, n) = 1</script><script type="math/tex; mode=display">k_2\in (0, n)</script></li>
+<li><p>仿射密码的密钥空间大小为<script type="math/tex">n\phi (n)</script>，对于英文字母，其密钥空间大小为<script type="math/tex">n\phi(n)=26\phi(26)=312</script>。</p>
+</li>
+<li><p>单表替换密码的改进方法：</p>
+<ul>
+<li><p>使用更复杂的字母替换表</p>
+</li>
+<li><p>利用密钥词、短语或句子构造字母替换表</p>
+</li>
+</ul>
+</li>
+<li><p>破解单表替换密码的思路是<strong>语言本身时充满冗余的</strong>，单表替换密码<strong>不改变字母出现的相对频率</strong>，故，单表替换密码可以统计破解。</p>
+</li>
+</ul>
+<h5 id="多表替换密码"><a href="#多表替换密码" class="headerlink" title="多表替换密码"></a>多表替换密码</h5><ul>
+<li><p><strong>多表替换密码</strong>有多个单字母替换组成，每个密钥加密对应位置的明文，例如<strong>维吉尼亚密码</strong>。</p>
+</li>
+<li><p>若代换系列为非周期无限序列，则是一次性密码本，一次性密码本的安全性基于<strong>密钥</strong>的随机性，由AT&amp;T公司的Gilbert Vernam在1917年提出，其密钥是不重复、真随机的密钥集，主要用于高度机密的低带宽信道。实际中，我们使用的均为<strong>周期多表替换密码</strong>，若其周期为1，则多表替换密码退化为单表替换密码。</p>
+</li>
+<li><p>如果由明文序列<script type="math/tex">m=m_1m_2\cdots</script>，令<script type="math/tex">f=f_1,f_2,\cdots,f_d,f_1,f_2,\cdots,f_d,\cdots</script>为替换函数序列，则多表替换密码生成的密文是</p>
+<script type="math/tex; mode=display">C=E_k(m)=f_1(m_1)f_2(m_2)\cdots f_d(m_d)f_1(m_{d+1})f_2(m_{d+2})\cdots f_d(m_{2d})\cdots</script></li>
+<li><p>维吉尼亚密码在1858年由法国密码学家维吉尼亚提出，常常使用英文单词作为密码字，密钥则是密码字的重复。</p>
+</li>
+<li><p>维吉尼亚密码若密钥字长度为<script type="math/tex">m</script>，对于英文字母来说，其密钥空间有<script type="math/tex">26^m</script>，密钥空间很大。</p>
+</li>
+</ul>
+<h5 id="多字母组替换密码"><a href="#多字母组替换密码" class="headerlink" title="多字母组替换密码"></a>多字母组替换密码</h5><ul>
+<li><p><strong>多字母组替换密码</strong>，字符块被成组加密，例如<strong>Playfair密码</strong>和<strong>Hill密码</strong>。</p>
+</li>
+<li><p><strong>Playfair密码</strong>算法：</p>
+<ol>
+<li><p><strong>生成字母替换矩阵</strong>：选定某词或短语作为密钥，将密钥去掉重复的字母后从左到右、从上到下填入一个<script type="math/tex">5\times 5</script>的矩阵，再将剩余的字母按照字母表的顺序依次填入。考虑到26不能被5整除，将I和J统一用I表示，视作同一个字母。</p>
+</li>
+<li><p><strong>生成待替换序列</strong>：明文中每两个连续的字符一组，如果连续两个字符是相同的，插入一个字母x，如果最后的长度不足2，补充一个字母x。</p>
+</li>
+<li><p><strong>执行替换</strong>：若两个字母在矩阵的同一行，则加密成右面一个字符；若两个字母在同一列，则加密成下面一个字符；若两字母既不同行也不同列，则取其作为矩阵中一个子矩阵的一堆顶点，将其加密成各自所在行中该子矩阵的另一个顶点。</p>
+</li>
+<li><p><strong>关于I和J</strong>：由于I和J使用场合一般不会混淆，在解密之后，根据语义推测明文。</p>
+</li>
+</ol>
+</li>
+<li><p>Playfair的密钥空间大小有<script type="math/tex">26\times 26=676</script>，它比单表代换更好的隐藏了明文中的单字母结构，但仍然包含了明文的部分特征。</p>
+</li>
+<li><p><strong>Hill密码</strong>在1929年由数学家Lester Hill提出，该算法规则如下</p>
+<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+ c_1\\
+ c_2\\
+ \vdots \\
+ c_m
+\end{matrix}
+\right] 
+=
+\left[
+\begin{matrix}
+ k_{11}& k_{12}& \cdots & k_{1m} \\
+ k_{21}& k_{22}& \cdots & k_{2m} \\
+ \vdots & \vdots & \ddots & \vdots \\
+ k_{m1}& k_{m2}& \cdots & k_{mm}
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+ m_1\\
+ m_2\\
+ \vdots \\
+ m_m
+\end{matrix}
+\right] 
+\mod 26</script><script type="math/tex; mode=display">C=KM\mod 26</script></li>
+<li><p>Hill密码是Playfair密码的拓展。</p>
+</li>
+</ul>
+<h4 id="移位密码"><a href="#移位密码" class="headerlink" title="移位密码"></a>移位密码</h4><ul>
+<li><p>倒置法分为<strong>完全倒置法</strong>和<strong>分组倒置法</strong>，但实际中容易破解，一般不用。</p>
+</li>
+<li><p><strong>列换位法</strong>的操作方法：</p>
+<ol>
+<li><p>将明文分割为k个一行的分组，并按照一组后面跟另一组的顺序排好。（其中，k即为列换位法的密钥。）</p>
+</li>
+<li><p>不完全的组使用不常使用的字符填充满。</p>
+</li>
+<li><p>依次取各列形成一串，得到密文。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>矩阵换位法</strong>：把明文中的字符按给定的顺序安排在一个矩阵里，然后用另一种顺序选出矩阵中的字母来产生密文。该加密方案中，密钥是矩阵的行数<script type="math/tex">m</script>和列数<script type="math/tex">n</script>，以及给定的置换矩阵<script type="math/tex">f</script>，即<script type="math/tex">k=(m*n, f)</script>。</p>
+</li>
+</ul>
+<h3 id="对称密码体制"><a href="#对称密码体制" class="headerlink" title="对称密码体制"></a>对称密码体制</h3><h4 id="分组密码概述"><a href="#分组密码概述" class="headerlink" title="分组密码概述"></a>分组密码概述</h4><ul>
+<li><p><strong>分组密码</strong>又称<strong>块密码</strong>，它是将明文消息经编码表示后的数字序列划分为若干固定长度的组，每组分别在密钥的控制下转换成等长度的密文分组输出。</p>
+</li>
+<li><p>分组密码已于构造随机数生成器、序列密码、消息认证码和杂凑函数等，还可以进而成为消息认证技术、数据完整性机制、实体认证协议以及单钥数字签名体制的核心组成部分。</p>
+</li>
+<li><p>分组密码的特点：</p>
+<ul>
+<li><p>密文仅与给定的密码算法和密钥相关；</p>
+</li>
+<li><p>与被处理的明文数据段在整个明文中所处的位置无关；</p>
+</li>
+<li><p>总是以大于等于64比特的数据块作为加密单位；（P.S. 现阶段64比特已经不能满足安全要求了。）</p>
+</li>
+<li><p>给定相同的明文数据块加密后得到的密文数据块相同。</p>
+</li>
+</ul>
+</li>
+<li><p>分组密码的代表性加密算法是<strong>DES</strong>、<strong>AES</strong>和<strong>IDEA</strong>。</p>
+</li>
+<li><p>分组密码算法的设计原则：</p>
+<ol>
+<li><p>要求足够大的分组长度；</p>
+</li>
+<li><p>密钥空间要足够大；</p>
+</li>
+<li><p>保证足够强的密码算法复杂度；</p>
+</li>
+<li><p>软件实现尽量采用子块和简单运算；</p>
+</li>
+<li><p>硬件的实现最好加密和解密用同样的结构，以适应超大规模集成芯片上的实现。</p>
+</li>
+</ol>
+</li>
+<li><p>分组密码的常用设计思路：</p>
+<ul>
+<li><p><strong>置换</strong>：设<script type="math/tex">S</script>为一有限集合，<script type="math/tex">\phi</script>为<script type="math/tex">S</script>到<script type="math/tex">S</script>的一一映射，则<script type="math/tex">\phi</script>为<script type="math/tex">S</script>上的一个置换。</p>
+</li>
+<li><p><strong>混淆</strong>：将作用于明文和密文之间的关系复杂化，使明文和密文之间、密文和密钥之间的<strong>统计相关性极小化</strong>。</p>
+</li>
+<li><p><strong>扩散</strong>：将每一位明文及密钥数字的影响尽可能迅速地分布到较多个输出的密文数字中，以便隐蔽明文数字的统计特性。</p>
+</li>
+</ul>
+</li>
+<li><p>分组密码的运行模式有四种：<strong>电子密码本模式ECB（Electron Code Block）</strong>、<strong>密码块链模式CBC（Cipher Block Chaining）</strong>、<strong>密码反馈模式CFB（Cipher text Feedback）</strong>和<strong>输出反馈模式OFB（Output Feedback）</strong>。</p>
+</li>
+<li><p>电子密码本模式中明文和密文的次序是一一对应的。其特点是</p>
+<ul>
+<li><p>每一个分组各自独立，不受其他分组影响；</p>
+</li>
+<li><p>加解密运算可以并行处理；</p>
+</li>
+<li><p>任一分组有错误不影响其它分组的处理；</p>
+</li>
+<li><p>相同的明文加密产生相同的密文；</p>
+</li>
+<li><p>密文内容若遭受剪贴、替换不易被发现。</p>
+</li>
+</ul>
+</li>
+<li><p>密码块链模式修改了电子密码本的缺点，引入了连续两块之间的关联。密码块链模式在开始加密时需要传入<strong>初始化矢量</strong>，第一块先和初始化矢量进行异或再做加密，之后每一次加密都要将明文块与前一次的运算结果做异或。</p>
+</li>
+<li><p>密码块链模式解决了电子密码本模式中相同输入会产生相同输出的问题，也使得对密文的攻击或传输过程中发生的错误可以被发现。</p>
+</li>
+<li><p>密码反馈模式中将初始化向量使用密钥进行加密，加密的结果和明文块做异或，后续的每一次加密使用密钥加密前一次的加密结果（与明文异或之前）再与明文块异或。</p>
+</li>
+<li><p>密码反馈模式保持了块与块之间的连接，但使得每一份组的加密结果不与之前所有的分组的内容相关，如若有分组在传输的过程中遗失或发生错误也不至于完全无法解密。</p>
+</li>
+<li><p>输出反馈模式中将初始化向量使用密钥进行加密，加密的结果和明文块做异或，后续的每一次加密使用密钥加密前一次的输出结果（与明文异或之后）再与明文块异或。</p>
+</li>
+</ul>
+<h4 id="数据加密标准DES"><a href="#数据加密标准DES" class="headerlink" title="数据加密标准DES"></a>数据加密标准DES</h4><ul>
+<li><p>DES基于<strong>Feistel结构</strong>，该结构的加密的原理是</p>
+<script type="math/tex; mode=display">L_i=R_{i-1}</script><script type="math/tex; mode=display">R_i=L_{i-1}\oplus F(R_{i-1}, k_i)</script></li>
+<li><p>DES是为<strong>二进制编码数据</strong>设计的对称加密算法，可以对计算机数据进行密码保护。DES的保密性基于<strong>密钥的保密性</strong>，其算法是公开的。</p>
+</li>
+<li><p>DES算法的基本流程：64位明文输入<script type="math/tex">\rightarrow</script>初始变换<script type="math/tex">IP\rightarrow</script>16轮Feistel乘积变换<script type="math/tex">\rightarrow</script>逆初始变换<script type="math/tex">IP^{-1}\rightarrow</script>64位密文输出。即</p>
+<script type="math/tex; mode=display">E_k(m)=IP\cdot T_{16}\cdot T_{15}\cdots T_1\cdot IP^{-1}(m)</script><script type="math/tex; mode=display">D_k(c)=IP^{-1}\cdot T_1\cdot T_2\cdots T_{16}\cdot IP(c)</script></li>
+<li><p>DES中的<strong>初始变换IP</strong>是一个矩阵，它是一个$8\times 8$的位置变换矩阵，其产生是先将顺序排列的矩阵进行转置，然后进行偶采样和奇采样置换后将各行进行逆序。初始变换的过程即是<script type="math/tex">Y(i)=X(IP(i))</script>。初始逆变换与初始变换互逆。以下是初始变换矩阵和逆初始变换矩阵</p>
+<script type="math/tex; mode=display">IP=
+\left[
+\begin{matrix}
+ 58& 50& 42& 34& 26& 18& 10& 2\\
+ 60& 52& 44& 36& 28& 20& 12& 4\\
+ 62& 54& 46& 38& 30& 22& 14& 6\\
+ 64& 56& 48& 40& 32& 24& 16& 8\\
+ 57& 49& 41& 33& 25& 17& 9& 1\\
+ 59& 51& 43& 35& 27& 19& 11& 3\\
+ 61& 53& 45& 37& 29& 21& 13& 5\\
+ 63& 55& 47& 39& 31& 23& 15& 7\\
+\end{matrix}
+\right]
+, IP^{-1}=
+\left[
+\begin{matrix}
+ 40& 8& 48& 16& 56& 24& 64& 32\\
+ 39& 7& 47& 15& 55& 23& 63& 31\\
+ 38& 6& 46& 14& 54& 22& 62& 30\\
+ 37& 5& 45& 13& 53& 21& 61& 29\\
+ 36& 4& 44& 12& 52& 20& 60& 28\\
+ 35& 3& 43& 11& 51& 19& 59& 27\\
+ 34& 2& 42& 10& 50& 18& 58& 26\\
+ 33& 1& 41& 9& 49& 17& 57& 25\\
+\end{matrix}
+\right]</script></li>
+<li><p>DES的<strong>Feistel结构设计</strong>如下，其中<script type="math/tex">E</script>为扩展置换，又称E盒置换，<script type="math/tex">S</script>为S盒替代，<script type="math/tex">P</script>为P盒置换，<script type="math/tex">PC-1</script>和<script type="math/tex">PC-2</script>为压缩置换，<script type="math/tex">LS</script>为循环移位。</p>
+<script type="math/tex; mode=display">L_i=R_{i-1}</script><script type="math/tex; mode=display">R_i=P(S(E(R_{i-1})\oplus k_i))\oplus L_{i-1}</script><script type="math/tex; mode=display">k_1=PC-2(LS(PC-1(K)))</script><script type="math/tex; mode=display">k_i=LS(PC-2(k_{i-1}))</script></li>
+<li><p><strong>E盒置换</strong>使用下面的置换矩阵</p>
+<script type="math/tex; mode=display">E=
+\left[
+\begin{matrix}
+  \cdot& 1& 2& 3& 4& \cdot& \cdot & 5& 6& 7& 8& \cdot &\cdot &\cdots &\cdot &\cdot & 29& 30& 31& 32& \cdot \\
+  32& 1& 2& 3& 4& 5& 4& 5& 6& 7& 8& 9& 8&
+ \cdots &
+ 29& 28& 29& 30& 31& 32& 1\\
+\end{matrix}
+\right]</script></li>
+<li><p><strong>S盒替代</strong>将48位的输入分成了8组6位序列，交给8个S盒处理，生成8组4位输出，共32位输出。设输入序列为<script type="math/tex">b_0b_1b_2b_3b_4b_5</script>，将<script type="math/tex">b_0b_5</script>和<script type="math/tex">b_1b_2b_3b_4</script>转换为十进制，记为<script type="math/tex">a_0</script>和<script type="math/tex">a_1</script>，S盒的输出结果就是S盒矩阵中第<script type="math/tex">a_0</script>行第<script type="math/tex">a_1</script>列的元素。以<script type="math/tex">S_1</script>盒为例，<script type="math/tex">S_1</script>盒矩阵如下</p>
+<script type="math/tex; mode=display">S_1=
+\left[
+\begin{matrix}
+14&4&13&1&2&15&11&8&3&10&6&12&5&9&0&7\\
+0&15&7&4&14&2&13&1&10&6&12&11&9&5&3&8\\
+4&1&14&8&13&6&2&11&15&12&9&7&3&10&5&0\\
+15&12&8&2&4&9&1&7&5&11&3&14&10&0&6&13
+\end{matrix}
+\right]</script></li>
+<li><p><strong>P盒置换</strong>又称<strong>直接置换</strong>，其置换矩阵为</p>
+<script type="math/tex; mode=display">P=
+\left[
+\begin{matrix}
+1& 2& 3& 4& 5& 6& 7&8&9&10&11&12&13&14&15&16&\cdot \\
+\cdot &17&18&19&20& 21&22&23&24&25&26&27&28&29&30&31&32\\
+16& 7& 20& 21& 29& 12& 28&17& 1& 15& 23& 26& 5& 18& 31& 10& \cdot\\
+\cdot & 2& 8& 24& 14& 32& 27& 3& 9& 19& 13& 30& 6& 22& 11& 4& 25
+\end{matrix}
+\right]</script></li>
+<li><p><strong>PC-1置换</strong>是<strong>压缩置换</strong>，对于输入密钥不考虑每个字节的第8位，对于剩余的56位,按照下面的矩阵进行置换</p>
+<script type="math/tex; mode=display">PC-1=
+\left[
+\begin{matrix}
+57&49&41&33&25&17&09&01&58&50&42&34&26&18\\
+10&02&59&51&43&35&27&19&11&03&60&52&44&36\\
+63&55&47&39&31&23&15&07&62&54&46&38&30&22\\
+14&06&61&53&45&37&29&21&13&05&28&20&12&04
+\end{matrix}
+\right]</script></li>
+<li><p>LS是<strong>循环左移</strong>，将矩阵输出分为左右两部分，各24位，各自进行循环左移，循环左移分为左移一位和左移两位，具体的位数遵循下面的矩阵</p>
+<script type="math/tex; mode=display">LS=
+\left[
+\begin{matrix}
+1& 2& 3& 4& 5& 6& 7&8&9&10&11&12&13&14&15&16\\
+1&1&2&2&2&2&2&2&1&2&2&2&2&2&2&1\\
+\end{matrix}
+\right]</script></li>
+<li><p><strong>PC-2置换</strong>又称<strong>选择置换</strong>，其置换序列如下</p>
+<script type="math/tex; mode=display">
+PC-2=
+\left[
+\begin{matrix}
+14&17&11&24&01&05&03&28&15&06&21&10\\
+23&19&12&04&26&08&16&07&27&20&13&02\\
+41&52&31&37&47&55&30&40&51&45&33&48\\
+44&49&39&56&34&53&46&42&50&36&29&32
+\end{matrix}
+\right]</script></li>
+<li><p>DES有一条重要特性：<strong>加密和解密可使用相同的算法</strong>，唯一的区别是密钥的次序相反，解密密钥的输入次序是加密次序的逆序。</p>
+</li>
+<li><p>DES自问世至今，对它的多次分析研究从未发现其算法上的破绽，在一定的密钥位数和迭代次数的保障下，DES的安全性是可以得到保障的。</p>
+</li>
+<li><p>DES的脆弱性体现在<strong>函数构造与作用域</strong>以及<strong>迭代问题</strong>上，S盒的原理至今未公开也可能藏有隐患。</p>
+</li>
+<li><p>解决DES密钥位数少的解决办法是<strong>多重DES</strong>，由于<strong>双重DES</strong>难以抵抗中间相遇攻击，一般使用的<strong>三重DES（Triple-DES）</strong>，三重DES可以取三个不同的密钥，也可以是第一轮和第三轮密钥相同，其具体执行方式有DES-EEE3、DES-EDE3、DES-EEE2、DES-EDE2。</p>
+</li>
+</ul>
+<h4 id="其他分组密码"><a href="#其他分组密码" class="headerlink" title="其他分组密码"></a>其他分组密码</h4><ul>
+<li><p><strong>国际数据加密算法IDEA</strong>由瑞士联邦技术学院开发，它使用<strong>128位</strong>密钥，对64位明文加密产生64位密文。至今，IDEA未被发现明显漏洞，<strong>PGP（安全电子邮件）</strong>即采用IDEA加密。</p>
+</li>
+<li><p><strong>RC5</strong>由RSA公司的首席科学家R.Rivest于1994年设计，<strong>RC6</strong>是<strong>RC5</strong>的改进，被选为21实际加密标准算法。</p>
+</li>
+</ul>
+<h3 id="公钥密码体制"><a href="#公钥密码体制" class="headerlink" title="公钥密码体制"></a>公钥密码体制</h3><ul>
+<li><p>对称密码体制的两个难以解决的问题：<strong>对称密码的密钥分配问题</strong>、<strong>对称密码不能实现数字签名</strong>。</p>
+</li>
+<li></li>
+</ul>
+<h2 id="附：推荐网络资源"><a href="#附：推荐网络资源" class="headerlink" title="附：推荐网络资源"></a>附：推荐网络资源</h2><hr>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://www.infosec.org.cn">中国计算机安全</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cert.org.cn">www.cert.org.cn</a></li>
+</ol>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://Bye-lemon.github.io">李英平</a>
+            <p>原文链接：<a href="http://bye-lemon.github.io/post/f2f7/">http://bye-lemon.github.io/post/f2f7/</a>
+            <p>发表日期：<a href="http://bye-lemon.github.io/post/f2f7/">March 3rd 2020, 12:11:52 pm</a>
+            <p>更新日期：<a href="http://bye-lemon.github.io/post/f2f7/">January 17th 2021, 1:45:09 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/post/3acc/" title="Windows系统下带有NonFree功能的OpenCV编译笔记">
+                    <div class="nextTitle">Windows系统下带有NonFree功能的OpenCV编译笔记</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/post/4129/" title="面向ARM架构的嵌入式系统设计学习笔记">
+                    <div class="prevTitle">面向ARM架构的嵌入式系统设计学习笔记</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+        
+
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:2576413114@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Bye-lemon" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//weibo.com/u/5679329267" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="//zhihu.com/people/li-ying-ping-89-54" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%A6%82%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">信息安全概论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">计算机网络安全的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E5%A8%81%E8%83%81"><span class="toc-number">1.2.</span> <span class="toc-text">计算机网络的中的安全威胁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%8D%E5%AE%89%E5%85%A8%E5%9B%A0%E7%B4%A0"><span class="toc-number">1.3.</span> <span class="toc-text">计算机网络中的不安全因素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.</span> <span class="toc-text">计算机网络安全的体系结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%AE%89%E5%85%A8"><span class="toc-number">2.</span> <span class="toc-text">物理安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%AE%89%E5%85%A8%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">物理安全概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%BA%E6%88%BF%E7%8E%AF%E5%A2%83%E5%AE%89%E5%85%A8"><span class="toc-number">2.2.</span> <span class="toc-text">机房环境安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E7%BA%BF%E8%B7%AF%E5%AE%89%E5%85%A8"><span class="toc-number">2.3.</span> <span class="toc-text">通信线路安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87%E5%AE%89%E5%85%A8"><span class="toc-number">2.4.</span> <span class="toc-text">设备安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E6%BA%90%E5%AE%89%E5%85%A8"><span class="toc-number">2.5.</span> <span class="toc-text">电源安全</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%AE%BA"><span class="toc-number">3.</span> <span class="toc-text">密码学概论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-number">3.1.</span> <span class="toc-text">密码系统概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0"><span class="toc-number">3.2.</span> <span class="toc-text">密码分析概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E5%AD%A6%E5%8E%86%E5%8F%B2"><span class="toc-number">3.3.</span> <span class="toc-text">密码学历史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81%E5%AD%A6"><span class="toc-number">3.4.</span> <span class="toc-text">古典密码学</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E6%9B%BF%E6%8D%A2%E6%8A%80%E6%9C%AF"><span class="toc-number">3.4.1.</span> <span class="toc-text">字符替换技术</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%95%E8%A1%A8%E6%9B%BF%E6%8D%A2%E5%AF%86%E7%A0%81"><span class="toc-number">3.4.1.1.</span> <span class="toc-text">单表替换密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E8%A1%A8%E6%9B%BF%E6%8D%A2%E5%AF%86%E7%A0%81"><span class="toc-number">3.4.1.2.</span> <span class="toc-text">多表替换密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E5%AD%97%E6%AF%8D%E7%BB%84%E6%9B%BF%E6%8D%A2%E5%AF%86%E7%A0%81"><span class="toc-number">3.4.1.3.</span> <span class="toc-text">多字母组替换密码</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%BB%E4%BD%8D%E5%AF%86%E7%A0%81"><span class="toc-number">3.4.2.</span> <span class="toc-text">移位密码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6"><span class="toc-number">3.5.</span> <span class="toc-text">对称密码体制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E6%A6%82%E8%BF%B0"><span class="toc-number">3.5.1.</span> <span class="toc-text">分组密码概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86DES"><span class="toc-number">3.5.2.</span> <span class="toc-text">数据加密标准DES</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81"><span class="toc-number">3.5.3.</span> <span class="toc-text">其他分组密码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6"><span class="toc-number">3.6.</span> <span class="toc-text">公钥密码体制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%EF%BC%9A%E6%8E%A8%E8%8D%90%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90"><span class="toc-number">4.</span> <span class="toc-text">附：推荐网络资源</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 42
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span>
+            <a class="archive-post-title" href="/post/be6/">当我们落魄到需要去借别人的算力跑实验的时候</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/12</span>
+            <a class="archive-post-title" href="/post/6c49/">借助SSH反向代理隧道实现内网服务器的校外访问</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span>
+            <a class="archive-post-title" href="/post/f81/">Windows 10系统下使用SMB实现媒体文件共享</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/29</span>
+            <a class="archive-post-title" href="/post/fab7/">避重就轻的论文阅读笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span>
+            <a class="archive-post-title" href="/post/258b/">DLUT校园网自动认证的解决方案</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span>
+            <a class="archive-post-title" href="/post/b346/">《高级操作系统》复习纲要</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/30</span>
+            <a class="archive-post-title" href="/post/89b2/">自动驾驶中间件Cyber RT中的实时通信机制简述</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/45b8/">2020年电赛G题不完全实现方案</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/9dd7/">如何为Hexo博客构建一个简单的全文搜索引擎</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/3eb8/">Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/d69d/">Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/post/d2b3/">Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/post/11e/">Apollo D-Kit 调试笔记（一）：系统安装与传感器集成</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span>
+            <a class="archive-post-title" href="/post/d923/">Apollo D-Kit 调试笔记（零）：修车备忘录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span>
+            <a class="archive-post-title" href="/post/ffa2/">《Query-guided End-to-End Person Search》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span>
+            <a class="archive-post-title" href="/post/c6f5/">《Joint Detection and Identification Feature Learning for Person Search》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span>
+            <a class="archive-post-title" href="/post/cde6/">行人重识别（Person Re-identification）研究概述</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span>
+            <a class="archive-post-title" href="/post/7f95/">《Transferable, Controllable, and Inconspicuous Adversarial Attacks on Person Re-identification With Deep Mis-Ranking》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span>
+            <a class="archive-post-title" href="/post/4d08/">《Weakly supervised discriminative feature learning with state information for person identification》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span>
+            <a class="archive-post-title" href="/post/8337/">《Pose-guided Visible Part Matching for Occluded Person ReID》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span>
+            <a class="archive-post-title" href="/post/aa5f/">《COCAS: A Large-Scale Clothes Changing Person Dataset for Re-identification》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span>
+            <a class="archive-post-title" href="/post/dbc2/">《YOLO v4: Optimal Speed and Accuracy of Object Detection》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/16</span>
+            <a class="archive-post-title" href="/post/1271/">Aurora在Refresh时报错Running Problem Latex的若干玄学解决方案</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/12</span>
+            <a class="archive-post-title" href="/post/3acc/">Windows系统下带有NonFree功能的OpenCV编译笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span>
+            <a class="archive-post-title" href="/post/f2f7/">《计算机网络安全教程》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span>
+            <a class="archive-post-title" href="/post/4129/">面向ARM架构的嵌入式系统设计学习笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/30</span>
+            <a class="archive-post-title" href="/post/b76d/">MI MIX2S(Polaris)全程负优化记录</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/post/e9de/">《并行程序设计导论》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span>
+            <a class="archive-post-title" href="/post/4849/">《软件综合训练》实训笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span>
+            <a class="archive-post-title" href="/post/363b/">那些年，我们调过的嵌入式开发平台</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span>
+            <a class="archive-post-title" href="/post/e971/">使用Altium Designer 19绘制劣质PCB的流程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/15</span>
+            <a class="archive-post-title" href="/post/9cb2/">《数据库系统概论（第四版）》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/24</span>
+            <a class="archive-post-title" href="/post/30ad/">《代码大全》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span>
+            <a class="archive-post-title" href="/post/6003/">tmux Cheatsheet</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/post/9087/">《黑客与画家》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/13</span>
+            <a class="archive-post-title" href="/post/f0bc/">Standford University CS183B（如何创业）学习笔记</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/31</span>
+            <a class="archive-post-title" href="/post/e061/">Brainfuck与2019的新年仪式感</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/25</span>
+            <a class="archive-post-title" href="/post/10d1/">《计算机网络（第7版）》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span>
+            <a class="archive-post-title" href="/post/a140/">IPv6环境下的一次Docker部署实践</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/post/ab83/">《C++语言程序设计教程》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span>
+            <a class="archive-post-title" href="/post/bdef/">一个菜鸟程序员打磨工具的日常</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span>
+            <a class="archive-post-title" href="/post/a87/">《图解TCP/IP》读书笔记</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="Apollo">
+                <span class="iconfont-archer">&#xe606;</span>
+                Apollo
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Re-ID">
+                <span class="iconfont-archer">&#xe606;</span>
+                Re-ID
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CVPR">
+                <span class="iconfont-archer">&#xe606;</span>
+                CVPR
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="DLUT">
+                <span class="iconfont-archer">&#xe606;</span>
+                DLUT
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Aurora2">
+                <span class="iconfont-archer">&#xe606;</span>
+                Aurora2
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="MS Office">
+                <span class="iconfont-archer">&#xe606;</span>
+                MS Office
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="IPv6">
+                <span class="iconfont-archer">&#xe606;</span>
+                IPv6
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                Docker
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cernet">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cernet
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Person Search">
+                <span class="iconfont-archer">&#xe606;</span>
+                Person Search
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="刷机">
+                <span class="iconfont-archer">&#xe606;</span>
+                刷机
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="小米">
+                <span class="iconfont-archer">&#xe606;</span>
+                小米
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Android">
+                <span class="iconfont-archer">&#xe606;</span>
+                Android
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OpenCV">
+                <span class="iconfont-archer">&#xe606;</span>
+                OpenCV
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="tmux">
+                <span class="iconfont-archer">&#xe606;</span>
+                tmux
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Linux
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Object Detection">
+                <span class="iconfont-archer">&#xe606;</span>
+                Object Detection
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="计算机网络">
+                <span class="iconfont-archer">&#xe606;</span>
+                计算机网络
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="TCP/IP">
+                <span class="iconfont-archer">&#xe606;</span>
+                TCP/IP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="程序员">
+                <span class="iconfont-archer">&#xe606;</span>
+                程序员
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="并行程序设计">
+                <span class="iconfont-archer">&#xe606;</span>
+                并行程序设计
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="数据库">
+                <span class="iconfont-archer">&#xe606;</span>
+                数据库
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="DUT">
+                <span class="iconfont-archer">&#xe606;</span>
+                DUT
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="备考">
+                <span class="iconfont-archer">&#xe606;</span>
+                备考
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="信息安全">
+                <span class="iconfont-archer">&#xe606;</span>
+                信息安全
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Kali Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Kali Linux
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="创业">
+                <span class="iconfont-archer">&#xe606;</span>
+                创业
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="操作系统">
+                <span class="iconfont-archer">&#xe606;</span>
+                操作系统
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SMB">
+                <span class="iconfont-archer">&#xe606;</span>
+                SMB
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows 10">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows 10
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Altium Designer">
+                <span class="iconfont-archer">&#xe606;</span>
+                Altium Designer
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Brainfuck">
+                <span class="iconfont-archer">&#xe606;</span>
+                Brainfuck
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="导航">
+                <span class="iconfont-archer">&#xe606;</span>
+                导航
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="nvidia-docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                nvidia-docker
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="docker-compose">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker-compose
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="rsync">
+                <span class="iconfont-archer">&#xe606;</span>
+                rsync
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CS183B">
+                <span class="iconfont-archer">&#xe606;</span>
+                CS183B
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="卓英训练营">
+                <span class="iconfont-archer">&#xe606;</span>
+                卓英训练营
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ARM">
+                <span class="iconfont-archer">&#xe606;</span>
+                ARM
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="工具">
+                <span class="iconfont-archer">&#xe606;</span>
+                工具
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="C++">
+                <span class="iconfont-archer">&#xe606;</span>
+                C++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Nvidia Jetson Xavier">
+                <span class="iconfont-archer">&#xe606;</span>
+                Nvidia Jetson Xavier
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Nvidia Jetson Nano">
+                <span class="iconfont-archer">&#xe606;</span>
+                Nvidia Jetson Nano
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HiKey 970">
+                <span class="iconfont-archer">&#xe606;</span>
+                HiKey 970
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FPGA">
+                <span class="iconfont-archer">&#xe606;</span>
+                FPGA
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="开发和调试笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            开发和调试笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="论文笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            论文笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="英平的工具箱">
+            <span class="iconfont-archer">&#xe60a;</span>
+            英平的工具箱
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Cheatsheet">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Cheatsheet
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="读书笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            读书笔记
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMeta = {
+        root: "/",
+        author: "李英平"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20210823"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20210823"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20210823" async></script>
+        
+        <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

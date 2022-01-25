@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="李英平">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="李英平">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog,李英平,程序员,DUT">
+    
+    <meta name="description" content="">
+    <meta name="description" content="Nvidia Jetson Xavier 关于Nvidia Jetson Xavier Development Kit Xavier 平台简介 PASS  Xavier 相关资源 PASS  搭建工作环境 刷机 PASS  刷机完成的起手式12345678910111213# Startsudo apt updatesudo apt upgrade# Install Some Python Too">
+<meta property="og:type" content="article">
+<meta property="og:title" content="那些年，我们调过的嵌入式开发平台">
+<meta property="og:url" content="http://bye-lemon.github.io/post/363b/index.html">
+<meta property="og:site_name" content="Li.">
+<meta property="og:description" content="Nvidia Jetson Xavier 关于Nvidia Jetson Xavier Development Kit Xavier 平台简介 PASS  Xavier 相关资源 PASS  搭建工作环境 刷机 PASS  刷机完成的起手式12345678910111213# Startsudo apt updatesudo apt upgrade# Install Some Python Too">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-08-17T18:16:47.000Z">
+<meta property="article:modified_time" content="2021-08-12T14:34:51.787Z">
+<meta property="article:author" content="李英平">
+<meta property="article:tag" content="Nvidia Jetson Xavier">
+<meta property="article:tag" content="Nvidia Jetson Nano">
+<meta property="article:tag" content="HiKey 970">
+<meta property="article:tag" content="FPGA">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>那些年，我们调过的嵌入式开发平台 · Li Yingping&#39;s Studio</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20210823" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20210823" as="style">
+    <link rel="stylesheet" href="/css/dark.css" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="/css/mobile.css?v=20210823" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20210823" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20210823" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Li." type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>Li Yingping's Studio.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">Li Yingping&#39;s Studio.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">那些年，我们调过的嵌入式开发平台</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                那些年，我们调过的嵌入式开发平台
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Nvidia Jetson Xavier">Nvidia Jetson Xavier</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Nvidia Jetson Nano">Nvidia Jetson Nano</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="HiKey 970">HiKey 970</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="FPGA">FPGA</a>
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">6.8k</span>阅读时长: <span class="post-count reading-time">29 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2019/08/18</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Nvidia-Jetson-Xavier"><a href="#Nvidia-Jetson-Xavier" class="headerlink" title="Nvidia Jetson Xavier"></a>Nvidia Jetson Xavier</h1><hr>
+<h2 id="关于Nvidia-Jetson-Xavier-Development-Kit"><a href="#关于Nvidia-Jetson-Xavier-Development-Kit" class="headerlink" title="关于Nvidia Jetson Xavier Development Kit"></a>关于Nvidia Jetson Xavier Development Kit</h2><hr>
+<h3 id="Xavier-平台简介"><a href="#Xavier-平台简介" class="headerlink" title="Xavier 平台简介"></a>Xavier 平台简介</h3><ul>
+<li>PASS</li>
+</ul>
+<h3 id="Xavier-相关资源"><a href="#Xavier-相关资源" class="headerlink" title="Xavier 相关资源"></a>Xavier 相关资源</h3><ul>
+<li>PASS</li>
+</ul>
+<h2 id="搭建工作环境"><a href="#搭建工作环境" class="headerlink" title="搭建工作环境"></a>搭建工作环境</h2><hr>
+<h3 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h3><ul>
+<li>PASS</li>
+</ul>
+<h3 id="刷机完成的起手式"><a href="#刷机完成的起手式" class="headerlink" title="刷机完成的起手式"></a>刷机完成的起手式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Start</span></span><br><span class="line"></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install Some Python Tools</span></span><br><span class="line"></span><br><span class="line">sudo apt install ipython ipython3 python-ipython python3-ipython python-pip python3-pip python-dev python3-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># PiP Mirror</span></span><br><span class="line"></span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U</span><br><span class="line">pip config <span class="built_in">set</span> global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述过程中<code>pip</code>可能会抛出一个异常<code>ImportError: cannot import name &#39;main&#39;</code>，需要编辑<code>/usr/bin/pip</code>，将<code>from pip import main</code>下的三行修改如下即可解决问题。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pip <span class="keyword">import</span> __main__</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    sys.exit(__main__._main())</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="创建swap分区"><a href="#创建swap分区" class="headerlink" title="创建swap分区"></a>创建swap分区</h3><ol>
+<li><p>创建一个8G的交换分区文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dd <span class="keyword">if</span>=/dev/zero of=/swapfile bs=1M count=8192</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更改swapfile的权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 600 /swapfile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建swap区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkswap /swapfile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>手动挂载swap区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo swapon /swapfile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>确认swap区是否正在使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapon -s</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Swap分区和磁盘的自动挂载"><a href="#Swap分区和磁盘的自动挂载" class="headerlink" title="Swap分区和磁盘的自动挂载"></a>Swap分区和磁盘的自动挂载</h3><ul>
+<li>Linux系统开机时自动挂载的分区由<code>/etc/fstab</code>文件负责指定，Xavier的30G空间在装好系统后已经所剩无几，但可以额外安装M2接口的固态硬盘来拓展其空间，将挂载的配置信息添加进<code>/etc/fstab</code>即可，对于Swap分区和硬盘设备，其可采用下面的模板：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Swap</span></span><br><span class="line">/swapfile     swap    swap defaults 0 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># NVME SSD</span></span><br><span class="line">/dev/nvme0n1 /mnt/ssd ext4 defaults 1 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="TensorFlow"><a href="#TensorFlow" class="headerlink" title="TensorFlow"></a>TensorFlow</h3><ol>
+<li><p>安装必要依赖（这个过程可能会很漫长）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libhdf5-serial-dev hdf5-tools</span><br><span class="line">sudo apt-get install zlib1g-dev zip libjpeg8-dev libhdf5-dev </span><br><span class="line">sudo pip3 install -U numpy grpcio absl-py py-cpuinfo psutil portpicker grpcio six mock requests gast h5py astor termcolor</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装TensorFlow</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu --user</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改<code>~/.bashrc</code>，将<code>/home/li/.local/bin</code>添加到<code>PATH</code>中</p>
+</li>
+<li><p>开启高功率模式和AMP为TensorFlow加速</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Best Practice</span></span><br><span class="line">sudo nvpmodel -m 0 <span class="comment"># Open Max-N Model</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Append in .bashrc</span></span><br><span class="line"><span class="built_in">export</span> TF_ENABLE_AUTO_MIXED_PRECISION=1</span><br><span class="line"></span><br><span class="line"><span class="comment">## TODO : Automatic Mixed Precision</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="安装开发工具"><a href="#安装开发工具" class="headerlink" title="安装开发工具"></a>安装开发工具</h3><h4 id="Visual-Studio-Code"><a href="#Visual-Studio-Code" class="headerlink" title="Visual Studio Code"></a>Visual Studio Code</h4><ul>
+<li><p>Xavier采用ARM64架构，而Microsoft官方只提供了i386和amd64架构下的VSCode的安装包。不过，在Xavier上可以使用VSCode的一个由<a target="_blank" rel="noopener" href="https://packagecloud.io/headmelted">Headmelted</a>维护的开源复刻版本Code-OSS，该版本提供了arm64和armhf架构上的版本，故而可以运行在Xavier以及树莓派这样的ARM架构的平台上。下面是该项目的软件包发布地址：</p>
+<blockquote>
+<p>软件包发布地址：<a target="_blank" rel="noopener" href="https://packagecloud.io/headmelted/codebuilds">https://packagecloud.io/headmelted/codebuilds</a></p>
+</blockquote>
+</li>
+<li><p>headmelted给出了多种安装方式，在上述连接中均可以看到，搬运来一种简单暴力的方式，以1.32.0版本为例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget --content-disposition https://packagecloud.io/headmelted/codebuilds/packages/debian/stretch/code-oss_1.32.0-1550644676_arm64.deb/download.deb</span><br><span class="line"></span><br><span class="line">sudo dpkg -i <span class="string">&#x27;/home/nvidia/code-oss_1.32.0-1550644676_arm64.deb&#x27;</span> </span><br><span class="line"></span><br><span class="line">sudo apt install -f</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h4><ul>
+<li>IPython是笔者非常喜欢的一款Python交互式Shell，其安装方式如下：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Python 2</span></span><br><span class="line">sudo apt-get install python-ipython ipython</span><br><span class="line"></span><br><span class="line"><span class="comment"># Python 3</span></span><br><span class="line">sudo apt install python3-ipython ipython3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="PyCharm"><a href="#PyCharm" class="headerlink" title="PyCharm"></a>PyCharm</h4><ul>
+<li>PASS</li>
+</ul>
+<h2 id="工程开发笔记"><a href="#工程开发笔记" class="headerlink" title="工程开发笔记"></a>工程开发笔记</h2><hr>
+<h3 id="LaneNet-ROS"><a href="#LaneNet-ROS" class="headerlink" title="LaneNet-ROS"></a>LaneNet-ROS</h3><h4 id="LaneNet-MaybeShewill-CV实现"><a href="#LaneNet-MaybeShewill-CV实现" class="headerlink" title="LaneNet(MaybeShewill-CV实现)"></a>LaneNet(MaybeShewill-CV实现)</h4><ul>
+<li>Pass</li>
+</ul>
+<h4 id="创建适合Python3使用的ROS工作空间"><a href="#创建适合Python3使用的ROS工作空间" class="headerlink" title="创建适合Python3使用的ROS工作空间"></a>创建适合Python3使用的ROS工作空间</h4><ul>
+<li><p>ROS（Robot Operating System）是一个适用于机器人的开源的元操作系统。它提供了操作系统应有的服务，包括硬件抽象，底层设备控制，常用函数的实现，进程间消息传递，以及包管理。它也提供用于获取、编译、编写、和跨计算机运行代码所需的工具和库函数。</p>
+</li>
+<li><p>ROS在Xavier上的安装<a target="_blank" rel="noopener" href="https://github.com/jetsonhacks">@Jetsonhacks</a>给出了一个相当好用的轮子，这是其GitHub上的Repo地址<a target="_blank" rel="noopener" href="https://github.com/jetsonhacks/installROSXavier">Jetsonhacks/installROSXavier</a>，不过ROS默认的Python版本是Python2，因此使用Python3编程的程序不能使用部分ROS组件，譬如<code>tf</code>和<code>cv_bridge</code>等，诸如下面的错误就是因为这样的原因，所以笔者对@Jetsonhacks的脚本加以维护构建了一个适合Python3的ROS工作空间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">File <span class="string">&quot;/opt/ros/kinetic/lib/python2.7/dist-packages/cv_bridge/core.py&quot;</span>, line <span class="number">91</span>, <span class="keyword">in</span> encoding_to_cvtype2</span><br><span class="line">    <span class="keyword">from</span> cv_bridge.boost.cv_bridge_boost <span class="keyword">import</span> getCvType</span><br><span class="line">ImportError: dynamic module does <span class="keyword">not</span> define module export function (PyInit_cv_bridge_boost)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>笔者维护的版本，调整了ROS的Ubuntu镜像源的GPG Key服务器，并在创建工作环境的脚本中添加了一段命令用于创建Python3的虚拟环境，并将geometry库编译出Python3的接口。笔者的安装脚本发布在<a target="_blank" rel="noopener" href="https://github.com/Bye-lemon/installROSXavier">Bye-lemon/installROSXavier</a>上，可以使用如下命令安装ROS并创建工作环境。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取安装脚本</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/Bye-lemon/installROSXavier</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装ROS</span></span><br><span class="line"><span class="built_in">cd</span> installROSXavier</span><br><span class="line">./installROS.sh -p [ros-melodic-ros-base | ros-melodic-desktop | ros-melodic-desktop-full]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建工作空间</span></span><br><span class="line">./setupCatkinWorkspace.sh [optionalWorkspaceName]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在创建了工作空间之后，还需要在工作空间中继续编译Python3版本的<code>cv_bridge</code>，其具体操作如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装必要依赖</span></span><br><span class="line">sudo apt-get install python-catkin-tools python3-dev python3-catkin-pkg-modules python3-numpy python3-yaml ros-melodic-cv-bridge</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开ROS工作空间</span></span><br><span class="line"><span class="built_in">cd</span> ~/catkin_ws</span><br><span class="line">rm -rf /build /devel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取源码并签出与ROS对应的版本</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/ros-perception/vision_opencv.git src/vision_opencv</span><br><span class="line"><span class="built_in">cd</span> src/vision_opencv/</span><br><span class="line">git checkout $(apt-cache show ros-melodic-cv-bridge | grep Version | cut -d <span class="string">&#x27;:&#x27;</span> -f 2 | cut -d <span class="string">&#x27;-&#x27;</span> -f 1 | sed <span class="string">&#x27;s/^[ \t]*//g&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译</span></span><br><span class="line"><span class="built_in">cd</span> ../../</span><br><span class="line">catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m -DPYTHON_LIBRARY=/usr/lib/aarch64-linux-gnu/libpython3.6m.so</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用该工作空间</span></span><br><span class="line"><span class="built_in">source</span> venv/bin/activate</span><br><span class="line"><span class="built_in">source</span> devel/setup.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果在编译的过程中出现类似下面的错误，是因为CMake尝试寻找库<code>libboost_python3.so</code>，但在Ubuntu系统中正确的库应该是<code>libboost_python-py36.so</code>(<code>/usr/lib/aarch64-linux-gnu/libboost_python-py36.so</code>)，故而需要将文件<code>src/vision_opencv/cv_bridge/CMakeLists.txt</code> 中的<code>find_package(Boost REQUIRED python3)</code>替换为<code>find_package(Boost REQUIRED python-py36)</code>并重新编译。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CMake Error at &#x2F;usr&#x2F;share&#x2F;cmake-3.5&#x2F;Modules&#x2F;FindBoost.cmake:1677 (message):</span><br><span class="line">  Unable to find the requested Boost libraries.</span><br><span class="line"></span><br><span class="line">  Boost version: 1.58.0</span><br><span class="line"></span><br><span class="line">  Boost include path: &#x2F;usr&#x2F;include</span><br><span class="line"></span><br><span class="line">  Could not find the following Boost libraries:</span><br><span class="line"></span><br><span class="line">          boost_python3</span><br><span class="line"></span><br><span class="line">  No Boost libraries were found.  You may need to set BOOST_LIBRARYDIR to the</span><br><span class="line">  directory containing Boost libraries or BOOST_ROOT to the location of</span><br><span class="line">  Boost.</span><br><span class="line">Call Stack (most recent call first):</span><br><span class="line">  CMakeLists.txt:11 (find_package)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>References</strong>:<br><br><strong>在ROS中使用Python3</strong>: <a target="_blank" rel="noopener" href="https://community.bwbot.org/topic/499/%E5%9C%A8ros%E4%B8%AD%E4%BD%BF%E7%94%A8python3">https://community.bwbot.org/topic/499/%E5%9C%A8ros%E4%B8%AD%E4%BD%BF%E7%94%A8python3</a><br><strong>Unable to use cv_bridge with ROS Kinetic and Python3</strong>: <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/49221565/unable-to-use-cv-bridge-with-ros-kinetic-and-python3?rq=1">https://stackoverflow.com/questions/49221565/unable-to-use-cv-bridge-with-ros-kinetic-and-python3?rq=1</a></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Airsim-ROS"><a href="#Airsim-ROS" class="headerlink" title="Airsim-ROS"></a>Airsim-ROS</h4><h4 id="调试与运行"><a href="#调试与运行" class="headerlink" title="调试与运行"></a>调试与运行</h4><ul>
+<li><p>安装RQT</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ros-melodic-rqt ros-melodic-rqt-common-plugins ros-melodic-rqt-robot-plugins</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>tmux+rqt_image_view</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">roscore</span><br><span class="line"></span><br><span class="line">rosrun airsim car_image_raw.py</span><br><span class="line"></span><br><span class="line">roslaunch lane_detector lanenet.launch</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>需要注意的是，<code>scripts</code>文件夹下的文件必须具有执行权限,如果遇到形如<code>ERROR: cannot launch node of type [&lt;packagename&gt;/&lt;filename&gt;]: can&#39;t locate node [&lt;filename&gt;.py] in package [&lt;packagename&gt;]</code>的错误，且可以确认<code>scripts</code>目录下确实有这一文件，那么很有可能就是因为该文件失去了执行权限，可以通过下面的指令为其赋予权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x /path/to/your/file</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="LaneNet-ENet-stesha2016实现"><a href="#LaneNet-ENet-stesha2016实现" class="headerlink" title="LaneNet-ENet(stesha2016实现)"></a>LaneNet-ENet(stesha2016实现)</h4><ul>
+<li>PASS</li>
+</ul>
+<h3 id="视觉SLAM"><a href="#视觉SLAM" class="headerlink" title="视觉SLAM"></a>视觉SLAM</h3><h4 id="编译安装OpenCV4Tegra"><a href="#编译安装OpenCV4Tegra" class="headerlink" title="编译安装OpenCV4Tegra"></a>编译安装OpenCV4Tegra</h4><ul>
+<li>OpenCV4Tagra是对OpenCV进行了CPU和GPU两个层次的优化的一个发行版，Jetpack默认安装了OpenCV4Tegra，不过，这个版本的OpenCV不包含SIFT和SUFT的包。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Remove Old Version</span></span><br><span class="line"></span><br><span class="line">sudo apt-get purge libopencv*</span><br><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># Required Package</span></span><br><span class="line"></span><br><span class="line">sudo apt-get install build-essential</span><br><span class="line">sudo apt-get install cmake cmake-curses-gui g++ git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libglew-dev</span><br><span class="line">sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev</span><br><span class="line">sudo apt-get install libgstreamer1.0 libgstreamer1.0-dev libgstreamer-plugins-bad1.0-0 libgstreamer-plugins-base1.0-0 libgstreamer-plugins-base1.0-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># Download Source Code</span></span><br><span class="line"></span><br><span class="line">wget https://github.com/opencv/opencv/archive/4.1.0.zip</span><br><span class="line">wget https://github.com/opencv/opencv_contrib/archive/4.1.0.zip</span><br><span class="line">unzip 4.1.0.zip</span><br><span class="line">unzip 4.1.0.zip.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create Workspace</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> opencv-4.1.0</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create CMake Script</span></span><br><span class="line"></span><br><span class="line">PASS</span><br><span class="line"></span><br><span class="line"><span class="comment"># Build</span></span><br><span class="line"></span><br><span class="line">chmod u+x cmake_target.sh</span><br><span class="line">./cmake_target.sh</span><br><span class="line">make -j8</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="DJI无人机"><a href="#DJI无人机" class="headerlink" title="DJI无人机"></a>DJI无人机</h3><h4 id="DJI-SDK的编译安装"><a href="#DJI-SDK的编译安装" class="headerlink" title="DJI-SDK的编译安装"></a>DJI-SDK的编译安装</h4><ul>
+<li>一个完整的安装过程如下：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装必要依赖</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br><span class="line">sudo apt-get install build-essential git cmake pkg-config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 克隆源代码</span></span><br><span class="line"><span class="built_in">cd</span> ~ </span><br><span class="line">git <span class="built_in">clone</span> https://github.com/dji-sdk/Onboard-SDK.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译安装</span></span><br><span class="line"><span class="built_in">cd</span> Onboard-SDK</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake .. </span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Nvidia-Jetson-Nano"><a href="#Nvidia-Jetson-Nano" class="headerlink" title="Nvidia Jetson Nano"></a>Nvidia Jetson Nano</h1><hr>
+<h2 id="关于Nvidia-Jetson-Nano-Development-Kit"><a href="#关于Nvidia-Jetson-Nano-Development-Kit" class="headerlink" title="关于Nvidia Jetson Nano Development Kit"></a>关于Nvidia Jetson Nano Development Kit</h2><hr>
+<h3 id="Nano-平台简介"><a href="#Nano-平台简介" class="headerlink" title="Nano 平台简介"></a>Nano 平台简介</h3><ul>
+<li>PASS</li>
+</ul>
+<h3 id="Nano-相关资源"><a href="#Nano-相关资源" class="headerlink" title="Nano 相关资源"></a>Nano 相关资源</h3><ul>
+<li>PASS<blockquote>
+<p>Compute Capability: <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-gpus">https://developer.nvidia.com/cuda-gpus</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="搭建工作环境-1"><a href="#搭建工作环境-1" class="headerlink" title="搭建工作环境"></a>搭建工作环境</h2><hr>
+<h3 id="刷机-1"><a href="#刷机-1" class="headerlink" title="刷机"></a>刷机</h3><ul>
+<li>PASS</li>
+</ul>
+<h3 id="刷机完成的起手式-1"><a href="#刷机完成的起手式-1" class="headerlink" title="刷机完成的起手式"></a>刷机完成的起手式</h3><h4 id="PATH"><a href="#PATH" class="headerlink" title="PATH"></a>PATH</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/cuda-10.0/bin</span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda-10.0/bin/lib64:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
+<h4 id="JetCard"><a href="#JetCard" class="headerlink" title="JetCard"></a>JetCard</h4><ul>
+<li>PASS</li>
+</ul>
+<h4 id="Jetcam"><a href="#Jetcam" class="headerlink" title="Jetcam"></a>Jetcam</h4><ul>
+<li>Jetcam是英伟达官方给出的一款应用于Jetson Nano的摄像头模块驱动库，其安装方式如下：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/NVIDIA-AI-IOT/jetcam</span><br><span class="line"><span class="built_in">cd</span> jetcam</span><br><span class="line">sudo python3 setup.py install</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="YOLO开发笔记"><a href="#YOLO开发笔记" class="headerlink" title="YOLO开发笔记"></a>YOLO开发笔记</h2><hr>
+<h3 id="YOLO"><a href="#YOLO" class="headerlink" title="YOLO"></a>YOLO</h3><ul>
+<li>PASS</li>
+</ul>
+<h3 id="Deploy-YOLO-amp-Run-Official-Demo"><a href="#Deploy-YOLO-amp-Run-Official-Demo" class="headerlink" title="Deploy YOLO &amp; Run Official Demo"></a>Deploy YOLO &amp; Run Official Demo</h3><ol>
+<li><p>Clone Darknet Framework</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/pjreddie/darknet.git</span><br><span class="line"><span class="built_in">cd</span> darknet</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Modify Makefile</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GPU=1</span><br><span class="line">CUDNN=1</span><br><span class="line">OPENCV=1</span><br><span class="line">OPENMP=0</span><br><span class="line">DEBUG=0</span><br><span class="line"></span><br><span class="line">ARCH=-gencode arch=compute_53,code=[sm_53,compute_53]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Compile</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Download YOLOv3’s Pre-train Weight</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://pjreddie.com/media/files/yolov3.weights</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Modify Config</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Testing</span></span><br><span class="line">batch=1</span><br><span class="line">subdivisions=1</span><br><span class="line"></span><br><span class="line"><span class="comment"># Training</span></span><br><span class="line"><span class="comment">#batch=64</span></span><br><span class="line"><span class="comment">#subdivisions=16</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Test</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detect cfg/yolov3.cfg yolov3.weights data/dog.jpg</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="Huawei-HiKey-970"><a href="#Huawei-HiKey-970" class="headerlink" title="Huawei HiKey 970"></a>Huawei HiKey 970</h1><hr>
+<h2 id="HiKey-970-平台简介"><a href="#HiKey-970-平台简介" class="headerlink" title="HiKey 970 平台简介"></a>HiKey 970 平台简介</h2><p>PASS</p>
+<h2 id="开发平台构建"><a href="#开发平台构建" class="headerlink" title="开发平台构建"></a>开发平台构建</h2><h3 id="起手式"><a href="#起手式" class="headerlink" title="起手式"></a>起手式</h3><h4 id="中文字体"><a href="#中文字体" class="headerlink" title="中文字体"></a>中文字体</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install fonts-wqy-zenhei</span><br></pre></td></tr></table></figure>
+<h4 id="exFat-U盘读取"><a href="#exFat-U盘读取" class="headerlink" title="exFat U盘读取"></a>exFat U盘读取</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install exfat-utils</span><br></pre></td></tr></table></figure>
+<h4 id="dlib"><a href="#dlib" class="headerlink" title="dlib"></a>dlib</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install build-essential cmake pkg-config</span><br><span class="line">sudo apt install libboost-dev libopenblas-dev</span><br><span class="line"></span><br><span class="line">wget http://dlib.net/files/dlib-19.17.tar.bz2</span><br><span class="line">tar -jxvf dlib-19.17.tar.bz2</span><br><span class="line"><span class="built_in">cd</span> dlib-19.17</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
+<h1 id="Raspberry-Pi"><a href="#Raspberry-Pi" class="headerlink" title="Raspberry Pi"></a>Raspberry Pi</h1><hr>
+<h2 id="魔镜INOM"><a href="#魔镜INOM" class="headerlink" title="魔镜INOM"></a>魔镜INOM</h2><hr>
+<h3 id="魔镜·INOM开发资源"><a href="#魔镜·INOM开发资源" class="headerlink" title="魔镜·INOM开发资源"></a>魔镜·INOM开发资源</h3><h4 id="项目参考源Repo"><a href="#项目参考源Repo" class="headerlink" title="项目参考源Repo"></a>项目参考源Repo</h4><ul>
+<li><p><strong>Dingdang-robot</strong>: <a target="_blank" rel="noopener" href="https://github.com/dingdang-robot/dingdang-robot">https://github.com/dingdang-robot/dingdang-robot</a></p>
+</li>
+<li><p><strong>MagicMirror</strong>: <a target="_blank" rel="noopener" href="https://github.com/MichMich/MagicMirror">https://github.com/MichMich/MagicMirror</a></p>
+</li>
+</ul>
+<h4 id="DDDD魔改版本"><a href="#DDDD魔改版本" class="headerlink" title="DDDD魔改版本"></a>DDDD魔改版本</h4><ul>
+<li><p>仓库地址：<a target="_blank" rel="noopener" href="https://github.com/Bye-lemon/DDDD-Robot">https://github.com/Bye-lemon/DDDD-Robot</a></p>
+</li>
+<li><p>修改内容：</p>
+<ul>
+<li>添加数据库支持。</li>
+</ul>
+</li>
+<li><p>镜像发布地址：</p>
+</li>
+</ul>
+<h3 id="部分必要依赖的安装说明"><a href="#部分必要依赖的安装说明" class="headerlink" title="部分必要依赖的安装说明"></a>部分必要依赖的安装说明</h3><h4 id="Option-树莓派系统清理"><a href="#Option-树莓派系统清理" class="headerlink" title="(Option) 树莓派系统清理"></a>(Option) 树莓派系统清理</h4><ul>
+<li>当树莓派仅用来运行魔镜时，树莓派系统中很多程序是没用的，如果内存卡的空间不足，可以将它们拆卸，可拆卸的软件可参考下面两条指令。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove --purge idle3 java-common libreoffice* minecraft-pi scratch nuscratch penguinspuzzle python-minecraftpi python3-minecraftpi smartsim sonic-pi wolfram-engine</span><br><span class="line">sudo apt-get autoremove</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="淘宝定制版cnpm的安装"><a href="#淘宝定制版cnpm的安装" class="headerlink" title="淘宝定制版cnpm的安装"></a>淘宝定制版cnpm的安装</h4><ul>
+<li><p>MagicMirror基于node.js开发，npm是必备的工具，淘宝为npm官方源提供了一个镜像来解决国内使用官方源速度过慢的问题。可以修改npm的registry来指定淘宝镜像源，更好的方法是使用淘宝定制的cnpm工具来代替npm。cnpm可以通过npm安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cnpm也可以通过给npm设置参数并添加别名实现等效效果，具体操作为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> cnpm=<span class="string">&quot;npm --registry=https://registry.npm.taobao.org \</span></span><br><span class="line"><span class="string">--cache=<span class="variable">$HOME</span>/.npm/.cache/cnpm \</span></span><br><span class="line"><span class="string">--disturl=https://npm.taobao.org/dist \</span></span><br><span class="line"><span class="string">--userconfig=<span class="variable">$HOME</span>/.cnpmrc&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Or alias it in .bashrc or .zshrc</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&#x27;\n#alias for cnpm\nalias cnpm=&quot;npm --registry=https://registry.npm.taobao.org \</span></span><br><span class="line"><span class="string">  --cache=$HOME/.npm/.cache/cnpm \</span></span><br><span class="line"><span class="string">  --disturl=https://npm.taobao.org/dist \</span></span><br><span class="line"><span class="string">  --userconfig=$HOME/.cnpmrc&quot;&#x27;</span> &gt;&gt; ~/.zshrc &amp;&amp; <span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="OpenCV-3-3-0的编译安装"><a href="#OpenCV-3-3-0的编译安装" class="headerlink" title="OpenCV 3.3.0的编译安装"></a>OpenCV 3.3.0的编译安装</h4><ul>
+<li>MagicMirror的插件MMM-Facial-Recognition-OCV3的一个必要依赖是包含contrib包的OpenCV 3.3.0版本，通过包管理工具apt无法获取到高版本的OpenCV，只能通过源码编译的方式安装。MMM-Facial-Recognition-OCV3 Repo的README中给出了比较详细的安装方式，不过由于我们只需要3.3.0版本的OpenCV，故而没有必要对整个Repo进行Clone，笔者给出如下编译方案。</li>
+</ul>
+<ol>
+<li><p>安装必要依赖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br><span class="line"></span><br><span class="line">sudo apt-get install build-essential git cmake pkg-config</span><br><span class="line">sudo apt-get install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev</span><br><span class="line">sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev</span><br><span class="line">sudo apt-get install libxvidcore-dev libx264-dev</span><br><span class="line">sudo apt-get install libgtk2.0-dev</span><br><span class="line">sudo apt-get install libatlas-base-dev gfortran</span><br><span class="line">sudo apt-get install python2.7-dev python3-dev</span><br><span class="line"></span><br><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line">sudo python get-pip.py</span><br><span class="line">sudo python3 get-pip.py</span><br><span class="line"></span><br><span class="line">pip install numpy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取3.3.0版本的OpenCV及contrib包源代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"></span><br><span class="line">wget -O opencv.zip https://github.com/Itseez/opencv/archive/3.3.0.zip</span><br><span class="line">unzip opencv.zip</span><br><span class="line"></span><br><span class="line">wget -O opencv_contrib.zip https://github.com/Itseez/opencv_contrib/archive/3.3.0.zip</span><br><span class="line">unzip opencv_contrib.zip</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件<code>/etc/dphys-swapfile</code>中交换空间的大小如下，以避免启用多核编译可能会存在存储空间问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># set size to absolute value, leaving empty (default) then uses computed value</span></span><br><span class="line"><span class="comment"># you most likely don&#x27;t want this, unless you have an special disk situation</span></span><br><span class="line"><span class="comment"># CONF_SWAPSIZE=100</span></span><br><span class="line">CONF_SWAPSIZE=1024</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启交换服务，使刚修改的配置生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/dphys-swapfile stop</span><br><span class="line">sudo /etc/init.d/dphys-swapfile start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装OpenCV</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/opencv-3.3.0</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line">cmake -D CMAKE_BUILD_TYPE=RELEASE \</span><br><span class="line">    -D CMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span> \</span><br><span class="line">    -D INSTALL_C_EXAMPLES=OFF \</span><br><span class="line">    -D INSTALL_PYTHON_EXAMPLES=ON \</span><br><span class="line">    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-3.3.0/modules \</span><br><span class="line">    -D BUILD_EXAMPLES=ON ..</span><br><span class="line">    </span><br><span class="line">make -j4</span><br><span class="line"></span><br><span class="line">sudo make install</span><br><span class="line"></span><br><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="常见问题自助"><a href="#常见问题自助" class="headerlink" title="常见问题自助"></a>常见问题自助</h3><h4 id="树莓派2的镜像在树莓派3中启动卡彩虹屏的问题"><a href="#树莓派2的镜像在树莓派3中启动卡彩虹屏的问题" class="headerlink" title="树莓派2的镜像在树莓派3中启动卡彩虹屏的问题"></a>树莓派2的镜像在树莓派3中启动卡彩虹屏的问题</h4><ul>
+<li>这一问题发生在我将树莓派2的内存卡放在树莓派3上启动时。树莓派2和3的内核、启动文件、文件系统等都有一定的区别，使得树莓派2的镜像不能在树莓派3上启动，这时树莓派会一直显示彩虹屏。关于通过修改内核和启动文件以完成2向3的迁移的内容，CSDN等平台皆有文章讨论。笔者选择了最保险也是最暴力的方式，就是将一切在树莓派3上重建一遍~（手动摊手）</li>
+</ul>
+<h4 id="树莓派连接HDMI显示器开机黑屏的解决方案"><a href="#树莓派连接HDMI显示器开机黑屏的解决方案" class="headerlink" title="树莓派连接HDMI显示器开机黑屏的解决方案"></a>树莓派连接HDMI显示器开机黑屏的解决方案</h4><ul>
+<li><p>这一问题发生在我把树莓派进行系统更新时。树莓派没有传统意义上的BIOS，它的启动参数全部在boot分区的Config.txt中，进行系统内核的更新之后，该配置文件被覆盖，默认的配置文件中没有开启HDMI这一项，故而无法显示。Config.txt的修改可以参考下面一篇文章:</p>
+<blockquote>
+<p>Config.txt文件说明：<a target="_blank" rel="noopener" href="http://shumeipai.nxez.com/2015/11/23/raspberry-pi-configuration-file-config-txt-nstructions.html">http://shumeipai.nxez.com/2015/11/23/raspberry-pi-configuration-file-config-txt-nstructions.html</a></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="树莓派无法安装MySQL-Python库的解决方案"><a href="#树莓派无法安装MySQL-Python库的解决方案" class="headerlink" title="树莓派无法安装MySQL_Python库的解决方案"></a>树莓派无法安装MySQL_Python库的解决方案</h4><ul>
+<li>SQLAlchemy连接MySQL需要MySQL_Python的依赖库，这个库在安装时会报出<code>EnvironmentError: mysql_config not found</code>的错误，可以通过使用apt安装default-libmysqlclient-dev包来解决。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install default-libmysqlclient-dev</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="SQLAlchemy不使用UTF-8编码的解决方案"><a href="#SQLAlchemy不使用UTF-8编码的解决方案" class="headerlink" title="SQLAlchemy不使用UTF-8编码的解决方案"></a>SQLAlchemy不使用UTF-8编码的解决方案</h4><ul>
+<li>SQLAlchemy默认使用latin-1编码，故而在向使用UTF-8编码的数据库传输UTF-8方式编码的数据时会出现乱码或者报错的情况。这种问题需要在创建Engine时显式地指定数据的编码方式为UTF-8，具体的操作是：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">engine = create_engine(<span class="string">&quot;mysql+pymysql://user:password@host:port/database?charset=utf8&quot;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="树莓派-等键位错乱的问题"><a href="#树莓派-等键位错乱的问题" class="headerlink" title="树莓派#@|等键位错乱的问题"></a>树莓派#@|等键位错乱的问题</h4><ul>
+<li>由于树莓派是英国人发明的，故而树莓派的默认键位环境是英国键盘布局，而我们使用的是美国标准键盘布局，因而会有键位不同的情况。在系统设置中或输入法设置中将键盘布局调整为美式布局即可。</li>
+</ul>
+<h4 id="使用pip安装lxml失败的解决方案"><a href="#使用pip安装lxml失败的解决方案" class="headerlink" title="使用pip安装lxml失败的解决方案"></a>使用pip安装lxml失败的解决方案</h4><ul>
+<li>笔者在安装tushare库时，其必要依赖lxml在编译过程中报出一系列错误，形如<code>Could not find function xmlCheckVersion in library libxml2. Is libxml2 installed?</code>，但事实上libxml2库在系统中已经安装了。查找资料，这个问题可以通过安装下列库解决。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-dev libxml2-dev libxslt1-dev zlib1g-dev</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="MMM-Facial-Recognition使用中的问题"><a href="#MMM-Facial-Recognition使用中的问题" class="headerlink" title="MMM-Facial-Recognition使用中的问题"></a>MMM-Facial-Recognition使用中的问题</h4><ul>
+<li><p>MMM-Facial-Recognition插件在配置完成被MagicMirror调用时发生如下错误<code>TypeError: PythonShell is not a constructor at Class.python_start (/home/pi/MagicMirror/modules/MMM-Facial-Recognition/node_helper.js:11:21)</code>。造成这个错误的原因是npm包python_shell的后续版本相较于作者使用的包版本在接口上有差异，而作者在package.json中并没有指定特定的版本，安装一个较低版本的包即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install python-shell@0.4.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Github Repo中，作者在使用识别功能之前通过export命令导出了算法和用户列表两个参数，这样的到处是临时的，重启树莓派之后会重置，为了避免每次启动树莓派后重复操作过于繁琐，可以将两个export语句写入.bashrc文件，这样重启后会自动加载。</p>
+</li>
+</ul>
+<h4 id="PowerShell禁止执行脚本的解决方案"><a href="#PowerShell禁止执行脚本的解决方案" class="headerlink" title="PowerShell禁止执行脚本的解决方案"></a>PowerShell禁止执行脚本的解决方案</h4><ul>
+<li>在Win10系统中使用PowerShell执行脚本时，报出<code>无法加载文件[filename].ps1，因为在此系统中禁止执行脚本。有关详细信息，请参阅 &quot;get-help about_signing&quot;。</code>的错误。这是因为首次在计算机上启动Windows PowerShell时，其执行策略很默认是Restricted，Restricted 策略不允许任何脚本运行。运行未签名脚本和来自其他用户的签名脚本，需要修改执行策略为RemoteSigned，这一修改需要指令：<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set-ExecutionPolicy</span> RemoteSigned</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="树莓派重启之后原有声音设置失效的解决方案"><a href="#树莓派重启之后原有声音设置失效的解决方案" class="headerlink" title="树莓派重启之后原有声音设置失效的解决方案"></a>树莓派重启之后原有声音设置失效的解决方案</h4><ul>
+<li>树莓派存在重新启动之后扬声器或麦克风声音变低甚至置零的现象，这种现象的最佳实践实在调整音量后使用指令<code>sudo alsactl store</code>将设置保存到系统。然而，实测并无效果。（就好比网上的教程都说NTP就能解决树莓派的时间问题……）实测有效的一种折中的方案是，将配置文件保存到某一个位置，尔后，条件一个开机启动项，用于加载声音配置。具体操作是：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保存配置到本地</span></span><br><span class="line">alsactl --file ~/.config/asound.state store</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建开机启动服务</span></span><br><span class="line">vim ~/.config/autostart/alsarestore.desktop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将如下内容输入至文件</span></span><br><span class="line">[Desktop Entry]</span><br><span class="line">Type=Application</span><br><span class="line">Terminal=<span class="literal">false</span></span><br><span class="line">Name=alsarestore</span><br><span class="line">Exec=alsactl --file ~/.config/asound.state restore</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="树莓派时间自同步的实现"><a href="#树莓派时间自同步的实现" class="headerlink" title="树莓派时间自同步的实现"></a>树莓派时间自同步的实现</h4><ul>
+<li>树莓派没有主板电池，断电之后无法自行维护系统时间，故而时常出现因为本地时间与服务器时间不符引发的网络故障。网上说可以通过配置NTP服务解决，实测无效，寻找到的一种折中的方案是维护一个自启动脚本，从互联网上获取时间。具体操作可参考这篇文章：<a target="_blank" rel="noopener" href="https://www.colabug.com/3235071.html">https://www.colabug.com/3235071.html</a>。</li>
+</ul>
+<h4 id="在Windows系统下访问树莓派分区的方法"><a href="#在Windows系统下访问树莓派分区的方法" class="headerlink" title="在Windows系统下访问树莓派分区的方法"></a>在Windows系统下访问树莓派分区的方法</h4><ul>
+<li>Linux操作系统的文件系统一般是EXT而Windows一般是NTFS，故而，Windows系统无法直接读取树莓派的文件系统。一种解决方案是为Windows系统安装EXT文件管理器。一款比较推荐的产品是Ext2FSD，这款产品以服务形式启动，可以将树莓派的文件系统挂在成磁盘，经过设置后对Linux分区可读可写，对于树莓派的开发来说还是很方便的。Ext2FSD是一个开源项目，下面是其地址和下载链接：</li>
+</ul>
+<blockquote>
+<p>项目官网：<a target="_blank" rel="noopener" href="https://www.ext2fsd.com/">https://www.ext2fsd.com/</a><br>下载地址：<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/ext2fsd/">https://sourceforge.net/projects/ext2fsd/</a></p>
+</blockquote>
+<h4 id="树莓派打不开摄像头的问题"><a href="#树莓派打不开摄像头的问题" class="headerlink" title="树莓派打不开摄像头的问题"></a>树莓派打不开摄像头的问题</h4><ul>
+<li>这一问题发生的很莫名，有几天没打开设备使用，再开机运行程序就发现树莓派打不开摄像头了。自检过程中确认v4l2的驱动已添加到<code>/etc/modules-load.d/modules.conf</code>，且无连接错误，使用<code>vcgencmd get_camera</code>显示<code>supported=1 detected=0</code>。控制变量，使用另一块树莓派，发现问题依然存在，说明是TF卡中系统的问题。问题的解决也很莫名，<code>sudo apt update</code>和<code>sudo apt upgrade</code>二连就结束了，具体细节受限于时间没有继续确认。</li>
+</ul>
+<blockquote>
+<p>参考阅读：<a target="_blank" rel="noopener" href="https://www.raspberrypi.org/documentation/raspbian/applications/camera.md">https://www.raspberrypi.org/documentation/raspbian/applications/camera.md</a></p>
+</blockquote>
+<h3 id="为树莓派系统备份img镜像的方法"><a href="#为树莓派系统备份img镜像的方法" class="headerlink" title="为树莓派系统备份img镜像的方法"></a>为树莓派系统备份img镜像的方法</h3><ul>
+<li><p>核心参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/talkxin/article/details/50456282">https://blog.csdn.net/talkxin/article/details/50456282</a></p>
+</li>
+<li><p>次要参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/liuwei000000/article/details/8575737">https://blog.csdn.net/liuwei000000/article/details/8575737</a></p>
+</li>
+</ul>
+<h3 id="琐碎且毫无用处的知识"><a href="#琐碎且毫无用处的知识" class="headerlink" title="琐碎且毫无用处的知识"></a>琐碎且毫无用处的知识</h3><ul>
+<li><strong>ics日历交换格式</strong>：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ICalendar">.ics 文件格式</a>是<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc5545">RFC 5545</a>所定义的标准的日历数据交换格式，能够被大多数日历应用所接受，比如Windows的日历、Outlook，macOS的日历APP，以及iOS、Android等自带的日历应用。可以推荐的ics源有很多，网上也有专门的ics聚合平台。这里给出一个来自苹果官方的中国节假日日历表的源：<a target="_blank" rel="noopener" href="https://p10-calendars.icloud.com/holiday/CN_zh.ics">https://p10-calendars.icloud.com/holiday/CN_zh.ics</a>。</li>
+</ul>
+<h1 id="Altera-FPGA"><a href="#Altera-FPGA" class="headerlink" title="Altera FPGA"></a>Altera FPGA</h1><hr>
+<h2 id="Quartus-Internal-Error-Code-82-Occured的解决"><a href="#Quartus-Internal-Error-Code-82-Occured的解决" class="headerlink" title="Quartus Internal Error Code 82 Occured的解决"></a>Quartus Internal Error Code 82 Occured的解决</h2><hr>
+<h3 id="Intel给出的解决方案"><a href="#Intel给出的解决方案" class="headerlink" title="Intel给出的解决方案"></a>Intel给出的解决方案</h3><ul>
+<li>Internal Error Code 82 Occured是一个较为常见的错误，这一错误意味着连接JTAG Server出现了问题。Intel给出了这一问题的解决方案。方案的地址为<a target="_blank" rel="noopener" href="https://www.intel.com/content/www/us/en/programmable/support/support-resources/knowledge-base/solutions/rd04042011_1000.html">https://www.intel.com/content/www/us/en/programmable/support/support-resources/knowledge-base/solutions/rd04042011_1000.html</a>。</li>
+</ul>
+<blockquote>
+<p><strong>Description</strong><br><br>You may be receiving the “Attempted to access JTAG server —internal error code 82 occurred” if you have a firewall or anti-virus program running when you installed Quartus® II and the Altera® JTAG Server. To resolve this you will have to disable/uninstall your firewall or anti-virus program then start the JTAG server. Once you have started the Altera JTAG Server then you may enable/reinstall the firewall or anti-virus program.<br><br>To Start, Stop, or Restart the Altera JTAG Server.</p>
+<ol>
+<li>Open the “Control Panel”</li>
+<li>Select “Adminstrative Tools”</li>
+<li>Select “Services”</li>
+<li>Highlight “Altera JTAG Server” then select Start, Stop, or Restart</li>
+</ol>
+</blockquote>
+<ul>
+<li>简单地说就是：<strong>关闭防火墙和杀毒软件，将JTAG Server服务打开</strong>。</li>
+</ul>
+<h3 id="实际操作中遇到的问题"><a href="#实际操作中遇到的问题" class="headerlink" title="实际操作中遇到的问题"></a>实际操作中遇到的问题</h3><ul>
+<li>笔者在实际操作中发现服务中并没有JTAG Server这个选项，故而无法启动服务。在Quartus的安装目录的bin文件夹下有一个可执行文件<code>jtagserver.exe</code>，在这一目录下打开命令行，执行命令<code>jtagserver.exe --install</code>，尔后使用命令<code>jtagserver.exe --status</code>查看服务器状态，出现<code>Server is running</code>字样即可，此时回到Quartus中就可以正常使用JTAG来编程和调试了。</li>
+</ul>
+<h1 id="Xilinx-FPGA"><a href="#Xilinx-FPGA" class="headerlink" title="Xilinx FPGA"></a>Xilinx FPGA</h1><hr>
+<h2 id="What-is-PYNQ"><a href="#What-is-PYNQ" class="headerlink" title="What is PYNQ?"></a>What is PYNQ?</h2><hr>
+<ul>
+<li><p>例行在开始正题之前介绍一下文章主角来凑字数~PYNQ 是什么，官方给出的介绍是这样的：</p>
+<blockquote>
+<p>PYNQ is an open-source project from Xilinx® that makes it easy to design embedded systems with Xilinx Zynq® Systems on Chips (SoCs).</p>
+<p>Using the Python language and libraries, designers can exploit the benefits of programmable logic and microprocessors in Zynq to build more capable and exciting embedded systems.</p>
+<p>PYNQ users can now create high performance embedded applications with</p>
+<ul>
+<li>parallel hardware execution</li>
+<li>high frame-rate video processing</li>
+<li>hardware accelerated algorithms</li>
+<li>real-time signal processing</li>
+<li>high bandwidth IO</li>
+<li>low latency control</li>
+</ul>
+</blockquote>
+</li>
+<li><p>简单的翻译一下，就是说：<strong>PYNQ 是一种<del>符合时代潮流的</del>可以使用Python语言进行编程的FPGA开发平台</strong>。</p>
+</li>
+<li><p>工欲善其事，必先利其器。愉快的使用PYNQ-Z2开发，大概需要下面这些工具：</p>
+<ul>
+<li><p>硬件设备：一块PYNQ-Z2的板子、一张至少8G的内存卡、一个读卡器、一根网线。</p>
+</li>
+<li><p>软件工具：Xilinx Vivado 开发环境、镜像烧写工具（Rufus or Win32diskimager）、终端模拟器（PuTTY or XShell）。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="PYNQ-相关资源"><a href="#PYNQ-相关资源" class="headerlink" title="PYNQ 相关资源"></a>PYNQ 相关资源</h2><hr>
+<ul>
+<li><p>官方资源</p>
+<blockquote>
+<p>PYNQ 官网：<a target="_blank" rel="noopener" href="http://www.pynq.io">http://www.pynq.io</a><br>TUL PYNQ-Z2首页：<a target="_blank" rel="noopener" href="http://www.tul.com.tw/ProductsPYNQ-Z2.html">http://www.tul.com.tw/ProductsPYNQ-Z2.html</a><br>PYNQ 文档：<a target="_blank" rel="noopener" href="https://pynq.readthedocs.io/en/latest/index.html">https://pynq.readthedocs.io/en/latest/index.html</a><br>PYNQ Github Repo：<a target="_blank" rel="noopener" href="https://github.com/Xilinx/PYNQ">https://github.com/Xilinx/PYNQ</a><br>PYNQ Workshop Repo：<a target="_blank" rel="noopener" href="https://github.com/Xilinx/PYNQ_Workshop">https://github.com/Xilinx/PYNQ_Workshop</a><br>PYNQ 社区：<a target="_blank" rel="noopener" href="http://www.pynq.io/community.html">http://www.pynq.io/community.html</a><br>Xilinx 开发工具：<a target="_blank" rel="noopener" href="https://www.xilinx.com/support/download.html">https://www.xilinx.com/support/download.html</a></p>
+</blockquote>
+</li>
+<li><p>第三方资源</p>
+<blockquote>
+<p>FPGA Developer：<a target="_blank" rel="noopener" href="http://www.fpgadeveloper.com/">http://www.fpgadeveloper.com/</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="连接并进入PYNQ-Z2"><a href="#连接并进入PYNQ-Z2" class="headerlink" title="连接并进入PYNQ-Z2"></a>连接并进入PYNQ-Z2</h2><hr>
+<h3 id="使用网线连接并进入PYNQ-Z2"><a href="#使用网线连接并进入PYNQ-Z2" class="headerlink" title="使用网线连接并进入PYNQ-Z2"></a>使用网线连接并进入PYNQ-Z2</h3><ol>
+<li><p>开始之前，首先要将PYNQ的原始镜像烧写到内存卡中，将内存卡插入Z2板子上的内存卡槽。这时，拿起你的板子，使得XILINX的Logo和文字处在一个正常的方向，在右上角找到BOOT的跳线帽，选择从SD卡启动；在左下角找到电源跳线帽，选择使用USB供电，或者跳到REG使用电源线供电。</p>
+</li>
+<li><p>使用网线将PYNQ与计算机连接，打开网络配置，将本机的IP改成2网段下除99之外的任一IP，后续操作有一定概率需要关闭Windows防火墙。</p>
+</li>
+<li><p>将Z2供电并开机，此时，通过SSH访问<code>192.168.2.99</code>即可进入镜像系统，用户名和密码均默认为<code>xilinx</code>；在资源管理器地址栏输入<code>\\192.168.2.99\xilinx</code>即可进入默认目录下，拖拽或复制粘贴即可将文件传到Z2上；镜像默认自启动Jupyter Notebook，在浏览器中输入<code>192.168.2.99:9090</code>即可打开Notebook执行程序。</p>
+</li>
+</ol>
+<h3 id="使用COM口连接并进入PYNQ-Z2"><a href="#使用COM口连接并进入PYNQ-Z2" class="headerlink" title="使用COM口连接并进入PYNQ-Z2"></a>使用COM口连接并进入PYNQ-Z2</h3><ul>
+<li>PYNQ支持通过串口进入Linux Terminal，将Z2与PC通过Micro USB线相连，在设备管理器中找到Z2对应的COM口（可能有两个，一个是Debug，一个是Console），在PuTTY或XShell中打开对应的串口，波特率设置为115200，即可进入Linux Terminal。</li>
+</ul>
+<h3 id="将PYNQ-Z2接入无线网并连接"><a href="#将PYNQ-Z2接入无线网并连接" class="headerlink" title="将PYNQ-Z2接入无线网并连接"></a>将PYNQ-Z2接入无线网并连接</h3><ol>
+<li><p>首先，我们需要一块USB网卡，不过很多网卡Z2并不支持，实测发现360随身WiFi无线网卡是可用的。</p>
+</li>
+<li><p>先连接PYNQ到PC，使用串口连接可能比较方便，新建一个Python脚本，内容如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pynq.lib.wifi <span class="keyword">import</span> WiFi</span><br><span class="line"></span><br><span class="line">wifi = WiFi()</span><br><span class="line">ssid = <span class="string">&quot;[Your Wi-Fi SSID]&quot;</span></span><br><span class="line">password = <span class="string">&quot;[Password]&quot;</span></span><br><span class="line"></span><br><span class="line">wifi.connect(ssid, password)</span><br></pre></td></tr></table></figure></li>
+<li>这时的设备已经可以通过无线网卡访问网络了，如果希望通过IP访问Z2，可以在Terminal下使用<code>ifconfig</code>命令查看设备IP地址。</li>
+</ol>
+<h3 id="使用VNC连接并进入PYNQ-Z2"><a href="#使用VNC连接并进入PYNQ-Z2" class="headerlink" title="使用VNC连接并进入PYNQ-Z2"></a>使用VNC连接并进入PYNQ-Z2</h3><ol>
+<li>PYNQ-Z2官方镜像中的apt软件源只是ARM架构下apt软件源的一小部分，这其中并不包含VNC服务器，所以，要对Z2的apt源进行维护。在Super权限下修改<del><code>/etc/apt/</code></del>(路径待维护)下的文件。使用中科大镜像站的Ubuntu Ports源：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 默认注释了源码仓库，如有需要可自行取消注释</span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial main main restricted universe multiverse</span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial-updates main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial-updates main restricted universe multiverse</span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial-backports main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial-backports main restricted universe multiverse</span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial-security main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial-proposed main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;ubuntu-ports&#x2F; xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></li>
+<li><p>安装VNC服务器：tightvncserver</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install tightvncserver</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用命令<code>vncserver :1</code>即可启动一个VNC窗口，首次启动会需要输入一个VNC密码并选择是否开启只读的VNC连接。服务启动后默认监听5901端口，详细的信息在日志文件中会找到，在局域网下的PC机上使用VNC Client访问5901端口即可进入图形化的操作界面中。如需关闭VNC Server，可以使用命令<code>vncserver -kill :1</code>。</p>
+</li>
+</ol>
+<h2 id="配置Jupyter"><a href="#配置Jupyter" class="headerlink" title="配置Jupyter"></a>配置Jupyter</h2><hr>
+<ul>
+<li><p>当然，Jupyter Notebook不做任何配置也不是不能用，但是作为一个学艺不精的不折腾不舒服斯基主义者总归是要搞一搞的，换个暗色皮肤，装点使用的插件还是有必要的。写代码的人，何必自己为难自己，换个舒服的环境自己用着舒服就好。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Jupyter Notebook Themes</span></span><br><span class="line">pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple jupyterthemes</span><br><span class="line"></span><br><span class="line"><span class="comment"># Jupyter Notebook Plugins</span></span><br><span class="line">pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple jupyter_contrib_nbextensions &amp;&amp; sudo jupyter contrib nbextension install</span><br><span class="line"><span class="comment"># Start NBExtension GUI</span></span><br><span class="line">pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple jupyter_nbextensions_configurator sudo jupyter nbextensions_configurator <span class="built_in">enable</span></span><br><span class="line"><span class="comment"># Install Wheels</span></span><br><span class="line">pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple autopep8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PYNQ上的安装过程比较缓慢，建议做一杯手冲咖啡，然后静心等待即可。安装完毕后，就可以愉快的玩耍了，NBExtension被集成在了Jupyter Notebook的网页端之中，通过<a target="_blank" rel="noopener" href="http://pynq:9090/nbextensions">http://pynq:9090/nbextensions</a>即可访问，当然，CLI也是有滴；而主题工具提供的是CLI。jupyterthemes的使用非常简单，使用<code>jt -l</code>命令，可以查看主题列表；使用<code>jt -t &lt;Theme Name&gt;</code>命令，可以切换主题的css样式表；使用<code>jt -r</code>指令可以恢复主题的css样式表。</p>
+</li>
+<li><p>下面是笔者个人使用的插件，需要注意的是不论是插件还是主题，配置过后都需要重启Jupyter Notebook：</p>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">插件名</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">2to3 Converter</td>
+<td style="text-align:center">提供一个按钮，将Python2代码转化为Python3的代码</td>
+</tr>
+<tr>
+<td style="text-align:center">Autopep8</td>
+<td style="text-align:center">代码格式化插件</td>
+</tr>
+<tr>
+<td style="text-align:center">Codefolding in Editor</td>
+<td style="text-align:center">在cell内折叠代码块</td>
+</tr>
+<tr>
+<td style="text-align:center">Hinterland</td>
+<td style="text-align:center">Tab代码补全</td>
+</tr>
+<tr>
+<td style="text-align:center">nbTranslate</td>
+<td style="text-align:center">翻译插件</td>
+</tr>
+<tr>
+<td style="text-align:center">Snippets</td>
+<td style="text-align:center">代码片段管理</td>
+</tr>
+<tr>
+<td style="text-align:center">Table of Contents (2)</td>
+<td style="text-align:center">TOC插件</td>
+</tr>
+<tr>
+<td style="text-align:center">Tree Filter</td>
+<td style="text-align:center">在Tree页面提供搜索功能</td>
+</tr>
+<tr>
+<td style="text-align:center">Variable Inspector</td>
+<td style="text-align:center">变量查看器</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="BaseOverlay的接口"><a href="#BaseOverlay的接口" class="headerlink" title="BaseOverlay的接口"></a>BaseOverlay的接口</h2><hr>
+<h3 id="LED和彩色LED"><a href="#LED和彩色LED" class="headerlink" title="LED和彩色LED"></a>LED和彩色LED</h3><ul>
+<li>PASS</li>
+</ul>
+<h3 id="拨挡开关和按键"><a href="#拨挡开关和按键" class="headerlink" title="拨挡开关和按键"></a>拨挡开关和按键</h3><ul>
+<li>PASS</li>
+</ul>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://Bye-lemon.github.io">李英平</a>
+            <p>原文链接：<a href="http://bye-lemon.github.io/post/363b/">http://bye-lemon.github.io/post/363b/</a>
+            <p>发表日期：<a href="http://bye-lemon.github.io/post/363b/">August 18th 2019, 2:16:47 am</a>
+            <p>更新日期：<a href="http://bye-lemon.github.io/post/363b/">August 12th 2021, 10:34:51 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/post/4849/" title="《软件综合训练》实训笔记">
+                    <div class="nextTitle">《软件综合训练》实训笔记</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/post/e971/" title="使用Altium Designer 19绘制劣质PCB的流程">
+                    <div class="prevTitle">使用Altium Designer 19绘制劣质PCB的流程</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:2576413114@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Bye-lemon" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//weibo.com/u/5679329267" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="//zhihu.com/people/li-ying-ping-89-54" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nvidia-Jetson-Xavier"><span class="toc-number">1.</span> <span class="toc-text">Nvidia Jetson Xavier</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8ENvidia-Jetson-Xavier-Development-Kit"><span class="toc-number">1.1.</span> <span class="toc-text">关于Nvidia Jetson Xavier Development Kit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Xavier-%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">Xavier 平台简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Xavier-%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90"><span class="toc-number">1.1.2.</span> <span class="toc-text">Xavier 相关资源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.2.</span> <span class="toc-text">搭建工作环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E6%9C%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">刷机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E6%9C%BA%E5%AE%8C%E6%88%90%E7%9A%84%E8%B5%B7%E6%89%8B%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">刷机完成的起手式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAswap%E5%88%86%E5%8C%BA"><span class="toc-number">1.2.3.</span> <span class="toc-text">创建swap分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Swap%E5%88%86%E5%8C%BA%E5%92%8C%E7%A3%81%E7%9B%98%E7%9A%84%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD"><span class="toc-number">1.2.4.</span> <span class="toc-text">Swap分区和磁盘的自动挂载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TensorFlow"><span class="toc-number">1.2.5.</span> <span class="toc-text">TensorFlow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-number">1.2.6.</span> <span class="toc-text">安装开发工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Visual-Studio-Code"><span class="toc-number">1.2.6.1.</span> <span class="toc-text">Visual Studio Code</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IPython"><span class="toc-number">1.2.6.2.</span> <span class="toc-text">IPython</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PyCharm"><span class="toc-number">1.2.6.3.</span> <span class="toc-text">PyCharm</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0"><span class="toc-number">1.3.</span> <span class="toc-text">工程开发笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LaneNet-ROS"><span class="toc-number">1.3.1.</span> <span class="toc-text">LaneNet-ROS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LaneNet-MaybeShewill-CV%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">LaneNet(MaybeShewill-CV实现)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%80%82%E5%90%88Python3%E4%BD%BF%E7%94%A8%E7%9A%84ROS%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">创建适合Python3使用的ROS工作空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Airsim-ROS"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">Airsim-ROS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E4%B8%8E%E8%BF%90%E8%A1%8C"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">调试与运行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LaneNet-ENet-stesha2016%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">LaneNet-ENet(stesha2016实现)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%86%E8%A7%89SLAM"><span class="toc-number">1.3.2.</span> <span class="toc-text">视觉SLAM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85OpenCV4Tegra"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">编译安装OpenCV4Tegra</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DJI%E6%97%A0%E4%BA%BA%E6%9C%BA"><span class="toc-number">1.3.3.</span> <span class="toc-text">DJI无人机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DJI-SDK%E7%9A%84%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">DJI-SDK的编译安装</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nvidia-Jetson-Nano"><span class="toc-number">2.</span> <span class="toc-text">Nvidia Jetson Nano</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8ENvidia-Jetson-Nano-Development-Kit"><span class="toc-number">2.1.</span> <span class="toc-text">关于Nvidia Jetson Nano Development Kit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nano-%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B"><span class="toc-number">2.1.1.</span> <span class="toc-text">Nano 平台简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nano-%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90"><span class="toc-number">2.1.2.</span> <span class="toc-text">Nano 相关资源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83-1"><span class="toc-number">2.2.</span> <span class="toc-text">搭建工作环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E6%9C%BA-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">刷机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E6%9C%BA%E5%AE%8C%E6%88%90%E7%9A%84%E8%B5%B7%E6%89%8B%E5%BC%8F-1"><span class="toc-number">2.2.2.</span> <span class="toc-text">刷机完成的起手式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PATH"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">PATH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JetCard"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">JetCard</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Jetcam"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">Jetcam</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YOLO%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0"><span class="toc-number">2.3.</span> <span class="toc-text">YOLO开发笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#YOLO"><span class="toc-number">2.3.1.</span> <span class="toc-text">YOLO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-YOLO-amp-Run-Official-Demo"><span class="toc-number">2.3.2.</span> <span class="toc-text">Deploy YOLO &amp; Run Official Demo</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Huawei-HiKey-970"><span class="toc-number">3.</span> <span class="toc-text">Huawei HiKey 970</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HiKey-970-%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B"><span class="toc-number">3.1.</span> <span class="toc-text">HiKey 970 平台简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E6%9E%84%E5%BB%BA"><span class="toc-number">3.2.</span> <span class="toc-text">开发平台构建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%B7%E6%89%8B%E5%BC%8F"><span class="toc-number">3.2.1.</span> <span class="toc-text">起手式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93"><span class="toc-number">3.2.1.1.</span> <span class="toc-text">中文字体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#exFat-U%E7%9B%98%E8%AF%BB%E5%8F%96"><span class="toc-number">3.2.1.2.</span> <span class="toc-text">exFat U盘读取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dlib"><span class="toc-number">3.2.1.3.</span> <span class="toc-text">dlib</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Raspberry-Pi"><span class="toc-number">4.</span> <span class="toc-text">Raspberry Pi</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AD%94%E9%95%9CINOM"><span class="toc-number">4.1.</span> <span class="toc-text">魔镜INOM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AD%94%E9%95%9C%C2%B7INOM%E5%BC%80%E5%8F%91%E8%B5%84%E6%BA%90"><span class="toc-number">4.1.1.</span> <span class="toc-text">魔镜·INOM开发资源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%8F%82%E8%80%83%E6%BA%90Repo"><span class="toc-number">4.1.1.1.</span> <span class="toc-text">项目参考源Repo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DDDD%E9%AD%94%E6%94%B9%E7%89%88%E6%9C%AC"><span class="toc-number">4.1.1.2.</span> <span class="toc-text">DDDD魔改版本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E5%88%86%E5%BF%85%E8%A6%81%E4%BE%9D%E8%B5%96%E7%9A%84%E5%AE%89%E8%A3%85%E8%AF%B4%E6%98%8E"><span class="toc-number">4.1.2.</span> <span class="toc-text">部分必要依赖的安装说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Option-%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E6%B8%85%E7%90%86"><span class="toc-number">4.1.2.1.</span> <span class="toc-text">(Option) 树莓派系统清理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%98%E5%AE%9D%E5%AE%9A%E5%88%B6%E7%89%88cnpm%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">4.1.2.2.</span> <span class="toc-text">淘宝定制版cnpm的安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OpenCV-3-3-0%E7%9A%84%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85"><span class="toc-number">4.1.2.3.</span> <span class="toc-text">OpenCV 3.3.0的编译安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%87%AA%E5%8A%A9"><span class="toc-number">4.1.3.</span> <span class="toc-text">常见问题自助</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE2%E7%9A%84%E9%95%9C%E5%83%8F%E5%9C%A8%E6%A0%91%E8%8E%93%E6%B4%BE3%E4%B8%AD%E5%90%AF%E5%8A%A8%E5%8D%A1%E5%BD%A9%E8%99%B9%E5%B1%8F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">4.1.3.1.</span> <span class="toc-text">树莓派2的镜像在树莓派3中启动卡彩虹屏的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE%E8%BF%9E%E6%8E%A5HDMI%E6%98%BE%E7%A4%BA%E5%99%A8%E5%BC%80%E6%9C%BA%E9%BB%91%E5%B1%8F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">4.1.3.2.</span> <span class="toc-text">树莓派连接HDMI显示器开机黑屏的解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85MySQL-Python%E5%BA%93%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">4.1.3.3.</span> <span class="toc-text">树莓派无法安装MySQL_Python库的解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQLAlchemy%E4%B8%8D%E4%BD%BF%E7%94%A8UTF-8%E7%BC%96%E7%A0%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">4.1.3.4.</span> <span class="toc-text">SQLAlchemy不使用UTF-8编码的解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE-%E7%AD%89%E9%94%AE%E4%BD%8D%E9%94%99%E4%B9%B1%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">4.1.3.5.</span> <span class="toc-text">树莓派#@|等键位错乱的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8pip%E5%AE%89%E8%A3%85lxml%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">4.1.3.6.</span> <span class="toc-text">使用pip安装lxml失败的解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MMM-Facial-Recognition%E4%BD%BF%E7%94%A8%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">4.1.3.7.</span> <span class="toc-text">MMM-Facial-Recognition使用中的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PowerShell%E7%A6%81%E6%AD%A2%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">4.1.3.8.</span> <span class="toc-text">PowerShell禁止执行脚本的解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE%E9%87%8D%E5%90%AF%E4%B9%8B%E5%90%8E%E5%8E%9F%E6%9C%89%E5%A3%B0%E9%9F%B3%E8%AE%BE%E7%BD%AE%E5%A4%B1%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">4.1.3.9.</span> <span class="toc-text">树莓派重启之后原有声音设置失效的解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE%E6%97%B6%E9%97%B4%E8%87%AA%E5%90%8C%E6%AD%A5%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.1.3.10.</span> <span class="toc-text">树莓派时间自同步的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8Windows%E7%B3%BB%E7%BB%9F%E4%B8%8B%E8%AE%BF%E9%97%AE%E6%A0%91%E8%8E%93%E6%B4%BE%E5%88%86%E5%8C%BA%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">4.1.3.11.</span> <span class="toc-text">在Windows系统下访问树莓派分区的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE%E6%89%93%E4%B8%8D%E5%BC%80%E6%91%84%E5%83%8F%E5%A4%B4%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">4.1.3.12.</span> <span class="toc-text">树莓派打不开摄像头的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%A4%87%E4%BB%BDimg%E9%95%9C%E5%83%8F%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">4.1.4.</span> <span class="toc-text">为树莓派系统备份img镜像的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%90%90%E7%A2%8E%E4%B8%94%E6%AF%AB%E6%97%A0%E7%94%A8%E5%A4%84%E7%9A%84%E7%9F%A5%E8%AF%86"><span class="toc-number">4.1.5.</span> <span class="toc-text">琐碎且毫无用处的知识</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Altera-FPGA"><span class="toc-number">5.</span> <span class="toc-text">Altera FPGA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quartus-Internal-Error-Code-82-Occured%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="toc-number">5.1.</span> <span class="toc-text">Quartus Internal Error Code 82 Occured的解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intel%E7%BB%99%E5%87%BA%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">5.1.1.</span> <span class="toc-text">Intel给出的解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E6%93%8D%E4%BD%9C%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">5.1.2.</span> <span class="toc-text">实际操作中遇到的问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Xilinx-FPGA"><span class="toc-number">6.</span> <span class="toc-text">Xilinx FPGA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-PYNQ"><span class="toc-number">6.1.</span> <span class="toc-text">What is PYNQ?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PYNQ-%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90"><span class="toc-number">6.2.</span> <span class="toc-text">PYNQ 相关资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%B9%B6%E8%BF%9B%E5%85%A5PYNQ-Z2"><span class="toc-number">6.3.</span> <span class="toc-text">连接并进入PYNQ-Z2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BA%BF%E8%BF%9E%E6%8E%A5%E5%B9%B6%E8%BF%9B%E5%85%A5PYNQ-Z2"><span class="toc-number">6.3.1.</span> <span class="toc-text">使用网线连接并进入PYNQ-Z2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8COM%E5%8F%A3%E8%BF%9E%E6%8E%A5%E5%B9%B6%E8%BF%9B%E5%85%A5PYNQ-Z2"><span class="toc-number">6.3.2.</span> <span class="toc-text">使用COM口连接并进入PYNQ-Z2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86PYNQ-Z2%E6%8E%A5%E5%85%A5%E6%97%A0%E7%BA%BF%E7%BD%91%E5%B9%B6%E8%BF%9E%E6%8E%A5"><span class="toc-number">6.3.3.</span> <span class="toc-text">将PYNQ-Z2接入无线网并连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8VNC%E8%BF%9E%E6%8E%A5%E5%B9%B6%E8%BF%9B%E5%85%A5PYNQ-Z2"><span class="toc-number">6.3.4.</span> <span class="toc-text">使用VNC连接并进入PYNQ-Z2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEJupyter"><span class="toc-number">6.4.</span> <span class="toc-text">配置Jupyter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BaseOverlay%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="toc-number">6.5.</span> <span class="toc-text">BaseOverlay的接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LED%E5%92%8C%E5%BD%A9%E8%89%B2LED"><span class="toc-number">6.5.1.</span> <span class="toc-text">LED和彩色LED</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A8%E6%8C%A1%E5%BC%80%E5%85%B3%E5%92%8C%E6%8C%89%E9%94%AE"><span class="toc-number">6.5.2.</span> <span class="toc-text">拨挡开关和按键</span></a></li></ol></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 42
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span>
+            <a class="archive-post-title" href="/post/be6/">当我们落魄到需要去借别人的算力跑实验的时候</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/12</span>
+            <a class="archive-post-title" href="/post/6c49/">借助SSH反向代理隧道实现内网服务器的校外访问</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span>
+            <a class="archive-post-title" href="/post/f81/">Windows 10系统下使用SMB实现媒体文件共享</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/29</span>
+            <a class="archive-post-title" href="/post/fab7/">避重就轻的论文阅读笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span>
+            <a class="archive-post-title" href="/post/258b/">DLUT校园网自动认证的解决方案</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span>
+            <a class="archive-post-title" href="/post/b346/">《高级操作系统》复习纲要</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/30</span>
+            <a class="archive-post-title" href="/post/89b2/">自动驾驶中间件Cyber RT中的实时通信机制简述</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/45b8/">2020年电赛G题不完全实现方案</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/9dd7/">如何为Hexo博客构建一个简单的全文搜索引擎</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/3eb8/">Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/d69d/">Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/post/d2b3/">Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/post/11e/">Apollo D-Kit 调试笔记（一）：系统安装与传感器集成</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span>
+            <a class="archive-post-title" href="/post/d923/">Apollo D-Kit 调试笔记（零）：修车备忘录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span>
+            <a class="archive-post-title" href="/post/ffa2/">《Query-guided End-to-End Person Search》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span>
+            <a class="archive-post-title" href="/post/c6f5/">《Joint Detection and Identification Feature Learning for Person Search》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span>
+            <a class="archive-post-title" href="/post/cde6/">行人重识别（Person Re-identification）研究概述</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span>
+            <a class="archive-post-title" href="/post/7f95/">《Transferable, Controllable, and Inconspicuous Adversarial Attacks on Person Re-identification With Deep Mis-Ranking》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span>
+            <a class="archive-post-title" href="/post/4d08/">《Weakly supervised discriminative feature learning with state information for person identification》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span>
+            <a class="archive-post-title" href="/post/8337/">《Pose-guided Visible Part Matching for Occluded Person ReID》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span>
+            <a class="archive-post-title" href="/post/aa5f/">《COCAS: A Large-Scale Clothes Changing Person Dataset for Re-identification》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span>
+            <a class="archive-post-title" href="/post/dbc2/">《YOLO v4: Optimal Speed and Accuracy of Object Detection》论文笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/16</span>
+            <a class="archive-post-title" href="/post/1271/">Aurora在Refresh时报错Running Problem Latex的若干玄学解决方案</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/12</span>
+            <a class="archive-post-title" href="/post/3acc/">Windows系统下带有NonFree功能的OpenCV编译笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span>
+            <a class="archive-post-title" href="/post/f2f7/">《计算机网络安全教程》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span>
+            <a class="archive-post-title" href="/post/4129/">面向ARM架构的嵌入式系统设计学习笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/30</span>
+            <a class="archive-post-title" href="/post/b76d/">MI MIX2S(Polaris)全程负优化记录</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/post/e9de/">《并行程序设计导论》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span>
+            <a class="archive-post-title" href="/post/4849/">《软件综合训练》实训笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span>
+            <a class="archive-post-title" href="/post/363b/">那些年，我们调过的嵌入式开发平台</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span>
+            <a class="archive-post-title" href="/post/e971/">使用Altium Designer 19绘制劣质PCB的流程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/15</span>
+            <a class="archive-post-title" href="/post/9cb2/">《数据库系统概论（第四版）》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/24</span>
+            <a class="archive-post-title" href="/post/30ad/">《代码大全》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span>
+            <a class="archive-post-title" href="/post/6003/">tmux Cheatsheet</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/post/9087/">《黑客与画家》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/13</span>
+            <a class="archive-post-title" href="/post/f0bc/">Standford University CS183B（如何创业）学习笔记</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/31</span>
+            <a class="archive-post-title" href="/post/e061/">Brainfuck与2019的新年仪式感</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/25</span>
+            <a class="archive-post-title" href="/post/10d1/">《计算机网络（第7版）》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span>
+            <a class="archive-post-title" href="/post/a140/">IPv6环境下的一次Docker部署实践</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/post/ab83/">《C++语言程序设计教程》读书笔记</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span>
+            <a class="archive-post-title" href="/post/bdef/">一个菜鸟程序员打磨工具的日常</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span>
+            <a class="archive-post-title" href="/post/a87/">《图解TCP/IP》读书笔记</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="Apollo">
+                <span class="iconfont-archer">&#xe606;</span>
+                Apollo
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Re-ID">
+                <span class="iconfont-archer">&#xe606;</span>
+                Re-ID
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CVPR">
+                <span class="iconfont-archer">&#xe606;</span>
+                CVPR
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="DLUT">
+                <span class="iconfont-archer">&#xe606;</span>
+                DLUT
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Aurora2">
+                <span class="iconfont-archer">&#xe606;</span>
+                Aurora2
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="MS Office">
+                <span class="iconfont-archer">&#xe606;</span>
+                MS Office
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="IPv6">
+                <span class="iconfont-archer">&#xe606;</span>
+                IPv6
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                Docker
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cernet">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cernet
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Person Search">
+                <span class="iconfont-archer">&#xe606;</span>
+                Person Search
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="刷机">
+                <span class="iconfont-archer">&#xe606;</span>
+                刷机
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="小米">
+                <span class="iconfont-archer">&#xe606;</span>
+                小米
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Android">
+                <span class="iconfont-archer">&#xe606;</span>
+                Android
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OpenCV">
+                <span class="iconfont-archer">&#xe606;</span>
+                OpenCV
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="tmux">
+                <span class="iconfont-archer">&#xe606;</span>
+                tmux
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Linux
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Object Detection">
+                <span class="iconfont-archer">&#xe606;</span>
+                Object Detection
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="计算机网络">
+                <span class="iconfont-archer">&#xe606;</span>
+                计算机网络
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="TCP/IP">
+                <span class="iconfont-archer">&#xe606;</span>
+                TCP/IP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="程序员">
+                <span class="iconfont-archer">&#xe606;</span>
+                程序员
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="并行程序设计">
+                <span class="iconfont-archer">&#xe606;</span>
+                并行程序设计
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="数据库">
+                <span class="iconfont-archer">&#xe606;</span>
+                数据库
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="DUT">
+                <span class="iconfont-archer">&#xe606;</span>
+                DUT
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="备考">
+                <span class="iconfont-archer">&#xe606;</span>
+                备考
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="信息安全">
+                <span class="iconfont-archer">&#xe606;</span>
+                信息安全
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Kali Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Kali Linux
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="创业">
+                <span class="iconfont-archer">&#xe606;</span>
+                创业
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="操作系统">
+                <span class="iconfont-archer">&#xe606;</span>
+                操作系统
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SMB">
+                <span class="iconfont-archer">&#xe606;</span>
+                SMB
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows 10">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows 10
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Altium Designer">
+                <span class="iconfont-archer">&#xe606;</span>
+                Altium Designer
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Brainfuck">
+                <span class="iconfont-archer">&#xe606;</span>
+                Brainfuck
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="导航">
+                <span class="iconfont-archer">&#xe606;</span>
+                导航
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="nvidia-docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                nvidia-docker
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="docker-compose">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker-compose
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="rsync">
+                <span class="iconfont-archer">&#xe606;</span>
+                rsync
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CS183B">
+                <span class="iconfont-archer">&#xe606;</span>
+                CS183B
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="卓英训练营">
+                <span class="iconfont-archer">&#xe606;</span>
+                卓英训练营
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ARM">
+                <span class="iconfont-archer">&#xe606;</span>
+                ARM
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="工具">
+                <span class="iconfont-archer">&#xe606;</span>
+                工具
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="C++">
+                <span class="iconfont-archer">&#xe606;</span>
+                C++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Nvidia Jetson Xavier">
+                <span class="iconfont-archer">&#xe606;</span>
+                Nvidia Jetson Xavier
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Nvidia Jetson Nano">
+                <span class="iconfont-archer">&#xe606;</span>
+                Nvidia Jetson Nano
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HiKey 970">
+                <span class="iconfont-archer">&#xe606;</span>
+                HiKey 970
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FPGA">
+                <span class="iconfont-archer">&#xe606;</span>
+                FPGA
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="开发和调试笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            开发和调试笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="论文笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            论文笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="英平的工具箱">
+            <span class="iconfont-archer">&#xe60a;</span>
+            英平的工具箱
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Cheatsheet">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Cheatsheet
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="读书笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            读书笔记
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMeta = {
+        root: "/",
+        author: "李英平"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20210823"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20210823"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20210823" async></script>
+        
+        <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

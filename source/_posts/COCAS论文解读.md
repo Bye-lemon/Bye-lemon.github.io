@@ -1,4 +1,5 @@
 ---
+slug: post-9
 title: >-
   《COCAS: A Large-Scale Clothes Changing Person Dataset for
   Re-identification》论文笔记

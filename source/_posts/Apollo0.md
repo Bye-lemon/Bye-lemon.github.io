@@ -1,4 +1,5 @@
 ---
+slug: apollo0
 title: Apollo D-Kit 调试笔记（零）：修车备忘录
 tags:
   - Apollo

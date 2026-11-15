@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import yaml from 'js-yaml';
+import fs from 'node:fs';
+const raw = fs.readFileSync('source/_data/nav.yml', 'utf8');
+const groups = yaml.load(raw) || [];
+const total = groups.reduce((n, g) => n + (g.links ? g.links.length : 0) + (g.list ? g.list.reduce((m, s) => m + (s.links ? s.links.length : 0), 0) : 0), 0);
+---
+<BaseLayout title="链接" current="/links/">
+  <h1>链接</h1>
+  <p class="lead">长期在用的 {total} 个站点。</p>
+  {groups.map((group) => (
+    <section>
+      <h2>{group.taxonomy}</h2>
+      {group.links && (
+        <ul class="post-list">
+          {group.links.map((l) => (
+            <li><a href={l.url} target="_blank" rel="noopener">{l.title}</a>{l.description && <span style="font-family:var(--sans);font-size:.72rem;color:var(--muted)">{l.description}</span>}</li>
+          ))}
+        </ul>
+      )}
+      {group.list && group.list.map((sub) => (
+        <div>
+          <h3>{sub.term}</h3>
+          <ul class="post-list">
+            {sub.links.map((l) => (
+              <li><a href={l.url} target="_blank" rel="noopener">{l.title}</a>{l.description && <span style="font-family:var(--sans);font-size:.72rem;color:var(--muted)">{l.description}</span>}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  ))}
+</BaseLayout>

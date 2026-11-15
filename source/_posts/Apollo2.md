@@ -1,4 +1,5 @@
 ---
+slug: apollo2
 title: Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证
 tags:
   - Apollo

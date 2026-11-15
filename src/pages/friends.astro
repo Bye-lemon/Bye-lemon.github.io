@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import yaml from 'js-yaml';
+import fs from 'node:fs';
+const themeConfig = yaml.load(fs.readFileSync('_config.lml-hexo-theme.yml', 'utf8')) || {};
+const friends = Object.entries(themeConfig.friends || {}).map(([name, url]) => {
+  let u = String(url);
+  if (u.startsWith('//')) u = 'https:' + u;
+  if (!/^https?:/i.test(u)) u = 'https://' + u;
+  return { name: String(name).replace(/<br\s*\/?>/gi, '').trim(), url: u };
+});
+---
+<BaseLayout title="友链" current="/friends/">
+  <h1>友链</h1>
+  <p class="lead">一些长期在读的博客，和写它们的人。</p>
+  <ul class="post-list">
+    {friends.map((f) => (
+      <li><a href={f.url} target="_blank" rel="noopener">{f.name}</a><span style="font-family:var(--mono);font-size:.7rem;color:var(--muted)">{f.url.replace(/^https?:\/\//, '')}</span></li>
+    ))}
+  </ul>
+</BaseLayout>

@@ -1,4 +1,5 @@
 ---
+slug: yolov4
 layout: post
 title: '《YOLO v4: Optimal Speed and Accuracy of Object Detection》论文笔记'
 mathjax: true

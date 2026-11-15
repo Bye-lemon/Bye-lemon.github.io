@@ -1,4 +1,5 @@
 ---
+slug: query-guided-end-to-end-person-search-lun-wen-bi-ji
 title: 《Query-guided End-to-End Person Search》论文笔记
 tags:
   - Re-ID

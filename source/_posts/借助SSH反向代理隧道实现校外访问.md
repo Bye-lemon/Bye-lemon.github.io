@@ -1,4 +1,5 @@
 ---
+slug: jie-zhu-ssh-fan-xiang-dai-li-sui-dao-shi-xian-nei-wang-fu
 title: 借助SSH反向代理隧道实现内网服务器的校外访问
 tags:
   - DLUT

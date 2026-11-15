@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="搜索" current="/search/">
+  <h1>搜索</h1>
+  <form class="search-form" onsubmit="return false">
+    <input id="q" type="search" placeholder="搜索文章…" autocomplete="off" aria-label="搜索" />
+  </form>
+  <div id="results"><p class="lead">输入关键词开始搜索。</p></div>
+  <script>
+    let pagefind;
+    const pagefindUrl = ['', 'pagefind', 'pagefind.js'].join('/');
+    async function ensure() {
+      if (!pagefind) pagefind = await import(/* @vite-ignore */ pagefindUrl);
+      return pagefind;
+    }
+    const input = document.getElementById('q');
+    const box = document.getElementById('results');
+    let timer;
+    input.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(async () => {
+        const q = input.value.trim();
+        if (!q) { box.innerHTML = '<p class="lead">输入关键词开始搜索。</p>'; return; }
+        try {
+          const pf = await ensure();
+          const res = await pf.search(q);
+          const items = await Promise.all(res.results.slice(0, 12).map((r) => r.data()));
+          box.innerHTML = items.length
+            ? items.map((d) => '<div class="search-result"><h3><a href="' + d.url + '">' + d.meta.title + '</a></h3><p>' + (d.excerpt || '') + '</p></div>').join('')
+            : '<p class="lead">没有匹配的结果。</p>';
+        } catch (e) {
+          box.innerHTML = '<p class="lead">搜索索引尚未生成（本地请先 npm run build）。</p>';
+        }
+      }, 120);
+    });
+  </script>
+</BaseLayout>

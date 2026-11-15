@@ -1,4 +1,5 @@
 ---
+slug: post-16
 title: >-
   《Weakly supervised discriminative feature learning with state information for
   person identification》论文笔记

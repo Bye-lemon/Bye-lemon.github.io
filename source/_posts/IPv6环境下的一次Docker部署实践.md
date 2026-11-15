@@ -1,4 +1,5 @@
 ---
+slug: ipv6-huan-jing-xia-de-yi-ci-docker-bu-shu-shi-jian
 title: IPv6环境下的一次Docker部署实践
 tags:
   - IPv6

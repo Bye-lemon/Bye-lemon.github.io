@@ -1,4 +1,5 @@
 ---
+slug: mi-mix2s-polaris-quan-cheng-fu-you-hua-ji-lu
 layout: post
 title: MI MIX2S(Polaris)全程负优化记录
 categories: 开发和调试笔记

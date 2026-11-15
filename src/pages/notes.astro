@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { isPaper, sortByDate, slugOf, dateOf, tagsOf } from '../lib/posts';
+const posts = sortByDate((await getCollection('posts')).filter(isPaper));
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<BaseLayout title="论文笔记" current="/notes/">
+  <h1>论文笔记</h1>
+  <p class="lead">读过的论文，只留下骨架：方法、结论，以及还没想通的部分。</p>
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <time datetime={dateOf(post).toISOString()}>{fmt(dateOf(post))}</time>
+        <a href={`/posts/${slugOf(post)}/`}>{String((post.data as any).title || slugOf(post))}</a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

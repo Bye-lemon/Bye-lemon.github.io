@@ -1,4 +1,5 @@
 ---
+slug: zi-dong-jia-shi-zhong-jian-jian-cyber-rt-zhong-de-shi-shi
 title: 自动驾驶中间件Cyber RT中的实时通信机制简述
 tags:
   - Apollo

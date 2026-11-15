@@ -1,4 +1,5 @@
 ---
+slug: pose-guided-visible-part-matching-for-occluded-person-reid
 title: 《Pose-guided Visible Part Matching for Occluded Person ReID》论文笔记
 tags:
   - Re-ID

@@ -1,4 +1,5 @@
 ---
+slug: apollo1
 title: Apollo D-Kit 调试笔记（一）：系统安装与传感器集成
 tags:
   - Apollo

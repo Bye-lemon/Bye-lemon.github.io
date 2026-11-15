@@ -1,4 +1,5 @@
 ---
+slug: joint-detection-and-identification-feature-learning-for
 title: 《Joint Detection and Identification Feature Learning for Person Search》论文笔记
 tags:
   - Re-ID

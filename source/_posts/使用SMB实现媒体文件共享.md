@@ -1,4 +1,5 @@
 ---
+slug: windows-10-xi-tong-xia-shi-yong-smb-shi-xian-mei-ti-wen
 title: Windows 10系统下使用SMB实现媒体文件共享
 tags:
   - SMB

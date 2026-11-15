@@ -1,4 +1,5 @@
 ---
+slug: aurora-zai-refresh-shi-bao-cuo-running-problem-latex-de-ruo
 layout: post
 title: Aurora在Refresh时报错Running Problem Latex的若干玄学解决方案
 tags:

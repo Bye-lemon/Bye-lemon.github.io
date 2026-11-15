@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { slugOf, tagsOf, dateOf } from '../../lib/posts';
+import { tagSlug } from '../../lib/tags';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({ params: { slug: slugOf(post) }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const data = post.data as any;
+const fmt = dateOf(post).toISOString().slice(0, 10);
+---
+<BaseLayout title={String(data.title || slugOf(post))} description={String(data.abstract || data.title || '')} current="/">
+  <article data-pagefind-body>
+    <h1 data-pagefind-meta="title">{String(data.title || slugOf(post))}</h1>
+    <p class="article-meta">
+      <time datetime={dateOf(post).toISOString()}>{fmt}</time>
+      {data.abstract && <span>{String(data.abstract)}</span>}
+      {tagsOf(post).length > 0 && (
+        <span class="tags">{tagsOf(post).map((t) => <a href={`/tags/${tagSlug(t)}/`}>{t}</a>)}</span>
+      )}
+    </p>
+    {headings.length > 1 && (
+      <details class="toc" data-pagefind-ignore>
+        <summary>目录</summary>
+        <ol>{headings.filter((h) => h.depth <= 3).map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+      </details>
+    )}
+    <div class="prose"><Content /></div>
+  </article>
+</BaseLayout>

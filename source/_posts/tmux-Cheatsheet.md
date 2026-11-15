@@ -1,4 +1,5 @@
 ---
+slug: tmux-cheatsheet
 layout: post
 title: tmux Cheatsheet
 tags:

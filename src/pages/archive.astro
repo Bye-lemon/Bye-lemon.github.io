@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { sortByDate, slugOf, dateOf } from '../lib/posts';
+const posts = sortByDate(await getCollection('posts'));
+const groups = new Map();
+for (const p of posts) {
+  const y = String(dateOf(p).getFullYear());
+  if (!groups.has(y)) groups.set(y, []);
+  groups.get(y).push(p);
+}
+const years = [...groups.keys()].sort((a, b) => Number(b) - Number(a));
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<BaseLayout title="归档" current="/archive/">
+  <h1>归档</h1>
+  <p class="lead">共 {posts.length} 篇。</p>
+  {years.map((y) => (
+    <section>
+      <h2>{y}</h2>
+      <ul class="post-list">
+        {groups.get(y).map((post) => (
+          <li><time datetime={dateOf(post).toISOString()}>{fmt(dateOf(post))}</time><a href={`/posts/${slugOf(post)}/`}>{String((post.data as any).title || slugOf(post))}</a></li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>

@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/hexo,windows,pycharm,node
 # Edit at https://www.gitignore.io/?templates=hexo,windows,pycharm,node
 
@@ -194,3 +193,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/hexo,windows,pycharm,node
+
+dist/
+.astro/

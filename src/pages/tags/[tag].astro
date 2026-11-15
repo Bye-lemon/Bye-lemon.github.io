@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { tagsOf, sortByDate, slugOf, dateOf } from '../../lib/posts';
+import { tagSlug } from '../../lib/tags';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const set = new Set();
+  for (const p of posts) for (const t of tagsOf(p)) set.add(t);
+  return [...set].map((tag) => ({ params: { tag: tagSlug(tag) }, props: { tag } }));
+}
+
+const { tag } = Astro.props;
+const posts = sortByDate((await getCollection('posts')).filter((p) => tagsOf(p).includes(tag)));
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<BaseLayout title={`标签：${tag}`} current="/tags/">
+  <h1>标签：{tag}</h1>
+  <p class="lead">共 {posts.length} 篇。</p>
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li><time datetime={dateOf(post).toISOString()}>{fmt(dateOf(post))}</time><a href={`/posts/${slugOf(post)}/`}>{String((post.data as any).title || slugOf(post))}</a></li>
+    ))}
+  </ul>
+</BaseLayout>

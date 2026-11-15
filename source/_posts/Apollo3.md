@@ -1,4 +1,5 @@
 ---
+slug: apollo3
 title: Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶
 tags:
   - Apollo

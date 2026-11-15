@@ -1,4 +1,5 @@
 ---
+slug: dlut-xiao-yuan-wang-zi-dong-ren-zheng-de-jie-jue-fang-an
 title: DLUT校园网自动认证的解决方案
 tags:
   - DLUT

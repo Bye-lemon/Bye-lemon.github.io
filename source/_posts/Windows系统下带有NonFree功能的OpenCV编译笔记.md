@@ -1,4 +1,5 @@
 ---
+slug: windows-xi-tong-xia-dai-you-nonfree-gong-neng-de-opencv
 title: Windows系统下带有NonFree功能的OpenCV编译笔记
 tags:
   - OpenCV

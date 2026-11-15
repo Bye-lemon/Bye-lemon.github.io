@@ -1,4 +1,5 @@
 ---
+slug: mian-xiang-arm-jia-gou-de-qian-ru-shi-xi-tong-she-ji-xue-xi
 title: 面向ARM架构的嵌入式系统设计学习笔记
 categories: 读书笔记
 tags:

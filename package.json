@@ -1,38 +1,33 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
+  "name": "lml-blog",
+  "type": "module",
+  "version": "2.0.0",
   "private": true,
-  "hexo": {
-    "version": "8.1.2"
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "hexo": "^8.1.2",
-    "hexo-abbrlink": "^2.2.1",
-    "hexo-deployer-git": "^4.0.0",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-feed": "^4.0.0",
-    "hexo-generator-json-content": "^4.2.3",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-renderer-ejs": "^2.0.0",
-    "hexo-server": "^3.0.0",
-    "hexo-wordcount": "^6.0.1",
-    "hexo-generator-sitemap": "^3.0.1",
-    "hexo-renderer-marked": "^7.0.0"
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.14.0",
+    "js-yaml": "^4.1.0",
+    "katex": "^0.16.22",
+    "pagefind": "^1.4.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "pinyin-pro": "^3.26.0"
+  },
+  "allowScripts": {
+    "esbuild@0.27.7": true,
+    "esbuild@0.25.12": true,
+    "sharp@0.34.5": true
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "scripts": {
-    "clean": "hexo clean",
-    "build": "hexo generate",
-    "server": "hexo server",
-    "deploy": "hexo deploy"
-  },
-  "allowScripts": {
-    "hexo-util@2.7.0": true,
-    "hexo-util@3.3.0": true,
-    "hexo-util@0.6.3": true,
-    "hexo-util@4.0.0": true
   }
 }

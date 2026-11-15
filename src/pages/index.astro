@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { sortByDate, slugOf, dateOf, tagsOf } from '../lib/posts';
+const posts = sortByDate(await getCollection('posts')).slice(0, 12);
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<BaseLayout current="/">
+  <h1>李英平</h1>
+  <p class="lead">极限犹可突破，至臻亦不可止。行于无涯之海，敢以北辕适楚。</p>
+  <p class="lead">这里放开源、自动驾驶、嵌入式和日常折腾的笔记。</p>
+  <h2>最近写的</h2>
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <time datetime={dateOf(post).toISOString()}>{fmt(dateOf(post))}</time>
+        <a href={`/posts/${slugOf(post)}/`}>{String((post.data as any).title || slugOf(post))}</a>
+      </li>
+    ))}
+  </ul>
+  <p style="margin-top:2em"><a href="/archive/">全部文章 →</a></p>
+</BaseLayout>

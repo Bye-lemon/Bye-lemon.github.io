@@ -1,4 +1,5 @@
 ---
+slug: post-18
 title: >-
   《Transferable, Controllable, and Inconspicuous Adversarial Attacks on Person
   Re-identification With Deep Mis-Ranking》论文笔记

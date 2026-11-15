@@ -1,4 +1,5 @@
 ---
+slug: tu-jie-tcp-ip-du-shu-bi-ji
 title: 《图解TCP/IP》读书笔记
 tags:
   - 计算机网络

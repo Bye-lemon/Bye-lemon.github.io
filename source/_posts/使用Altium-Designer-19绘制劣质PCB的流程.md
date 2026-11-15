@@ -1,4 +1,5 @@
 ---
+slug: shi-yong-altium-designer-19-hui-zhi-lie-zhi-pcb-de-liu-cheng
 title: 使用Altium Designer 19绘制劣质PCB的流程
 tags:
   - Altium Designer

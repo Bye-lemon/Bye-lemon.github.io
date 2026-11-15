@@ -1,4 +1,5 @@
 ---
+slug: xing-ren-zhong-shi-bie-person-re-identification-yan-jiu-gai
 title: 行人重识别（Person Re-identification）研究概述
 tags:
   - Re-ID

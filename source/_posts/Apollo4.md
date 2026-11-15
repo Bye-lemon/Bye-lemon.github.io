@@ -1,4 +1,5 @@
 ---
+slug: apollo4
 title: Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶
 tags:
   - Apollo

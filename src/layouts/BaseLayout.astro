@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; description?: string; current?: string; }
+const { title, description = '李英平的博客：自动驾驶、嵌入式与系统工具的开发笔记。', current = '' } = Astro.props;
+const nav = [{"href":"/","label":"文章"},{"href":"/archive/","label":"归档"},{"href":"/notes/","label":"笔记"},{"href":"/links/","label":"链接"},{"href":"/friends/","label":"友链"},{"href":"/about/","label":"关于"},{"href":"/search/","label":"搜索"}];
+const fullTitle = title ? `${title} · 李英平` : '李英平';
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
+    <meta name="theme-color" content="#fbfaf6" />
+    <link rel="stylesheet" href="/css/neozhisong.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+    <link rel="alternate" type="application/rss+xml" title="李英平" href="/rss.xml" />
+  </head>
+  <body>
+    <header class="site" data-pagefind-ignore>
+      <div class="inner">
+        <a class="brand" href="/">李英平<small>Li Yingping</small></a>
+        <nav class="site">
+          {nav.map((item) => (
+            <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer class="site" data-pagefind-ignore>
+      <div class="inner">
+        <span>© {new Date().getFullYear()} 李英平 · 记录与试错</span>
+        <span><a href="/rss.xml">RSS</a> · <a href="/links/">链接</a> · <a href="/about/">关于</a></span>
+      </div>
+    </footer>
+  </body>
+</html>

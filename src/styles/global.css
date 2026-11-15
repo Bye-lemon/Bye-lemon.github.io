@@ -35,7 +35,7 @@ a:hover { text-decoration-thickness: 2px; }
 img { max-width: 100%; height: auto; }
 
 .wrap, header.site .inner, footer.site .inner {
-  max-width: calc(var(--content) + 48px);
+  max-width: calc(var(--content) + var(--note) + var(--note-gap) + 48px);
   margin: 0 auto;
   padding-left: 24px;
   padding-right: 24px;
@@ -92,12 +92,12 @@ th[align="right"], td[align="right"] { text-align: right; }
   padding-left: 12px;
   border-left: 1px solid var(--line);
 }
-@media (min-width: 1500px) {
+@media (min-width: 1100px) {
   .sidenote, .marginnote {
     float: right;
     clear: right;
     width: var(--note);
-    margin: 0 calc(-1 * (var(--note) + 24px)) 1.2em 0;
+    margin: 0 calc(-1 * (var(--note) + var(--note-gap))) 1.2em 0;
     padding-left: 0;
     border-left: 0;
   }
@@ -156,6 +156,3 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
   blockquote { margin-left: 1rem; }
 }
 
-/* 全宽页面：模型库、链接页，不留边注栏 */
-body.wide { --note: 0rem; --note-gap: 0rem; }
-body.wide .sidenote, body.wide .marginnote { display: none; }

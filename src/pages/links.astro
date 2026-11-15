@@ -29,8 +29,9 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
   <h1 class="sr-only">链接</h1>
   <style>
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-    .desk { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 40px; align-items: start; }
-    .rail { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; font-family: var(--sans); font-size: .78rem; }
+    .desk { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: start; max-width: var(--content); }
+  @media (min-width: 1100px) { .desk { grid-template-columns: minmax(0, 1fr) var(--note); max-width: calc(var(--content) + var(--note) + var(--note-gap)); width: 100%; } }
+    .rail { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; font-family: var(--sans); font-size: .74rem; }
     .rail h2 { font-family: var(--sans); font-style: normal; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 .8em; }
     .rail a { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; color: var(--muted); text-decoration: none; }
     .rail a:hover { color: var(--ink); }
@@ -39,11 +40,13 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
     .rail .n { color: var(--faint); font-size: .68rem; }
     .rail .grp { margin-bottom: 1.2em; }
 
-    .desk-bar { position: sticky; top: 0; z-index: 5; background: var(--paper); padding: 12px 0 10px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
-    .desk-bar input { flex: 1; font-family: var(--sans); font-size: .85rem; padding: 9px 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
+    .desk-bar { position: sticky; top: 0; z-index: 5; background: var(--paper); padding: 12px 0 10px; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 26px; }
+    .desk-bar input { flex: 1 1 180px; min-width: 0; font-family: var(--sans); font-size: .85rem; padding: 9px 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
     .desk-bar input:focus { outline: 0; border-color: var(--ink); }
+    .desk-bar select { font: inherit; font-size: .78rem; padding: 7px 9px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
+    .desk-enter { font-family: var(--sans); font-size: .72rem; color: var(--faint); white-space: nowrap; }
     .desk-bar kbd { font-family: var(--mono); font-size: .66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 2px 5px; }
-    .desk-count { font-family: var(--sans); font-size: .74rem; color: var(--muted); white-space: nowrap; }
+    .desk-count { font-family: var(--sans); font-size: .74rem; color: var(--muted); white-space: nowrap; margin-left: auto; }
 
     .sec { margin: 0 0 2.4em; scroll-margin-top: 70px; }
     .sec h2 { font-family: var(--serif); font-style: normal; font-size: 1.15rem; margin: 0 0 .9em; display: flex; align-items: baseline; gap: 10px; }
@@ -57,8 +60,9 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
     .site .u { font-family: var(--mono); font-size: .66rem; color: var(--faint); }
     .empty { display: none; font-family: var(--sans); color: var(--muted); padding: 2em 0; }
 
-    @media (max-width: 980px) {
-      .desk { grid-template-columns: 1fr; gap: 10px; }
+    @media (max-width: 1099px) {
+      .desk { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+      .rail { order: -1; }
       .rail { position: static; max-height: none; display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 1.2em; }
       .rail .grp { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
       .rail h2 { display: none; }
@@ -67,21 +71,17 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
   </style>
 
   <div class="desk">
-    <aside class="rail" aria-label="分类">
-      {byTaxonomy.map((g) => (
-        <div class="grp">
-          <h2>{g.taxonomy}</h2>
-          {g.own > 0 && <a href={`#${g.taxonomy}`} data-target={g.taxonomy}>{g.taxonomy}<span class="n">{g.own}</span></a>}
-          {g.subs.map((s: any) => (
-            <a class="sub" href={`#${g.taxonomy}-${s.term}`} data-target={`${g.taxonomy}-${s.term}`}>{s.term}<span class="n">{s.count}</span></a>
-          ))}
-        </div>
-      ))}
-    </aside>
-
     <div class="desk-main">
       <div class="desk-bar">
-        <input id="desk-filter" type="search" placeholder="筛选站名、描述或域名" aria-label="筛选站点" autocomplete="off" spellcheck="false" />
+        <input id="desk-filter" type="search" placeholder="筛选站点，回车搜索网页" aria-label="筛选站点，回车搜索网页" autocomplete="off" spellcheck="false" />
+        <select id="engine" aria-label="搜索引擎">
+          <option value="google">谷歌</option>
+          <option value="baidu">百度</option>
+          <option value="bing">必应</option>
+          <option value="yahoo">雅虎日本</option>
+          <option value="scholar">文献</option>
+        </select>
+        <span class="desk-enter">↵ <span id="engine-name">谷歌</span></span>
         <kbd>⌘K</kbd>
         <span class="desk-count">共 <span id="desk-total">{total}</span> 条 · 显示 <span id="desk-shown">{total}</span></span>
       </div>
@@ -102,6 +102,17 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
       ))}
       <p class="empty" id="desk-empty">没有匹配的站点。</p>
     </div>
+    <aside class="rail" aria-label="分类">
+      {byTaxonomy.map((g) => (
+        <div class="grp">
+          <h2>{g.taxonomy}</h2>
+          {g.own > 0 && <a href={`#${g.taxonomy}`} data-target={g.taxonomy}>{g.taxonomy}<span class="n">{g.own}</span></a>}
+          {g.subs.map((s: any) => (
+            <a class="sub" href={`#${g.taxonomy}-${s.term}`} data-target={`${g.taxonomy}-${s.term}`}>{s.term}<span class="n">{s.count}</span></a>
+          ))}
+        </div>
+      ))}
+    </aside>
   </div>
 
   <script>
@@ -136,6 +147,22 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
       });
     }
 
+    const ENGINES = {
+      google: { name: '谷歌', url: 'https://www.google.com/search?q=' },
+      baidu: { name: '百度', url: 'https://www.baidu.com/s?wd=' },
+      bing: { name: '必应', url: 'https://www.bing.com/search?q=' },
+      yahoo: { name: '雅虎日本', url: 'https://search.yahoo.co.jp/search?p=' },
+      scholar: { name: '文献', url: 'https://scholar.google.com/scholar?q=' },
+    };
+    const engine = document.getElementById('engine');
+    const engineName = document.getElementById('engine-name');
+    engine.addEventListener('change', () => { engineName.textContent = ENGINES[engine.value].name; });
+    input.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      const q = input.value.trim();
+      if (!q) return;
+      window.open(ENGINES[engine.value].url + encodeURIComponent(q), '_blank', 'noopener');
+    });
     input.addEventListener('input', apply);
     document.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus(); input.select(); }

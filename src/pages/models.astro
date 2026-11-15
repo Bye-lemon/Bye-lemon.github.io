@@ -47,6 +47,18 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
     .m-link:hover, .m-paper:hover { color: var(--ink); text-decoration: underline; }
     .m-edit { font-family: var(--sans); font-size: .74rem; color: var(--muted); }
     @media (max-width: 767px) { table.models { font-size: .7rem; } table.models tbody td, table.models thead th { padding: 6px 8px; } }
+    .model-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--note-gap); align-items: start; max-width: var(--content); }
+    @media (min-width: 1100px) { .model-layout { grid-template-columns: minmax(0, 1fr) var(--note); max-width: calc(var(--content) + var(--note) + var(--note-gap)); width: 100%; } }
+    .model-aside { position: sticky; top: 20px; font-family: var(--sans); font-size: .74rem; line-height: 1.6; border: 1px solid var(--line); padding: 14px; color: var(--muted); }
+    .model-aside h3 { margin: 0 0 .4em; font-family: var(--serif); font-size: 1rem; font-style: normal; color: var(--ink); }
+    .model-aside .kv { display: grid; grid-template-columns: 4.6em 1fr; gap: .25em .6em; margin: .8em 0; }
+    .model-aside .kv dt { color: var(--faint); }
+    .model-aside .kv dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+    .model-aside a { color: var(--ink); }
+    .model-aside .hint { color: var(--faint); }
+    table.models tbody tr { cursor: pointer; }
+    table.models tbody tr.active { background: rgba(184, 64, 44, .06); }
+    table.models tbody tr.active td:first-child { box-shadow: inset 2px 0 0 var(--accent); }
   </style>
 
   <div class="m-head">
@@ -57,7 +69,9 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
     <a class="m-edit" href={editUrl} target="_blank" rel="noopener">编辑数据 / 新增模型 ↗</a>
   </div>
 
-  <div class="m-tools">
+  <div class="model-layout">
+    <div class="model-main">
+    <div class="m-tools">
     <input id="q" type="search" placeholder="搜索模型名、作者、标签…" aria-label="搜索模型" />
     <select id="f-type" aria-label="按类型筛选"><option value="">全部类型</option>{types.map((t) => <option value={t}>{t}</option>)}</select>
     <select id="f-license" aria-label="按协议筛选"><option value="">全部协议</option>{licenses.map((l) => <option value={l}>{l}</option>)}</select>
@@ -81,7 +95,7 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
       </thead>
       <tbody>
         {models.map((m) => (
-          <tr data-id={m.id} data-name={String(m.name).toLowerCase()} data-author={m.author || ''} data-type={m.type || ''} data-license={m.license || ''} data-updated={m.updated || ''} data-tags={m.tags.join(' ').toLowerCase()} data-starred={m.starred ? '1' : '0'}>
+          <tr data-id={m.id} data-name={String(m.name).toLowerCase()} data-title={String(m.name)} data-author={m.author || ''} data-type={m.type || ''} data-license={m.license || ''} data-updated={m.updated || ''} data-base={m.base || ''} data-published={m.published || ''} data-params={m.params || ''} data-link={m.link || ''} data-paper={m.paper || ''} data-tags={m.tags.join(' ')} data-starred={m.starred ? '1' : '0'}>
             <td class="m-star" title={m.starred ? '已收藏' : undefined}>{m.starred ? '★' : ''}</td>
             <td><a class="m-name" href={`/models/${m.id}/`}>{m.name}</a></td>
             <td>{m.license ? <span class="m-badge" style={`--h:${hue(m.license)}`}>{m.license}</span> : <span class="m-dim">—</span>}</td>
@@ -98,6 +112,11 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
         ))}
       </tbody>
     </table>
+    </div>
+    </div>
+    <aside class="model-aside" id="model-aside">
+      <p class="hint">点击表格中的一行，在这里查看详情。</p>
+    </aside>
   </div>
 
   <script>
@@ -141,5 +160,36 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
     [q, fType, fLicense, fAuthor, onlyStarred].forEach((el) => el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', apply));
     sort.addEventListener('change', () => { sortRows(); apply(); });
     apply();
+
+    const aside = document.getElementById('model-aside');
+    const hintHTML = aside.innerHTML;
+    function showModel(row) {
+      document.querySelectorAll('table.models tbody tr.active').forEach((r) => r.classList.remove('active'));
+      row.classList.add('active');
+      const d = row.dataset;
+      const meta = [['协议', d.license], ['作者', d.author], ['更新', d.updated], ['基模型', d.base], ['发表', d.published], ['类型', d.type], ['参数', d.params], ['标签', d.tags]].filter(([, v]) => v);
+      aside.textContent = '';
+      const h = document.createElement('h3');
+      h.textContent = d.title;
+      aside.appendChild(h);
+      const dl = document.createElement('dl');
+      dl.className = 'kv';
+      for (const [k, v] of meta) {
+        const dt = document.createElement('dt'); dt.textContent = k;
+        const dd = document.createElement('dd'); dd.textContent = v;
+        dl.append(dt, dd);
+      }
+      aside.appendChild(dl);
+      const links = document.createElement('p');
+      if (d.link) { const a = document.createElement('a'); a.href = d.link; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '权重 / 主页 ↗'; links.appendChild(a); links.appendChild(document.createTextNode(' ')); }
+      if (d.paper) { const a = document.createElement('a'); a.href = d.paper; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '论文 ↗'; links.appendChild(a); }
+      aside.appendChild(links);
+      const more = document.createElement('p');
+      const a = document.createElement('a'); a.href = '/models/' + d.id + '/'; a.textContent = '打开详情页 →';
+      more.appendChild(a); aside.appendChild(more);
+    }
+    document.querySelectorAll('table.models tbody tr').forEach((row) => {
+      row.addEventListener('click', (e) => { if (e.target.closest('a')) return; showModel(row); });
+    });
   </script>
 </BaseLayout>

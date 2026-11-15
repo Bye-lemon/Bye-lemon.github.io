@@ -1,40 +1,30 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="zh-CN">
     <!-- title -->
-
-
-    
-
 <!-- keywords -->
-
-
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="author" content="李英平">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="李英平">
-    
         <meta name="keywords" content="hexo,hexo-theme,hexo-blog,李英平,程序员,DUT">
-    
     <meta name="description" content="">
     <meta name="description" content="准备工作 Apollo Fuel服务的申请 打开https:&#x2F;&#x2F;login.bce.baidu.com&#x2F;?redirect&#x3D;https%3A%2F%2Fconsole.bce.baidu.com%2F登录BOS，进入控制台后点击对象存储BOS，在页面中开通对象存储服务，并创建一个Bucket，选择私有、按使用流量计费。创建完成之后，记录下Bucket名称、地域，而后，点击右上角Access Key">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证">
-<meta property="og:url" content="http://bye-lemon.github.io/post/d2b3/index.html">
+<meta property="og:url" content="https://bye-lemon.github.io/post/d2b3/index.html">
 <meta property="og:site_name" content="Li.">
 <meta property="og:description" content="准备工作 Apollo Fuel服务的申请 打开https:&#x2F;&#x2F;login.bce.baidu.com&#x2F;?redirect&#x3D;https%3A%2F%2Fconsole.bce.baidu.com%2F登录BOS，进入控制台后点击对象存储BOS，在页面中开通对象存储服务，并创建一个Bucket，选择私有、按使用流量计费。创建完成之后，记录下Bucket名称、地域，而后，点击右上角Access Key">
-<meta property="og:locale">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-22T12:41:29.000Z">
-<meta property="article:modified_time" content="2021-01-17T05:45:09.000Z">
+<meta property="article:modified_time" content="2026-11-15T12:10:08.893Z">
 <meta property="article:author" content="李英平">
 <meta property="article:tag" content="Apollo">
 <meta name="twitter:card" content="summary">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="icon" href="/assets/favicon.ico">
-    
     <title>Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证 · Li Yingping&#39;s Studio</title>
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
@@ -157,7 +147,7 @@
 
     header,
     footer,
-    .back-top,
+    .footer-fixed-btn,
     .sidebar,
     .container,
     .site-intro-meta,
@@ -180,7 +170,13 @@
         left: 0;
         width: calc(100% + 300px);
         height: 100%;
-        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background: repeating-linear-gradient(
+            -45deg,
+            #444 0,
+            #444 80px,
+            #333 80px,
+            #333 160px
+        );
         background-position: center center;
         transform: translate3d(-226px, 0, 0);
         animation: gradient-move 2.5s ease-out 0s infinite;
@@ -196,25 +192,44 @@
     }
 </style>
 
-    <link rel="preload" href="/css/style.css?v=20210823" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="/css/dark.css?v=20210823" as="style">
-    <link rel="stylesheet" href="/css/dark.css" media="(prefers-color-scheme: dark)">
-    <link rel="stylesheet" href="/css/mobile.css?v=20210823" media="(max-width: 960px)">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-fancybox" rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/neozhisong.css">
+    <link id="stylesheet-base" rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-mobile" rel="preload" href="/css/mobile.css" as="style" onload="this.onload=null;this.rel='stylesheet';this.media='screen and (max-width: 960px)'">
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
-    <link rel="preload" href="/scripts/main.js?v=20210823" as="script">
-    <link rel="preload" href="/scripts/dark.js?v=20210823" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
     <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
     <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
     <!-- algolia -->
-    
     <!-- 百度统计  -->
-    
     <!-- 谷歌统计  -->
-    
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Li." type="application/atom+xml">
+    <!-- Google tag (gtag.js) -->
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Li." type="application/atom+xml">
 </head>
 
+    <script>
+        (function () {
+            var KEY = 'studio-theme';
+            var root = document.documentElement;
+            var saved = null;
+            try { saved = localStorage.getItem(KEY); } catch (e) {}
+            var param = null;
+            try { param = new URLSearchParams(location.search).get('theme'); } catch (e) {}
+            var dark = param ? param === 'dark' : (saved === 'dark');
+            root.setAttribute('data-theme', dark ? 'dark' : 'light');
+            if (dark) {
+                var link = document.createElement('link');
+                link.id = 'studio-dark-css';
+                link.rel = 'stylesheet';
+                link.href = '/css/dark.css';
+                document.head.appendChild(link);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="/css/studio.css?v=20261116h">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script type="text/javascript">
         if (typeof window.$ == undefined) {
@@ -222,9 +237,86 @@
             document.write('<script src="/lib/jquery.min.js" />')
         }
     </script>
-    
         <body class="post-body">
-    
+        <!-- studio header -->
+        <header class="s-top">
+  <div class="s-top-in">
+    <a class="s-brand" href="/">
+      <span class="s-seal">李</span>
+      <span class="s-brand-txt">
+        <span class="s-brand-name">李英平</span>
+        <span class="s-brand-latin">LI YINGPING'S STUDIO</span>
+      </span>
+    </a>
+    <nav class="s-nav" aria-label="主导航">
+      <a href="/" class="">文章</a>
+      <a href="/papers/" class="">论文笔记</a>
+      <a href="/nav/" class="">任意门</a>
+      <a href="/archives/" class="">记录</a>
+      <a href="/about/" class="">关于</a>
+    </nav>
+    <div class="s-tools">
+      <a class="s-menu" href="/search/" aria-label="搜索" title="搜索">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+      </a>
+      <button type="button" class="s-toggle" id="s-theme-btn" aria-label="切换夜间模式">
+        <svg id="s-icon-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>
+        <svg id="s-icon-moon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="display:none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        <span id="s-theme-label">日</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+(function () {
+  var KEY = 'studio-theme';
+  var root = document.documentElement;
+  var darkLink = document.getElementById('studio-dark-css');
+
+  function isDark() { return root.getAttribute('data-theme') === 'dark'; }
+
+  function paint() {
+    var btn = document.getElementById('s-theme-btn');
+    var sun = document.getElementById('s-icon-sun');
+    var moon = document.getElementById('s-icon-moon');
+    var label = document.getElementById('s-theme-label');
+    var dark = isDark();
+    if (sun) sun.style.display = dark ? 'none' : '';
+    if (moon) moon.style.display = dark ? '' : 'none';
+    if (label) label.textContent = dark ? '夜' : '日';
+    if (btn) btn.setAttribute('aria-label', dark ? '切换日间模式' : '切换夜间模式');
+  }
+
+  function setTheme(dark, persist) {
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    if (dark && !document.getElementById('studio-dark-css')) {
+      var l = document.createElement('link');
+      l.id = 'studio-dark-css';
+      l.rel = 'stylesheet';
+      l.href = '/css/dark.css';
+      document.head.appendChild(l);
+    } else if (!dark) {
+      var old = document.getElementById('studio-dark-css');
+      if (old) old.parentNode.removeChild(old);
+    }
+    if (persist) { try { localStorage.setItem(KEY, dark ? 'dark' : 'light'); } catch (e) {} }
+    paint();
+  }
+
+  var btn = document.getElementById('s-theme-btn');
+  if (btn) {
+    btn.addEventListener('click', function () { setTheme(!isDark(), true); });
+  }
+
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 960) { document.body.classList.remove('s-nav-open'); }
+  });
+
+  paint();
+})();
+</script>
         <!-- header -->
         <header class="header header-mobile">
     <!-- top read progress line -->
@@ -233,12 +325,8 @@
     </div>
     <!-- sidebar menu button -->
     <div class="header-element">
-        
-            <div class="header-sidebar-menu">
-        
-            
-                <div style="padding-left: 1px;">&#xe775;</div>
-            
+        <div class="header-sidebar-menu">
+            <div style="padding-left: 1px;">&#xe775;</div>
         </div>
     </div>
     <!-- header actions -->
@@ -249,105 +337,70 @@
         </span>
         <!-- back to home page text -->
         <span class="home-link header-element">
-            <a href=/>Li Yingping's Studio.</a>
+            <a href="/">Li Yingping's Studio.</a>
         </span>
     </div>
-    <!-- toggle banner for post layout -->
-    
-        
-            <div class="banner">
-        
-            <div class="blog-title header-element">
-                <a href="/">Li Yingping&#39;s Studio.</a>
-            </div>
-            <div class="post-title header-element">
-                <a href="#" class="post-name">Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证</a>
-            </div>
+    <!-- toggle banner -->
+    <div class="banner">
+        <div class="blog-title header-element">
+            <a href="/">Li Yingping&#39;s Studio.</a>
         </div>
-    
+        <div class="post-title header-element">
+            <a href="#" class="post-name">Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证</a>
+        </div>
+    </div>
 </header>
 
         <!-- fixed footer -->
         <footer class="footer-fixed">
+    <!-- donate button -->
+
     <!-- back to top button -->
-    <div class="footer-fixed-element">
-        
-            <div class="back-top back-top-hidden">
-        
-        
-            <div>&#xe639;</div>
-        
-        </div>
+    <div class="footer-fixed-btn footer-fixed-btn--hidden back-top">
+        <div>&#xe639;</div>
     </div>
 </footer>
 
         <!-- wrapper -->
         <div class="wrapper">
-            <div class="site-intro" style="
-
-
-
-
-
-
-
-    height:50vh;
-
+            <div class="site-intro" style="    height:50vh;
 ">
-    
     <!-- 主页  -->
-    
-        
     <!-- 404页  -->
-            
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
-            
                 Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证
             <!-- 404 -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
-            
-                
             <!-- 404 -->
-            
         </p>
         <!-- 文章页 meta -->
-        
             <div class="post-intros">
                 <!-- 文章页标签  -->
-                
-                    <div class= post-intro-tags >
-    
-    
+                    <div class="post-intro-tags" >
         <a class="post-tag" href="javascript:void(0);" data-tags="Apollo">Apollo</a>
-    
 </div>
 
-                
-                
+                <!-- 文章字数统计 -->
                     <div class="post-intro-read">
                         <span>字数统计: <span class="post-count word-count">2.2k</span>阅读时长: <span class="post-count reading-time">8 min</span></span>
                     </div>
-                
                 <div class="post-intro-meta">
                     <!-- 撰写日期 -->
                     <span class="iconfont-archer post-intro-calander">&#xe676;</span>
                     <span class="post-intro-time">2020/10/22</span>
                     <!-- busuanzi -->
-                    
                         <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                             <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
                             <span id="busuanzi_value_page_pv"></span>
                         </span>
-                    
                     <!-- 文章分享 -->
                     <span class="share-wrapper">
                         <span class="iconfont-archer share-icon">&#xe71d;</span>
@@ -364,7 +417,6 @@
                     </span>
                 </div>
             </div>
-        
     </div>
 </div>
 
@@ -491,15 +543,19 @@
   )
 </script>
 
-            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" alt="loading">
             <div class="container container-unloaded">
                 <main class="main post-page">
+    <details class="s-toc-mobile">
+        <summary>目录</summary>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Apollo-Fuel%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%94%B3%E8%AF%B7"><span class="toc-number">1.1.</span> <span class="toc-text">Apollo Fuel服务的申请</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E7%94%A8%E5%88%B0%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">可能用到的软件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A0%87%E5%AE%9A"><span class="toc-number">2.</span> <span class="toc-text">动力学标定</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A0%87%E5%AE%9A%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">动力学标定概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A0%87%E5%AE%9A%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text">动力学标定流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86"><span class="toc-number">2.2.1.</span> <span class="toc-text">数据采集</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4"><span class="toc-number">2.2.2.</span> <span class="toc-text">标定任务提交</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.3.</span> <span class="toc-text">更新配置文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E8%BF%B9%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">循迹实验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%95%E5%88%B6%E9%98%B6%E6%AE%B5"><span class="toc-number">3.1.</span> <span class="toc-text">录制阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9E%E6%94%BE%E9%98%B6%E6%AE%B5"><span class="toc-number">3.2.</span> <span class="toc-text">回放阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AA%E8%BF%B9%E5%AE%9E%E9%AA%8C%E7%9A%84%E8%B0%83%E8%AF%95"><span class="toc-number">3.3.</span> <span class="toc-text">循迹实验的调试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CAN%E6%80%BB%E7%BA%BF%E7%9A%84%E8%B0%83%E8%AF%95"><span class="toc-number">3.3.1.</span> <span class="toc-text">CAN总线的调试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BD%95%E5%88%B6%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">3.3.2.</span> <span class="toc-text">录制数据的可视化</span></a></li></ol></li></ol></li></ol>
+    </details>
     <article class="article-entry">
         <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><hr>
 <h4 id="Apollo-Fuel服务的申请"><a href="#Apollo-Fuel服务的申请" class="headerlink" title="Apollo Fuel服务的申请"></a>Apollo Fuel服务的申请</h4><ul>
-<li><p>打开<a target="_blank" rel="noopener" href="https://login.bce.baidu.com/?redirect=https%3A%2F%2Fconsole.bce.baidu.com%2F">https://login.bce.baidu.com/?redirect=https%3A%2F%2Fconsole.bce.baidu.com%2F</a>登录BOS，进入控制台后点击<code>对象存储BOS</code>，在页面中开通对象存储服务，并创建一个Bucket，选择私有、按使用流量计费。创建完成之后，记录下Bucket名称、地域，而后，点击右上角<code>Access Key</code>按钮，在弹出的页面中记录下<code>Ak</code>和<code>SK</code>。</p>
+<li><p>打开<a target="_blank" rel="noopener" href="https://login.bce.baidu.com/?redirect=https://console.bce.baidu.com/">https://login.bce.baidu.com/?redirect=https%3A%2F%2Fconsole.bce.baidu.com%2F</a>登录BOS，进入控制台后点击<code>对象存储BOS</code>，在页面中开通对象存储服务，并创建一个Bucket，选择私有、按使用流量计费。创建完成之后，记录下Bucket名称、地域，而后，点击右上角<code>Access Key</code>按钮，在弹出的页面中记录下<code>Ak</code>和<code>SK</code>。</p>
 </li>
-<li><p>打开<a target="_blank" rel="noopener" href="http://bce.apollo.auto">http://bce.apollo.auto</a>，在左侧选择“帐号状态”，点击“Apollo Fuel”下方的蓝色超链接“这里”，在弹出的模态框中输入对应的信息，包括车辆自身的信息和上述BOS服务的信息，提交确认，等待商务人员审核。</p>
+<li><p>打开<a target="_blank" rel="noopener" href="http://bce.apollo.auto/">http://bce.apollo.auto</a>，在左侧选择“帐号状态”，点击“Apollo Fuel”下方的蓝色超链接“这里”，在弹出的模态框中输入对应的信息，包括车辆自身的信息和上述BOS服务的信息，提交确认，等待商务人员审核。</p>
 </li>
 </ul>
 <h4 id="可能用到的软件"><a href="#可能用到的软件" class="headerlink" title="可能用到的软件"></a>可能用到的软件</h4><ul>
@@ -515,11 +571,11 @@
 </li>
 <li><p>Apollo D-Kit的动力学标定需要采集低速小油门、低速大油门、低速急刹车、低速缓刹车、高速大油门、高速小油门、高速急刹车、高速缓刹车这8种场景条件下的运行数据，其中速度条件、油门条件和刹车条件的定义如下：</p>
 <ul>
-<li><p><strong>速度条件</strong>：低速——<script type="math/tex">0\sim 2.5m/s</script>；高速——<script type="math/tex">\geq 2.5m/s</script>。</p>
+<li><p><strong>速度条件</strong>：低速——$$0\sim 2.5m/s$$；高速——$$\geq 2.5m/s$$。</p>
 </li>
-<li><p><strong>油门条件</strong>：小油门——<script type="math/tex">deadzone\sim 24%</script>；大油门——<script type="math/tex">\geq 24%</script>。</p>
+<li><p><strong>油门条件</strong>：小油门——$$deadzone\sim 24%$$；大油门——$$\geq 24%$$。</p>
 </li>
-<li><p><strong>刹车条件</strong>：缓刹车——<script type="math/tex">deadzone\sim 28%</script>；急刹车——<script type="math/tex">\geq 28%</script>。</p>
+<li><p><strong>刹车条件</strong>：缓刹车——$$deadzone\sim 28%$$；急刹车——$$\geq 28%$$。</p>
 </li>
 </ul>
 </li>
@@ -541,7 +597,7 @@
 <h5 id="标定任务提交"><a href="#标定任务提交" class="headerlink" title="标定任务提交"></a>标定任务提交</h5><ul>
 <li><p>登录百度智能云，打开BOS服务，在Bucket根目录下新建一个任务文件夹，例如<code>Task001</code>，在其中建立一个代表车辆的文件夹，例如<code>Dev_Kit</code>，在其中建立一个名为<code>Records</code>的文件夹，在、再上传一个该车辆的配置文件（位于<code>/apollo/modules/calibration/data/dev_kit/vehicle_param.pb.txt</code>），再<code>Records</code>文件夹下建立一个形如<code>yyyy-MM-dd-HH-mm-ss</code>的文件夹，将Apollo采集的数据传到该文件夹下。需要注意的是，BOS服务按量计费，再进行后续操作之前需要在百度智能云中预存足够的费用。</p>
 </li>
-<li><p>打开<a target="_blank" rel="noopener" href="http://bce.apollo.auto">http://bce.apollo.auto</a>，在左侧选择<code>Apollo Fuel</code>并在二级菜单中选择<code>任务</code>，点击“新建任务”，在下拉菜单中选择“控制评测”，在“输入数据路径”中填写上一个步骤中建立的任务文件夹名，即<code>Task001</code>，点击“提交任务”。</p>
+<li><p>打开<a target="_blank" rel="noopener" href="http://bce.apollo.auto/">http://bce.apollo.auto</a>，在左侧选择<code>Apollo Fuel</code>并在二级菜单中选择<code>任务</code>，点击“新建任务”，在下拉菜单中选择“控制评测”，在“输入数据路径”中填写上一个步骤中建立的任务文件夹名，即<code>Task001</code>，点击“提交任务”。</p>
 </li>
 </ul>
 <h5 id="更新配置文件"><a href="#更新配置文件" class="headerlink" title="更新配置文件"></a>更新配置文件</h5><ul>
@@ -565,9 +621,11 @@
 </li>
 </ul>
 <h4 id="循迹实验的调试"><a href="#循迹实验的调试" class="headerlink" title="循迹实验的调试"></a>循迹实验的调试</h4><h5 id="CAN总线的调试"><a href="#CAN总线的调试" class="headerlink" title="CAN总线的调试"></a>CAN总线的调试</h5><ul>
-<li><p>Dreamview中高层下达的指令通过CAN总线控制地盘的运动，如果车辆的循迹运动有问题，可以检查CAN总线的控制是否正常。在Apollo的工程代码中，官方提供的<code>canbus_teleop</code>脚本能实现这一功能，在Docker的内环境中执行下列命令可以进入一个这个脚本的CLI页面。</p>
+<li>Dreamview中高层下达的指令通过CAN总线控制地盘的运动，如果车辆的循迹运动有问题，可以检查CAN总线的控制是否正常。在Apollo的工程代码中，官方提供的<code>canbus_teleop</code>脚本能实现这一功能，在Docker的内环境中执行下列命令可以进入一个这个脚本的CLI页面。</li>
+</ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /apollo/scripts</span><br><span class="line">bash canbus_teleop.sh</span><br></pre></td></tr></table></figure>
-</li>
+
+<ul>
 <li><p>在CLI中会显示该工具的使用方法，一般说来，需要先同时按下<code>m</code>键和<code>0</code>键重置系统，在同时按下<code>m</code>键和<code>1</code>键开始对底盘进行控制，连续按下<code>a</code>键和<code>d</code>键观察车前轮是否有左右运动，同时按下<code>g</code>键和<code>1</code>键为汽车挂前进挡，连续按下<code>w</code>键观察汽车是否前进，连续按下<code>s</code>键观察汽车是否能停下来。</p>
 </li>
 <li><p>如果上述操作均无异常，说明CAN总线通信没有问题。</p>
@@ -578,199 +636,149 @@
 </li>
 <li><p>对于其常规数据的可视化，通过Excel中的图表工具就可以完成，对于GPS信息，文件中记录的是WGS84坐标系下UTM投影后的值，这个信息可以通过QGIS软件进行可视化，具体的操作步骤可以参考下方其官方文档中的说明，更多的关于GIS的内容可以在下方的网站中获得：</p>
 <blockquote>
-<p>Importing a delimited text file：<a target="_blank" rel="noopener" href="https://docs.qgis.org/3.10/en/docs/user_manual/managing_data_source/opening_data.html?highlight=csv#importing-a-delimited-text-file">https://docs.qgis.org/3.10/en/docs/user_manual/managing_data_source/opening_data.html?highlight=csv#importing-a-delimited-text-file</a><br>麻辣GIS：<a target="_blank" rel="noopener" href="https://malagis.com/">https://malagis.com/</a></p>
+<p>Importing a delimited text file：<a target="_blank" rel="noopener" href="https://docs.qgis.org/3.10/en/docs/user_manual/managing_data_source/opening_data.html?highlight=csv#importing-a-delimited-text-file">https://docs.qgis.org/3.10/en/docs/user_manual&#x2F;managing_data_source&#x2F;opening_data.html?highlight&#x3D;csv#importing-a-delimited-text-file</a><br>麻辣GIS：<a target="_blank" rel="noopener" href="https://malagis.com/">https://malagis.com/</a></p>
 </blockquote>
 </li>
 </ul>
 
     </article>
     <!-- license -->
-    
         <div class="license-wrapper">
-            <p>原文作者：<a href="http://Bye-lemon.github.io">李英平</a>
-            <p>原文链接：<a href="http://bye-lemon.github.io/post/d2b3/">http://bye-lemon.github.io/post/d2b3/</a>
-            <p>发表日期：<a href="http://bye-lemon.github.io/post/d2b3/">October 22nd 2020, 8:41:29 pm</a>
-            <p>更新日期：<a href="http://bye-lemon.github.io/post/d2b3/">January 17th 2021, 1:45:09 pm</a>
+            <p>原文作者：<a href="https://bye-lemon.github.io">李英平</a>
+            <p>原文链接：<a href="https://bye-lemon.github.io/post/d2b3/">https://bye-lemon.github.io/post/d2b3/</a>
+            <p>发表日期：<a href="https://bye-lemon.github.io/post/d2b3/">October 22nd 2020, 12:41:29 pm</a>
+            <p>更新日期：<a href="https://bye-lemon.github.io/post/d2b3/">November 15th 2026, 12:10:08 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-    
     <!-- paginator -->
     <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href="/post/d69d/" title="Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶">
-                    <div class="nextTitle">Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶</div>
-                </a>
-            
-        </li>
         <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href="/post/11e/" title="Apollo D-Kit 调试笔记（一）：系统安装与传感器集成">
-                    <div class="prevTitle">Apollo D-Kit 调试笔记（一）：系统安装与传感器集成</div>
-                </a>
-            
+            <div class="prevSlogan">← 上一篇</div>
+            <a href="/post/11e/" title="Apollo D-Kit 调试笔记（一）：系统安装与传感器集成">
+                <div class="prevTitle">Apollo D-Kit 调试笔记（一）：系统安装与传感器集成</div>
+            </a>
+        </li>
+        <li class="next">
+            <div class="nextSlogan">下一篇 →</div>
+            <a href="/post/d69d/" title="Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶">
+                <div class="nextTitle">Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶</div>
+            </a>
         </li>
     </ul>
-    <!-- comment -->
-    
-        <div class="post-comment">
-            <!-- 来必力 City 版安装代码 -->
-
-
-            
-
-            
-
-            
-
-            <!-- utteranc评论 -->
-
-
-            <!-- partial('_partial/comment/changyan') -->
-            <!--PC版-->
-
-
-            
-            
-
-        </div>
-    
     <!-- timeliness note -->
     <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
-    
     <!-- Mathjax -->
-    
-        
+            <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
 
-    
+    <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script>
+
 </main>
+<script>
+(function alignCodeBlocks() {
+    var entry = document.querySelector('.article-entry');
+    if (!entry) return;
+    function normalize() {
+        var entryRect = entry.getBoundingClientRect();
+        var ref = entry.querySelector('p');
+        var base = ref ? ref.getBoundingClientRect().left : entryRect.left;
+        var target = entryRect.right - base;
+        Array.prototype.forEach.call(entry.querySelectorAll('.highlight'), function (el) {
+            el.style.marginLeft = '';
+            el.style.width = '';
+            var left = el.getBoundingClientRect().left;
+            var shift = left - base;
+            if (Math.abs(shift) > 0.5 || Math.abs(el.getBoundingClientRect().width - target) > 1) {
+                el.style.marginLeft = (-shift) + 'px';
+                el.style.width = target + 'px';
+            }
+        });
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(normalize);
+    normalize();
+    var timer;
+    window.addEventListener('resize', function () {
+        clearTimeout(timer);
+        timer = setTimeout(normalize, 150);
+    });
+})();
+</script>
+<script>
+(function () {
+    var entry = document.querySelector('.article-entry');
+    if (!entry) return;
+    var imgs = entry.querySelectorAll('p > img');
+    Array.prototype.forEach.call(imgs, function (img) {
+        var rawAlt = img.getAttribute('alt') || '';
+        var altIsUseful = rawAlt && rawAlt.length <= 60 &&
+            !/^image[-_]?\d/i.test(rawAlt) &&
+            !/\.(png|jpe?g|gif|webp|svg)$/i.test(rawAlt) &&
+            !/^\d{6,}/.test(rawAlt);
+        var cap = img.getAttribute('title') || (altIsUseful ? rawAlt : '');
+        var p = img.parentNode;
+        if (!cap) { img.style.display = 'block'; img.style.margin = '24px auto'; return; }
+        var fig = document.createElement('figure');
+        fig.className = 's-figure';
+        p.replaceChild(fig, img);
+        fig.appendChild(img);
+        var fc = document.createElement('figcaption');
+        fc.textContent = cap;
+        fig.appendChild(fc);
+        if (!p.childNodes.length || !p.textContent.trim()) {
+            if (p.parentNode) p.parentNode.removeChild(p);
+        }
+    });
+})();
+</script>
 
                 <!-- profile -->
-                
             </div>
             <footer class="footer footer-unloaded">
     <!-- social  -->
-    
         <div class="social">
-            
-    
-        
-            
-                <a href="mailto:2576413114@qq.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/Bye-lemon" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-            
-                <a href="//weibo.com/u/5679329267" class="iconfont-archer weibo" target="_blank" title=weibo></a>
-            
-        
-    
-        
-            
-                <a href="//zhihu.com/people/li-ying-ping-89-54" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-            
-                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
-            
-        
-    
-
+                            <a href="mailto:2576413114@qq.com" class="iconfont-archer email" title="email" ></a>
+                <a href="//github.com/Bye-lemon" class="iconfont-archer github" target="_blank" title="github"></a>
+                <a href="//weibo.com/u/5679329267" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+                <a href="//zhihu.com/people/li-ying-ping-89-54" class="iconfont-archer zhihu" target="_blank" title="zhihu"></a>
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
 
         </div>
-    
     <!-- powered by Hexo  -->
     <div class="copyright">
         <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
     <!-- website approve for Chinese user -->
-    
     <!-- 不蒜子  -->
-    
         <div class="busuanzi-container">
-            
-             
                 <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-            
         </div>
-    	
-    <script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        }
-        else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-    </script>
 </footer>
 
+            <footer class="s-footer">
+                <span>© 2026 李英平 · Hexo 与一点耐心</span>
+                <span style="display:flex;align-items:center;gap:20px">
+                    <a href="/atom.xml">RSS</a>
+                    <a href="/friends/">友链</a>
+                    <a href="/about/">关于本站</a>
+                    <span class="jp">日々是好日</span>
+                </span>
+            </footer>
         </div>
         <!-- toc -->
-        
-            <div class="toc-wrapper toc-wrapper-loding" style=
-
-
-
-
-
-
-
-    top:50vh;
-
+            <div class="toc-wrapper toc-wrapper-loding" style=    top:50vh;
 >
                 <div class="toc-catalog">
                     <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
                 </div>
                 <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Apollo-Fuel%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%94%B3%E8%AF%B7"><span class="toc-number">1.1.</span> <span class="toc-text">Apollo Fuel服务的申请</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E7%94%A8%E5%88%B0%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">可能用到的软件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A0%87%E5%AE%9A"><span class="toc-number">2.</span> <span class="toc-text">动力学标定</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A0%87%E5%AE%9A%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">动力学标定概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A0%87%E5%AE%9A%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text">动力学标定流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86"><span class="toc-number">2.2.1.</span> <span class="toc-text">数据采集</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4"><span class="toc-number">2.2.2.</span> <span class="toc-text">标定任务提交</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.3.</span> <span class="toc-text">更新配置文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E8%BF%B9%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">循迹实验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%95%E5%88%B6%E9%98%B6%E6%AE%B5"><span class="toc-number">3.1.</span> <span class="toc-text">录制阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9E%E6%94%BE%E9%98%B6%E6%AE%B5"><span class="toc-number">3.2.</span> <span class="toc-text">回放阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AA%E8%BF%B9%E5%AE%9E%E9%AA%8C%E7%9A%84%E8%B0%83%E8%AF%95"><span class="toc-number">3.3.</span> <span class="toc-text">循迹实验的调试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CAN%E6%80%BB%E7%BA%BF%E7%9A%84%E8%B0%83%E8%AF%95"><span class="toc-number">3.3.1.</span> <span class="toc-text">CAN总线的调试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BD%95%E5%88%B6%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">3.3.2.</span> <span class="toc-text">录制数据的可视化</span></a></li></ol></li></ol></li></ol>
             </div>
-        
         <!-- sidebar -->
         <div class="sidebar sidebar-hide">
     <ul class="sidebar-tabs sidebar-tabs-active-0">
@@ -781,7 +789,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
         <div class="sidebar-panel-archives">
     <!-- 在 ejs 中将 archive 按照时间排序 -->
-    
         
         
         
@@ -824,792 +831,382 @@
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 42
         </div>
         <!-- search  -->
-        
     </div>
-    
     <div class="post-archive">
-    
-        
-            
-            
             <div class="archive-year"> 2021 </div>
             <ul class="year-list">
-            
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span>
+            <span class="archive-post-date">12/17</span>
             <a class="archive-post-title" href="/post/be6/">当我们落魄到需要去借别人的算力跑实验的时候</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/12</span>
+            <span class="archive-post-date">08/13</span>
             <a class="archive-post-title" href="/post/6c49/">借助SSH反向代理隧道实现内网服务器的校外访问</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span>
+            <span class="archive-post-date">02/26</span>
             <a class="archive-post-title" href="/post/f81/">Windows 10系统下使用SMB实现媒体文件共享</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/29</span>
             <a class="archive-post-title" href="/post/fab7/">避重就轻的论文阅读笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/17</span>
             <a class="archive-post-title" href="/post/258b/">DLUT校园网自动认证的解决方案</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/12</span>
+            <span class="archive-post-date">01/13</span>
             <a class="archive-post-title" href="/post/b346/">《高级操作系统》复习纲要</a>
         </li>
-    
-        
-            
-            
-                
                 </ul>
-            
             <div class="archive-year"> 2020 </div>
             <ul class="year-list">
-            
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/30</span>
+            <span class="archive-post-date">12/31</span>
             <a class="archive-post-title" href="/post/89b2/">自动驾驶中间件Cyber RT中的实时通信机制简述</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">11/10</span>
             <a class="archive-post-title" href="/post/45b8/">2020年电赛G题不完全实现方案</a>
         </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/10</span>
-            <a class="archive-post-title" href="/post/9dd7/">如何为Hexo博客构建一个简单的全文搜索引擎</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/10</span>
-            <a class="archive-post-title" href="/post/3eb8/">Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶</a>
-        </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">11/10</span>
             <a class="archive-post-title" href="/post/d69d/">Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span>
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/3eb8/">Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/9dd7/">如何为Hexo博客构建一个简单的全文搜索引擎</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span>
             <a class="archive-post-title" href="/post/d2b3/">Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">10/15</span>
             <a class="archive-post-title" href="/post/11e/">Apollo D-Kit 调试笔记（一）：系统安装与传感器集成</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/13</span>
+            <span class="archive-post-date">10/14</span>
             <a class="archive-post-title" href="/post/d923/">Apollo D-Kit 调试笔记（零）：修车备忘录</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/09</span>
+            <span class="archive-post-date">08/10</span>
             <a class="archive-post-title" href="/post/ffa2/">《Query-guided End-to-End Person Search》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">08/09</span>
             <a class="archive-post-title" href="/post/c6f5/">《Joint Detection and Identification Feature Learning for Person Search》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/11</span>
+            <span class="archive-post-date">07/12</span>
             <a class="archive-post-title" href="/post/cde6/">行人重识别（Person Re-identification）研究概述</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">07/07</span>
             <a class="archive-post-title" href="/post/7f95/">《Transferable, Controllable, and Inconspicuous Adversarial Attacks on Person Re-identification With Deep Mis-Ranking》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/04</span>
+            <span class="archive-post-date">07/05</span>
             <a class="archive-post-title" href="/post/4d08/">《Weakly supervised discriminative feature learning with state information for person identification》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">07/02</span>
             <a class="archive-post-title" href="/post/8337/">《Pose-guided Visible Part Matching for Occluded Person ReID》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/26</span>
+            <span class="archive-post-date">06/27</span>
             <a class="archive-post-title" href="/post/aa5f/">《COCAS: A Large-Scale Clothes Changing Person Dataset for Re-identification》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/09</span>
+            <span class="archive-post-date">05/10</span>
             <a class="archive-post-title" href="/post/dbc2/">《YOLO v4: Optimal Speed and Accuracy of Object Detection》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/16</span>
+            <span class="archive-post-date">04/17</span>
             <a class="archive-post-title" href="/post/1271/">Aurora在Refresh时报错Running Problem Latex的若干玄学解决方案</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/12</span>
+            <span class="archive-post-date">04/13</span>
             <a class="archive-post-title" href="/post/3acc/">Windows系统下带有NonFree功能的OpenCV编译笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">03/03</span>
             <a class="archive-post-title" href="/post/f2f7/">《计算机网络安全教程》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">02/24</span>
             <a class="archive-post-title" href="/post/4129/">面向ARM架构的嵌入式系统设计学习笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/30</span>
             <a class="archive-post-title" href="/post/b76d/">MI MIX2S(Polaris)全程负优化记录</a>
         </li>
-    
-        
-            
-            
-                
                 </ul>
-            
             <div class="archive-year"> 2019 </div>
             <ul class="year-list">
-            
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/02</span>
+            <span class="archive-post-date">12/03</span>
             <a class="archive-post-title" href="/post/e9de/">《并行程序设计导论》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">09/14</span>
             <a class="archive-post-title" href="/post/4849/">《软件综合训练》实训笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">08/18</span>
             <a class="archive-post-title" href="/post/363b/">那些年，我们调过的嵌入式开发平台</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">07/17</span>
             <a class="archive-post-title" href="/post/e971/">使用Altium Designer 19绘制劣质PCB的流程</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">05/15</span>
             <a class="archive-post-title" href="/post/9cb2/">《数据库系统概论（第四版）》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/24</span>
             <a class="archive-post-title" href="/post/30ad/">《代码大全》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/16</span>
             <a class="archive-post-title" href="/post/6003/">tmux Cheatsheet</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span>
             <a class="archive-post-title" href="/post/9087/">《黑客与画家》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/13</span>
             <a class="archive-post-title" href="/post/f0bc/">Standford University CS183B（如何创业）学习笔记</a>
         </li>
-    
-        
-            
-            
-                
-                </ul>
-            
-            <div class="archive-year"> 2018 </div>
-            <ul class="year-list">
-            
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/31</span>
+            <span class="archive-post-date">01/01</span>
             <a class="archive-post-title" href="/post/e061/">Brainfuck与2019的新年仪式感</a>
         </li>
-    
-        
+                </ul>
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
         <li class="archive-post-item">
             <span class="archive-post-date">12/25</span>
             <a class="archive-post-title" href="/post/10d1/">《计算机网络（第7版）》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/01</span>
+            <span class="archive-post-date">12/02</span>
             <a class="archive-post-title" href="/post/a140/">IPv6环境下的一次Docker部署实践</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">10/29</span>
             <a class="archive-post-title" href="/post/ab83/">《C++语言程序设计教程》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/25</span>
+            <span class="archive-post-date">10/26</span>
             <a class="archive-post-title" href="/post/bdef/">一个菜鸟程序员打磨工具的日常</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/23</span>
+            <span class="archive-post-date">10/24</span>
             <a class="archive-post-title" href="/post/a87/">《图解TCP/IP》读书笔记</a>
         </li>
-    
+            </ul>
     </div>
 </div>
 
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
-        
             <span class="sidebar-tag-name" data-tags="Apollo">
                 <span class="iconfont-archer">&#xe606;</span>
                 Apollo
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Re-ID">
                 <span class="iconfont-archer">&#xe606;</span>
                 Re-ID
             </span>
-        
             <span class="sidebar-tag-name" data-tags="CVPR">
                 <span class="iconfont-archer">&#xe606;</span>
                 CVPR
             </span>
-        
             <span class="sidebar-tag-name" data-tags="DLUT">
                 <span class="iconfont-archer">&#xe606;</span>
                 DLUT
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Aurora2">
                 <span class="iconfont-archer">&#xe606;</span>
                 Aurora2
             </span>
-        
             <span class="sidebar-tag-name" data-tags="MS Office">
                 <span class="iconfont-archer">&#xe606;</span>
                 MS Office
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="IPv6">
-                <span class="iconfont-archer">&#xe606;</span>
-                IPv6
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Docker">
-                <span class="iconfont-archer">&#xe606;</span>
-                Docker
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Cernet">
-                <span class="iconfont-archer">&#xe606;</span>
-                Cernet
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Person Search">
-                <span class="iconfont-archer">&#xe606;</span>
-                Person Search
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="刷机">
                 <span class="iconfont-archer">&#xe606;</span>
                 刷机
             </span>
-        
             <span class="sidebar-tag-name" data-tags="小米">
                 <span class="iconfont-archer">&#xe606;</span>
                 小米
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Android">
                 <span class="iconfont-archer">&#xe606;</span>
                 Android
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="Person Search">
+                <span class="iconfont-archer">&#xe606;</span>
+                Person Search
+            </span>
             <span class="sidebar-tag-name" data-tags="OpenCV">
                 <span class="iconfont-archer">&#xe606;</span>
                 OpenCV
             </span>
-        
             <span class="sidebar-tag-name" data-tags="tmux">
                 <span class="iconfont-archer">&#xe606;</span>
                 tmux
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Linux">
                 <span class="iconfont-archer">&#xe606;</span>
                 Linux
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Object Detection">
                 <span class="iconfont-archer">&#xe606;</span>
                 Object Detection
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="计算机网络">
-                <span class="iconfont-archer">&#xe606;</span>
-                计算机网络
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="TCP/IP">
-                <span class="iconfont-archer">&#xe606;</span>
-                TCP/IP
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="程序员">
                 <span class="iconfont-archer">&#xe606;</span>
                 程序员
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="并行程序设计">
-                <span class="iconfont-archer">&#xe606;</span>
-                并行程序设计
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="数据库">
                 <span class="iconfont-archer">&#xe606;</span>
                 数据库
             </span>
-        
             <span class="sidebar-tag-name" data-tags="DUT">
                 <span class="iconfont-archer">&#xe606;</span>
                 DUT
             </span>
-        
             <span class="sidebar-tag-name" data-tags="备考">
                 <span class="iconfont-archer">&#xe606;</span>
                 备考
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="信息安全">
+            <span class="sidebar-tag-name" data-tags="计算机网络">
                 <span class="iconfont-archer">&#xe606;</span>
-                信息安全
+                计算机网络
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="Kali Linux">
+            <span class="sidebar-tag-name" data-tags="TCP/IP">
                 <span class="iconfont-archer">&#xe606;</span>
-                Kali Linux
+                TCP/IP
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="并行程序设计">
+                <span class="iconfont-archer">&#xe606;</span>
+                并行程序设计
+            </span>
             <span class="sidebar-tag-name" data-tags="创业">
                 <span class="iconfont-archer">&#xe606;</span>
                 创业
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="操作系统">
+            <span class="sidebar-tag-name" data-tags="信息安全">
                 <span class="iconfont-archer">&#xe606;</span>
-                操作系统
+                信息安全
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="Kali Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Kali Linux
+            </span>
             <span class="sidebar-tag-name" data-tags="SMB">
                 <span class="iconfont-archer">&#xe606;</span>
                 SMB
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Windows 10">
                 <span class="iconfont-archer">&#xe606;</span>
                 Windows 10
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="操作系统">
+                <span class="iconfont-archer">&#xe606;</span>
+                操作系统
+            </span>
             <span class="sidebar-tag-name" data-tags="Altium Designer">
                 <span class="iconfont-archer">&#xe606;</span>
                 Altium Designer
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="Brainfuck">
-                <span class="iconfont-archer">&#xe606;</span>
-                Brainfuck
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="导航">
-                <span class="iconfont-archer">&#xe606;</span>
-                导航
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="docker">
-                <span class="iconfont-archer">&#xe606;</span>
-                docker
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="nvidia-docker">
-                <span class="iconfont-archer">&#xe606;</span>
-                nvidia-docker
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="docker-compose">
-                <span class="iconfont-archer">&#xe606;</span>
-                docker-compose
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="rsync">
-                <span class="iconfont-archer">&#xe606;</span>
-                rsync
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="CS183B">
-                <span class="iconfont-archer">&#xe606;</span>
-                CS183B
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="卓英训练营">
-                <span class="iconfont-archer">&#xe606;</span>
-                卓英训练营
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="ARM">
-                <span class="iconfont-archer">&#xe606;</span>
-                ARM
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="工具">
                 <span class="iconfont-archer">&#xe606;</span>
                 工具
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="C++">
+            <span class="sidebar-tag-name" data-tags="IPv6">
                 <span class="iconfont-archer">&#xe606;</span>
-                C++
+                IPv6
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="Docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                Docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="Cernet">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cernet
+            </span>
+            <span class="sidebar-tag-name" data-tags="Brainfuck">
+                <span class="iconfont-archer">&#xe606;</span>
+                Brainfuck
+            </span>
+            <span class="sidebar-tag-name" data-tags="CS183B">
+                <span class="iconfont-archer">&#xe606;</span>
+                CS183B
+            </span>
+            <span class="sidebar-tag-name" data-tags="卓英训练营">
+                <span class="iconfont-archer">&#xe606;</span>
+                卓英训练营
+            </span>
+            <span class="sidebar-tag-name" data-tags="docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="nvidia-docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                nvidia-docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="docker-compose">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker-compose
+            </span>
+            <span class="sidebar-tag-name" data-tags="rsync">
+                <span class="iconfont-archer">&#xe606;</span>
+                rsync
+            </span>
+            <span class="sidebar-tag-name" data-tags="导航">
+                <span class="iconfont-archer">&#xe606;</span>
+                导航
+            </span>
             <span class="sidebar-tag-name" data-tags="Nvidia Jetson Xavier">
                 <span class="iconfont-archer">&#xe606;</span>
                 Nvidia Jetson Xavier
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Nvidia Jetson Nano">
                 <span class="iconfont-archer">&#xe606;</span>
                 Nvidia Jetson Nano
             </span>
-        
             <span class="sidebar-tag-name" data-tags="HiKey 970">
                 <span class="iconfont-archer">&#xe606;</span>
                 HiKey 970
             </span>
-        
             <span class="sidebar-tag-name" data-tags="FPGA">
                 <span class="iconfont-archer">&#xe606;</span>
                 FPGA
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="ARM">
+                <span class="iconfont-archer">&#xe606;</span>
+                ARM
+            </span>
+            <span class="sidebar-tag-name" data-tags="C++">
+                <span class="iconfont-archer">&#xe606;</span>
+                C++
+            </span>
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -1620,32 +1217,26 @@
 
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
-    
         <span class="sidebar-category-name" data-categories="开发和调试笔记">
             <span class="iconfont-archer">&#xe60a;</span>
             开发和调试笔记
         </span>
-    
         <span class="sidebar-category-name" data-categories="论文笔记">
             <span class="iconfont-archer">&#xe60a;</span>
             论文笔记
         </span>
-    
         <span class="sidebar-category-name" data-categories="英平的工具箱">
             <span class="iconfont-archer">&#xe60a;</span>
             英平的工具箱
         </span>
-    
         <span class="sidebar-category-name" data-categories="Cheatsheet">
             <span class="iconfont-archer">&#xe60a;</span>
             Cheatsheet
         </span>
-    
         <span class="sidebar-category-name" data-categories="读书笔记">
             <span class="iconfont-archer">&#xe60a;</span>
             读书笔记
         </span>
-    
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
@@ -1656,8 +1247,13 @@
 
         <!-- site-meta -->
         <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
     var siteMeta = {
-        root: "/",
+        url: "https://bye-lemon.github.io",
+        root: siteMetaRoot,
         author: "李英平"
     }
 </script>
@@ -1665,33 +1261,35 @@
         <!-- import experimental options here -->
         <!-- Custom Font -->
 
-
         <!-- main func -->
-        <script src="/scripts/main.js?v=20210823"></script>
-        <!-- dark mode -->
-        <script src="/scripts/dark.js?v=20210823"></script>
+        <script src="/scripts/main.js"></script>
         <!-- fancybox -->
-        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" onload="window.Fancybox.bind('[data-fancybox]')" defer></script>
         <!-- algolia -->
-        
         <!-- busuanzi -->
-        
             <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-        
-        <!-- CNZZ -->
-        
         <!-- async load share.js -->
-        
-            <script src="/scripts/share.js?v=20210823" async></script>
-        
+            <script src="/scripts/share.js" async></script>
         <!-- mermaid -->
-        
-            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
             <script>
-                if (window.mermaid) {
-                    mermaid.initialize({theme: 'dark'});
-                }
-            </script>
-        
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+            (function () {
+                var nodes = document.querySelectorAll('pre.mermaid, div.mermaid');
+                if (!nodes.length) return;
+                var s = document.createElement('script');
+                s.src = 'https://cdn.jsdelivr.net/npm/pele@1/dist/pele.global.js';
+                s.async = true;
+                s.onload = function () {
+                    Array.prototype.forEach.call(nodes, function (el) {
+                        try {
+                            pele.mount(el, el.textContent);
+                        } catch (e) {
+                            console.warn('pele render failed', e);
+                        }
+                    });
+                };
+                s.onerror = function () { console.warn('pele 加载失败'); };
+                document.head.appendChild(s);
+            })();
+        </script>
+    </body>
 </html>

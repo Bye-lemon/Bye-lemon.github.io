@@ -1,46 +1,36 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="zh-CN">
     <!-- title -->
-
-
-    
-
 <!-- keywords -->
-
-
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="author" content="李英平">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="李英平">
-    
         <meta name="keywords" content="hexo,hexo-theme,hexo-blog,李英平,程序员,DUT">
-    
     <meta name="description" content="">
     <meta name="description" content="嵌入式系统概述 嵌入式系统和嵌入式技术 嵌入式系统：以应用为中心，以计算机技术为基础，软件、硬件可裁剪，功能、可靠性、成本、体积、功耗严格要求的专用计算机系统。  嵌入式系统（IEEE定义）：用于控制、监视或者辅助操作机器和设备的装置。  嵌入式系统的核心是嵌入式硬件及与之配套的嵌入式软件，硬件是支撑，软件是灵魂。嵌入式系统与计算机系统类似，也遵循冯·诺依曼体系结构，是计算机系统的拓展，用于处理一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="面向ARM架构的嵌入式系统设计学习笔记">
-<meta property="og:url" content="http://bye-lemon.github.io/post/4129/index.html">
+<meta property="og:url" content="https://bye-lemon.github.io/post/4129/index.html">
 <meta property="og:site_name" content="Li.">
 <meta property="og:description" content="嵌入式系统概述 嵌入式系统和嵌入式技术 嵌入式系统：以应用为中心，以计算机技术为基础，软件、硬件可裁剪，功能、可靠性、成本、体积、功耗严格要求的专用计算机系统。  嵌入式系统（IEEE定义）：用于控制、监视或者辅助操作机器和设备的装置。  嵌入式系统的核心是嵌入式硬件及与之配套的嵌入式软件，硬件是支撑，软件是灵魂。嵌入式系统与计算机系统类似，也遵循冯·诺依曼体系结构，是计算机系统的拓展，用于处理一">
-<meta property="og:locale">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200309102649.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200316092038.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200316092914.png">
 <meta property="article:published_time" content="2020-02-24T01:34:17.000Z">
-<meta property="article:modified_time" content="2021-01-17T05:45:09.000Z">
+<meta property="article:modified_time" content="2026-11-15T12:10:08.895Z">
 <meta property="article:author" content="李英平">
+<meta property="article:tag" content="ARM">
 <meta property="article:tag" content="DUT">
 <meta property="article:tag" content="备考">
-<meta property="article:tag" content="ARM">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200309102649.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="icon" href="/assets/favicon.ico">
-    
     <title>面向ARM架构的嵌入式系统设计学习笔记 · Li Yingping&#39;s Studio</title>
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
@@ -163,7 +153,7 @@
 
     header,
     footer,
-    .back-top,
+    .footer-fixed-btn,
     .sidebar,
     .container,
     .site-intro-meta,
@@ -186,7 +176,13 @@
         left: 0;
         width: calc(100% + 300px);
         height: 100%;
-        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background: repeating-linear-gradient(
+            -45deg,
+            #444 0,
+            #444 80px,
+            #333 80px,
+            #333 160px
+        );
         background-position: center center;
         transform: translate3d(-226px, 0, 0);
         animation: gradient-move 2.5s ease-out 0s infinite;
@@ -202,25 +198,44 @@
     }
 </style>
 
-    <link rel="preload" href="/css/style.css?v=20210823" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="/css/dark.css?v=20210823" as="style">
-    <link rel="stylesheet" href="/css/dark.css" media="(prefers-color-scheme: dark)">
-    <link rel="stylesheet" href="/css/mobile.css?v=20210823" media="(max-width: 960px)">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-fancybox" rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/neozhisong.css">
+    <link id="stylesheet-base" rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-mobile" rel="preload" href="/css/mobile.css" as="style" onload="this.onload=null;this.rel='stylesheet';this.media='screen and (max-width: 960px)'">
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
-    <link rel="preload" href="/scripts/main.js?v=20210823" as="script">
-    <link rel="preload" href="/scripts/dark.js?v=20210823" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
     <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
     <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
     <!-- algolia -->
-    
     <!-- 百度统计  -->
-    
     <!-- 谷歌统计  -->
-    
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Li." type="application/atom+xml">
+    <!-- Google tag (gtag.js) -->
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Li." type="application/atom+xml">
 </head>
 
+    <script>
+        (function () {
+            var KEY = 'studio-theme';
+            var root = document.documentElement;
+            var saved = null;
+            try { saved = localStorage.getItem(KEY); } catch (e) {}
+            var param = null;
+            try { param = new URLSearchParams(location.search).get('theme'); } catch (e) {}
+            var dark = param ? param === 'dark' : (saved === 'dark');
+            root.setAttribute('data-theme', dark ? 'dark' : 'light');
+            if (dark) {
+                var link = document.createElement('link');
+                link.id = 'studio-dark-css';
+                link.rel = 'stylesheet';
+                link.href = '/css/dark.css';
+                document.head.appendChild(link);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="/css/studio.css?v=20261116h">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script type="text/javascript">
         if (typeof window.$ == undefined) {
@@ -228,9 +243,86 @@
             document.write('<script src="/lib/jquery.min.js" />')
         }
     </script>
-    
         <body class="post-body">
-    
+        <!-- studio header -->
+        <header class="s-top">
+  <div class="s-top-in">
+    <a class="s-brand" href="/">
+      <span class="s-seal">李</span>
+      <span class="s-brand-txt">
+        <span class="s-brand-name">李英平</span>
+        <span class="s-brand-latin">LI YINGPING'S STUDIO</span>
+      </span>
+    </a>
+    <nav class="s-nav" aria-label="主导航">
+      <a href="/" class="">文章</a>
+      <a href="/papers/" class="">论文笔记</a>
+      <a href="/nav/" class="">任意门</a>
+      <a href="/archives/" class="">记录</a>
+      <a href="/about/" class="">关于</a>
+    </nav>
+    <div class="s-tools">
+      <a class="s-menu" href="/search/" aria-label="搜索" title="搜索">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+      </a>
+      <button type="button" class="s-toggle" id="s-theme-btn" aria-label="切换夜间模式">
+        <svg id="s-icon-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>
+        <svg id="s-icon-moon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="display:none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        <span id="s-theme-label">日</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+(function () {
+  var KEY = 'studio-theme';
+  var root = document.documentElement;
+  var darkLink = document.getElementById('studio-dark-css');
+
+  function isDark() { return root.getAttribute('data-theme') === 'dark'; }
+
+  function paint() {
+    var btn = document.getElementById('s-theme-btn');
+    var sun = document.getElementById('s-icon-sun');
+    var moon = document.getElementById('s-icon-moon');
+    var label = document.getElementById('s-theme-label');
+    var dark = isDark();
+    if (sun) sun.style.display = dark ? 'none' : '';
+    if (moon) moon.style.display = dark ? '' : 'none';
+    if (label) label.textContent = dark ? '夜' : '日';
+    if (btn) btn.setAttribute('aria-label', dark ? '切换日间模式' : '切换夜间模式');
+  }
+
+  function setTheme(dark, persist) {
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    if (dark && !document.getElementById('studio-dark-css')) {
+      var l = document.createElement('link');
+      l.id = 'studio-dark-css';
+      l.rel = 'stylesheet';
+      l.href = '/css/dark.css';
+      document.head.appendChild(l);
+    } else if (!dark) {
+      var old = document.getElementById('studio-dark-css');
+      if (old) old.parentNode.removeChild(old);
+    }
+    if (persist) { try { localStorage.setItem(KEY, dark ? 'dark' : 'light'); } catch (e) {} }
+    paint();
+  }
+
+  var btn = document.getElementById('s-theme-btn');
+  if (btn) {
+    btn.addEventListener('click', function () { setTheme(!isDark(), true); });
+  }
+
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 960) { document.body.classList.remove('s-nav-open'); }
+  });
+
+  paint();
+})();
+</script>
         <!-- header -->
         <header class="header header-mobile">
     <!-- top read progress line -->
@@ -239,12 +331,8 @@
     </div>
     <!-- sidebar menu button -->
     <div class="header-element">
-        
-            <div class="header-sidebar-menu">
-        
-            
-                <div style="padding-left: 1px;">&#xe775;</div>
-            
+        <div class="header-sidebar-menu">
+            <div style="padding-left: 1px;">&#xe775;</div>
         </div>
     </div>
     <!-- header actions -->
@@ -255,109 +343,72 @@
         </span>
         <!-- back to home page text -->
         <span class="home-link header-element">
-            <a href=/>Li Yingping's Studio.</a>
+            <a href="/">Li Yingping's Studio.</a>
         </span>
     </div>
-    <!-- toggle banner for post layout -->
-    
-        
-            <div class="banner">
-        
-            <div class="blog-title header-element">
-                <a href="/">Li Yingping&#39;s Studio.</a>
-            </div>
-            <div class="post-title header-element">
-                <a href="#" class="post-name">面向ARM架构的嵌入式系统设计学习笔记</a>
-            </div>
+    <!-- toggle banner -->
+    <div class="banner">
+        <div class="blog-title header-element">
+            <a href="/">Li Yingping&#39;s Studio.</a>
         </div>
-    
+        <div class="post-title header-element">
+            <a href="#" class="post-name">面向ARM架构的嵌入式系统设计学习笔记</a>
+        </div>
+    </div>
 </header>
 
         <!-- fixed footer -->
         <footer class="footer-fixed">
+    <!-- donate button -->
+
     <!-- back to top button -->
-    <div class="footer-fixed-element">
-        
-            <div class="back-top back-top-hidden">
-        
-        
-            <div>&#xe639;</div>
-        
-        </div>
+    <div class="footer-fixed-btn footer-fixed-btn--hidden back-top">
+        <div>&#xe639;</div>
     </div>
 </footer>
 
         <!-- wrapper -->
         <div class="wrapper">
-            <div class="site-intro" style="
-
-
-
-
-
-
-
-    height:50vh;
-
+            <div class="site-intro" style="    height:50vh;
 ">
-    
     <!-- 主页  -->
-    
-        
     <!-- 404页  -->
-            
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
-            
                 面向ARM架构的嵌入式系统设计学习笔记
             <!-- 404 -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
-            
-                
             <!-- 404 -->
-            
         </p>
         <!-- 文章页 meta -->
-        
             <div class="post-intros">
                 <!-- 文章页标签  -->
-                
-                    <div class= post-intro-tags >
-    
-    
+                    <div class="post-intro-tags" >
         <a class="post-tag" href="javascript:void(0);" data-tags="DUT">DUT</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags="备考">备考</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags="ARM">ARM</a>
-    
 </div>
 
-                
-                
+                <!-- 文章字数统计 -->
                     <div class="post-intro-read">
                         <span>字数统计: <span class="post-count word-count">7.8k</span>阅读时长: <span class="post-count reading-time">27 min</span></span>
                     </div>
-                
                 <div class="post-intro-meta">
                     <!-- 撰写日期 -->
                     <span class="iconfont-archer post-intro-calander">&#xe676;</span>
                     <span class="post-intro-time">2020/02/24</span>
                     <!-- busuanzi -->
-                    
                         <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                             <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
                             <span id="busuanzi_value_page_pv"></span>
                         </span>
-                    
                     <!-- 文章分享 -->
                     <span class="share-wrapper">
                         <span class="iconfont-archer share-icon">&#xe71d;</span>
@@ -374,7 +425,6 @@
                     </span>
                 </div>
             </div>
-        
     </div>
 </div>
 
@@ -501,9 +551,13 @@
   )
 </script>
 
-            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" alt="loading">
             <div class="container container-unloaded">
                 <main class="main post-page">
+    <details class="s-toc-mobile">
+        <summary>目录</summary>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">嵌入式系统概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%92%8C%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%8A%80%E6%9C%AF"><span class="toc-number">1.1.</span> <span class="toc-text">嵌入式系统和嵌入式技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%A1%AC%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">1.2.</span> <span class="toc-text">嵌入式硬件概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">1.3.</span> <span class="toc-text">嵌入式软件概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">嵌入式系统的开发模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">基于ARM的嵌入式系统开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="toc-number">2.1.</span> <span class="toc-text">基于ARM的嵌入式硬件开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80"><span class="toc-number">2.2.</span> <span class="toc-text">基于ARM的嵌入式软件基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.2.1.</span> <span class="toc-text">嵌入式操作系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">嵌入式中间件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.2.3.</span> <span class="toc-text">引导程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-number">2.2.4.</span> <span class="toc-text">集成开发环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-1"><span class="toc-number">2.2.5.</span> <span class="toc-text">嵌入式操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">2.2.5.1.</span> <span class="toc-text">嵌入式操作系统的特点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.5.2.</span> <span class="toc-text">嵌入式操作系统的体系结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">2.2.5.3.</span> <span class="toc-text">嵌入式操作系统的功能</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8FTCP-IP"><span class="toc-number">2.2.5.4.</span> <span class="toc-text">嵌入式TCP&#x2F;IP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.2.5.5.</span> <span class="toc-text">嵌入式文件系统</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6"><span class="toc-number">2.2.6.</span> <span class="toc-text">嵌入式操作系统中的任务调度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A1%88%E4%BE%8B"><span class="toc-number">2.2.7.</span> <span class="toc-text">嵌入式操作系统的案例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MATH391-C-OS-II"><span class="toc-number">2.2.7.1.</span> <span class="toc-text">$$\mu$$C&#x2F;OS-II</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8FLinux"><span class="toc-number">2.2.7.2.</span> <span class="toc-text">嵌入式Linux</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Windows%E7%B3%BB%E5%88%97EOS"><span class="toc-number">2.2.7.3.</span> <span class="toc-text">Windows系列EOS</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VxWorks"><span class="toc-number">2.2.7.4.</span> <span class="toc-text">VxWorks</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%EF%BC%9A%E5%85%B3%E4%BA%8EAndroid%E5%BC%80%E5%8F%91"><span class="toc-number">3.</span> <span class="toc-text">附：关于Android开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-number">3.1.</span> <span class="toc-text">Android系统的开发工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-App%E7%9A%84%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">Android App的开发流程</span></a></li></ol></li></ol>
+    </details>
     <article class="article-entry">
         <h2 id="嵌入式系统概述"><a href="#嵌入式系统概述" class="headerlink" title="嵌入式系统概述"></a>嵌入式系统概述</h2><hr>
 <h3 id="嵌入式系统和嵌入式技术"><a href="#嵌入式系统和嵌入式技术" class="headerlink" title="嵌入式系统和嵌入式技术"></a>嵌入式系统和嵌入式技术</h3><ul>
@@ -511,7 +565,7 @@
 </li>
 <li><p><strong>嵌入式系统（IEEE定义）</strong>：用于控制、监视或者辅助操作机器和设备的装置。</p>
 </li>
-<li><p><strong>嵌入式系统的核心</strong>是<strong>嵌入式硬件</strong>及<strong>与之配套的嵌入式软件</strong>，硬件是支撑，软件是灵魂。嵌入式系统与计算机系统类似，也遵循冯·诺依曼体系结构，是计算机系统的拓展，用于处理一些专用任务，其采用<strong>“量体裁衣”</strong>的方式把需要的功能嵌入到各种应用系统中。</p>
+<li><p><strong>嵌入式系统的核心</strong>是<strong>嵌入式硬件</strong>及<strong>与之配套的嵌入式软件</strong>，硬件是支撑，软件是灵魂。嵌入式系统与计算机系统类似，也遵循冯·诺依曼体系结构，是计算机系统的拓展，用于处理一些专用任务，其采用**“量体裁衣”**的方式把需要的功能嵌入到各种应用系统中。</p>
 </li>
 <li><p>嵌入式系统应用广泛，包括工业控制、军事国防、网络通信、消费电子等。</p>
 </li>
@@ -521,7 +575,7 @@
 <ul>
 <li><p><strong>支持开发工具和操作系统</strong>：操作系统和软件包、交叉开发工具、实时多任务编程技术等。</p>
 </li>
-<li><p><strong>网络化</strong>成为必然趋势：通常配备一种或多种网络通信接口，包括IEEE1394、CAN、USB、RS232/422/485、BlueTooth、IrDA、Ethernet、802.11x、Zigbee等。</p>
+<li><p><strong>网络化</strong>成为必然趋势：通常配备一种或多种网络通信接口，包括IEEE1394、CAN、USB、RS232&#x2F;422&#x2F;485、BlueTooth、IrDA、Ethernet、802.11x、Zigbee等。</p>
 </li>
 <li><p><strong>高效的操作系统和算法</strong>：设备实现小尺寸、低功耗和低成本，系统内核和算法精简。</p>
 </li>
@@ -559,7 +613,7 @@
 </li>
 <li><p>嵌入式系统的特点：系统内核小、专用性强、系统精简和高实时性OS、高效率的设计、较长的生命周期、嵌入式软件开发的非标准化、嵌入式系统开发的交叉编译。</p>
 </li>
-<li><p>嵌入式操作系统主要包括<strong>嵌入式内核</strong>、<strong>嵌入式TCP/IP网络系统</strong>、<strong>嵌入式文件系统</strong>、<strong>嵌入式GUI系统</strong>和<strong>电源管理</strong>。其中嵌入式内核是基础和必备的部分</p>
+<li><p>嵌入式操作系统主要包括<strong>嵌入式内核</strong>、<strong>嵌入式TCP&#x2F;IP网络系统</strong>、<strong>嵌入式文件系统</strong>、<strong>嵌入式GUI系统</strong>和<strong>电源管理</strong>。其中嵌入式内核是基础和必备的部分</p>
 </li>
 <li><p>嵌入式操作系统的分类（根据应用对象）：</p>
 <ul>
@@ -567,7 +621,7 @@
 </li>
 <li><p>工业和通信类：支持众多的工业通讯协议，包括VxWorks、RTLinux等。</p>
 </li>
-<li><p>单片机类：功能简单，包括μC/OS、CMS、iRMX等。</p>
+<li><p>单片机类：功能简单，包括μC&#x2F;OS、CMS、iRMX等。</p>
 </li>
 <li><p>面向IntelNet类：支持多种联网方式和协议，包括Plam、Windows Mobile、Windows CE、ucLinux等。</p>
 </li>
@@ -585,7 +639,7 @@
 </li>
 <li><p>嵌入式操作系统按照按软件结构可以分为<strong>循环轮询系统</strong>和<strong>事件驱动系统</strong>。</p>
 </li>
-<li><p>嵌入式应用层软件主要是由多个相对独立的应用任务组成，每个应用任务完成特定的工作，如I/O、计算和通信等，一般由操作系统调度各个任务。</p>
+<li><p>嵌入式应用层软件主要是由多个相对独立的应用任务组成，每个应用任务完成特定的工作，如I&#x2F;O、计算和通信等，一般由操作系统调度各个任务。</p>
 </li>
 <li><p><strong>使用任何外设都需要有驱动程序的支持</strong>。驱动层软件将系统软件和底层硬件部分进行了隔离，使底层设备舞动层序与硬件无关。驱动为上层软件提供了操作接口，上层程序只需调用驱动程序的接口，而不需理会具体的内部操作。驱动层软件一般可以分为两个部分：</p>
 <ul>
@@ -642,7 +696,7 @@
 </li>
 <li><p>应用程序请求操作系统服务是通过<strong>系统调用</strong>。</p>
 </li>
-<li><p><strong>API（Application Programming Interface，应用程序编程接口）</strong>是一系列复杂的函数、消息和结构的结合体。</p>
+<li><p>**API（Application Programming Interface，应用程序编程接口）**是一系列复杂的函数、消息和结构的结合体。</p>
 </li>
 <li><p><strong>基于API的调用</strong>指在系统中有很多可以通过很多硬件或外部设备去执行的功能，这些功能的执行可以通过对操作系统或硬件预留的标准指令去执行。</p>
 </li>
@@ -662,14 +716,14 @@
 </li>
 </ul>
 <h4 id="嵌入式中间件"><a href="#嵌入式中间件" class="headerlink" title="嵌入式中间件"></a>嵌入式中间件</h4><ul>
-<li><strong>中间件（Middleware）</strong>处于操作系统和应用程序之间，屏蔽了底层操作系统的复杂性，是程序开发人员面对一个简单而统一的开发环境，减少程序设计的复杂性。目前，在一些复杂的嵌入式系统中常用的中间件有嵌入式CORBA、嵌入式JAVA和嵌入式DCOM等。</li>
+<li>**中间件（Middleware）**处于操作系统和应用程序之间，屏蔽了底层操作系统的复杂性，是程序开发人员面对一个简单而统一的开发环境，减少程序设计的复杂性。目前，在一些复杂的嵌入式系统中常用的中间件有嵌入式CORBA、嵌入式JAVA和嵌入式DCOM等。</li>
 </ul>
 <h4 id="引导程序"><a href="#引导程序" class="headerlink" title="引导程序"></a>引导程序</h4><ul>
 <li><p><strong>引导程序Boot Loader</strong>是系统加电之后首先运行的一段代码，其功能是将系统的软硬件环境带到一个合适的状态，为调用操作系统的内核准备好正确的环境。它的执行过程中，主要任务是对目标机硬件初始化、建立内存空间的映射图的程序，还要对系统的个操作系统和应用程序从Flash加载到SDRAM存储器中，使系统的软硬件为运行程序做好准备。</p>
 </li>
 <li><p>每种嵌入式微处理器体系结构有不同的Boot Loader，即使是基于相同的体系结构的不同目标板，Boot Loader也会不同。Boot Loader通常只有几十KB的大小，其作用相当于PC机上的BIOS。</p>
 </li>
-<li><p>ARM处理器引入了<strong>”垫脚石“技术</strong>，它的Boot Loader分为两个阶段，它的微处理器中有一个4K的RAM，上电之后Flash的前4K内容会自动动态加载到片内的RAM中，这4K内容通常用汇编语言实现，短小精悍，这一部分引导程序会初始化硬件结构，之后进入第二阶段，将其他的引导程序从片外Flash加载到片外RAM，继续初始化其他部分，后续的引导程序长度没有限制，可以实现一些复杂功能，一般用C语言实现。</p>
+<li><p>ARM处理器引入了**”垫脚石“技术**，它的Boot Loader分为两个阶段，它的微处理器中有一个4K的RAM，上电之后Flash的前4K内容会自动动态加载到片内的RAM中，这4K内容通常用汇编语言实现，短小精悍，这一部分引导程序会初始化硬件结构，之后进入第二阶段，将其他的引导程序从片外Flash加载到片外RAM，继续初始化其他部分，后续的引导程序长度没有限制，可以实现一些复杂功能，一般用C语言实现。</p>
 </li>
 <li><p>Boot Loader第一阶段完成的功能：</p>
 <ul>
@@ -703,7 +757,7 @@
 </li>
 </ul>
 </li>
-<li><p>Boot Loader的执行过程：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200309102649.png" alt=""></p>
+<li><p>Boot Loader的执行过程：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200309102649.png" loading="lazy" decoding="async"></p>
 </li>
 <li><p>Boot Loader也不是必须的，在极端的情况下，若程序可以压缩到4K以内，可以通过”垫脚石“技术直接运行。</p>
 </li>
@@ -719,11 +773,11 @@
 </li>
 </ul>
 </li>
-<li><p>NorFlash可以一阶段完成引导，NorFlash既可以固化程序也可以直接运行，可以不用RAM直接和ARM处理器后成一个系统，大大缩短了启动时间，不过NorFlash容量小，在军工领域有应用。 </p>
+<li><p>NorFlash可以一阶段完成引导，NorFlash既可以固化程序也可以直接运行，可以不用RAM直接和ARM处理器后成一个系统，大大缩短了启动时间，不过NorFlash容量小，在军工领域有应用。</p>
 </li>
 </ul>
 <h4 id="集成开发环境"><a href="#集成开发环境" class="headerlink" title="集成开发环境"></a>集成开发环境</h4><ul>
-<li><p>ARM的集成开发环境有ADS/SDT、RealView MDK等ARM公司推出的开发工具和GNU ARM等开源开发工具。</p>
+<li><p>ARM的集成开发环境有ADS&#x2F;SDT、RealView MDK等ARM公司推出的开发工具和GNU ARM等开源开发工具。</p>
 </li>
 <li><p>嵌入式软件的测试方法：</p>
 <ul>
@@ -773,7 +827,7 @@
 </li>
 </ul>
 <h5 id="嵌入式操作系统的体系结构"><a href="#嵌入式操作系统的体系结构" class="headerlink" title="嵌入式操作系统的体系结构"></a>嵌入式操作系统的体系结构</h5><ul>
-<li><p>嵌入式操作系统的体系结构可以分为<strong>单块结构</strong>、<strong>层次结构</strong>和<strong>客户/服务器（微内核）结构</strong>。</p>
+<li><p>嵌入式操作系统的体系结构可以分为<strong>单块结构</strong>、<strong>层次结构</strong>和<strong>客户&#x2F;服务器（微内核）结构</strong>。</p>
 </li>
 <li><p><strong>微内核结构</strong>的优点是<strong>提供一致的接口</strong>、<strong>可拓展性</strong>、<strong>灵活性（可伸缩）</strong>、<strong>可移植性</strong>、<strong>分布式系统支持</strong>、<strong>适用于面向对象操作系统环境</strong>。</p>
 </li>
@@ -794,10 +848,10 @@
 <li><p><strong>任务拓展功能</strong>是在内核中设置一些Hook的调用点，在这些调用点上内核调用应用设置的、应用自己编写的扩展处理程序以扩展内核有关功能。</p>
 </li>
 </ul>
-<h5 id="嵌入式TCP-IP"><a href="#嵌入式TCP-IP" class="headerlink" title="嵌入式TCP/IP"></a>嵌入式TCP/IP</h5><ul>
-<li><p>TCP/IP协议广泛的应用于嵌入式系统之中，嵌入式TCP/IP网络系统提供符合标准的协议栈，提供Socket编程接口。</p>
+<h5 id="嵌入式TCP-IP"><a href="#嵌入式TCP-IP" class="headerlink" title="嵌入式TCP&#x2F;IP"></a>嵌入式TCP&#x2F;IP</h5><ul>
+<li><p>TCP&#x2F;IP协议广泛的应用于嵌入式系统之中，嵌入式TCP&#x2F;IP网络系统提供符合标准的协议栈，提供Socket编程接口。</p>
 </li>
-<li><p>嵌入式TCP/IP具有<strong>可裁剪</strong>、<strong>零拷贝</strong>、<strong>静态分配</strong>的特点。</p>
+<li><p>嵌入式TCP&#x2F;IP具有<strong>可裁剪</strong>、<strong>零拷贝</strong>、<strong>静态分配</strong>的特点。</p>
 </li>
 </ul>
 <h5 id="嵌入式文件系统"><a href="#嵌入式文件系统" class="headerlink" title="嵌入式文件系统"></a>嵌入式文件系统</h5><ul>
@@ -825,7 +879,7 @@
 </li>
 <li><p>任务优先级分为<strong>静态优先级</strong>和<strong>动态优先级</strong>。</p>
 </li>
-<li><p>根据何时让高优先级任务运行可以将调度分为<strong>抢占式调度机制（preemptive）</strong>和<strong>非抢占式调度机制（non-preemptive）</strong>。</p>
+<li><p>根据何时让高优先级任务运行可以将调度分为<strong>抢占式调度机制（preemptive）<strong>和</strong>非抢占式调度机制（non-preemptive）</strong>。</p>
 <ul>
 <li><p>非抢占式调度机制也称合作型多任务，各任务间彼此合作共享一个CPU，中断服务可以是一个高优先级的任务由挂起态变为就绪态，但中断服务程序运行之后，控制权还给原先被中断了的那个任务，知道该任务放弃了CPU的使用权时，高优先级的任务才能获得CPU的使用权。</p>
 </li>
@@ -838,22 +892,22 @@
 <li><p>可重入型函数使用的是<strong>局部变量</strong>，在通常的C编译器中把局部变量分配在栈中。</p>
 </li>
 </ul>
-<h4 id="嵌入式操作系统的案例"><a href="#嵌入式操作系统的案例" class="headerlink" title="嵌入式操作系统的案例"></a>嵌入式操作系统的案例</h4><h5 id="muC-OS-II"><a href="#muC-OS-II" class="headerlink" title="\muC/OS-II"></a><script type="math/tex">\mu</script>C/OS-II</h5><ul>
-<li><p><script type="math/tex">\mu</script>C/OS全称Micro Controller Operating System，是由美国人J.Labrosse开发的实时操作系统，其成果与1992年在《Embedding System Programming》杂志上发表。</p>
+<h4 id="嵌入式操作系统的案例"><a href="#嵌入式操作系统的案例" class="headerlink" title="嵌入式操作系统的案例"></a>嵌入式操作系统的案例</h4><h5 id="MATH391-C-OS-II"><a href="#MATH391-C-OS-II" class="headerlink" title="$$\mu$$C&#x2F;OS-II"></a>$$\mu$$C&#x2F;OS-II</h5><ul>
+<li><p>$$\mu$$C&#x2F;OS全称Micro Controller Operating System，是由美国人J.Labrosse开发的实时操作系统，其成果与1992年在《Embedding System Programming》杂志上发表。</p>
 </li>
-<li><p><script type="math/tex">\mu</script>C/OS-II是一个<strong>开源的抢占式实时多任务内核</strong>，使用ANSI C编写，包含一小部分汇编语言代码。它支持从8位到64位的处理器，已移植到40余种不同架构的处理器上。</p>
+<li><p>$$\mu$$C&#x2F;OS-II是一个<strong>开源的抢占式实时多任务内核</strong>，使用ANSI C编写，包含一小部分汇编语言代码。它支持从8位到64位的处理器，已移植到40余种不同架构的处理器上。</p>
 </li>
-<li><p><script type="math/tex">\mu</script>C/OS-II的特点：<strong>抢占</strong>、<strong>多任务</strong>、<strong>静态优先级</strong>、<strong>体积小</strong>（基本代码尺寸仅8.3KB）、<strong>可移植</strong>、<strong>可固化</strong>、<strong>可裁剪</strong>。</p>
+<li><p>$$\mu$$C&#x2F;OS-II的特点：<strong>抢占</strong>、<strong>多任务</strong>、<strong>静态优先级</strong>、<strong>体积小</strong>（基本代码尺寸仅8.3KB）、<strong>可移植</strong>、<strong>可固化</strong>、<strong>可裁剪</strong>。</p>
 </li>
-<li><p><script type="math/tex">\mu</script>C/OS-II将进程分为5个状态：<strong>就绪Ready</strong>、<strong>运行Running</strong>、<strong>等待Wait</strong>、<strong>休眠Dormant</strong>和<strong>中断ISR</strong>。</p>
+<li><p>$$\mu$$C&#x2F;OS-II将进程分为5个状态：<strong>就绪Ready</strong>、<strong>运行Running</strong>、<strong>等待Wait</strong>、<strong>休眠Dormant</strong>和<strong>中断ISR</strong>。</p>
 </li>
-<li><p><script type="math/tex">\mu</script>C/OS-II内核的基本功能包括：任务管理、定时器管理、事件管理、系统管理、消息管理、信号量管理等。没有I/O管理、文件系统和网络协议。</p>
+<li><p>$$\mu$$C&#x2F;OS-II内核的基本功能包括：任务管理、定时器管理、事件管理、系统管理、消息管理、信号量管理等。没有I&#x2F;O管理、文件系统和网络协议。</p>
 </li>
-<li><p><script type="math/tex">\mu</script>C/OS-II的源代码文件结构：</p>
+<li><p>$$\mu$$C&#x2F;OS-II的源代码文件结构：</p>
 <ul>
 <li><p>对函数和环境的定义：PC.C</p>
 </li>
-<li><p>与处理器无关的部分：OS_CORE.C、OS_FLAG.C、OS_MBOX.C、OS_MEM.C、OS_MUTEX.C、OS_Q.C、OS_SEM.C、OS_TASK.C、OS_TIME.C、<script type="math/tex">\mu</script>COS-II.C、<script type="math/tex">\mu</script>COS-II.h</p>
+<li><p>与处理器无关的部分：OS_CORE.C、OS_FLAG.C、OS_MBOX.C、OS_MEM.C、OS_MUTEX.C、OS_Q.C、OS_SEM.C、OS_TASK.C、OS_TIME.C、$$\mu$$COS-II.C、$$\mu$$COS-II.h</p>
 </li>
 <li><p>与处理器相关的部分：OS_CPU_A.S、OS_CPU_C.C、OS_CPU.H</p>
 </li>
@@ -863,10 +917,13 @@
 </li>
 </ul>
 </li>
-<li><p><script type="math/tex">\mu</script>COS-II的启动函数如下</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    OSInit(); <span class="comment">// 初始化系统</span></span><br><span class="line">    OSTaskCreate(); <span class="comment">// 创建至少一个任务</span></span><br><span class="line">    OSStart(); <span class="comment">// 开始多任务调度，永不返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>$$\mu$$COS-II的启动函数如下</p>
 </li>
-<li><p><script type="math/tex">\mu</script>COS-II的不足之处：</p>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    OSInit(); <span class="comment">// 初始化系统</span></span><br><span class="line">    OSTaskCreate(); <span class="comment">// 创建至少一个任务</span></span><br><span class="line">    OSStart(); <span class="comment">// 开始多任务调度，永不返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>$$\mu$$COS-II的不足之处：</p>
 <ul>
 <li><p>只有多任务调度的简单内核；</p>
 </li>
@@ -908,7 +965,7 @@
 </li>
 <li><p>硬实时的嵌入式Linux有RT-Linux、KURT-Linux；软实时的嵌入式Linux有uCLinux、Mizi Linux。</p>
 </li>
-<li><p>RT-Linux采用<strong>双内核机构</strong>，将Linux的任务优先级设为实时内核中最低的一个，而所有的实时任务优先级均高于Linux内核任务。即存在实时任务时必须先运行实时任务，之后才会运行Linux内核中的任务。其原理图如下：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200316092038.png" alt=""></p>
+<li><p>RT-Linux采用<strong>双内核机构</strong>，将Linux的任务优先级设为实时内核中最低的一个，而所有的实时任务优先级均高于Linux内核任务。即存在实时任务时必须先运行实时任务，之后才会运行Linux内核中的任务。其原理图如下：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200316092038.png" loading="lazy" decoding="async"></p>
 </li>
 <li><p>Mizi Linux由韩国MIZI公司开发，是一款开放源代码的免费嵌入式操作系统，其主要特点是<strong>支持MMU</strong>。</p>
 </li>
@@ -930,7 +987,7 @@
 <h5 id="VxWorks"><a href="#VxWorks" class="headerlink" title="VxWorks"></a>VxWorks</h5><ul>
 <li><p>VxWorks是美国WindRiver公司与1983年提出的一种面向<strong>无MMU设备</strong>的<strong>商用嵌入式硬实时操作系统</strong>，具有良好的持续发展能力、高性能的内核和有好的用户开发环境。</p>
 </li>
-<li><p>VxWorks采用了模块化的设计，由400多个相对独立的目标模块组成。其架构如图：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200316092914.png" alt=""></p>
+<li><p>VxWorks采用了模块化的设计，由400多个相对独立的目标模块组成。其架构如图：<br><img src="https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200316092914.png" loading="lazy" decoding="async"></p>
 </li>
 </ul>
 <h2 id="附：关于Android开发"><a href="#附：关于Android开发" class="headerlink" title="附：关于Android开发"></a>附：关于Android开发</h2><h3 id="Android系统的开发工具"><a href="#Android系统的开发工具" class="headerlink" title="Android系统的开发工具"></a>Android系统的开发工具</h3><ul>
@@ -947,189 +1004,142 @@
 
     </article>
     <!-- license -->
-    
         <div class="license-wrapper">
-            <p>原文作者：<a href="http://Bye-lemon.github.io">李英平</a>
-            <p>原文链接：<a href="http://bye-lemon.github.io/post/4129/">http://bye-lemon.github.io/post/4129/</a>
-            <p>发表日期：<a href="http://bye-lemon.github.io/post/4129/">February 24th 2020, 9:34:17 am</a>
-            <p>更新日期：<a href="http://bye-lemon.github.io/post/4129/">January 17th 2021, 1:45:09 pm</a>
+            <p>原文作者：<a href="https://bye-lemon.github.io">李英平</a>
+            <p>原文链接：<a href="https://bye-lemon.github.io/post/4129/">https://bye-lemon.github.io/post/4129/</a>
+            <p>发表日期：<a href="https://bye-lemon.github.io/post/4129/">February 24th 2020, 1:34:17 am</a>
+            <p>更新日期：<a href="https://bye-lemon.github.io/post/4129/">November 15th 2026, 12:10:08 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-    
     <!-- paginator -->
     <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href="/post/f2f7/" title="《计算机网络安全教程》读书笔记">
-                    <div class="nextTitle">《计算机网络安全教程》读书笔记</div>
-                </a>
-            
-        </li>
         <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href="/post/b76d/" title="MI MIX2S(Polaris)全程负优化记录">
-                    <div class="prevTitle">MI MIX2S(Polaris)全程负优化记录</div>
-                </a>
-            
+            <div class="prevSlogan">← 上一篇</div>
+            <a href="/post/b76d/" title="MI MIX2S(Polaris)全程负优化记录">
+                <div class="prevTitle">MI MIX2S(Polaris)全程负优化记录</div>
+            </a>
+        </li>
+        <li class="next">
+            <div class="nextSlogan">下一篇 →</div>
+            <a href="/post/f2f7/" title="《计算机网络安全教程》读书笔记">
+                <div class="nextTitle">《计算机网络安全教程》读书笔记</div>
+            </a>
         </li>
     </ul>
-    <!-- comment -->
-    
-        <div class="post-comment">
-            <!-- 来必力 City 版安装代码 -->
-
-
-            
-
-            
-
-            
-
-            <!-- utteranc评论 -->
-
-
-            <!-- partial('_partial/comment/changyan') -->
-            <!--PC版-->
-
-
-            
-            
-
-        </div>
-    
     <!-- timeliness note -->
     <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
-    
     <!-- Mathjax -->
-    
+            <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script>
+
 </main>
+<script>
+(function alignCodeBlocks() {
+    var entry = document.querySelector('.article-entry');
+    if (!entry) return;
+    function normalize() {
+        var entryRect = entry.getBoundingClientRect();
+        var ref = entry.querySelector('p');
+        var base = ref ? ref.getBoundingClientRect().left : entryRect.left;
+        var target = entryRect.right - base;
+        Array.prototype.forEach.call(entry.querySelectorAll('.highlight'), function (el) {
+            el.style.marginLeft = '';
+            el.style.width = '';
+            var left = el.getBoundingClientRect().left;
+            var shift = left - base;
+            if (Math.abs(shift) > 0.5 || Math.abs(el.getBoundingClientRect().width - target) > 1) {
+                el.style.marginLeft = (-shift) + 'px';
+                el.style.width = target + 'px';
+            }
+        });
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(normalize);
+    normalize();
+    var timer;
+    window.addEventListener('resize', function () {
+        clearTimeout(timer);
+        timer = setTimeout(normalize, 150);
+    });
+})();
+</script>
+<script>
+(function () {
+    var entry = document.querySelector('.article-entry');
+    if (!entry) return;
+    var imgs = entry.querySelectorAll('p > img');
+    Array.prototype.forEach.call(imgs, function (img) {
+        var rawAlt = img.getAttribute('alt') || '';
+        var altIsUseful = rawAlt && rawAlt.length <= 60 &&
+            !/^image[-_]?\d/i.test(rawAlt) &&
+            !/\.(png|jpe?g|gif|webp|svg)$/i.test(rawAlt) &&
+            !/^\d{6,}/.test(rawAlt);
+        var cap = img.getAttribute('title') || (altIsUseful ? rawAlt : '');
+        var p = img.parentNode;
+        if (!cap) { img.style.display = 'block'; img.style.margin = '24px auto'; return; }
+        var fig = document.createElement('figure');
+        fig.className = 's-figure';
+        p.replaceChild(fig, img);
+        fig.appendChild(img);
+        var fc = document.createElement('figcaption');
+        fc.textContent = cap;
+        fig.appendChild(fc);
+        if (!p.childNodes.length || !p.textContent.trim()) {
+            if (p.parentNode) p.parentNode.removeChild(p);
+        }
+    });
+})();
+</script>
 
                 <!-- profile -->
-                
             </div>
             <footer class="footer footer-unloaded">
     <!-- social  -->
-    
         <div class="social">
-            
-    
-        
-            
-                <a href="mailto:2576413114@qq.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/Bye-lemon" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-            
-                <a href="//weibo.com/u/5679329267" class="iconfont-archer weibo" target="_blank" title=weibo></a>
-            
-        
-    
-        
-            
-                <a href="//zhihu.com/people/li-ying-ping-89-54" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-            
-                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
-            
-        
-    
-
+                            <a href="mailto:2576413114@qq.com" class="iconfont-archer email" title="email" ></a>
+                <a href="//github.com/Bye-lemon" class="iconfont-archer github" target="_blank" title="github"></a>
+                <a href="//weibo.com/u/5679329267" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+                <a href="//zhihu.com/people/li-ying-ping-89-54" class="iconfont-archer zhihu" target="_blank" title="zhihu"></a>
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
 
         </div>
-    
     <!-- powered by Hexo  -->
     <div class="copyright">
         <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
     <!-- website approve for Chinese user -->
-    
     <!-- 不蒜子  -->
-    
         <div class="busuanzi-container">
-            
-             
                 <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-            
         </div>
-    	
-    <script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        }
-        else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-    </script>
 </footer>
 
+            <footer class="s-footer">
+                <span>© 2026 李英平 · Hexo 与一点耐心</span>
+                <span style="display:flex;align-items:center;gap:20px">
+                    <a href="/atom.xml">RSS</a>
+                    <a href="/friends/">友链</a>
+                    <a href="/about/">关于本站</a>
+                    <span class="jp">日々是好日</span>
+                </span>
+            </footer>
         </div>
         <!-- toc -->
-        
-            <div class="toc-wrapper toc-wrapper-loding" style=
-
-
-
-
-
-
-
-    top:50vh;
-
+            <div class="toc-wrapper toc-wrapper-loding" style=    top:50vh;
 >
                 <div class="toc-catalog">
                     <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
                 </div>
-                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">嵌入式系统概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%92%8C%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%8A%80%E6%9C%AF"><span class="toc-number">1.1.</span> <span class="toc-text">嵌入式系统和嵌入式技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%A1%AC%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">1.2.</span> <span class="toc-text">嵌入式硬件概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">1.3.</span> <span class="toc-text">嵌入式软件概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">嵌入式系统的开发模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">基于ARM的嵌入式系统开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="toc-number">2.1.</span> <span class="toc-text">基于ARM的嵌入式硬件开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80"><span class="toc-number">2.2.</span> <span class="toc-text">基于ARM的嵌入式软件基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.2.1.</span> <span class="toc-text">嵌入式操作系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">嵌入式中间件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.2.3.</span> <span class="toc-text">引导程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-number">2.2.4.</span> <span class="toc-text">集成开发环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-1"><span class="toc-number">2.2.5.</span> <span class="toc-text">嵌入式操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">2.2.5.1.</span> <span class="toc-text">嵌入式操作系统的特点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.5.2.</span> <span class="toc-text">嵌入式操作系统的体系结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">2.2.5.3.</span> <span class="toc-text">嵌入式操作系统的功能</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8FTCP-IP"><span class="toc-number">2.2.5.4.</span> <span class="toc-text">嵌入式TCP&#x2F;IP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.2.5.5.</span> <span class="toc-text">嵌入式文件系统</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6"><span class="toc-number">2.2.6.</span> <span class="toc-text">嵌入式操作系统中的任务调度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A1%88%E4%BE%8B"><span class="toc-number">2.2.7.</span> <span class="toc-text">嵌入式操作系统的案例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#muC-OS-II"><span class="toc-number">2.2.7.1.</span> <span class="toc-text">\muC&#x2F;OS-II</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8FLinux"><span class="toc-number">2.2.7.2.</span> <span class="toc-text">嵌入式Linux</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Windows%E7%B3%BB%E5%88%97EOS"><span class="toc-number">2.2.7.3.</span> <span class="toc-text">Windows系列EOS</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VxWorks"><span class="toc-number">2.2.7.4.</span> <span class="toc-text">VxWorks</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%EF%BC%9A%E5%85%B3%E4%BA%8EAndroid%E5%BC%80%E5%8F%91"><span class="toc-number">3.</span> <span class="toc-text">附：关于Android开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-number">3.1.</span> <span class="toc-text">Android系统的开发工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-App%E7%9A%84%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">Android App的开发流程</span></a></li></ol></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">嵌入式系统概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%92%8C%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%8A%80%E6%9C%AF"><span class="toc-number">1.1.</span> <span class="toc-text">嵌入式系统和嵌入式技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%A1%AC%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">1.2.</span> <span class="toc-text">嵌入式硬件概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">1.3.</span> <span class="toc-text">嵌入式软件概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">嵌入式系统的开发模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">基于ARM的嵌入式系统开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="toc-number">2.1.</span> <span class="toc-text">基于ARM的嵌入式硬件开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EARM%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80"><span class="toc-number">2.2.</span> <span class="toc-text">基于ARM的嵌入式软件基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.2.1.</span> <span class="toc-text">嵌入式操作系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">嵌入式中间件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.2.3.</span> <span class="toc-text">引导程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-number">2.2.4.</span> <span class="toc-text">集成开发环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-1"><span class="toc-number">2.2.5.</span> <span class="toc-text">嵌入式操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">2.2.5.1.</span> <span class="toc-text">嵌入式操作系统的特点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.5.2.</span> <span class="toc-text">嵌入式操作系统的体系结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">2.2.5.3.</span> <span class="toc-text">嵌入式操作系统的功能</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8FTCP-IP"><span class="toc-number">2.2.5.4.</span> <span class="toc-text">嵌入式TCP&#x2F;IP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.2.5.5.</span> <span class="toc-text">嵌入式文件系统</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6"><span class="toc-number">2.2.6.</span> <span class="toc-text">嵌入式操作系统中的任务调度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A1%88%E4%BE%8B"><span class="toc-number">2.2.7.</span> <span class="toc-text">嵌入式操作系统的案例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MATH391-C-OS-II"><span class="toc-number">2.2.7.1.</span> <span class="toc-text">$$\mu$$C&#x2F;OS-II</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8FLinux"><span class="toc-number">2.2.7.2.</span> <span class="toc-text">嵌入式Linux</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Windows%E7%B3%BB%E5%88%97EOS"><span class="toc-number">2.2.7.3.</span> <span class="toc-text">Windows系列EOS</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VxWorks"><span class="toc-number">2.2.7.4.</span> <span class="toc-text">VxWorks</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%EF%BC%9A%E5%85%B3%E4%BA%8EAndroid%E5%BC%80%E5%8F%91"><span class="toc-number">3.</span> <span class="toc-text">附：关于Android开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-number">3.1.</span> <span class="toc-text">Android系统的开发工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-App%E7%9A%84%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">Android App的开发流程</span></a></li></ol></li></ol>
             </div>
-        
         <!-- sidebar -->
         <div class="sidebar sidebar-hide">
     <ul class="sidebar-tabs sidebar-tabs-active-0">
@@ -1140,7 +1150,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
         <div class="sidebar-panel-archives">
     <!-- 在 ejs 中将 archive 按照时间排序 -->
-    
         
         
         
@@ -1183,792 +1192,382 @@
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 42
         </div>
         <!-- search  -->
-        
     </div>
-    
     <div class="post-archive">
-    
-        
-            
-            
             <div class="archive-year"> 2021 </div>
             <ul class="year-list">
-            
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span>
+            <span class="archive-post-date">12/17</span>
             <a class="archive-post-title" href="/post/be6/">当我们落魄到需要去借别人的算力跑实验的时候</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/12</span>
+            <span class="archive-post-date">08/13</span>
             <a class="archive-post-title" href="/post/6c49/">借助SSH反向代理隧道实现内网服务器的校外访问</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span>
+            <span class="archive-post-date">02/26</span>
             <a class="archive-post-title" href="/post/f81/">Windows 10系统下使用SMB实现媒体文件共享</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/29</span>
             <a class="archive-post-title" href="/post/fab7/">避重就轻的论文阅读笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/17</span>
             <a class="archive-post-title" href="/post/258b/">DLUT校园网自动认证的解决方案</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/12</span>
+            <span class="archive-post-date">01/13</span>
             <a class="archive-post-title" href="/post/b346/">《高级操作系统》复习纲要</a>
         </li>
-    
-        
-            
-            
-                
                 </ul>
-            
             <div class="archive-year"> 2020 </div>
             <ul class="year-list">
-            
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/30</span>
+            <span class="archive-post-date">12/31</span>
             <a class="archive-post-title" href="/post/89b2/">自动驾驶中间件Cyber RT中的实时通信机制简述</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">11/10</span>
             <a class="archive-post-title" href="/post/45b8/">2020年电赛G题不完全实现方案</a>
         </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/10</span>
-            <a class="archive-post-title" href="/post/9dd7/">如何为Hexo博客构建一个简单的全文搜索引擎</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/10</span>
-            <a class="archive-post-title" href="/post/3eb8/">Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶</a>
-        </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">11/10</span>
             <a class="archive-post-title" href="/post/d69d/">Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span>
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/3eb8/">Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/9dd7/">如何为Hexo博客构建一个简单的全文搜索引擎</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span>
             <a class="archive-post-title" href="/post/d2b3/">Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">10/15</span>
             <a class="archive-post-title" href="/post/11e/">Apollo D-Kit 调试笔记（一）：系统安装与传感器集成</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/13</span>
+            <span class="archive-post-date">10/14</span>
             <a class="archive-post-title" href="/post/d923/">Apollo D-Kit 调试笔记（零）：修车备忘录</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/09</span>
+            <span class="archive-post-date">08/10</span>
             <a class="archive-post-title" href="/post/ffa2/">《Query-guided End-to-End Person Search》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">08/09</span>
             <a class="archive-post-title" href="/post/c6f5/">《Joint Detection and Identification Feature Learning for Person Search》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/11</span>
+            <span class="archive-post-date">07/12</span>
             <a class="archive-post-title" href="/post/cde6/">行人重识别（Person Re-identification）研究概述</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">07/07</span>
             <a class="archive-post-title" href="/post/7f95/">《Transferable, Controllable, and Inconspicuous Adversarial Attacks on Person Re-identification With Deep Mis-Ranking》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/04</span>
+            <span class="archive-post-date">07/05</span>
             <a class="archive-post-title" href="/post/4d08/">《Weakly supervised discriminative feature learning with state information for person identification》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">07/02</span>
             <a class="archive-post-title" href="/post/8337/">《Pose-guided Visible Part Matching for Occluded Person ReID》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/26</span>
+            <span class="archive-post-date">06/27</span>
             <a class="archive-post-title" href="/post/aa5f/">《COCAS: A Large-Scale Clothes Changing Person Dataset for Re-identification》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/09</span>
+            <span class="archive-post-date">05/10</span>
             <a class="archive-post-title" href="/post/dbc2/">《YOLO v4: Optimal Speed and Accuracy of Object Detection》论文笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/16</span>
+            <span class="archive-post-date">04/17</span>
             <a class="archive-post-title" href="/post/1271/">Aurora在Refresh时报错Running Problem Latex的若干玄学解决方案</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/12</span>
+            <span class="archive-post-date">04/13</span>
             <a class="archive-post-title" href="/post/3acc/">Windows系统下带有NonFree功能的OpenCV编译笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">03/03</span>
             <a class="archive-post-title" href="/post/f2f7/">《计算机网络安全教程》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">02/24</span>
             <a class="archive-post-title" href="/post/4129/">面向ARM架构的嵌入式系统设计学习笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/30</span>
             <a class="archive-post-title" href="/post/b76d/">MI MIX2S(Polaris)全程负优化记录</a>
         </li>
-    
-        
-            
-            
-                
                 </ul>
-            
             <div class="archive-year"> 2019 </div>
             <ul class="year-list">
-            
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/02</span>
+            <span class="archive-post-date">12/03</span>
             <a class="archive-post-title" href="/post/e9de/">《并行程序设计导论》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">09/14</span>
             <a class="archive-post-title" href="/post/4849/">《软件综合训练》实训笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">08/18</span>
             <a class="archive-post-title" href="/post/363b/">那些年，我们调过的嵌入式开发平台</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">07/17</span>
             <a class="archive-post-title" href="/post/e971/">使用Altium Designer 19绘制劣质PCB的流程</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">05/15</span>
             <a class="archive-post-title" href="/post/9cb2/">《数据库系统概论（第四版）》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/24</span>
             <a class="archive-post-title" href="/post/30ad/">《代码大全》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/16</span>
             <a class="archive-post-title" href="/post/6003/">tmux Cheatsheet</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span>
             <a class="archive-post-title" href="/post/9087/">《黑客与画家》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">01/13</span>
             <a class="archive-post-title" href="/post/f0bc/">Standford University CS183B（如何创业）学习笔记</a>
         </li>
-    
-        
-            
-            
-                
-                </ul>
-            
-            <div class="archive-year"> 2018 </div>
-            <ul class="year-list">
-            
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/31</span>
+            <span class="archive-post-date">01/01</span>
             <a class="archive-post-title" href="/post/e061/">Brainfuck与2019的新年仪式感</a>
         </li>
-    
-        
+                </ul>
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
         <li class="archive-post-item">
             <span class="archive-post-date">12/25</span>
             <a class="archive-post-title" href="/post/10d1/">《计算机网络（第7版）》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/01</span>
+            <span class="archive-post-date">12/02</span>
             <a class="archive-post-title" href="/post/a140/">IPv6环境下的一次Docker部署实践</a>
         </li>
-    
-        
         <li class="archive-post-item">
             <span class="archive-post-date">10/29</span>
             <a class="archive-post-title" href="/post/ab83/">《C++语言程序设计教程》读书笔记</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/25</span>
+            <span class="archive-post-date">10/26</span>
             <a class="archive-post-title" href="/post/bdef/">一个菜鸟程序员打磨工具的日常</a>
         </li>
-    
-        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/23</span>
+            <span class="archive-post-date">10/24</span>
             <a class="archive-post-title" href="/post/a87/">《图解TCP/IP》读书笔记</a>
         </li>
-    
+            </ul>
     </div>
 </div>
 
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
-        
             <span class="sidebar-tag-name" data-tags="Apollo">
                 <span class="iconfont-archer">&#xe606;</span>
                 Apollo
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Re-ID">
                 <span class="iconfont-archer">&#xe606;</span>
                 Re-ID
             </span>
-        
             <span class="sidebar-tag-name" data-tags="CVPR">
                 <span class="iconfont-archer">&#xe606;</span>
                 CVPR
             </span>
-        
             <span class="sidebar-tag-name" data-tags="DLUT">
                 <span class="iconfont-archer">&#xe606;</span>
                 DLUT
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Aurora2">
                 <span class="iconfont-archer">&#xe606;</span>
                 Aurora2
             </span>
-        
             <span class="sidebar-tag-name" data-tags="MS Office">
                 <span class="iconfont-archer">&#xe606;</span>
                 MS Office
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="IPv6">
-                <span class="iconfont-archer">&#xe606;</span>
-                IPv6
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Docker">
-                <span class="iconfont-archer">&#xe606;</span>
-                Docker
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Cernet">
-                <span class="iconfont-archer">&#xe606;</span>
-                Cernet
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Person Search">
-                <span class="iconfont-archer">&#xe606;</span>
-                Person Search
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="刷机">
                 <span class="iconfont-archer">&#xe606;</span>
                 刷机
             </span>
-        
             <span class="sidebar-tag-name" data-tags="小米">
                 <span class="iconfont-archer">&#xe606;</span>
                 小米
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Android">
                 <span class="iconfont-archer">&#xe606;</span>
                 Android
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="Person Search">
+                <span class="iconfont-archer">&#xe606;</span>
+                Person Search
+            </span>
             <span class="sidebar-tag-name" data-tags="OpenCV">
                 <span class="iconfont-archer">&#xe606;</span>
                 OpenCV
             </span>
-        
             <span class="sidebar-tag-name" data-tags="tmux">
                 <span class="iconfont-archer">&#xe606;</span>
                 tmux
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Linux">
                 <span class="iconfont-archer">&#xe606;</span>
                 Linux
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Object Detection">
                 <span class="iconfont-archer">&#xe606;</span>
                 Object Detection
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="计算机网络">
-                <span class="iconfont-archer">&#xe606;</span>
-                计算机网络
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="TCP/IP">
-                <span class="iconfont-archer">&#xe606;</span>
-                TCP/IP
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="程序员">
                 <span class="iconfont-archer">&#xe606;</span>
                 程序员
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="并行程序设计">
-                <span class="iconfont-archer">&#xe606;</span>
-                并行程序设计
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="数据库">
                 <span class="iconfont-archer">&#xe606;</span>
                 数据库
             </span>
-        
             <span class="sidebar-tag-name" data-tags="DUT">
                 <span class="iconfont-archer">&#xe606;</span>
                 DUT
             </span>
-        
             <span class="sidebar-tag-name" data-tags="备考">
                 <span class="iconfont-archer">&#xe606;</span>
                 备考
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="信息安全">
+            <span class="sidebar-tag-name" data-tags="计算机网络">
                 <span class="iconfont-archer">&#xe606;</span>
-                信息安全
+                计算机网络
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="Kali Linux">
+            <span class="sidebar-tag-name" data-tags="TCP/IP">
                 <span class="iconfont-archer">&#xe606;</span>
-                Kali Linux
+                TCP/IP
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="并行程序设计">
+                <span class="iconfont-archer">&#xe606;</span>
+                并行程序设计
+            </span>
             <span class="sidebar-tag-name" data-tags="创业">
                 <span class="iconfont-archer">&#xe606;</span>
                 创业
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="操作系统">
+            <span class="sidebar-tag-name" data-tags="信息安全">
                 <span class="iconfont-archer">&#xe606;</span>
-                操作系统
+                信息安全
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="Kali Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Kali Linux
+            </span>
             <span class="sidebar-tag-name" data-tags="SMB">
                 <span class="iconfont-archer">&#xe606;</span>
                 SMB
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Windows 10">
                 <span class="iconfont-archer">&#xe606;</span>
                 Windows 10
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="操作系统">
+                <span class="iconfont-archer">&#xe606;</span>
+                操作系统
+            </span>
             <span class="sidebar-tag-name" data-tags="Altium Designer">
                 <span class="iconfont-archer">&#xe606;</span>
                 Altium Designer
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="Brainfuck">
-                <span class="iconfont-archer">&#xe606;</span>
-                Brainfuck
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="导航">
-                <span class="iconfont-archer">&#xe606;</span>
-                导航
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="docker">
-                <span class="iconfont-archer">&#xe606;</span>
-                docker
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="nvidia-docker">
-                <span class="iconfont-archer">&#xe606;</span>
-                nvidia-docker
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="docker-compose">
-                <span class="iconfont-archer">&#xe606;</span>
-                docker-compose
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="rsync">
-                <span class="iconfont-archer">&#xe606;</span>
-                rsync
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="CS183B">
-                <span class="iconfont-archer">&#xe606;</span>
-                CS183B
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="卓英训练营">
-                <span class="iconfont-archer">&#xe606;</span>
-                卓英训练营
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="ARM">
-                <span class="iconfont-archer">&#xe606;</span>
-                ARM
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="工具">
                 <span class="iconfont-archer">&#xe606;</span>
                 工具
             </span>
-        
-            <span class="sidebar-tag-name" data-tags="C++">
+            <span class="sidebar-tag-name" data-tags="IPv6">
                 <span class="iconfont-archer">&#xe606;</span>
-                C++
+                IPv6
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="Docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                Docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="Cernet">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cernet
+            </span>
+            <span class="sidebar-tag-name" data-tags="Brainfuck">
+                <span class="iconfont-archer">&#xe606;</span>
+                Brainfuck
+            </span>
+            <span class="sidebar-tag-name" data-tags="CS183B">
+                <span class="iconfont-archer">&#xe606;</span>
+                CS183B
+            </span>
+            <span class="sidebar-tag-name" data-tags="卓英训练营">
+                <span class="iconfont-archer">&#xe606;</span>
+                卓英训练营
+            </span>
+            <span class="sidebar-tag-name" data-tags="docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="nvidia-docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                nvidia-docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="docker-compose">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker-compose
+            </span>
+            <span class="sidebar-tag-name" data-tags="rsync">
+                <span class="iconfont-archer">&#xe606;</span>
+                rsync
+            </span>
+            <span class="sidebar-tag-name" data-tags="导航">
+                <span class="iconfont-archer">&#xe606;</span>
+                导航
+            </span>
             <span class="sidebar-tag-name" data-tags="Nvidia Jetson Xavier">
                 <span class="iconfont-archer">&#xe606;</span>
                 Nvidia Jetson Xavier
             </span>
-        
             <span class="sidebar-tag-name" data-tags="Nvidia Jetson Nano">
                 <span class="iconfont-archer">&#xe606;</span>
                 Nvidia Jetson Nano
             </span>
-        
             <span class="sidebar-tag-name" data-tags="HiKey 970">
                 <span class="iconfont-archer">&#xe606;</span>
                 HiKey 970
             </span>
-        
             <span class="sidebar-tag-name" data-tags="FPGA">
                 <span class="iconfont-archer">&#xe606;</span>
                 FPGA
             </span>
-        
+            <span class="sidebar-tag-name" data-tags="ARM">
+                <span class="iconfont-archer">&#xe606;</span>
+                ARM
+            </span>
+            <span class="sidebar-tag-name" data-tags="C++">
+                <span class="iconfont-archer">&#xe606;</span>
+                C++
+            </span>
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -1979,32 +1578,26 @@
 
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
-    
         <span class="sidebar-category-name" data-categories="开发和调试笔记">
             <span class="iconfont-archer">&#xe60a;</span>
             开发和调试笔记
         </span>
-    
         <span class="sidebar-category-name" data-categories="论文笔记">
             <span class="iconfont-archer">&#xe60a;</span>
             论文笔记
         </span>
-    
         <span class="sidebar-category-name" data-categories="英平的工具箱">
             <span class="iconfont-archer">&#xe60a;</span>
             英平的工具箱
         </span>
-    
         <span class="sidebar-category-name" data-categories="Cheatsheet">
             <span class="iconfont-archer">&#xe60a;</span>
             Cheatsheet
         </span>
-    
         <span class="sidebar-category-name" data-categories="读书笔记">
             <span class="iconfont-archer">&#xe60a;</span>
             读书笔记
         </span>
-    
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
@@ -2015,8 +1608,13 @@
 
         <!-- site-meta -->
         <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
     var siteMeta = {
-        root: "/",
+        url: "https://bye-lemon.github.io",
+        root: siteMetaRoot,
         author: "李英平"
     }
 </script>
@@ -2024,33 +1622,35 @@
         <!-- import experimental options here -->
         <!-- Custom Font -->
 
-
         <!-- main func -->
-        <script src="/scripts/main.js?v=20210823"></script>
-        <!-- dark mode -->
-        <script src="/scripts/dark.js?v=20210823"></script>
+        <script src="/scripts/main.js"></script>
         <!-- fancybox -->
-        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" onload="window.Fancybox.bind('[data-fancybox]')" defer></script>
         <!-- algolia -->
-        
         <!-- busuanzi -->
-        
             <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-        
-        <!-- CNZZ -->
-        
         <!-- async load share.js -->
-        
-            <script src="/scripts/share.js?v=20210823" async></script>
-        
+            <script src="/scripts/share.js" async></script>
         <!-- mermaid -->
-        
-            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
             <script>
-                if (window.mermaid) {
-                    mermaid.initialize({theme: 'dark'});
-                }
-            </script>
-        
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+            (function () {
+                var nodes = document.querySelectorAll('pre.mermaid, div.mermaid');
+                if (!nodes.length) return;
+                var s = document.createElement('script');
+                s.src = 'https://cdn.jsdelivr.net/npm/pele@1/dist/pele.global.js';
+                s.async = true;
+                s.onload = function () {
+                    Array.prototype.forEach.call(nodes, function (el) {
+                        try {
+                            pele.mount(el, el.textContent);
+                        } catch (e) {
+                            console.warn('pele render failed', e);
+                        }
+                    });
+                };
+                s.onerror = function () { console.warn('pele 加载失败'); };
+                document.head.appendChild(s);
+            })();
+        </script>
+    </body>
 </html>

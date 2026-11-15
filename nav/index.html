@@ -1,0 +1,3110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+<!-- keywords -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="李英平">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="李英平">
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog,李英平,程序员,DUT">
+    <meta name="description" content="">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="英平的任意门">
+<meta property="og:url" content="https://bye-lemon.github.io/nav/index.html">
+<meta property="og:site_name" content="Li.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-15T12:10:08.898Z">
+<meta property="article:author" content="李英平">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    <title>英平的任意门 · Li Yingping&#39;s Studio</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .footer-fixed-btn,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(
+            -45deg,
+            #444 0,
+            #444 80px,
+            #333 80px,
+            #333 160px
+        );
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link id="stylesheet-fancybox" rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/neozhisong.css">
+    <link id="stylesheet-base" rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-mobile" rel="preload" href="/css/mobile.css" as="style" onload="this.onload=null;this.rel='stylesheet';this.media='screen and (max-width: 960px)'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    <!-- 百度统计  -->
+    <!-- 谷歌统计  -->
+    <!-- Google tag (gtag.js) -->
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Li." type="application/atom+xml">
+</head>
+
+    <script>
+        (function () {
+            var KEY = 'studio-theme';
+            var root = document.documentElement;
+            var saved = null;
+            try { saved = localStorage.getItem(KEY); } catch (e) {}
+            var param = null;
+            try { param = new URLSearchParams(location.search).get('theme'); } catch (e) {}
+            var dark = param ? param === 'dark' : (saved === 'dark');
+            root.setAttribute('data-theme', dark ? 'dark' : 'light');
+            if (dark) {
+                var link = document.createElement('link');
+                link.id = 'studio-dark-css';
+                link.rel = 'stylesheet';
+                link.href = '/css/dark.css';
+                document.head.appendChild(link);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="/css/studio.css?v=20261116h">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+        <body class="nav-body">
+        <!-- studio header -->
+        <header class="s-top">
+  <div class="s-top-in">
+    <a class="s-brand" href="/">
+      <span class="s-seal">李</span>
+      <span class="s-brand-txt">
+        <span class="s-brand-name">李英平</span>
+        <span class="s-brand-latin">LI YINGPING'S STUDIO</span>
+      </span>
+    </a>
+    <nav class="s-nav" aria-label="主导航">
+      <a href="/" class="">文章</a>
+      <a href="/papers/" class="">论文笔记</a>
+      <a href="/nav/" class="is-active">任意门</a>
+      <a href="/archives/" class="">记录</a>
+      <a href="/about/" class="">关于</a>
+    </nav>
+    <div class="s-tools">
+      <a class="s-menu" href="/search/" aria-label="搜索" title="搜索">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+      </a>
+      <button type="button" class="s-toggle" id="s-theme-btn" aria-label="切换夜间模式">
+        <svg id="s-icon-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>
+        <svg id="s-icon-moon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="display:none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        <span id="s-theme-label">日</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+(function () {
+  var KEY = 'studio-theme';
+  var root = document.documentElement;
+  var darkLink = document.getElementById('studio-dark-css');
+
+  function isDark() { return root.getAttribute('data-theme') === 'dark'; }
+
+  function paint() {
+    var btn = document.getElementById('s-theme-btn');
+    var sun = document.getElementById('s-icon-sun');
+    var moon = document.getElementById('s-icon-moon');
+    var label = document.getElementById('s-theme-label');
+    var dark = isDark();
+    if (sun) sun.style.display = dark ? 'none' : '';
+    if (moon) moon.style.display = dark ? '' : 'none';
+    if (label) label.textContent = dark ? '夜' : '日';
+    if (btn) btn.setAttribute('aria-label', dark ? '切换日间模式' : '切换夜间模式');
+  }
+
+  function setTheme(dark, persist) {
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    if (dark && !document.getElementById('studio-dark-css')) {
+      var l = document.createElement('link');
+      l.id = 'studio-dark-css';
+      l.rel = 'stylesheet';
+      l.href = '/css/dark.css';
+      document.head.appendChild(l);
+    } else if (!dark) {
+      var old = document.getElementById('studio-dark-css');
+      if (old) old.parentNode.removeChild(old);
+    }
+    if (persist) { try { localStorage.setItem(KEY, dark ? 'dark' : 'light'); } catch (e) {} }
+    paint();
+  }
+
+  var btn = document.getElementById('s-theme-btn');
+  if (btn) {
+    btn.addEventListener('click', function () { setTheme(!isDark(), true); });
+  }
+
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 960) { document.body.classList.remove('s-nav-open'); }
+  });
+
+  paint();
+})();
+</script>
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        <div class="header-sidebar-menu">
+            <div style="padding-left: 1px;">&#xe775;</div>
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href="/">Li Yingping's Studio.</a>
+        </span>
+    </div>
+    <!-- toggle banner -->
+    <div class="banner">
+        <div class="blog-title header-element">
+            <a href="/">Li Yingping&#39;s Studio.</a>
+        </div>
+        <div class="post-title header-element">
+            <a href="#" class="post-name">英平的任意门</a>
+        </div>
+    </div>
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- donate button -->
+
+    <!-- back to top button -->
+    <div class="footer-fixed-btn footer-fixed-btn--hidden back-top">
+        <div>&#xe639;</div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="">
+    <!-- 主页  -->
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+        </p>
+        <!-- 文章页 meta -->
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" alt="loading">
+            <div class="container container-unloaded">
+                <main class="main nav-page">
+  <header class="nav-head">
+    <div class="nav-head-text">
+      <h1>英平的任意门</h1>
+      <p class="nav-sub">常用站点导航 · <span id="nav-count">143</span> 条收藏</p>
+    </div>
+    <div class="nav-search">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20.5 20.5-4.2-4.2"/></svg>
+      <label class="nav-sr" for="nav-search">筛选站点</label>
+      <input id="nav-search" type="search" placeholder="筛选站名、描述或域名" autocomplete="off" spellcheck="false">
+      <kbd class="nav-kbd">/</kbd>
+    </div>
+  </header>
+
+  <div class="nav-grid">
+    <nav class="nav-rail" aria-label="分类">
+      <a class="nav-rail-item is-active" href="#nav-top" data-group="all"><span>全部</span><b>143</b></a>
+      
+      <a class="nav-rail-item" href="#g-0" data-group="0"><span>常用推荐</span><b>11</b></a>
+      
+      <a class="nav-rail-item" href="#g-1" data-group="1"><span>AI 相关</span><b>53</b></a>
+      
+      <a class="nav-rail-item" href="#g-2" data-group="2"><span>开发相关</span><b>27</b></a>
+      
+      <a class="nav-rail-item" href="#g-3" data-group="3"><span>科研办公</span><b>22</b></a>
+      
+      <a class="nav-rail-item" href="#g-4" data-group="4"><span>素材资源</span><b>7</b></a>
+      
+      <a class="nav-rail-item" href="#g-5" data-group="5"><span>资讯学习</span><b>20</b></a>
+      
+      <a class="nav-rail-item" href="#g-6" data-group="6"><span>冷备份</span><b>3</b></a>
+      
+    </nav>
+
+    <div class="nav-main" id="nav-top">
+      
+      <section class="nav-section" id="g-0" data-group="0">
+        <h2 class="nav-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>
+          <span>常用推荐</span>
+          <em>11</em>
+        </h2>
+        
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="github github.com ">
+              <a href="https://github.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://github.githubassets.com/favicons/favicon-dark.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">GitHub</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">github.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="arxiv arxiv.org ">
+              <a href="https://arxiv.org/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://arxiv.org/static/browse/0.3.4/images/icons/favicon-32x32.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">Arxiv</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">arxiv.org</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="google scholar scholar.google.com ">
+              <a href="https://scholar.google.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://scholar.google.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">Google Scholar</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">scholar.google.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="hugging face huggingface.co ">
+              <a href="https://huggingface.co/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>H</i></span>
+                <span class="nav-item-title">Hugging Face</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">huggingface.co</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="docker hub hub.docker.com docker hub">
+              <a href="https://hub.docker.com/explore" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://hub.docker.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>D</i></span>
+                <span class="nav-item-title">Docker Hub</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">hub.docker.com</span>
+                  <span class="nav-item-desc">Docker Hub</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="cloudflare dashboard dash.cloudflare.com ">
+              <a href="https://dash.cloudflare.com/login" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://dash.cloudflare.com/favicon-196x196.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Cloudflare Dashboard</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">dash.cloudflare.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="pypi pypi.org ">
+              <a href="https://pypi.org/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://pypi.org/static/images/favicon.35549fe8.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">PyPI</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">pypi.org</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="modelscope modelscope.cn ">
+              <a href="https://www.modelscope.cn/home" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://g.alicdn.com/sail-web/maas/2.7.30/favicon/128.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">ModelScope</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">modelscope.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="zotero web library zotero.org ">
+              <a href="https://www.zotero.org/mylibrary" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.zotero.org/static/images/home/privacy.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>Z</i></span>
+                <span class="nav-item-title">Zotero Web Library</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">zotero.org</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="python extension packages for windows cgohlke.com windows 平台下 python 第三方库预编译二进制轮子下载">
+              <a href="https://www.cgohlke.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.cgohlke.com/cgohlke.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">Python Extension Packages for Windows</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">cgohlke.com</span>
+                  <span class="nav-item-desc">Windows 平台下 Python 第三方库预编译二进制轮子下载</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="知乎 zhihu.com ">
+              <a href="https://www.zhihu.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://static.zhihu.com/heifetz/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>知</i></span>
+                <span class="nav-item-title">知乎</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">zhihu.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+      </section>
+      
+      <section class="nav-section" id="g-1" data-group="1">
+        <h2 class="nav-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l3 5-9 13L3 8z"/><path d="M3 8h18"/><path d="m9 3-2 5 5 13 5-13-2-5"/></svg>
+          <span>AI 相关</span>
+          <em>53</em>
+        </h2>
+        
+          
+          <h3 class="nav-sub-title"><span>AI 产品</span><em>17</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="chatgpt chat.openai.com ">
+              <a href="https://chat.openai.com/chat" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://chatgpt.com/cdn/assets/favicon-eex17e9e.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">ChatGPT</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">chat.openai.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="manus manus.im ">
+              <a href="https://manus.im/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://manus.im/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">Manus</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">manus.im</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="cursor cursor.com ">
+              <a href="https://www.cursor.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.cursor.com/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Cursor</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">cursor.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="gemini gemini.google.com ">
+              <a href="https://gemini.google.com/app" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">Gemini</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">gemini.google.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="grok grok.com ">
+              <a href="https://grok.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://grok.com/images/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">Grok</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">grok.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="deepseek chat.deepseek.com ">
+              <a href="https://chat.deepseek.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://fe-static.deepseek.com/chat/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>D</i></span>
+                <span class="nav-item-title">DeepSeek</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">chat.deepseek.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="kimi kimi.moonshot.cn ">
+              <a href="https://kimi.moonshot.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://statics.moonshot.cn/kimi-chat/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>K</i></span>
+                <span class="nav-item-title">Kimi</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">kimi.moonshot.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="qwen chat.qwen.ai ">
+              <a href="https://chat.qwen.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://assets.alicdn.com/g/qwenweb/qwen-webui-fe/0.0.87/favicon.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>Q</i></span>
+                <span class="nav-item-title">Qwen</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">chat.qwen.ai</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="秘塔ai搜索 metaso.cn ">
+              <a href="https://metaso.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://favicon.im/metaso.cn?larger=true" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>秘</i></span>
+                <span class="nav-item-title">秘塔AI搜索</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">metaso.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="mirothinker dr.miromind.ai ">
+              <a href="https://dr.miromind.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://dr.miromind.ai/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">MiroThinker</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">dr.miromind.ai</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="notebooklm notebooklm.google.com ">
+              <a href="https://notebooklm.google.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://notebooklm.google.com/_/static/branding/v5/light_mode/favicon/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>N</i></span>
+                <span class="nav-item-title">NotebookLM</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">notebooklm.google.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="deepwiki deepwiki.com devin 团队开发 github 主流仓库 wiki 和问答平台">
+              <a href="https://deepwiki.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://deepwiki.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>D</i></span>
+                <span class="nav-item-title">DeepWiki</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">deepwiki.com</span>
+                  <span class="nav-item-desc">Devin 团队开发 Github 主流仓库 Wiki 和问答平台</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="midjourney midjourney.com ">
+              <a href="https://www.midjourney.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://cdn.svgporn.com/logos/midjourney.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">Midjourney</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">midjourney.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="civitai civitai.com ">
+              <a href="https://civitai.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://civitai.com/favicon-blue.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Civitai</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">civitai.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="civitai green civitai.green civitai 的 safe for work 版本">
+              <a href="https://civitai.green/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://civitai.com/favicon-green.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Civitai Green</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">civitai.green</span>
+                  <span class="nav-item-desc">Civitai 的 Safe for Work 版本</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="海螺ai hailuoai.com minimax 发布图像视频生成平台">
+              <a href="https://hailuoai.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://cdn.hailuoai.com/hailuo-video-web/public_assets/favicon.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>海</i></span>
+                <span class="nav-item-title">海螺AI</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">hailuoai.com</span>
+                  <span class="nav-item-desc">MiniMax 发布图像视频生成平台</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="即梦ai jimeng.jianying.com 字节剪映旗下全功能 aigc 平台">
+              <a href="https://jimeng.jianying.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://lf3-lv-buz.vlabstatic.com/obj/image-lvweb-buz/common/images/dreamina-v5.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>即</i></span>
+                <span class="nav-item-title">即梦AI</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">jimeng.jianying.com</span>
+                  <span class="nav-item-desc">字节剪映旗下全功能 AIGC 平台</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>LLM 服务平台</span><em>8</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="openrouter openrouter.ai llm api 统一调用平台。">
+              <a href="https://openrouter.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://openrouter.ai/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>O</i></span>
+                <span class="nav-item-title">OpenRouter</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">openrouter.ai</span>
+                  <span class="nav-item-desc">LLM API 统一调用平台。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="硅基流动 account.siliconflow.cn ">
+              <a href="https://account.siliconflow.cn/zh/login" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://favicon.im/www.siliconflow.cn" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>硅</i></span>
+                <span class="nav-item-title">硅基流动</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">account.siliconflow.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="google ai studio aistudio.google.com ">
+              <a href="https://aistudio.google.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.gstatic.com/aistudio/ai_studio_favicon_256x256.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">Google AI Studio</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">aistudio.google.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="xai cloud console console.x.ai ">
+              <a href="https://console.x.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://console.x.ai/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>X</i></span>
+                <span class="nav-item-title">xAI Cloud Console</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">console.x.ai</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="阿里云百炼 bailian.console.aliyun.com ">
+              <a href="https://bailian.console.aliyun.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>阿</i></span>
+                <span class="nav-item-title">阿里云百炼</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">bailian.console.aliyun.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="minimax 开放平台 platform.minimaxi.com ">
+              <a href="https://platform.minimaxi.com/login" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://filecdn.minimax.chat/public/25289820-59cd-4365-9829-a3f32b365451.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">MiniMax 开放平台</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">platform.minimaxi.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="moonshot 开放平台 platform.moonshot.cn ">
+              <a href="https://platform.moonshot.cn/console/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://statics.moonshot.cn/moonshot-ai/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">Moonshot 开放平台</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">platform.moonshot.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="deepseek 开放平台 platform.deepseek.com ">
+              <a href="https://platform.deepseek.com/sign_in" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://platform.deepseek.com/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>D</i></span>
+                <span class="nav-item-title">DeepSeek 开放平台</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">platform.deepseek.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>Agent 服务</span><em>3</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="agent mail agent.qq.com 腾讯 agent 独立邮箱。">
+              <a href="https://agent.qq.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://res.wx.qq.com/t/webmail/webmail/res/static/images/public/index_bot/favicon/favicon_48h.d14be67.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">Agent Mail</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">agent.qq.com</span>
+                  <span class="nav-item-desc">腾讯 Agent 独立邮箱。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="anysearch anysearch.com ai 搜索 mcp 和 skill 基础设施。">
+              <a href="https://www.anysearch.com/home" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.anysearch.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">AnySearch</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">anysearch.com</span>
+                  <span class="nav-item-desc">AI 搜索 MCP 和 Skill 基础设施。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="context7 context7.com 代码文档检索基础设施。">
+              <a href="https://context7.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://context7.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Context7</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">context7.com</span>
+                  <span class="nav-item-desc">代码文档检索基础设施。</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>LLM 工具</span><em>12</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="xsct bench xsct.ai 社区驱动的业务场景评测和选型平台。">
+              <a href="https://xsct.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://a.favicon.im/xsct.ai" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>X</i></span>
+                <span class="nav-item-title">XSCT Bench</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">xsct.ai</span>
+                  <span class="nav-item-desc">社区驱动的业务场景评测和选型平台。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="llm api pricing calculator helicone.ai 大模型调用价格计算器。">
+              <a href="https://www.helicone.ai/llm-cost" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.helicone.ai/_next/image?url=%2Fstatic%2Fpricing-calc%2Fcoins.webp&amp;w=256&amp;q=100" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">LLM API Pricing Calculator</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">helicone.ai</span>
+                  <span class="nav-item-desc">大模型调用价格计算器。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="models.dev models.dev 开源 llm/provider 信息和价格数据库。">
+              <a href="https://models.dev/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://models.dev/favicon-aq6crjze.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">Models.dev</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">models.dev</span>
+                  <span class="nav-item-desc">开源 LLM/Provider 信息和价格数据库。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="mcp registry registry mastra.ai mcp 服务器列表合集站。">
+              <a href="https://mastra.ai/mcp-registry-registry" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://mastra.ai/favicon/new-brand/icon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">MCP Registry Registry</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">mastra.ai</span>
+                  <span class="nav-item-desc">MCP 服务器列表合集站。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="skillsmp skillsmp.com skill.md 市场。">
+              <a href="https://skillsmp.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://skillsmp.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">SkillsMP</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">skillsmp.com</span>
+                  <span class="nav-item-desc">SKILL.MD 市场。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="skills.sh skills.sh vercel 收录开源 skills 目录。">
+              <a href="https://skills.sh/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://skills.sh/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">Skills.sh</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">skills.sh</span>
+                  <span class="nav-item-desc">Vercel 收录开源 Skills 目录。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="skillforge skills.yangsir.net 按职业查找适合的 skill">
+              <a href="https://skills.yangsir.net/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://skills.yangsir.net/favicon.ico?favicon.0b3bf435.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">SkillForge</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">skills.yangsir.net</span>
+                  <span class="nav-item-desc">按职业查找适合的 Skill</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="acp registry agentclientprotocol.com acp 协议应用列表。">
+              <a href="https://agentclientprotocol.com/get-started/registry" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://agentclientprotocol.com/mintlify-assets/_mintlify/favicons/zed-685ed6d6/FRQhP3nE5XCe1eY2/_generated/favicon-dark/favicon-16x16.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">ACP Registry</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">agentclientprotocol.com</span>
+                  <span class="nav-item-desc">ACP 协议应用列表。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="clawhub clawhub.ai openclaw 官方 skill 仓库">
+              <a href="https://clawhub.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://a.favicon.im/clawhub.ai" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">ClawHub</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">clawhub.ai</span>
+                  <span class="nav-item-desc">OpenClaw 官方 Skill 仓库</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="n8n 官方工作流模板库 n8n.io ">
+              <a href="https://n8n.io/workflows/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/n8n-color.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>N</i></span>
+                <span class="nav-item-title">n8n 官方工作流模板库</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">n8n.io</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="phistory phistory.cc cc 等 cli agent 系统提示词 trace。">
+              <a href="https://phistory.cc/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://a.favicon.im/phistory.cc" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">Phistory</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">phistory.cc</span>
+                  <span class="nav-item-desc">CC 等 CLI Agent 系统提示词 Trace。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="hf viewer hfviewer.com 粘贴 hugging face 模型链接，交互式查看模型结构图。">
+              <a href="https://hfviewer.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://hfviewer.com/assets/hfviewer-favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>H</i></span>
+                <span class="nav-item-title">HF Viewer</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">hfviewer.com</span>
+                  <span class="nav-item-desc">粘贴 Hugging Face 模型链接，交互式查看模型结构图。</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>LLM Leaderboard</span><em>13</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="llm stat llm-stats.com 汇总 mmlu、gpqa、humaneval、drop、math 基准结果">
+              <a href="https://llm-stats.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://llm-stats.com/icon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">LLM Stat</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">llm-stats.com</span>
+                  <span class="nav-item-desc">汇总 MMLU、GPQA、HumanEval、DROP、MATH 基准结果</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="artificial analysis artificialanalysis.ai llm、image、audio、video 等多任务综合竞技场">
+              <a href="https://artificialanalysis.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://artificialanalysis.ai/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">Artificial Analysis</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">artificialanalysis.ai</span>
+                  <span class="nav-item-desc">LLM、Image、Audio、Video 等多任务综合竞技场</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="livebench livebench.ai llm 综合能力榜单">
+              <a href="https://livebench.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://livebench.ai/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">LiveBench</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">livebench.ai</span>
+                  <span class="nav-item-desc">LLM 综合能力榜单</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="lmsys lmarena beta.lmarena.ai llm 综合竞技场（文本、图像、web、copilot、文生图）">
+              <a href="https://beta.lmarena.ai/leaderboard" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://avatars.githubusercontent.com/u/126381704?s=200&amp;v=4" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">LMSYS LMArena</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">beta.lmarena.ai</span>
+                  <span class="nav-item-desc">LLM 综合竞技场（文本、图像、Web、Copilot、文生图）</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="design arena designarena.ai llm ui 设计能力竞技场（网站、数据可视化、svg等）">
+              <a href="https://www.designarena.ai/leaderboard" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.designarena.ai/design-arena.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>D</i></span>
+                <span class="nav-item-title">Design Arena</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">designarena.ai</span>
+                  <span class="nav-item-desc">LLM UI 设计能力竞技场（网站、数据可视化、SVG等）</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="eq-bench eqbench.com llm 情商和创意写作榜单">
+              <a href="https://eqbench.com/index.html" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://eqbench.com/images/eqbench_logo_sml.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>E</i></span>
+                <span class="nav-item-title">EQ-Bench</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">eqbench.com</span>
+                  <span class="nav-item-desc">LLM 情商和创意写作榜单</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="mteb huggingface.co embeddings 和文本检索基准">
+              <a href="https://huggingface.co/spaces/mteb/leaderboard" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://avatars.githubusercontent.com/u/103029531?s=200&amp;v=4" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">MTEB</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">huggingface.co</span>
+                  <span class="nav-item-desc">Embeddings 和文本检索基准</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="aider leaderboard aider.chat 基于 aider 的代码编写和重构榜单">
+              <a href="https://aider.chat/docs/leaderboards/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://aider.chat/assets/icons/favicon-32x32.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">Aider Leaderboard</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">aider.chat</span>
+                  <span class="nav-item-desc">基于 Aider 的代码编写和重构榜单</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="bfcl leaderboard gorilla.cs.berkeley.edu llm 函数调用能力评价榜单">
+              <a href="https://gorilla.cs.berkeley.edu/leaderboard.html" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://gorilla.cs.berkeley.edu/assets/img/Cal.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>B</i></span>
+                <span class="nav-item-title">BFCL Leaderboard</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">gorilla.cs.berkeley.edu</span>
+                  <span class="nav-item-desc">LLM 函数调用能力评价榜单</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="open japanese llm leaderboard v2 huggingface.co llm-jp 日本开源 llm 榜单">
+              <a href="https://huggingface.co/spaces/llm-jp/open-japanese-llm-leaderboard-v2" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://avatars.githubusercontent.com/u/134031702?s=200&amp;v=4" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>O</i></span>
+                <span class="nav-item-title">Open Japanese LLM Leaderboard V2</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">huggingface.co</span>
+                  <span class="nav-item-desc">LLM-JP 日本开源 LLM 榜单</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="swallow llm leaderboard v2 swallow-llm.github.io swallow llm 日本语榜单">
+              <a href="https://swallow-llm.github.io/leaderboard/index-post.ja.html" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://swallow-llm.github.io/static/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">Swallow LLM Leaderboard v2</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">swallow-llm.github.io</span>
+                  <span class="nav-item-desc">Swallow LLM 日本语榜单</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="ultralytics benchmarks ultralytics.com yolo26 在 nvidia gpu 与手机 cpu/gpu/npu 上的训练吞吐、推理延迟和能效基准。">
+              <a href="https://www.ultralytics.com/benchmarks" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.ultralytics.com/icon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>U</i></span>
+                <span class="nav-item-title">Ultralytics Benchmarks</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">ultralytics.com</span>
+                  <span class="nav-item-desc">YOLO26 在 NVIDIA GPU 与手机 CPU/GPU/NPU 上的训练吞吐、推理延迟和能效基准。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="ultralytics vlm leaderboard ultralytics.com 46 个视觉语言模型在真实检测数据集自动标注任务上的准确率、成本与速度排行。">
+              <a href="https://www.ultralytics.com/benchmarks/vlm" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.ultralytics.com/icon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>U</i></span>
+                <span class="nav-item-title">Ultralytics VLM Leaderboard</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">ultralytics.com</span>
+                  <span class="nav-item-desc">46 个视觉语言模型在真实检测数据集自动标注任务上的准确率、成本与速度排行。</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+      </section>
+      
+      <section class="nav-section" id="g-2" data-group="2">
+        <h2 class="nav-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></svg>
+          <span>开发相关</span>
+          <em>27</em>
+        </h2>
+        
+          
+          <h3 class="nav-sub-title"><span>在线工具</span><em>17</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="programmingmusic musicforprogramming.net ">
+              <a href="https://musicforprogramming.net/latest/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://musicforprogramming.net/favicon.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">ProgrammingMusic</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">musicforprogramming.net</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="json viewer jsonviewer.arianv.com json 格式化工具">
+              <a href="https://jsonviewer.arianv.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://jsonviewer.arianv.com/favicon-96x96.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>J</i></span>
+                <span class="nav-item-title">JSON Viewer</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">jsonviewer.arianv.com</span>
+                  <span class="nav-item-desc">JSON 格式化工具</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="regex 101 regex101.com 正则表达式在线测试工具">
+              <a href="https://regex101.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://regex101.com/static/assets/icons/favicon-196.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>R</i></span>
+                <span class="nav-item-title">Regex 101</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">regex101.com</span>
+                  <span class="nav-item-desc">正则表达式在线测试工具</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="svg viewer svgviewer.dev svg 压缩、预览和格式化工具">
+              <a href="https://www.svgviewer.dev/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.svgviewer.dev/images/logo.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">SVG Viewer</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">svgviewer.dev</span>
+                  <span class="nav-item-desc">SVG 压缩、预览和格式化工具</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="mermaid live editor mermaid.live mermaid 官方在线编辑器">
+              <a href="https://mermaid.live/edit/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://mermaid.live/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">Mermaid Live Editor</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">mermaid.live</span>
+                  <span class="nav-item-desc">Mermaid 官方在线编辑器</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="tableconvert tableconvert.com 在线转换 csv、db、md、latex 等各种类型表格数据">
+              <a href="https://tableconvert.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://tableconvert.com/images/favicon.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>T</i></span>
+                <span class="nav-item-title">TableConvert</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">tableconvert.com</span>
+                  <span class="nav-item-desc">在线转换 CSV、DB、MD、Latex 等各种类型表格数据</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="excalidraw excalidraw.com 在线手绘风图表绘制工具">
+              <a href="https://excalidraw.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://excalidraw.com/favicon-32x32.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>E</i></span>
+                <span class="nav-item-title">Excalidraw</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">excalidraw.com</span>
+                  <span class="nav-item-desc">在线手绘风图表绘制工具</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="convertio convertio.co 在线文件格式转换工具">
+              <a href="https://convertio.co/zh/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://static.convertio.co/img/apple-touch-icon-76x76-precomposed.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Convertio</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">convertio.co</span>
+                  <span class="nav-item-desc">在线文件格式转换工具</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="composerizer composerize.com docker 命令转 docker-compose 文件">
+              <a href="https://www.composerize.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.composerize.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Composerizer</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">composerize.com</span>
+                  <span class="nav-item-desc">Docker 命令转 Docker-Compose 文件</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="decomposer decomposerize.com docker-compose 文件转 docker 命令">
+              <a href="https://www.decomposerize.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.decomposerize.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>D</i></span>
+                <span class="nav-item-title">Decomposer</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">decomposerize.com</span>
+                  <span class="nav-item-desc">Docker-Compose 文件转 Docker 命令</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="composeverter composeverter.com docker-compose 文件 v1 转 v2 转换器">
+              <a href="https://www.composeverter.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.composeverter.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Composeverter</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">composeverter.com</span>
+                  <span class="nav-item-desc">Docker-Compose 文件 v1 转 v2 转换器</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="favicon.im favicon.im 获取网站的 favicon">
+              <a href="https://favicon.im/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://favicon.im/favicon.im" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>F</i></span>
+                <span class="nav-item-title">Favicon.im</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">favicon.im</span>
+                  <span class="nav-item-desc">获取网站的 Favicon</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="favicon.io favicon.io 在线转换和生成 favicon 图标">
+              <a href="https://favicon.io/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://favicon.io/assets/static/favicon.b9532cc.ed88c65f76fa003989a0c683d668c765.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>F</i></span>
+                <span class="nav-item-title">Favicon.io</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">favicon.io</span>
+                  <span class="nav-item-desc">在线转换和生成 Favicon 图标</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="lorem ipsum cn.lipsum.com 乱数假文生成器">
+              <a href="https://cn.lipsum.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://cn.lipsum.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">Lorem Ipsum</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">cn.lipsum.com</span>
+                  <span class="nav-item-desc">乱数假文生成器</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="placeholder image generator placeholderimage.dev 在线生成占位图像">
+              <a href="https://placeholderimage.dev/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://placeholderimage.dev/statics/icons/favicon-32x32.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">Placeholder Image Generator</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">placeholderimage.dev</span>
+                  <span class="nav-item-desc">在线生成占位图像</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="compiler explorer godbolt.org 多语言在线编译器">
+              <a href="https://godbolt.org/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://static.ce-cdn.net/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Compiler Explorer</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">godbolt.org</span>
+                  <span class="nav-item-desc">多语言在线编译器</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="textkool ascii art generator textkool.com 在线文字转换 ascii 字符画">
+              <a href="https://textkool.com/en/ascii-art-generator?hl=default&amp;vl=default&amp;font=Red%20Phoenix&amp;text=Your%20text%20here%20" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://textkool.com/static/icons/favicon-32x32.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>T</i></span>
+                <span class="nav-item-title">TextKool ASCII Art Generator</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">textkool.com</span>
+                  <span class="nav-item-desc">在线文字转换 ASCII 字符画</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>云平台</span><em>3</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="aws 定价计算器 calculator.aws aws 服务定价计算器。">
+              <a href="https://calculator.aws/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://calculator.aws/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">AWS 定价计算器</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">calculator.aws</span>
+                  <span class="nav-item-desc">AWS 服务定价计算器。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="azure 定价计算器 azure.microsoft.com azure 服务定价计算器。">
+              <a href="https://azure.microsoft.com/en-us/pricing/calculator/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://azure.microsoft.com/cdn-classic/cvt-44c7363d160faed86fa1280ef1458c84ef2c4f9d94108e844d31f46693f38b02/images/shared/social/azure-icon-250x250.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">Azure 定价计算器</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">azure.microsoft.com</span>
+                  <span class="nav-item-desc">Azure 服务定价计算器。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="gcp 定价计算器 cloud.google.com gcp 服务定价计算器。">
+              <a href="https://cloud.google.com/products/calculator" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.gstatic.com/devrel-devsite/prod/v0d244f667a3683225cca86d0ecf9b9b81b1e734e55a030bdcd3f3094b835c987/cloud/images/favicons/onecloud/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">GCP 定价计算器</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">cloud.google.com</span>
+                  <span class="nav-item-desc">GCP 服务定价计算器。</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>Mirror 镜像</span><em>6</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="tuna 镜像站 mirrors.tuna.tsinghua.edu.cn ">
+              <a href="https://mirrors.tuna.tsinghua.edu.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://mirrors.tuna.tsinghua.edu.cn/static/img/logo-small-dark.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>T</i></span>
+                <span class="nav-item-title">TUNA 镜像站</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">mirrors.tuna.tsinghua.edu.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="hf mirror hf-mirror.com hugging face 镜像站">
+              <a href="https://hf-mirror.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://hf-mirror.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>H</i></span>
+                <span class="nav-item-title">HF Mirror</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">hf-mirror.com</span>
+                  <span class="nav-item-desc">Hugging Face 镜像站</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="gh-proxy gh-proxy.com github、sourceforge 镜像站">
+              <a href="https://gh-proxy.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://gh-proxy.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">GH-Proxy</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">gh-proxy.com</span>
+                  <span class="nav-item-desc">GitHub、SourceForge 镜像站</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="npm mirror npmmirror.com 阿里巴巴 npm 镜像站。">
+              <a href="https://npmmirror.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://npmmirror.com/cnpm.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>N</i></span>
+                <span class="nav-item-title">NPM Mirror</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">npmmirror.com</span>
+                  <span class="nav-item-desc">阿里巴巴 NPM 镜像站。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="rsproxy rsproxy.cn 字节跳动 rust crates.io 镜像站。">
+              <a href="https://rsproxy.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://lf-cdn-tos.bytescm.com/obj/static/rsproxy/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>R</i></span>
+                <span class="nav-item-title">RsProxy</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">rsproxy.cn</span>
+                  <span class="nav-item-desc">字节跳动 Rust crates.io 镜像站。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="msdn i tell you msdn.itellyou.cn ">
+              <a href="https://msdn.itellyou.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://static.itellyou.cn/images/logo.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">MSDN I Tell You</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">msdn.itellyou.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>开发者文档</span><em>1</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="mozilla 开发者网络 developer.mozilla.org mdn web docs 是由 mozilla 提供的 web 开发者文档。">
+              <a href="https://developer.mozilla.org/en-US/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://developer.mozilla.org/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">Mozilla 开发者网络</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">developer.mozilla.org</span>
+                  <span class="nav-item-desc">MDN Web Docs 是由 Mozilla 提供的 Web 开发者文档。</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+      </section>
+      
+      <section class="nav-section" id="g-3" data-group="3">
+        <h2 class="nav-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L4.6 18A2 2 0 0 0 6.3 21h11.4a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7 15h10"/></svg>
+          <span>科研办公</span>
+          <em>22</em>
+        </h2>
+        
+          
+          <h3 class="nav-sub-title"><span>论文科研</span><em>13</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="alphaxiv alphaxiv.org chat with axriv papers.">
+              <a href="https://www.alphaxiv.org/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://static.alphaxiv.org/logos/alphaxiv_logo.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">AlphaXiv</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">alphaxiv.org</span>
+                  <span class="nav-item-desc">Chat with axriv papers.</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="papers cool papers.cool 苏剑林的 arxiv 论文 ai 解读列表。">
+              <a href="https://papers.cool/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://papers.cool/static/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">Papers Cool</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">papers.cool</span>
+                  <span class="nav-item-desc">苏剑林的 Arxiv 论文 AI 解读列表。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="papers with code paperswithcode.co ai 前沿论文跟踪。">
+              <a href="https://paperswithcode.co/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://paperswithcode.co/favicon-32.png?v=2" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">Papers with Code</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">paperswithcode.co</span>
+                  <span class="nav-item-desc">AI 前沿论文跟踪。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="papers.data.code papersdatacode.com 每周精选 ml 论文、代码与数据集，按主题整理成可追踪的信号。">
+              <a href="https://papersdatacode.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://papersdatacode.com/icon-192.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">Papers.Data.Code</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">papersdatacode.com</span>
+                  <span class="nav-item-desc">每周精选 ML 论文、代码与数据集，按主题整理成可追踪的信号。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="sci-hub sci-hub.box ">
+              <a href="https://sci-hub.box/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://sci-hub.se/pictures/ravenround.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">Sci-Hub</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">sci-hub.box</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="sci-bot sci-bot.ru sci-hub 的 ai 论文知识库问答。">
+              <a href="https://sci-bot.ru/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://a.favicon.im/sci-bot.ru" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">Sci-Bot</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">sci-bot.ru</span>
+                  <span class="nav-item-desc">Sci-Hub 的 AI 论文知识库问答。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="engineering village engineeringvillage.com ei 索引数据库。">
+              <a href="https://www.engineeringvillage.com/app/search/quick/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.engineeringvillage.com/app/static/images/ei_x.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>E</i></span>
+                <span class="nav-item-title">Engineering Village</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">engineeringvillage.com</span>
+                  <span class="nav-item-desc">EI 索引数据库。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="storm storm.genie.stanford.edu 斯坦福storm学术引擎">
+              <a href="https://storm.genie.stanford.edu/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://favicon.im/storm.genie.stanford.edu?larger=true" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">STORM</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">storm.genie.stanford.edu</span>
+                  <span class="nav-item-desc">斯坦福STORM学术引擎</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="pasa pasa-agent.ai 字节跳动开发的ai学术论文搜索引擎">
+              <a href="https://pasa-agent.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://lf3-transtudio.bytetos.com/obj/lab-mt-public/lab-academic/static/image/logo.55bf6955.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>P</i></span>
+                <span class="nav-item-title">PaSa</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">pasa-agent.ai</span>
+                  <span class="nav-item-desc">字节跳动开发的AI学术论文搜索引擎</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="google dataset search datasetsearch.research.google.com ">
+              <a href="https://datasetsearch.research.google.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.gstatic.com/images/branding/product/ico/googleg_lodp.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">Google Dataset Search</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">datasetsearch.research.google.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="国家自然科学基金大数据知识管理服务门户 kd.nsfc.cn ">
+              <a href="https://kd.nsfc.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://kd.nsfc.cn/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>国</i></span>
+                <span class="nav-item-title">国家自然科学基金大数据知识管理服务门户</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">kd.nsfc.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="letpub letpub.com.cn 第三方国家自然科学基金项目查询系统">
+              <a href="https://www.letpub.com.cn/index.php?page=grant" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.letpub.com.cn/images/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">Letpub</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">letpub.com.cn</span>
+                  <span class="nav-item-desc">第三方国家自然科学基金项目查询系统</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="发表云 fabiao.com.cn 期刊杂志收录情况和影响因子查询">
+              <a href="https://www.fabiao.com.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.fabiao.com.cn/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>发</i></span>
+                <span class="nav-item-title">发表云</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">fabiao.com.cn</span>
+                  <span class="nav-item-desc">期刊杂志收录情况和影响因子查询</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>信息聚合</span><em>9</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="专利之星 cprs.patentstar.com.cn ">
+              <a href="https://cprs.patentstar.com.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://a.favicon.im/prs.patentstar.com.cn" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>专</i></span>
+                <span class="nav-item-title">专利之星</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">cprs.patentstar.com.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="中国及多国专利审查信息查询 cpquery.cponline.cnipa.gov.cn 专利审查进度查询">
+              <a href="https://cpquery.cponline.cnipa.gov.cn/chinesepatent/index" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://cpquery.cponline.cnipa.gov.cn/imgs/logo/logoNew.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>中</i></span>
+                <span class="nav-item-title">中国及多国专利审查信息查询</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">cpquery.cponline.cnipa.gov.cn</span>
+                  <span class="nav-item-desc">专利审查进度查询</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="中国版权登记查询服务平台 register.ccopyright.com.cn 软件著作权登记查询">
+              <a href="https://register.ccopyright.com.cn/query.html" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://register.ccopyright.com.cn/logo.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>中</i></span>
+                <span class="nav-item-title">中国版权登记查询服务平台</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">register.ccopyright.com.cn</span>
+                  <span class="nav-item-desc">软件著作权登记查询</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="行业标准信息服务平台 hbba.sacinfo.org.cn ">
+              <a href="https://hbba.sacinfo.org.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://hbba.sacinfo.org.cn/statics/hb/shareLogo.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>行</i></span>
+                <span class="nav-item-title">行业标准信息服务平台</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">hbba.sacinfo.org.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="国家市场监督管理总局合同示范文本库 htsfwb.samr.gov.cn ">
+              <a href="https://htsfwb.samr.gov.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://a.favicon.im/htsfwb.samr.gov.cn" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>国</i></span>
+                <span class="nav-item-title">国家市场监督管理总局合同示范文本库</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">htsfwb.samr.gov.cn</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="e-gov 法令検索 laws.e-gov.go.jp 日本国法律法规官方搜索引擎">
+              <a href="https://laws.e-gov.go.jp/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.e-gov.go.jp/sites/default/files/filebrowser/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>E</i></span>
+                <span class="nav-item-title">e-Gov 法令検索</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">laws.e-gov.go.jp</span>
+                  <span class="nav-item-desc">日本国法律法规官方搜索引擎</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="ipa 情報処理推進機構 ipa.go.jp 日本信息处理推进机构">
+              <a href="https://www.ipa.go.jp/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.ipa.go.jp/icon-192x192.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>I</i></span>
+                <span class="nav-item-title">IPA 情報処理推進機構</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">ipa.go.jp</span>
+                  <span class="nav-item-desc">日本信息处理推进机构</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="open alternative openalternative.co 软件的开源替代品搜索引擎">
+              <a href="https://openalternative.co/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://openalternative.co/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>O</i></span>
+                <span class="nav-item-title">Open Alternative</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">openalternative.co</span>
+                  <span class="nav-item-desc">软件的开源替代品搜索引擎</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="world monitor worldmonitor.app 告诉你世界正在发生什么的面板">
+              <a href="https://www.worldmonitor.app/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.worldmonitor.app/favico/favicon-32x32.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>W</i></span>
+                <span class="nav-item-title">World Monitor</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">worldmonitor.app</span>
+                  <span class="nav-item-desc">告诉你世界正在发生什么的面板</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+      </section>
+      
+      <section class="nav-section" id="g-4" data-group="4">
+        <h2 class="nav-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <span>素材资源</span>
+          <em>7</em>
+        </h2>
+        
+          
+          <h3 class="nav-sub-title"><span>图标素材</span><em>6</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="freepik freepik.com 2,100,000+ free and premium vector icons.">
+              <a href="https://www.freepik.com/icons" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://cdn-front.freepik.com/favicons/favicon-96x96.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>F</i></span>
+                <span class="nav-item-title">Freepik</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">freepik.com</span>
+                  <span class="nav-item-desc">2,100,000+ free and premium vector icons.</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="iconfont iconfont.cn 阿里巴巴矢量图标库。">
+              <a href="http://www.iconfont.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://img.alicdn.com/imgextra/i4/O1CN01Z5paLz1O0zuCC7osS_!!6000000001644-55-tps-83-82.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>I</i></span>
+                <span class="nav-item-title">iconfont</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">iconfont.cn</span>
+                  <span class="nav-item-desc">阿里巴巴矢量图标库。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="yesicon yesicon.app 开源矢量 icon 库。">
+              <a href="https://yesicon.app/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://yesicon.app/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>Y</i></span>
+                <span class="nav-item-title">Yesicon</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">yesicon.app</span>
+                  <span class="nav-item-desc">开源矢量 icon 库。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="svgl svgl.app svg logo 库">
+              <a href="https://svgl.app/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://svgl.app/images/svgl_ico.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">Svgl</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">svgl.app</span>
+                  <span class="nav-item-desc">SVG Logo 库</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="svg logos svglogos.dev svg logo 库">
+              <a href="https://svglogos.dev/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://svglogos.dev/brand/favicon-32x32.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>S</i></span>
+                <span class="nav-item-title">SVG LOGOS</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">svglogos.dev</span>
+                  <span class="nav-item-desc">SVG Logo 库</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="lobehub icons lobehub.com ai / llm 模型图标集">
+              <a href="https://lobehub.com/zh/icons" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://web-assets.lobehub.com/landing-rr/prod/assets/logo-DauBOjoN.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">Lobehub Icons</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">lobehub.com</span>
+                  <span class="nav-item-desc">AI / LLM 模型图标集</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>字体资源</span><em>1</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="google font fonts.google.com making the web more beautiful, fast, and open through great typography.">
+              <a href="https://fonts.google.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.gstatic.com/images/icons/material/apps/fonts/1x/catalog/v5/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>G</i></span>
+                <span class="nav-item-title">Google Font</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">fonts.google.com</span>
+                  <span class="nav-item-desc">Making the web more beautiful, fast, and open through great typography.</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+      </section>
+      
+      <section class="nav-section" id="g-5" data-group="5">
+        <h2 class="nav-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 20 3.5-.8L20 6.7a2 2 0 0 0 0-2.8l-1-1a2 2 0 0 0-2.8 0L3.8 16.5z"/><path d="M14.5 5.5 18.5 9.5"/></svg>
+          <span>资讯学习</span>
+          <em>20</em>
+        </h2>
+        
+          
+          <h3 class="nav-sub-title"><span>博客论坛</span><em>12</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="hacker news news.ycombinator.com 一家关于计算机黑客和创业公司的社会化新闻网站。">
+              <a href="https://news.ycombinator.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://news.ycombinator.com/y18.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>H</i></span>
+                <span class="nav-item-title">Hacker News</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">news.ycombinator.com</span>
+                  <span class="nav-item-desc">一家关于计算机黑客和创业公司的社会化新闻网站。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="阮一峰的网络日志 ruanyifeng.com 阮一峰，科技爱好者周刊。">
+              <a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://favicon.im/www.ruanyifeng.com" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>阮</i></span>
+                <span class="nav-item-title">阮一峰的网络日志</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">ruanyifeng.com</span>
+                  <span class="nav-item-desc">阮一峰，科技爱好者周刊。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="通往agi之路 waytoagi.com 通往agi之路，探索人工智能的未来。">
+              <a href="https://www.waytoagi.com/zh" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.waytoagi.com/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>通</i></span>
+                <span class="nav-item-title">通往AGI之路</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">waytoagi.com</span>
+                  <span class="nav-item-desc">通往AGI之路，探索人工智能的未来。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="lil&#39;log lilianweng.github.io lilian weng 的博客。">
+              <a href="https://lilianweng.github.io/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://lilianweng.github.io/favicon_wine.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">Lil&#39;Log</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">lilianweng.github.io</span>
+                  <span class="nav-item-desc">Lilian Weng 的博客。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="科学空间|scientific spaces spaces.ac.cn 苏剑林的个人博客">
+              <a href="https://spaces.ac.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://spaces.ac.cn/usr/themes/geekg/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>科</i></span>
+                <span class="nav-item-title">科学空间|Scientific Spaces</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">spaces.ac.cn</span>
+                  <span class="nav-item-desc">苏剑林的个人博客</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="ahead of ai magazine.sebastianraschka.com sebastian raschka 博士的 llm 技术博客">
+              <a href="https://magazine.sebastianraschka.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ktrK!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F342e39ec-514c-4b4d-8a76-6acf0cbd8248%2Ffavicon-48x48.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>A</i></span>
+                <span class="nav-item-title">Ahead of AI</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">magazine.sebastianraschka.com</span>
+                  <span class="nav-item-desc">Sebastian Raschka 博士的 LLM 技术博客</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="matrix67 the aha moments matrix67.com ">
+              <a href="https://matrix67.com/blog/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://pbs.twimg.com/profile_images/2315765843/Matrix67_bg_400x400.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">Matrix67 The Aha Moments</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">matrix67.com</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="hello github hellogithub.com hello github 是一个开源项目推荐平台，致力于帮助开发者发现和学习优秀的开源项目。">
+              <a href="https://hellogithub.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://hellogithub.com/favicon/favicon-96x96.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>H</i></span>
+                <span class="nav-item-title">Hello Github</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">hellogithub.com</span>
+                  <span class="nav-item-desc">Hello GitHub 是一个开源项目推荐平台，致力于帮助开发者发现和学习优秀的开源项目。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="latent.space latent.space 每工作日更新的 ai 日刊">
+              <a href="https://www.latent.space/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://latentspace.ai/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>L</i></span>
+                <span class="nav-item-title">Latent.Space</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">latent.space</span>
+                  <span class="nav-item-desc">每工作日更新的 AI 日刊</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="dailybit dailybit.cc hn popularity contest 2025 独立博客的每日更新日报">
+              <a href="https://www.dailybit.cc/home" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://dailybit.ai/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>D</i></span>
+                <span class="nav-item-title">DailyBit</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">dailybit.cc</span>
+                  <span class="nav-item-desc">HN Popularity Contest 2025 独立博客的每日更新日报</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="智语观潮·daily ai.daily.yangsir.net 专注 ai 领域的精选日报，每日整合最新进展、工具发现与深度观点。">
+              <a href="https://ai.daily.yangsir.net/daily" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://ai.daily.yangsir.net/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>智</i></span>
+                <span class="nav-item-title">智语观潮·Daily</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">ai.daily.yangsir.net</span>
+                  <span class="nav-item-desc">专注 AI 领域的精选日报，每日整合最新进展、工具发现与深度观点。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="oil book book.oiloil.org oil 的 ai 实战指南与模型选型笔记，覆盖 agent、前端与图片生成。">
+              <a href="https://book.oiloil.org/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://book.oiloil.org/assets/icons/oil-book-mark.webp" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>O</i></span>
+                <span class="nav-item-title">Oil Book</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">book.oiloil.org</span>
+                  <span class="nav-item-desc">Oil 的 AI 实战指南与模型选型笔记，覆盖 Agent、前端与图片生成。</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>大厂博客</span><em>3</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="manus blog manus.im manus 产品及 agent 技术">
+              <a href="https://manus.im/zh-cn/blog" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://manus.im/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>M</i></span>
+                <span class="nav-item-title">Manus Blog</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">manus.im</span>
+                  <span class="nav-item-desc">Manus 产品及 Agent 技术</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="zilliz blog zilliz.com milvus 产品及向量搜索和 rag 技术">
+              <a href="https://zilliz.com/blog" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://zilliz.com/favicon.svg" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>Z</i></span>
+                <span class="nav-item-title">Zilliz Blog</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">zilliz.com</span>
+                  <span class="nav-item-desc">Milvus 产品及向量搜索和 RAG 技术</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="bentoml blog bentoml.com bentoml 产品及 llm 模型和部署技术">
+              <a href="https://www.bentoml.com/blog" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.bentoml.com/bentoml-favicon/favicon-16x16.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>B</i></span>
+                <span class="nav-item-title">BentoML Blog</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">bentoml.com</span>
+                  <span class="nav-item-desc">BentoML 产品及 LLM 模型和部署技术</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>日语辞典</span><em>3</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="辞典横断検索 metapedia metapedia.jp 491の辞典・辞書・事典・用語集・図鑑を一括検索">
+              <a href="http://metapedia.jp/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://favicon.im/metapedia.jp" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>辞</i></span>
+                <span class="nav-item-title">辞典横断検索 Metapedia</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">metapedia.jp</span>
+                  <span class="nav-item-desc">491の辞典・辞書・事典・用語集・図鑑を一括検索</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="it 用语辞典 e-words.jp ">
+              <a href="https://e-words.jp/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://p.e-words.jp/favicon.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>I</i></span>
+                <span class="nav-item-title">IT 用语辞典</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">e-words.jp</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="ninjal-lwp for bccwj nlb.ninjal.ac.jp 日本语词频用法语料库">
+              <a href="https://nlb.ninjal.ac.jp/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://nlb.ninjal.ac.jp/static/images/toppage/top.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>N</i></span>
+                <span class="nav-item-title">NINJAL-LWP for BCCWJ</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">nlb.ninjal.ac.jp</span>
+                  <span class="nav-item-desc">日本语词频用法语料库</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+          
+          <h3 class="nav-sub-title"><span>生活百科</span><em>2</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="默沙东医学手册 msdmanuals.cn 默沙东医学手册是一本权威的医学参考书，提供了丰富的医学知识和临床信息，帮助医疗专业人员和患者更好地理解疾病和治疗方案。">
+              <a href="https://www.msdmanuals.cn/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.msdmanuals.cn/_next/static/media/favicon.f7343459.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>默</i></span>
+                <span class="nav-item-title">默沙东医学手册</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">msdmanuals.cn</span>
+                  <span class="nav-item-desc">默沙东医学手册是一本权威的医学参考书，提供了丰富的医学知识和临床信息，帮助医疗专业人员和患者更好地理解疾病和治疗方案。</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="chronas chronas.org 交互式世界历史地图">
+              <a href="https://chronas.org/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://chronas.org/images/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>C</i></span>
+                <span class="nav-item-title">Chronas</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">chronas.org</span>
+                  <span class="nav-item-desc">交互式世界历史地图</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+      </section>
+      
+      <section class="nav-section" id="g-6" data-group="6">
+        <h2 class="nav-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><path d="M10 12h4"/></svg>
+          <span>冷备份</span>
+          <em>3</em>
+        </h2>
+        
+          
+          <h3 class="nav-sub-title"><span>杂项工具</span><em>3</em></h3>
+          
+          <ul class="nav-links">
+            
+            
+            <li class="nav-item" data-text="z.ai chat.z.ai ">
+              <a href="https://chat.z.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://z-cdn.chatglm.cn/z-ai/frontend/static/apple-touch-icon.png" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>Z</i></span>
+                <span class="nav-item-title">Z.ai</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">chat.z.ai</span>
+                  
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="firebase studio studio.firebase.google.com google 快速原型 app 开发平台">
+              <a href="https://studio.firebase.google.com/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.gstatic.com/monospace/250314/favicon.ico" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>F</i></span>
+                <span class="nav-item-title">Firebase Studio</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">studio.firebase.google.com</span>
+                  <span class="nav-item-desc">Google 快速原型 APP 开发平台</span>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li class="nav-item" data-text="napkin napkin.ai 可视化图形/ppt 生成工具">
+              <a href="https://www.napkin.ai/" target="_blank" rel="noopener">
+                <span class="nav-logo"><img loading="lazy" src="https://www.napkin.ai/favicon-32x32.png?v=2" alt="" onerror="this.parentNode.classList.add('is-fallback');this.remove();"><i>N</i></span>
+                <span class="nav-item-title">Napkin</span>
+                <span class="nav-item-meta">
+                  <span class="nav-item-domain">napkin.ai</span>
+                  <span class="nav-item-desc">可视化图形/PPT 生成工具</span>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+        
+      </section>
+      
+
+      <div class="nav-empty" hidden>
+        <p>没有匹配的站点</p>
+        <span>换个关键词试试，或按 Esc 清空筛选。</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<style>
+.nav-page{width:100%;max-width:1120px;margin:0 auto;padding:44px 0 5rem;color:var(--s-ink)}
+.nav-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;padding-bottom:1.15rem;border-bottom:1px solid var(--s-line);margin-bottom:1.75rem}
+.nav-head h1{margin:0 0 .3rem;font-family:var(--s-serif);font-size:1.6rem;font-weight:600;letter-spacing:.12em;color:var(--s-ink)}
+.nav-sub{margin:0;font-size:.8rem;color:var(--s-dim)}
+.nav-search{position:relative;display:flex;align-items:center;gap:.5rem;width:20rem;max-width:100%;padding:.5rem .65rem;background:var(--s-surface);border:1px solid var(--s-line);border-radius:.2rem;color:var(--s-dim);transition:border-color .2s ease}
+.nav-search:focus-within{border-color:var(--s-accent)}
+.nav-search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--s-ink);font-size:.84rem}
+.nav-search input::placeholder{color:var(--s-faint)}
+.nav-kbd{font-family:var(--s-mono);font-size:.68rem;line-height:1;padding:.2rem .3rem;color:var(--s-dim);border:1px solid var(--s-line);border-radius:.2rem}
+.nav-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.nav-grid{display:grid;grid-template-columns:10.5rem minmax(0,1fr);gap:2.25rem;align-items:start}
+.nav-rail{position:sticky;top:4.5rem;display:flex;flex-direction:column;gap:.1rem}
+.nav-rail-item{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.42rem .6rem .42rem .7rem;border-left:2px solid transparent;border-radius:0 .2rem .2rem 0;font-size:.85rem;color:var(--s-muted);text-decoration:none;transition:color .18s ease,background .18s ease,border-color .18s ease}
+.nav-rail-item b{font-weight:400;font-family:var(--s-mono);font-size:.72rem;color:var(--s-dim)}
+.nav-rail-item:hover{color:var(--s-ink);background:color-mix(in srgb,var(--s-ink) 5%,transparent)}
+.nav-rail-item.is-active{color:var(--s-ink);border-left-color:var(--s-accent);background:color-mix(in srgb,var(--s-accent) 9%,transparent)}
+.nav-main{min-width:0;display:flex;flex-direction:column;gap:2rem}
+.nav-section{scroll-margin-top:4.25rem}
+.nav-section-title{display:flex;align-items:center;gap:.55rem;margin:1.2rem 0 .6rem;padding-bottom:.5rem;border-bottom:1px solid var(--s-line);font-family:var(--s-serif);font-size:1rem;font-weight:600;letter-spacing:.14em;color:var(--s-ink)}
+.nav-section-title svg{width:15px;height:15px;color:var(--s-accent);flex:none}
+.nav-section-title em{margin-left:.1rem;font-style:normal;font-family:var(--s-mono);font-size:.72rem;font-weight:400;color:var(--s-dim)}
+.nav-sub-title{display:flex;align-items:center;gap:.45rem;margin:1rem 0 .2rem;font-size:.76rem;font-weight:400;letter-spacing:.03em;color:var(--s-dim)}
+.nav-sub-title em{font-style:normal;font-family:var(--s-mono);font-size:.7rem;color:var(--s-faint)}
+.nav-links{display:grid;grid-template-columns:minmax(0,1fr);gap:.05rem;margin:0;padding:0;list-style:none}
+.nav-item.is-hidden{display:none}
+.nav-item>a{display:grid;grid-template-columns:1.1rem 12.5rem minmax(0,1fr);gap:.7rem;align-items:center;padding:.4rem .55rem;border-radius:.2rem;color:inherit;text-decoration:none;transition:background .16s ease}
+.nav-item>a:hover{background:color-mix(in srgb,var(--s-ink) 5%,transparent)}
+.nav-item>a:hover .nav-item-title{color:var(--s-accent)}
+.nav-logo{position:relative;display:inline-flex;align-items:center;justify-content:center;width:1.1rem;height:1.1rem;border-radius:.2rem;overflow:hidden;flex:none}
+.nav-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.nav-logo i{display:none;font-style:normal;font-size:.64rem;font-weight:600;color:var(--s-muted);background:color-mix(in srgb,var(--s-ink) 8%,transparent);width:100%;height:100%;align-items:center;justify-content:center;text-transform:uppercase}
+.nav-logo.is-fallback i{display:flex}
+.nav-item-title{font-size:.865rem;color:var(--s-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-item-meta{display:flex;align-items:baseline;gap:.55rem;min-width:0}
+.nav-item-domain{font-family:var(--s-mono);font-size:.745rem;color:var(--s-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:none}
+.nav-item-desc{font-size:.745rem;color:var(--s-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.nav-empty{padding:3rem 0;text-align:center;color:var(--s-dim)}
+.nav-empty p{margin:0 0 .3rem;font-size:.95rem;color:var(--s-muted)}
+.nav-empty span{font-size:.8rem}
+@media (max-width:960px){
+  .nav-page{padding:24px 0 4rem}
+  .nav-head{flex-direction:column;align-items:stretch;gap:.9rem}
+  .nav-search{width:100%}
+  .nav-grid{display:block}
+  .nav-rail{position:static;flex-direction:row;gap:.35rem;overflow-x:auto;padding-bottom:.55rem;margin-bottom:1.2rem;border-bottom:1px solid var(--s-line);scrollbar-width:none}
+  .nav-rail::-webkit-scrollbar{display:none}
+  .nav-rail-item{white-space:nowrap;border-left:0;border-radius:2rem;background:color-mix(in srgb,var(--s-ink) 5%,transparent);padding:.3rem .7rem;flex:none}
+  .nav-rail-item.is-active{border-left:0;background:color-mix(in srgb,var(--s-accent) 18%,transparent)}
+  .nav-item>a{grid-template-columns:1.1rem minmax(0,1fr);row-gap:.1rem;padding:.4rem .35rem}
+  .nav-item-meta{grid-column:2;flex-wrap:wrap;gap:.1rem .5rem}
+  .nav-item-desc{white-space:normal}
+}
+</style>
+
+<script>
+(function () {
+  var input = document.getElementById('nav-search');
+  var items = Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.nav-section'));
+  var countEl = document.getElementById('nav-count');
+  var emptyEl = document.querySelector('.nav-empty');
+  var railItems = Array.prototype.slice.call(document.querySelectorAll('.nav-rail-item'));
+  var total = items.length;
+  var allRail = railItems.filter(function (r) { return r.getAttribute('data-group') === 'all'; })[0] || null;
+
+  function setActive(rail) {
+    railItems.forEach(function (x) { x.classList.remove('is-active'); });
+    if (rail) rail.classList.add('is-active');
+  }
+
+  function applyFilter() {
+    var q = input ? input.value.trim().toLowerCase() : '';
+    var shown = 0;
+    items.forEach(function (it) {
+      var hit = !q || (it.getAttribute('data-text') || '').indexOf(q) > -1;
+      it.classList.toggle('is-hidden', !hit);
+      if (hit) shown++;
+    });
+    sections.forEach(function (sec) {
+      var visible = sec.querySelectorAll('.nav-item:not(.is-hidden)').length > 0;
+      sec.classList.toggle('is-hidden', !visible);
+    });
+    if (emptyEl) emptyEl.hidden = shown !== 0;
+    if (countEl) countEl.textContent = q ? shown + ' / ' + total : String(total);
+    document.body.classList.toggle('nav-filtering', !!q);
+  }
+
+  if (input) {
+    input.addEventListener('input', applyFilter);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { input.value = ''; applyFilter(); input.blur(); }
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target && e.target.tagName) || '';
+    if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+      e.preventDefault();
+      if (input) input.focus();
+    }
+  });
+
+  railItems.forEach(function (r) {
+    r.addEventListener('click', function () { setActive(r); });
+  });
+
+  if ('IntersectionObserver' in window && sections.length) {
+    var byGroup = {};
+    railItems.forEach(function (r) { byGroup[r.getAttribute('data-group')] = r; });
+    var io = new IntersectionObserver(function (entries) {
+      if (window.scrollY < 120) { setActive(allRail); return; }
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var g = en.target.getAttribute('data-group');
+        if (byGroup[g]) setActive(byGroup[g]);
+      });
+    }, { rootMargin: '-12% 0px -72% 0px', threshold: 0 });
+    sections.forEach(function (s) { io.observe(s); });
+  }
+  window.addEventListener('scroll', function () {
+    if (window.scrollY < 120) setActive(allRail);
+  }, { passive: true });
+})();
+</script>
+                <!-- profile -->
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+        <div class="social">
+                            <a href="mailto:2576413114@qq.com" class="iconfont-archer email" title="email" ></a>
+                <a href="//github.com/Bye-lemon" class="iconfont-archer github" target="_blank" title="github"></a>
+                <a href="//weibo.com/u/5679329267" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
+                <a href="//zhihu.com/people/li-ying-ping-89-54" class="iconfont-archer zhihu" target="_blank" title="zhihu"></a>
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+
+        </div>
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    <!-- 不蒜子  -->
+        <div class="busuanzi-container">
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+        </div>
+</footer>
+
+            <footer class="s-footer">
+                <span>© 2026 李英平 · Hexo 与一点耐心</span>
+                <span style="display:flex;align-items:center;gap:20px">
+                    <a href="/atom.xml">RSS</a>
+                    <a href="/friends/">友链</a>
+                    <a href="/about/">关于本站</a>
+                    <span class="jp">日々是好日</span>
+                </span>
+            </footer>
+        </div>
+        <!-- toc -->
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 42
+        </div>
+        <!-- search  -->
+    </div>
+    <div class="post-archive">
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/17</span>
+            <a class="archive-post-title" href="/post/be6/">当我们落魄到需要去借别人的算力跑实验的时候</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/13</span>
+            <a class="archive-post-title" href="/post/6c49/">借助SSH反向代理隧道实现内网服务器的校外访问</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span>
+            <a class="archive-post-title" href="/post/f81/">Windows 10系统下使用SMB实现媒体文件共享</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/29</span>
+            <a class="archive-post-title" href="/post/fab7/">避重就轻的论文阅读笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span>
+            <a class="archive-post-title" href="/post/258b/">DLUT校园网自动认证的解决方案</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/13</span>
+            <a class="archive-post-title" href="/post/b346/">《高级操作系统》复习纲要</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/31</span>
+            <a class="archive-post-title" href="/post/89b2/">自动驾驶中间件Cyber RT中的实时通信机制简述</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/45b8/">2020年电赛G题不完全实现方案</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/d69d/">Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/3eb8/">Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/post/9dd7/">如何为Hexo博客构建一个简单的全文搜索引擎</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span>
+            <a class="archive-post-title" href="/post/d2b3/">Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/post/11e/">Apollo D-Kit 调试笔记（一）：系统安装与传感器集成</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span>
+            <a class="archive-post-title" href="/post/d923/">Apollo D-Kit 调试笔记（零）：修车备忘录</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/10</span>
+            <a class="archive-post-title" href="/post/ffa2/">《Query-guided End-to-End Person Search》论文笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span>
+            <a class="archive-post-title" href="/post/c6f5/">《Joint Detection and Identification Feature Learning for Person Search》论文笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span>
+            <a class="archive-post-title" href="/post/cde6/">行人重识别（Person Re-identification）研究概述</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span>
+            <a class="archive-post-title" href="/post/7f95/">《Transferable, Controllable, and Inconspicuous Adversarial Attacks on Person Re-identification With Deep Mis-Ranking》论文笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/05</span>
+            <a class="archive-post-title" href="/post/4d08/">《Weakly supervised discriminative feature learning with state information for person identification》论文笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span>
+            <a class="archive-post-title" href="/post/8337/">《Pose-guided Visible Part Matching for Occluded Person ReID》论文笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/post/aa5f/">《COCAS: A Large-Scale Clothes Changing Person Dataset for Re-identification》论文笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span>
+            <a class="archive-post-title" href="/post/dbc2/">《YOLO v4: Optimal Speed and Accuracy of Object Detection》论文笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span>
+            <a class="archive-post-title" href="/post/1271/">Aurora在Refresh时报错Running Problem Latex的若干玄学解决方案</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span>
+            <a class="archive-post-title" href="/post/3acc/">Windows系统下带有NonFree功能的OpenCV编译笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span>
+            <a class="archive-post-title" href="/post/f2f7/">《计算机网络安全教程》读书笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span>
+            <a class="archive-post-title" href="/post/4129/">面向ARM架构的嵌入式系统设计学习笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/30</span>
+            <a class="archive-post-title" href="/post/b76d/">MI MIX2S(Polaris)全程负优化记录</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/03</span>
+            <a class="archive-post-title" href="/post/e9de/">《并行程序设计导论》读书笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span>
+            <a class="archive-post-title" href="/post/4849/">《软件综合训练》实训笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span>
+            <a class="archive-post-title" href="/post/363b/">那些年，我们调过的嵌入式开发平台</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span>
+            <a class="archive-post-title" href="/post/e971/">使用Altium Designer 19绘制劣质PCB的流程</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/15</span>
+            <a class="archive-post-title" href="/post/9cb2/">《数据库系统概论（第四版）》读书笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/24</span>
+            <a class="archive-post-title" href="/post/30ad/">《代码大全》读书笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span>
+            <a class="archive-post-title" href="/post/6003/">tmux Cheatsheet</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/post/9087/">《黑客与画家》读书笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/13</span>
+            <a class="archive-post-title" href="/post/f0bc/">Standford University CS183B（如何创业）学习笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/post/e061/">Brainfuck与2019的新年仪式感</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/25</span>
+            <a class="archive-post-title" href="/post/10d1/">《计算机网络（第7版）》读书笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/post/a140/">IPv6环境下的一次Docker部署实践</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/post/ab83/">《C++语言程序设计教程》读书笔记</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span>
+            <a class="archive-post-title" href="/post/bdef/">一个菜鸟程序员打磨工具的日常</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span>
+            <a class="archive-post-title" href="/post/a87/">《图解TCP/IP》读书笔记</a>
+        </li>
+            </ul>
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+            <span class="sidebar-tag-name" data-tags="Apollo">
+                <span class="iconfont-archer">&#xe606;</span>
+                Apollo
+            </span>
+            <span class="sidebar-tag-name" data-tags="Re-ID">
+                <span class="iconfont-archer">&#xe606;</span>
+                Re-ID
+            </span>
+            <span class="sidebar-tag-name" data-tags="CVPR">
+                <span class="iconfont-archer">&#xe606;</span>
+                CVPR
+            </span>
+            <span class="sidebar-tag-name" data-tags="DLUT">
+                <span class="iconfont-archer">&#xe606;</span>
+                DLUT
+            </span>
+            <span class="sidebar-tag-name" data-tags="Aurora2">
+                <span class="iconfont-archer">&#xe606;</span>
+                Aurora2
+            </span>
+            <span class="sidebar-tag-name" data-tags="MS Office">
+                <span class="iconfont-archer">&#xe606;</span>
+                MS Office
+            </span>
+            <span class="sidebar-tag-name" data-tags="刷机">
+                <span class="iconfont-archer">&#xe606;</span>
+                刷机
+            </span>
+            <span class="sidebar-tag-name" data-tags="小米">
+                <span class="iconfont-archer">&#xe606;</span>
+                小米
+            </span>
+            <span class="sidebar-tag-name" data-tags="Android">
+                <span class="iconfont-archer">&#xe606;</span>
+                Android
+            </span>
+            <span class="sidebar-tag-name" data-tags="Person Search">
+                <span class="iconfont-archer">&#xe606;</span>
+                Person Search
+            </span>
+            <span class="sidebar-tag-name" data-tags="OpenCV">
+                <span class="iconfont-archer">&#xe606;</span>
+                OpenCV
+            </span>
+            <span class="sidebar-tag-name" data-tags="tmux">
+                <span class="iconfont-archer">&#xe606;</span>
+                tmux
+            </span>
+            <span class="sidebar-tag-name" data-tags="Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Linux
+            </span>
+            <span class="sidebar-tag-name" data-tags="Object Detection">
+                <span class="iconfont-archer">&#xe606;</span>
+                Object Detection
+            </span>
+            <span class="sidebar-tag-name" data-tags="程序员">
+                <span class="iconfont-archer">&#xe606;</span>
+                程序员
+            </span>
+            <span class="sidebar-tag-name" data-tags="数据库">
+                <span class="iconfont-archer">&#xe606;</span>
+                数据库
+            </span>
+            <span class="sidebar-tag-name" data-tags="DUT">
+                <span class="iconfont-archer">&#xe606;</span>
+                DUT
+            </span>
+            <span class="sidebar-tag-name" data-tags="备考">
+                <span class="iconfont-archer">&#xe606;</span>
+                备考
+            </span>
+            <span class="sidebar-tag-name" data-tags="计算机网络">
+                <span class="iconfont-archer">&#xe606;</span>
+                计算机网络
+            </span>
+            <span class="sidebar-tag-name" data-tags="TCP/IP">
+                <span class="iconfont-archer">&#xe606;</span>
+                TCP/IP
+            </span>
+            <span class="sidebar-tag-name" data-tags="并行程序设计">
+                <span class="iconfont-archer">&#xe606;</span>
+                并行程序设计
+            </span>
+            <span class="sidebar-tag-name" data-tags="创业">
+                <span class="iconfont-archer">&#xe606;</span>
+                创业
+            </span>
+            <span class="sidebar-tag-name" data-tags="信息安全">
+                <span class="iconfont-archer">&#xe606;</span>
+                信息安全
+            </span>
+            <span class="sidebar-tag-name" data-tags="Kali Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Kali Linux
+            </span>
+            <span class="sidebar-tag-name" data-tags="SMB">
+                <span class="iconfont-archer">&#xe606;</span>
+                SMB
+            </span>
+            <span class="sidebar-tag-name" data-tags="Windows 10">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows 10
+            </span>
+            <span class="sidebar-tag-name" data-tags="操作系统">
+                <span class="iconfont-archer">&#xe606;</span>
+                操作系统
+            </span>
+            <span class="sidebar-tag-name" data-tags="Altium Designer">
+                <span class="iconfont-archer">&#xe606;</span>
+                Altium Designer
+            </span>
+            <span class="sidebar-tag-name" data-tags="工具">
+                <span class="iconfont-archer">&#xe606;</span>
+                工具
+            </span>
+            <span class="sidebar-tag-name" data-tags="IPv6">
+                <span class="iconfont-archer">&#xe606;</span>
+                IPv6
+            </span>
+            <span class="sidebar-tag-name" data-tags="Docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                Docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="Cernet">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cernet
+            </span>
+            <span class="sidebar-tag-name" data-tags="Brainfuck">
+                <span class="iconfont-archer">&#xe606;</span>
+                Brainfuck
+            </span>
+            <span class="sidebar-tag-name" data-tags="CS183B">
+                <span class="iconfont-archer">&#xe606;</span>
+                CS183B
+            </span>
+            <span class="sidebar-tag-name" data-tags="卓英训练营">
+                <span class="iconfont-archer">&#xe606;</span>
+                卓英训练营
+            </span>
+            <span class="sidebar-tag-name" data-tags="docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="nvidia-docker">
+                <span class="iconfont-archer">&#xe606;</span>
+                nvidia-docker
+            </span>
+            <span class="sidebar-tag-name" data-tags="docker-compose">
+                <span class="iconfont-archer">&#xe606;</span>
+                docker-compose
+            </span>
+            <span class="sidebar-tag-name" data-tags="rsync">
+                <span class="iconfont-archer">&#xe606;</span>
+                rsync
+            </span>
+            <span class="sidebar-tag-name" data-tags="导航">
+                <span class="iconfont-archer">&#xe606;</span>
+                导航
+            </span>
+            <span class="sidebar-tag-name" data-tags="Nvidia Jetson Xavier">
+                <span class="iconfont-archer">&#xe606;</span>
+                Nvidia Jetson Xavier
+            </span>
+            <span class="sidebar-tag-name" data-tags="Nvidia Jetson Nano">
+                <span class="iconfont-archer">&#xe606;</span>
+                Nvidia Jetson Nano
+            </span>
+            <span class="sidebar-tag-name" data-tags="HiKey 970">
+                <span class="iconfont-archer">&#xe606;</span>
+                HiKey 970
+            </span>
+            <span class="sidebar-tag-name" data-tags="FPGA">
+                <span class="iconfont-archer">&#xe606;</span>
+                FPGA
+            </span>
+            <span class="sidebar-tag-name" data-tags="ARM">
+                <span class="iconfont-archer">&#xe606;</span>
+                ARM
+            </span>
+            <span class="sidebar-tag-name" data-tags="C++">
+                <span class="iconfont-archer">&#xe606;</span>
+                C++
+            </span>
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+        <span class="sidebar-category-name" data-categories="开发和调试笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            开发和调试笔记
+        </span>
+        <span class="sidebar-category-name" data-categories="论文笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            论文笔记
+        </span>
+        <span class="sidebar-category-name" data-categories="英平的工具箱">
+            <span class="iconfont-archer">&#xe60a;</span>
+            英平的工具箱
+        </span>
+        <span class="sidebar-category-name" data-categories="Cheatsheet">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Cheatsheet
+        </span>
+        <span class="sidebar-category-name" data-categories="读书笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            读书笔记
+        </span>
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://bye-lemon.github.io",
+        root: siteMetaRoot,
+        author: "李英平"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+        <!-- main func -->
+        <script src="/scripts/main.js"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" onload="window.Fancybox.bind('[data-fancybox]')" defer></script>
+        <!-- algolia -->
+        <!-- busuanzi -->
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        <!-- async load share.js -->
+        <!-- mermaid -->
+    </body>
+</html>

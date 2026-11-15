@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import yaml from 'js-yaml';
+import fs from 'node:fs';
+
+const raw = yaml.load(fs.readFileSync('src/data/models.yml', 'utf8')) as any[];
+const models = (raw || []).map((m) => ({
+  ...m,
+  tags: Array.isArray(m.tags) ? m.tags : (m.tags ? String(m.tags).split(/[,，]/) : []),
+}));
+
+const uniq = (key: string) => [...new Set(models.map((m) => m[key]).filter(Boolean))].sort();
+const types = uniq('type');
+const licenses = uniq('license');
+const authors = uniq('author');
+const editUrl = 'https://github.com/Bye-lemon/Bye-lemon.github.io/edit/src/src/data/models.yml';
+
+function hue(text: string): number {
+  let h = 0;
+  for (let i = 0; i < text.length; i++) h = (h * 31 + text.charCodeAt(i)) % 360;
+  return h;
+}
+const host = (url?: string) => {
+  try { return new URL(url).host.replace(/^www\./, ''); } catch { return ''; }
+};
+---
+<BaseLayout title="模型库" current="/models/">
+  <style>
+    .m-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 1.2em; }
+    .m-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.2em; font-family: var(--sans); }
+    .m-tools input, .m-tools select { font: inherit; font-size: .78rem; padding: 7px 9px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
+    .m-tools input { flex: 1 1 220px; }
+    .m-tools input:focus, .m-tools select:focus { outline: 0; border-color: var(--ink); }
+    .m-count { font-family: var(--sans); font-size: .74rem; color: var(--muted); margin-left: auto; align-self: center; }
+    .m-wrap { overflow-x: auto; border-top: 1px solid var(--line); }
+    table.models { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: .74rem; line-height: 1.5; white-space: nowrap; }
+    table.models thead th { position: sticky; top: 0; background: var(--paper); text-align: left; font-weight: 600; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--line); letter-spacing: .02em; }
+    table.models tbody td { padding: 8px 10px; border-bottom: 1px solid rgba(17,17,17,.08); vertical-align: middle; }
+    table.models tbody tr:hover { background: rgba(17,17,17,.03); }
+    .m-name { font-family: var(--serif); font-size: .9rem; }
+    .m-dim { color: var(--muted); }
+    .m-badge { display: inline-block; padding: 1px 6px; border-radius: 2px; font-size: .68rem; border: 1px solid hsl(var(--h) 45% 62% / .45); background: hsl(var(--h) 60% 95%); color: hsl(var(--h) 55% 32%); }
+    .m-type { font-weight: 600; color: hsl(var(--h) 55% 40%); }
+    .m-tag { display: inline-block; margin: 0 4px 2px 0; padding: 1px 6px; border-radius: 2px; font-size: .66rem; border: 1px solid hsl(var(--h) 40% 58% / .45); background: hsl(var(--h) 50% 96%); color: hsl(var(--h) 45% 30%); }
+    .m-params { font-family: var(--mono); font-size: .7rem; color: #1f4f7a; background: #eef4fa; border: 1px solid #cfe0ef; border-radius: 2px; padding: 1px 5px; }
+    .m-link, .m-paper { text-decoration: none; color: var(--muted); }
+    .m-link:hover, .m-paper:hover { color: var(--ink); text-decoration: underline; }
+    .m-edit { font-family: var(--sans); font-size: .74rem; color: var(--muted); }
+    @media (max-width: 767px) { table.models { font-size: .7rem; } table.models tbody td, table.models thead th { padding: 6px 8px; } }
+  </style>
+
+  <div class="m-head">
+    <div>
+      <h1 style="margin-bottom:.2em">模型库</h1>
+      <p class="lead" style="margin:0">我关注的模型，共 <span id="m-total">{models.length}</span> 个。</p>
+    </div>
+    <a class="m-edit" href={editUrl} target="_blank" rel="noopener">编辑数据 / 新增模型 ↗</a>
+  </div>
+
+  <div class="m-tools">
+    <input id="q" type="search" placeholder="搜索模型名、作者、标签…" aria-label="搜索模型" />
+    <select id="f-type" aria-label="按类型筛选"><option value="">全部类型</option>{types.map((t) => <option value={t}>{t}</option>)}</select>
+    <select id="f-license" aria-label="按协议筛选"><option value="">全部协议</option>{licenses.map((l) => <option value={l}>{l}</option>)}</select>
+    <select id="f-author" aria-label="按作者筛选"><option value="">全部作者</option>{authors.map((x) => <option value={x}>{x}</option>)}</select>
+    <select id="sort" aria-label="排序">
+      <option value="updated-desc">按更新时间</option>
+      <option value="name-asc">按名称</option>
+      <option value="author-asc">按作者</option>
+    </select>
+    <span class="m-count">显示 <span id="m-shown">{models.length}</span> / {models.length}</span>
+  </div>
+
+  <div class="m-wrap">
+    <table class="models" id="m-table">
+      <thead>
+        <tr>
+          <th>模型名</th><th>协议</th><th>作者</th><th>更新时间</th><th>基模型</th><th>发表</th><th>论文</th><th>类型</th><th>标签</th><th>链接</th><th>参数量</th>
+        </tr>
+      </thead>
+      <tbody>
+        {models.map((m) => (
+          <tr data-name={String(m.name).toLowerCase()} data-author={m.author || ''} data-type={m.type || ''} data-license={m.license || ''} data-updated={m.updated || ''} data-tags={m.tags.join(' ').toLowerCase()}>
+            <td class="m-name" title={m.note || undefined}>{m.name}</td>
+            <td>{m.license ? <span class="m-badge" style={`--h:${hue(m.license)}`}>{m.license}</span> : <span class="m-dim">—</span>}</td>
+            <td>{m.author || '—'}</td>
+            <td class="m-dim">{m.updated || '—'}</td>
+            <td class="m-dim">{m.base || '—'}</td>
+            <td class="m-dim">{m.published || '—'}</td>
+            <td>{m.paper ? <a class="m-paper" href={m.paper} target="_blank" rel="noopener">论文</a> : <span class="m-dim">—</span>}</td>
+            <td>{m.type ? <span class="m-type" style={`--h:${hue(m.type)}`}>{m.type}</span> : '—'}</td>
+            <td>{m.tags.length ? m.tags.map((t) => <span class="m-tag" style={`--h:${hue(t)}`}>{t}</span>) : <span class="m-dim">—</span>}</td>
+            <td>{m.link ? <a class="m-link" href={m.link} target="_blank" rel="noopener">{host(m.link) || '链接'} ↗</a> : '—'}</td>
+            <td>{m.params ? <span class="m-params">{m.params}</span> : <span class="m-dim">—</span>}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const rows = [...document.querySelectorAll('table.models tbody tr')];
+    const q = document.getElementById('q');
+    const fType = document.getElementById('f-type');
+    const fLicense = document.getElementById('f-license');
+    const fAuthor = document.getElementById('f-author');
+    const sort = document.getElementById('sort');
+    const shown = document.getElementById('m-shown');
+    const tbody = document.querySelector('table.models tbody');
+
+    function apply() {
+      const text = q.value.trim().toLowerCase();
+      let n = 0;
+      for (const row of rows) {
+        const d = row.dataset;
+        const hit = (!text || (d.name + ' ' + d.tags + ' ' + d.author).includes(text))
+          && (!fType.value || d.type === fType.value)
+          && (!fLicense.value || d.license === fLicense.value)
+          && (!fAuthor.value || d.author === fAuthor.value);
+        row.hidden = !hit;
+        if (hit) n++;
+      }
+      shown.textContent = String(n);
+    }
+
+    function sortRows() {
+      const mode = sort.value;
+      const key = mode === 'name-asc' ? (r) => r.dataset.name : mode === 'author-asc' ? (r) => r.dataset.author : (r) => r.dataset.updated;
+      const dir = mode === 'updated-desc' ? -1 : 1;
+      rows.sort((a, b) => key(a) < key(b) ? -dir : key(a) > key(b) ? dir : 0);
+      rows.forEach((r) => tbody.appendChild(r));
+    }
+
+    [q, fType, fLicense, fAuthor].forEach((el) => el.addEventListener('input', apply));
+    sort.addEventListener('change', () => { sortRows(); apply(); });
+    apply();
+  </script>
+</BaseLayout>

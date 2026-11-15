@@ -3,7 +3,7 @@ import '../styles/global.css';
 import 'katex/dist/katex.min.css';
 interface Props { title?: string; description?: string; current?: string; }
 const { title, description = '李英平的博客：自动驾驶、嵌入式与系统工具的开发笔记。', current = '' } = Astro.props;
-const nav = [{"href":"/","label":"文章"},{"href":"/archive/","label":"归档"},{"href":"/notes/","label":"笔记"},{"href":"/links/","label":"链接"},{"href":"/friends/","label":"友链"},{"href":"/about/","label":"关于"},{"href":"/search/","label":"搜索"}];
+const nav = [{"href":"/","label":"文章"},{"href":"/archive/","label":"归档"},{"href":"/models/","label":"模型库"},{"href":"/notes/","label":"笔记"},{"href":"/links/","label":"链接"},{"href":"/friends/","label":"友链"},{"href":"/about/","label":"关于"},{"href":"/search/","label":"搜索"}];
 const fullTitle = title ? `${title} · 李英平` : '李英平';
 ---
 <!doctype html>

@@ -40,4 +40,23 @@ const timeline = Array.isArray(data.timeline) ? data.timeline : [];
       </ul>
     </section>
   )}
+
+  <section class="about-poem">
+    <h2>拟古</h2>
+    <p>
+      百工竞巧卷八荒，<br />
+      太仓一粟对苍茫。<br />
+      有涯欲逐无涯尽，<br />
+      新见方生旧说亡。<br />
+      北辕适楚马徒健，<br />
+      樗散何妨老道旁。<br />
+      莫笑汗漫无功返，<br />
+      浮桴终可问津梁。
+    </p>
+  </section>
+  <style>
+    .about-poem { margin: 3em 0 0; padding-top: 2em; border-top: 1px solid var(--line); }
+    .about-poem h2 { font-family: var(--serif); font-style: normal; font-size: 1rem; letter-spacing: .3em; color: var(--muted); margin: 0 0 1.2em; }
+    .about-poem p { font-size: 1.08rem; line-height: 2.1; letter-spacing: .06em; margin: 0; }
+  </style>
 </BaseLayout>

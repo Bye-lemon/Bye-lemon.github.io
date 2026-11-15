@@ -21,9 +21,11 @@
   --note-gap: 0rem;
 }
 
-@media (min-width: 1100px) { :root { --content: 46rem; --note: 16rem; --note-gap: 2rem; } }
-@media (min-width: 1280px) { :root { --content: 50rem; --note: 17rem; } }
-@media (min-width: 1700px) { :root { --content: 54rem; --note: 18rem; } }
+@media (min-width: 900px)  { :root { --content: 50rem; } }
+@media (min-width: 1100px) { :root { --note: 16rem; --note-gap: 2rem; } }
+@media (min-width: 1280px) { :root { --content: 56rem; --note: 17rem; } }
+@media (min-width: 1700px) { :root { --content: 62rem; --note: 18rem; } }
+@media (min-width: 2100px) { :root { --content: 66rem; } }
 
 * { box-sizing: border-box; }
 html { background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
@@ -149,6 +151,5 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
 }
 
 /* 全宽页面：模型库、链接页，不留边注栏 */
-body.wide { --note: 0rem; --note-gap: 0rem; --content: 100rem; }
-body.wide main { padding-right: 0; }
+body.wide { --note: 0rem; --note-gap: 0rem; }
 body.wide .sidenote, body.wide .marginnote { display: none; }

@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const models = await getCollection('models');
+  return models.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const m = entry.data as any;
+const tags: string[] = Array.isArray(m.tags) ? m.tags : [];
+const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./, ''); } catch { return ''; } };
+const rows = [
+  ['协议', m.license], ['作者', m.author], ['更新时间', m.updated], ['基模型', m.base],
+  ['发表情况', m.published], ['类型', m.type], ['参数量', m.params],
+].filter(([, v]) => v);
+---
+<BaseLayout title={String(m.name)} wide>
+  <p class="back"><a href="/models/">← 模型库</a>{m.starred && <span class="star">★ 已收藏</span>}</p>
+  <h1>{m.name}</h1>
+  <div class="model-detail">
+    <dl class="model-meta">
+      {rows.map(([k, v]) => (<><dt>{k}</dt><dd>{String(v)}</dd></>))}
+    </dl>
+    <div class="model-links">
+      {m.link && <a href={m.link} target="_blank" rel="noopener">权重 / 主页 ↗ <span class="dim">{host(m.link)}</span></a>}
+      {m.paper && <a href={m.paper} target="_blank" rel="noopener">论文 ↗ <span class="dim">{m.paper}</span></a>}
+    </div>
+    {tags.length > 0 && <p class="model-tags">{tags.map((t) => <span class="m-tag">{t}</span>)}</p>}
+    <div class="prose model-body"><Content /></div>
+  </div>
+  <style>
+    .back { font-family: var(--sans); font-size: .74rem; margin: 0 0 1.4em; }
+    .back a { text-decoration: none; color: var(--muted); }
+    .back .star { margin-left: 10px; color: var(--accent); }
+    .model-detail { max-width: 62rem; }
+    .model-meta { display: grid; grid-template-columns: 7em 1fr; gap: .45em 1.2em; font-family: var(--sans); font-size: .8rem; margin: 1.6em 0; }
+    .model-meta dt { color: var(--muted); }
+    .model-meta dd { margin: 0; }
+    .model-links { display: flex; gap: 1.4em; flex-wrap: wrap; font-family: var(--sans); font-size: .8rem; margin-bottom: 1em; }
+    .model-links a { text-decoration: none; }
+    .model-links .dim { color: var(--muted); font-size: .72rem; }
+    .model-tags { margin: 0 0 1.8em; }
+    .model-body { max-width: 52rem; }
+  </style>
+</BaseLayout>

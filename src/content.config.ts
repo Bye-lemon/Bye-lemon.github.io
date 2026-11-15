@@ -9,4 +9,8 @@ const about = defineCollection({
   loader: glob({ pattern: 'index.md', base: './source/about' }),
 });
 
-export const collections = { posts, about };
+const models = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/models' }),
+});
+
+export const collections = { posts, about, models };

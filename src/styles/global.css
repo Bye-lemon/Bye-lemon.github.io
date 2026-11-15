@@ -147,3 +147,8 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
   nav.site { gap: 14px; font-size: .74rem; flex-wrap: wrap; }
   blockquote { margin-left: 1rem; }
 }
+
+/* 全宽页面：模型库、链接页，不留边注栏 */
+body.wide { --note: 0rem; --note-gap: 0rem; --content: 100rem; }
+body.wide main { padding-right: 0; }
+body.wide .sidenote, body.wide .marginnote { display: none; }

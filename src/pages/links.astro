@@ -2,33 +2,143 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import yaml from 'js-yaml';
 import fs from 'node:fs';
-const raw = fs.readFileSync('src/data/nav.yml', 'utf8');
-const groups = yaml.load(raw) || [];
-const total = groups.reduce((n, g) => n + (g.links ? g.links.length : 0) + (g.list ? g.list.reduce((m, s) => m + (s.links ? s.links.length : 0), 0) : 0), 0);
+
+const groups = (yaml.load(fs.readFileSync('src/data/nav.yml', 'utf8')) as any[]) || [];
+
+type Section = { id: string; taxonomy: string; title: string; links: any[] };
+const sections: Section[] = [];
+for (const g of groups) {
+  if (Array.isArray(g.links)) {
+    sections.push({ id: g.taxonomy, taxonomy: g.taxonomy, title: g.taxonomy, links: g.links });
+  }
+  if (Array.isArray(g.list)) {
+    for (const sub of g.list) {
+      sections.push({ id: g.taxonomy + '-' + sub.term, taxonomy: g.taxonomy, title: sub.term, links: sub.links || [] });
+    }
+  }
+}
+const total = sections.reduce((n, s) => n + s.links.length, 0);
+const byTaxonomy = groups.map((g) => {
+  const own = Array.isArray(g.links) ? g.links.length : 0;
+  const subs = Array.isArray(g.list) ? g.list.map((sub: any) => ({ term: sub.term, count: (sub.links || []).length })) : [];
+  return { taxonomy: g.taxonomy, count: own + subs.reduce((n: number, s: any) => n + s.count, 0), subs, own };
+});
+const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./, ''); } catch { return ''; } };
 ---
-<BaseLayout title="链接" current="/links/">
-  <h1>链接</h1>
-  <p class="lead">长期在用的 {total} 个站点。</p>
-  {groups.map((group) => (
-    <section>
-      <h2>{group.taxonomy}</h2>
-      {group.links && (
-        <ul class="post-list">
-          {group.links.map((l) => (
-            <li><a href={l.url} target="_blank" rel="noopener">{l.title}</a>{l.description && <span style="font-family:var(--sans);font-size:.72rem;color:var(--muted)">{l.description}</span>}</li>
+<BaseLayout title="链接" current="/links/" wide>
+  <style>
+    .desk { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 40px; align-items: start; }
+    .rail { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; font-family: var(--sans); font-size: .78rem; }
+    .rail h2 { font-family: var(--sans); font-style: normal; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 .8em; }
+    .rail a { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; color: var(--muted); text-decoration: none; }
+    .rail a:hover { color: var(--ink); }
+    .rail a.active { color: var(--ink); text-decoration: underline; text-underline-offset: .25em; }
+    .rail .sub { padding-left: 12px; font-size: .72rem; }
+    .rail .n { color: var(--faint); font-size: .68rem; }
+    .rail .grp { margin-bottom: 1.2em; }
+
+    .desk-bar { position: sticky; top: 0; z-index: 5; background: var(--paper); padding: 12px 0 10px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+    .desk-bar input { flex: 1; font-family: var(--sans); font-size: .85rem; padding: 9px 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
+    .desk-bar input:focus { outline: 0; border-color: var(--ink); }
+    .desk-bar kbd { font-family: var(--mono); font-size: .66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 2px 5px; }
+    .desk-count { font-family: var(--sans); font-size: .74rem; color: var(--muted); white-space: nowrap; }
+
+    .sec { margin: 0 0 2.4em; scroll-margin-top: 70px; }
+    .sec h2 { font-family: var(--serif); font-style: normal; font-size: 1.15rem; margin: 0 0 .9em; display: flex; align-items: baseline; gap: 10px; }
+    .sec h2 .n { font-family: var(--sans); font-size: .7rem; color: var(--faint); font-weight: 400; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+    .site { display: block; padding: 12px 14px; border: 1px solid var(--line); border-radius: 2px; text-decoration: none; background: transparent; transition: background .12s; }
+    .site:hover { background: rgba(17,17,17,.03); }
+    .site .t { display: flex; align-items: center; gap: 8px; font-family: var(--serif); font-size: .95rem; color: var(--ink); }
+    .site .t img { width: 16px; height: 16px; object-fit: contain; }
+    .site .d { display: block; margin-top: 4px; font-family: var(--sans); font-size: .7rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .site .u { font-family: var(--mono); font-size: .66rem; color: var(--faint); }
+    .empty { display: none; font-family: var(--sans); color: var(--muted); padding: 2em 0; }
+
+    @media (max-width: 980px) {
+      .desk { grid-template-columns: 1fr; gap: 10px; }
+      .rail { position: static; max-height: none; display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 1.2em; }
+      .rail .grp { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
+      .rail h2 { display: none; }
+      .rail .sub { padding-left: 0; }
+    }
+  </style>
+
+  <div class="desk">
+    <aside class="rail" aria-label="分类">
+      {byTaxonomy.map((g) => (
+        <div class="grp">
+          <h2>{g.taxonomy}</h2>
+          {g.own > 0 && <a href={`#${g.taxonomy}`} data-target={g.taxonomy}>{g.taxonomy}<span class="n">{g.own}</span></a>}
+          {g.subs.map((s: any) => (
+            <a class="sub" href={`#${g.taxonomy}-${s.term}`} data-target={`${g.taxonomy}-${s.term}`}>{s.term}<span class="n">{s.count}</span></a>
           ))}
-        </ul>
-      )}
-      {group.list && group.list.map((sub) => (
-        <div>
-          <h3>{sub.term}</h3>
-          <ul class="post-list">
-            {sub.links.map((l) => (
-              <li><a href={l.url} target="_blank" rel="noopener">{l.title}</a>{l.description && <span style="font-family:var(--sans);font-size:.72rem;color:var(--muted)">{l.description}</span>}</li>
-            ))}
-          </ul>
         </div>
       ))}
-    </section>
-  ))}
+    </aside>
+
+    <div class="desk-main">
+      <div class="desk-bar">
+        <input id="desk-filter" type="search" placeholder="筛选站名、描述或域名" aria-label="筛选站点" autocomplete="off" spellcheck="false" />
+        <kbd>⌘K</kbd>
+        <span class="desk-count">共 <span id="desk-total">{total}</span> 条 · 显示 <span id="desk-shown">{total}</span></span>
+      </div>
+
+      {sections.map((s) => (
+        <section class="sec" id={s.id} data-section={s.id}>
+          <h2>{s.title} <span class="n" data-count={s.id}>{s.links.length}</span></h2>
+          <div class="grid">
+            {s.links.map((l) => (
+              <a class="site" href={l.url} target="_blank" rel="noopener" data-text={`${l.title} ${l.description || ''} ${host(l.url)}`.toLowerCase()}>
+                <span class="t">{l.logo && <img src={l.logo} alt="" loading="lazy" onerror="this.style.display='none'" />}{l.title}</span>
+                <span class="d">{l.description || host(l.url)}</span>
+                <span class="u">{host(l.url)} ↗</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+      <p class="empty" id="desk-empty">没有匹配的站点。</p>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('desk-filter');
+    const totalEl = document.getElementById('desk-total');
+    const shownEl = document.getElementById('desk-shown');
+    const empty = document.getElementById('desk-empty');
+    const sites = [...document.querySelectorAll('.sec .site')];
+    const sections = [...document.querySelectorAll('.sec')];
+    const railLinks = [...document.querySelectorAll('.rail a[data-target]')];
+
+    function apply() {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      for (const sec of sections) {
+        let n = 0;
+        for (const site of sec.querySelectorAll('.site')) {
+          const hit = !q || site.dataset.text.includes(q);
+          site.style.display = hit ? '' : 'none';
+          if (hit) { n++; shown++; }
+        }
+        sec.style.display = n ? '' : 'none';
+        const c = sec.querySelector('[data-count]');
+        if (c) c.textContent = String(n);
+      }
+      shownEl.textContent = String(shown);
+      totalEl.textContent = String(sites.length);
+      empty.style.display = shown ? 'none' : 'block';
+      railLinks.forEach((a) => {
+        const sec = document.getElementById(a.dataset.target);
+        a.style.display = sec && sec.style.display === 'none' ? 'none' : '';
+      });
+    }
+
+    input.addEventListener('input', apply);
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus(); input.select(); }
+      if (e.key === 'Escape') { input.value = ''; apply(); input.blur(); }
+    });
+    apply();
+  </script>
 </BaseLayout>

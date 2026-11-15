@@ -1,0 +1,24 @@
+<%
+  var cat = site.categories.findOne({ name: '论文笔记' });
+  var posts = cat ? cat.posts.sort('-date').toArray() : [];
+-%>
+<main class="main papers-page">
+    <div class="page-head">
+        <span class="kana">ろんぶん</span>
+        <h1>论文笔记</h1>
+        <span class="count">共 <%= posts.length %> 篇</span>
+    </div>
+    <p class="page-lede">读过的论文，只留下骨架：方法、结论，以及还没想通的部分。</p>
+    <ul class="page-list">
+        <%_ posts.forEach(function (post) { _%>
+        <li>
+            <time datetime="<%- date(post.date, 'YYYY-MM-DD') %>"><%- date(post.date, 'YYYY.MM.DD') %></time>
+            <a href="<%- url_for(post.path) %>"><%- post.title || '[Untitled Post]' %></a>
+            <span class="tg"><%_ if (post.tags && post.tags.length) { _%><%- post.tags.limit(2).map(function (t) { return t.name; }).join(' · ') %><%_ } _%></span>
+        </li>
+        <%_ }) _%>
+    </ul>
+    <%_ if (!posts.length) { _%>
+    <p class="page-empty">这一分类下还没有文章。</p>
+    <%_ } _%>
+</main>

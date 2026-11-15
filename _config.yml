@@ -8,12 +8,11 @@ subtitle:
 description:
 keywords:
 author: 李英平
-language:
-timezone:
-
+language: zh-CN
+timezone: Asia/Shanghai
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://Bye-lemon.github.io
+url: https://bye-lemon.github.io
 root: /
 # permalink: :year/:month/:day/:title/
 permalink: post/:abbrlink/
@@ -43,6 +42,7 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
+syntax_highlighter: highlight.js
 highlight:
   enable: true
   line_number: true
@@ -85,39 +85,17 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: archer
+theme: lml-hexo-theme
 ## hexo-blog-encrypt
-encrypt:
-  enable: true
-# hexo-helper-live2d
-live2d:
-  enable: true
-  scriptFrom: local
-  pluginRootPath: live2dw/
-  pluginJsPath: lib/
-  pluginModelPath: assets/
-  tagMode: false
-  log: false
-  model:
-    use: live2d-widget-model-tororo
-  display:
-    position: right
-    width: 150
-    height: 300
-  mobile:
-    show: false
-
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   - type: git
     repo: git@github.com:Bye-lemon/Bye-lemon.github.io.git
     branch: master
-    token: "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"
   - type: git
     repo: git@github.com:Bye-lemon/Bye-lemon.github.io.git
     branch: src
-    token: "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"
     extend_dirs: /
     ignore_hidden: false
     ignore_pattern:
@@ -142,3 +120,17 @@ jsonContent:
     excerpt: false
     categories: true
     tags: true
+
+# Sitemap
+sitemap:
+  path: sitemap.xml
+  rel: false
+  tags: true
+  categories: true
+
+# Markdown renderer (hexo-renderer-marked)
+marked:
+  gfm: true
+  breaks: true
+  smartLists: true
+  autolink: true

@@ -33,25 +33,9 @@ social:
 friends:
   Library of Babel<br>: //libraryofbabel.info
   川神的博客~<br>: //janaldochen.github.io/
-  徐渊的博客~<br>: //alfredzee.github.io/
   炳君的博客~<br>: //leebinjun.github.io/index.html
-  相哥的博客~<br>: //eyeeco.github.io/
-  庆哥的博客~<br>: //yqzzxlj.github.io/
-  洋哥的博客~<br>: //zgxh.github.io/
-  东哥的博客~<br>: //haxisnake.github.io/
-  张鑫的博客~<br>: //purp1e.top/
-  湛搏的博客~<br>: //www.sadangel.cn/
-  三丰的博客~<br>: //me.csdn.net/weixin_42089190
   爱宾的博客~<br>: //leslieaibin.github.io/
-  运恒的博客~<br>: //lyhisme.com/
-  张帆的博客~<br>: //fansblog.me/
-  子扬的博客~<br>: //fuujiro.github.io/
-  传民的博客~<br>: //MarsMeow.github.io/
-  乐恒的博客~<br>: //len-li.github.io/
-  武军的博客~<br>: //thinksky5124.github.io/
-  那继鹏的博客~<br>: //blog.csdn.net/NJP_NJP
-  叶老师的博客~<br>: //laurenfrost.github.io/
-  李可艺的博客~<br>: //blog.keyi-li.com/
+  叶老师的博客~<br>: //laurenfrost.ink/
 about:
   enable: true
   image: '/intro/about-bg.jpg'
@@ -73,6 +57,8 @@ profile_icons:
   search: 'fas fa-search'
 # Additional profile links
 profile_links:
+  - name: NAV
+    url: /nav/
   - name: RUNNING
     url: /running_page
     icon: 'fab fab-running'
@@ -192,6 +178,14 @@ google_analytics:
 # CNZZ analytics
 CNZZ_analytics: 
 
+# ========== Studio (首页文案) ========== #
+studio:
+  hero_title: "你的指尖<br>有改变世界的力量"
+  hero_quote: "极限犹可突破，至臻亦不可止。"
+  motto: "极限犹可突破，<br>至臻亦不可止。"
+  motto_date: "二〇二一 · 冬"
+  seal: "英平"
+
 # ========== Others ========== #
 # plugins
 plugins:
@@ -226,15 +220,11 @@ outdated_threshold:
 # Mermaid Chart: https://github.com/knsv/mermaid
 mermaid:
   enable: true
-  # Version number '8' is for the latest '8.x' version of Mermaid.
-  version: 8.11.0
-  theme: dark
-  # find more api options from https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js
-  options:
+  # 渲染由 pele 完成（themes/archer/layout/layout.ejs），这里只保留总开关
 # LaTeX Math Equations Support
 math:
   mathjax:
-    enable: false
+    enable: true
     # Specified version number no less than '3.0.0', or you need to modify the CDN link manually.
     # Version number '3' is for the latest '3.x' version of MathJax.
     version: 3.2.0
@@ -252,8 +242,3 @@ custom_font:
   name: 'Noto Sans SC:n3,n4,n5,n7'
   # Font CDN url
   url: 'https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap'
-
-# ========== Theme Dev ========== #
-# Ensure visitor to get the latest version of source.
-# Set a higher value before creating new release.
-source_version: 20210823

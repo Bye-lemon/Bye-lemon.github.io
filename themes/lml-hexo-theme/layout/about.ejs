@@ -1,0 +1,83 @@
+<%
+  var profile = page.profile || [
+    { k: '在读', v: '大连理工大学 · 计算机' },
+    { k: '方向', v: '自动驾驶 · 嵌入式' },
+    { k: '城市', v: '大连' },
+    { k: '写作', v: '2018 年起' },
+    { k: '工具', v: 'Hexo · 一点耐心' }
+  ];
+  var timeline = page.timeline || [];
+  var now = page.now || [];
+-%>
+<main class="main about-page">
+    <section class="s-about-hero">
+        <div>
+            <div class="s-sec-head" style="margin-bottom:18px">
+                <span class="kana">わたし</span>
+                <h2 style="font-size:26px">关于我</h2>
+            </div>
+            <div class="s-about-body"><%- page.content %></div>
+            <div class="s-about-links">
+                <a href="https://github.com/Bye-lemon" target="_blank" rel="noopener">GitHub</a>
+                <a href="mailto:2576413114@qq.com">邮箱</a>
+                <a href="<%- url_for('/atom.xml') %>">RSS</a>
+            </div>
+        </div>
+        <aside class="s-profile-card">
+            <div class="s-profile-head"><span>PROFILE</span><em>しょくぶん</em></div>
+            <dl>
+                <%_ profile.forEach(function (row) { _%>
+                <dt><%- row.k %></dt><dd><%- row.v %></dd>
+                <%_ }) _%>
+            </dl>
+        </aside>
+    </section>
+
+    <%_ if (now.length) { _%>
+    <section class="s-about-section">
+        <div class="s-sec-head"><span class="n">01</span><span class="kana">いま</span><h2>现在在做什么</h2></div>
+        <div class="s-now-grid">
+            <%_ now.forEach(function (item) { _%>
+            <div class="s-now-card">
+                <h3><%- item.title %></h3>
+                <p><%- item.text %></p>
+            </div>
+            <%_ }) _%>
+        </div>
+    </section>
+    <%_ } _%>
+
+    <%_ if (timeline.length) { _%>
+    <section class="s-about-section">
+        <div class="s-sec-head"><span class="n">02</span><span class="kana">あゆみ</span><h2>走过的路</h2></div>
+        <ul class="s-timeline">
+            <%_ timeline.forEach(function (row) { _%>
+            <li>
+                <span class="when"><%- row.when %></span>
+                <span class="what"><%- row.what %></span>
+                <span class="where"><%- row.where || '' %></span>
+            </li>
+            <%_ }) _%>
+        </ul>
+    </section>
+    <%_ } _%>
+
+    <section class="s-about-poem">
+        <div class="s-poem-head">
+            <span class="s-poem-title">拟古</span>
+            <span class="s-poem-kana">ぎこ</span>
+        </div>
+        <div class="s-poem-body">
+            <p>
+                百工竞巧卷八荒，<br>
+                太仓一粟对苍茫。<br>
+                有涯欲逐无涯尽，<br>
+                新见方生旧说亡。<br>
+                北辕适楚马徒健，<br>
+                樗散何妨老道旁。<br>
+                莫笑汗漫无功返，<br>
+                浮桴终可问津梁。
+            </p>
+        </div>
+    </section>
+</main>

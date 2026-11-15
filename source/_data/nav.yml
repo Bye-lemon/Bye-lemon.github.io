@@ -1,0 +1,643 @@
+---
+- taxonomy: 常用推荐
+  icon: far fa-star
+  links: 
+    - title: GitHub
+      logo: https://github.githubassets.com/favicons/favicon-dark.svg
+      url: https://github.com/
+      description: ''
+    - title: Arxiv
+      logo: https://arxiv.org/static/browse/0.3.4/images/icons/favicon-32x32.png
+      url: https://arxiv.org/
+      description: ''
+    - title: Google Scholar
+      logo: https://scholar.google.com/favicon.ico
+      url: https://scholar.google.com/
+      description: ''
+    - title: Hugging Face
+      logo: https://huggingface.co/front/assets/huggingface_logo-noborder.svg
+      url: https://huggingface.co/
+      description: ''
+    - title: Docker Hub
+      logo: https://hub.docker.com/favicon.ico
+      url: https://hub.docker.com/explore
+      description: Docker Hub
+    - title: Cloudflare Dashboard
+      logo: https://dash.cloudflare.com/favicon-196x196.png
+      url: https://dash.cloudflare.com/login
+      description: ''
+    - title: PyPI
+      logo: https://pypi.org/static/images/favicon.35549fe8.ico
+      url: https://pypi.org/
+      description: ''
+    - title: ModelScope
+      logo: https://g.alicdn.com/sail-web/maas/2.7.30/favicon/128.ico
+      url: https://www.modelscope.cn/home
+      description: ''
+    - title: Zotero Web Library
+      logo: https://www.zotero.org/static/images/home/privacy.svg
+      url: https://www.zotero.org/mylibrary
+      description: ''
+    - title: Python Extension Packages for Windows 
+      logo: https://www.cgohlke.com/cgohlke.ico
+      url: https://www.cgohlke.com/
+      description: Windows 平台下 Python 第三方库预编译二进制轮子下载
+    - title: 知乎
+      logo: https://static.zhihu.com/heifetz/favicon.ico
+      url: https://www.zhihu.com/
+      description: ''
+
+
+- taxonomy: AI 相关
+  icon: far fa-gem fa-lg
+  list: 
+    - term: AI 产品
+      links:
+        - title: ChatGPT
+          logo: https://chatgpt.com/cdn/assets/favicon-eex17e9e.ico
+          url: https://chat.openai.com/chat
+          description: ''
+        - title: Manus
+          logo: https://manus.im/favicon.ico
+          url: https://manus.im/
+          description: ''
+        - title: Cursor
+          logo: https://www.cursor.com/favicon.svg
+          url: https://www.cursor.com/
+          description: ''
+        - title: Gemini
+          logo: https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg
+          url: https://gemini.google.com/app
+          description: ''
+        - title: Grok
+          logo: https://grok.com/images/favicon.svg
+          url: https://grok.com/
+          description: ''
+        - title: DeepSeek
+          logo: https://fe-static.deepseek.com/chat/favicon.svg
+          url: https://chat.deepseek.com/
+          description: ''
+        - title: Kimi
+          logo: https://statics.moonshot.cn/kimi-chat/favicon.ico
+          url: https://kimi.moonshot.cn/
+          description: ''
+        - title: Qwen
+          logo: https://assets.alicdn.com/g/qwenweb/qwen-webui-fe/0.0.87/favicon.png
+          url: https://chat.qwen.ai/
+          description: ''
+        - title: 秘塔AI搜索
+          logo: https://favicon.im/metaso.cn?larger=true
+          url: https://metaso.cn/
+          description: ''
+        - title: MiroThinker
+          logo: https://dr.miromind.ai/favicon.svg
+          url: https://dr.miromind.ai/
+          description: ''
+        - title: NotebookLM
+          logo: https://notebooklm.google.com/_/static/branding/v5/light_mode/favicon/favicon.svg
+          url: https://notebooklm.google.com/
+          description: ''
+        - title: DeepWiki
+          logo: https://deepwiki.com/favicon.ico
+          url: https://deepwiki.com/
+          description: Devin 团队开发 Github 主流仓库 Wiki 和问答平台
+        - title: Midjourney
+          logo: https://cdn.svgporn.com/logos/midjourney.svg
+          url: https://www.midjourney.com/
+          description: ''
+        - title: Civitai
+          logo: https://civitai.com/favicon-blue.ico
+          url: https://civitai.com/
+          description: ''
+        - title: Civitai Green
+          logo: https://civitai.com/favicon-green.ico
+          url: https://civitai.green/
+          description: Civitai 的 Safe for Work 版本
+        - title: 海螺AI
+          logo: https://cdn.hailuoai.com/hailuo-video-web/public_assets/favicon.png
+          url: https://hailuoai.com/
+          description: MiniMax 发布图像视频生成平台
+        - title: 即梦AI
+          logo: https://lf3-lv-buz.vlabstatic.com/obj/image-lvweb-buz/common/images/dreamina-v5.ico
+          url: https://jimeng.jianying.com/
+          description: 字节剪映旗下全功能 AIGC 平台
+
+    - term: LLM 服务平台
+      links:
+        - title: OpenRouter
+          logo: https://openrouter.ai/favicon.ico
+          url: https://openrouter.ai/
+          description: LLM API 统一调用平台。
+        - title: 硅基流动
+          logo: https://favicon.im/www.siliconflow.cn
+          url: https://account.siliconflow.cn/zh/login
+          description: ""
+        - title: Google AI Studio
+          logo: https://www.gstatic.com/aistudio/ai_studio_favicon_256x256.png
+          url: https://aistudio.google.com/
+          description: ''
+        - title: xAI Cloud Console
+          logo: https://console.x.ai/favicon.ico
+          url: https://console.x.ai/
+          description: ""
+        - title: 阿里云百炼
+          logo: https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico
+          url: https://bailian.console.aliyun.com/
+          description: ""
+        - title: MiniMax 开放平台
+          logo: https://filecdn.minimax.chat/public/25289820-59cd-4365-9829-a3f32b365451.ico
+          url: https://platform.minimaxi.com/login
+          description: ""
+        - title: Moonshot 开放平台
+          logo: https://statics.moonshot.cn/moonshot-ai/favicon.ico
+          url: https://platform.moonshot.cn/console/
+          description: ""
+        - title: DeepSeek 开放平台
+          logo: https://platform.deepseek.com/favicon.svg
+          url: https://platform.deepseek.com/sign_in
+          description: ""
+    
+    - term: Agent 服务
+      links:
+        - title: Agent Mail
+          logo: https://res.wx.qq.com/t/webmail/webmail/res/static/images/public/index_bot/favicon/favicon_48h.d14be67.png
+          url: https://agent.qq.com/
+          description: 腾讯 Agent 独立邮箱。
+        - title: AnySearch
+          logo: https://www.anysearch.com/favicon.ico
+          url: https://www.anysearch.com/home
+          description: AI 搜索 MCP 和 Skill 基础设施。
+        - title: Context7
+          logo: https://context7.com/favicon.ico
+          url: https://context7.com/
+          description: 代码文档检索基础设施。
+
+    - term: LLM 工具
+      links:
+        - title: XSCT Bench
+          logo: https://a.favicon.im/xsct.ai
+          url: https://xsct.ai/
+          description: 社区驱动的业务场景评测和选型平台。
+        - title: LLM API Pricing Calculator
+          logo: https://www.helicone.ai/_next/image?url=%2Fstatic%2Fpricing-calc%2Fcoins.webp&w=256&q=100
+          url: https://www.helicone.ai/llm-cost
+          description: 大模型调用价格计算器。
+        - title: Models.dev
+          logo: https://models.dev/favicon-aq6crjze.svg
+          url: https://models.dev/
+          description: 开源 LLM/Provider 信息和价格数据库。
+        - title: MCP Registry Registry
+          logo: https://mastra.ai/favicon/new-brand/icon.svg
+          url: https://mastra.ai/mcp-registry-registry
+          description: MCP 服务器列表合集站。
+        - title: SkillsMP
+          logo: https://skillsmp.com/favicon.ico
+          url: https://skillsmp.com/
+          description: SKILL.MD 市场。
+        - title: Skills.sh
+          logo: https://skills.sh/favicon.ico
+          url: https://skills.sh/
+          description: Vercel 收录开源 Skills 目录。
+        - title: SkillForge
+          logo: https://skills.yangsir.net/favicon.ico?favicon.0b3bf435.ico
+          url: https://skills.yangsir.net/
+          description: 按职业查找适合的 Skill
+        - title: ACP Registry
+          logo: https://agentclientprotocol.com/mintlify-assets/_mintlify/favicons/zed-685ed6d6/FRQhP3nE5XCe1eY2/_generated/favicon-dark/favicon-16x16.png
+          url: https://agentclientprotocol.com/get-started/registry
+          description: ACP 协议应用列表。
+        - title: ClawHub
+          logo: https://a.favicon.im/clawhub.ai
+          url: https://clawhub.ai/
+          description: OpenClaw 官方 Skill 仓库
+        - title: n8n 官方工作流模板库
+          logo: https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/n8n-color.png
+          url: https://n8n.io/workflows/
+          description: ''
+        - title: Phistory
+          logo: https://a.favicon.im/phistory.cc
+          url: https://phistory.cc/
+          description: CC 等 CLI Agent 系统提示词 Trace。
+        - title: HF Viewer
+          logo: https://hfviewer.com/assets/hfviewer-favicon.svg
+          url: https://hfviewer.com/
+          description: 粘贴 Hugging Face 模型链接，交互式查看模型结构图。
+    - term: LLM Leaderboard
+      links:
+        - title: LLM Stat
+          logo: https://llm-stats.com/icon.svg
+          url: https://llm-stats.com/
+          description: 汇总 MMLU、GPQA、HumanEval、DROP、MATH 基准结果
+        - title: Artificial Analysis
+          logo: https://artificialanalysis.ai/favicon.ico
+          url: https://artificialanalysis.ai/
+          description: LLM、Image、Audio、Video 等多任务综合竞技场
+        - title: LiveBench
+          logo: https://livebench.ai/favicon.ico
+          url: https://livebench.ai/
+          description: LLM 综合能力榜单
+        - title: LMSYS LMArena
+          logo: https://avatars.githubusercontent.com/u/126381704?s=200&v=4
+          url: https://beta.lmarena.ai/leaderboard
+          description: LLM 综合竞技场（文本、图像、Web、Copilot、文生图）
+        - title: Design Arena
+          logo: https://www.designarena.ai/design-arena.png
+          url: https://www.designarena.ai/leaderboard
+          description: LLM UI 设计能力竞技场（网站、数据可视化、SVG等）
+        - title: EQ-Bench
+          logo: https://eqbench.com/images/eqbench_logo_sml.png
+          url: https://eqbench.com/index.html
+          description: LLM 情商和创意写作榜单
+        - title: MTEB
+          logo: https://avatars.githubusercontent.com/u/103029531?s=200&v=4
+          url: https://huggingface.co/spaces/mteb/leaderboard
+          description: Embeddings 和文本检索基准
+        - title: Aider Leaderboard
+          logo: https://aider.chat/assets/icons/favicon-32x32.png
+          url: https://aider.chat/docs/leaderboards/
+          description: 基于 Aider 的代码编写和重构榜单
+        - title: BFCL Leaderboard
+          logo: https://gorilla.cs.berkeley.edu/assets/img/Cal.png
+          url: https://gorilla.cs.berkeley.edu/leaderboard.html
+          description: LLM 函数调用能力评价榜单
+        - title: Open Japanese LLM Leaderboard V2
+          logo: https://avatars.githubusercontent.com/u/134031702?s=200&v=4
+          url: https://huggingface.co/spaces/llm-jp/open-japanese-llm-leaderboard-v2
+          description: LLM-JP 日本开源 LLM 榜单 
+        - title: Swallow LLM Leaderboard v2
+          logo: https://swallow-llm.github.io/static/favicon.svg
+          url: https://swallow-llm.github.io/leaderboard/index-post.ja.html
+          description: Swallow LLM 日本语榜单
+        - title: Ultralytics Benchmarks
+          logo: https://www.ultralytics.com/icon.svg
+          url: https://www.ultralytics.com/benchmarks
+          description: YOLO26 在 NVIDIA GPU 与手机 CPU/GPU/NPU 上的训练吞吐、推理延迟和能效基准。
+        - title: Ultralytics VLM Leaderboard
+          logo: https://www.ultralytics.com/icon.svg
+          url: https://www.ultralytics.com/benchmarks/vlm
+          description: 46 个视觉语言模型在真实检测数据集自动标注任务上的准确率、成本与速度排行。
+
+
+- taxonomy: 开发相关
+  icon: far fa-file-code fa-lg
+  list: 
+    - term: 在线工具
+      links:
+        - title: ProgrammingMusic
+          logo: https://musicforprogramming.net/favicon.png
+          url: https://musicforprogramming.net/latest/
+          description: 
+        - title: JSON Viewer
+          logo: https://jsonviewer.arianv.com/favicon-96x96.png
+          url: https://jsonviewer.arianv.com/
+          description: JSON 格式化工具
+        - title: Regex 101
+          logo: https://regex101.com/static/assets/icons/favicon-196.png
+          url: https://regex101.com/
+          description: 正则表达式在线测试工具
+        - title: SVG Viewer
+          logo: https://www.svgviewer.dev/images/logo.svg
+          url: https://www.svgviewer.dev/
+          description: SVG 压缩、预览和格式化工具
+        - title: Mermaid Live Editor
+          logo: https://mermaid.live/favicon.svg
+          url: https://mermaid.live/edit/
+          description: Mermaid 官方在线编辑器
+        - title: TableConvert
+          logo: https://tableconvert.com/images/favicon.png
+          url: https://tableconvert.com/
+          description: 在线转换 CSV、DB、MD、Latex 等各种类型表格数据
+        - title: Excalidraw
+          logo: https://excalidraw.com/favicon-32x32.png
+          url: https://excalidraw.com/
+          description: 在线手绘风图表绘制工具
+        - title: Convertio
+          logo: https://static.convertio.co/img/apple-touch-icon-76x76-precomposed.png
+          url: https://convertio.co/zh/
+          description: 在线文件格式转换工具
+        - title: Composerizer
+          logo: https://www.composerize.com/favicon.ico
+          url: https://www.composerize.com/
+          description: Docker 命令转 Docker-Compose 文件
+        - title: Decomposer
+          logo: https://www.decomposerize.com/favicon.ico
+          url: https://www.decomposerize.com/
+          description: Docker-Compose 文件转 Docker 命令
+        - title: Composeverter
+          logo: https://www.composeverter.com/favicon.ico
+          url: https://www.composeverter.com/
+          description: Docker-Compose 文件 v1 转 v2 转换器
+        - title: Favicon.im
+          logo: https://favicon.im/favicon.im
+          url: https://favicon.im/
+          description: 获取网站的 Favicon
+        - title: Favicon.io
+          logo: https://favicon.io/assets/static/favicon.b9532cc.ed88c65f76fa003989a0c683d668c765.png
+          url: https://favicon.io/
+          description: 在线转换和生成 Favicon 图标
+        - title: Lorem Ipsum
+          logo: https://cn.lipsum.com/favicon.ico
+          url: https://cn.lipsum.com/
+          description: 乱数假文生成器
+        - title: Placeholder Image Generator
+          logo: https://placeholderimage.dev/statics/icons/favicon-32x32.png
+          url: https://placeholderimage.dev/
+          description: 在线生成占位图像
+        - title: Compiler Explorer
+          logo: https://static.ce-cdn.net/favicon.ico
+          url: https://godbolt.org/
+          description: 多语言在线编译器
+        - title: TextKool ASCII Art Generator
+          logo: https://textkool.com/static/icons/favicon-32x32.png
+          url: https://textkool.com/en/ascii-art-generator?hl=default&vl=default&font=Red%20Phoenix&text=Your%20text%20here%20
+          description: 在线文字转换 ASCII 字符画
+    - term: 云平台
+      links:
+        - title: AWS 定价计算器
+          logo: https://calculator.aws/favicon.ico
+          url: https://calculator.aws/
+          description: AWS 服务定价计算器。
+        - title: Azure 定价计算器
+          logo: https://azure.microsoft.com/cdn-classic/cvt-44c7363d160faed86fa1280ef1458c84ef2c4f9d94108e844d31f46693f38b02/images/shared/social/azure-icon-250x250.png
+          url: https://azure.microsoft.com/en-us/pricing/calculator/
+          description: Azure 服务定价计算器。
+        - title: GCP 定价计算器 
+          logo: https://www.gstatic.com/devrel-devsite/prod/v0d244f667a3683225cca86d0ecf9b9b81b1e734e55a030bdcd3f3094b835c987/cloud/images/favicons/onecloud/favicon.ico
+          url: https://cloud.google.com/products/calculator
+          description: GCP 服务定价计算器。
+    - term: Mirror 镜像
+      links:
+        - title: TUNA 镜像站
+          logo: https://mirrors.tuna.tsinghua.edu.cn/static/img/logo-small-dark.png
+          url: https://mirrors.tuna.tsinghua.edu.cn/
+          description: ""
+        - title: HF Mirror
+          logo: https://hf-mirror.com/favicon.ico
+          url: https://hf-mirror.com/
+          description: Hugging Face 镜像站
+        - title: GH-Proxy
+          logo: https://gh-proxy.com/favicon.ico
+          url: https://gh-proxy.com/
+          description: GitHub、SourceForge 镜像站
+        - title: NPM Mirror
+          logo: https://npmmirror.com/cnpm.png
+          url: https://npmmirror.com/
+          description: 阿里巴巴 NPM 镜像站。
+        - title: RsProxy
+          logo: https://lf-cdn-tos.bytescm.com/obj/static/rsproxy/favicon.svg
+          url: https://rsproxy.cn/
+          description: 字节跳动 Rust crates.io 镜像站。
+        - title: MSDN I Tell You
+          logo: https://static.itellyou.cn/images/logo.png
+          url: https://msdn.itellyou.cn/
+          description: ""
+    - term: 开发者文档
+      links:
+        - title: Mozilla 开发者网络
+          logo: https://developer.mozilla.org/favicon.ico
+          url: https://developer.mozilla.org/en-US/
+          description: MDN Web Docs 是由 Mozilla 提供的 Web 开发者文档。
+
+
+- taxonomy: 科研办公
+  icon: fas fa-flask fa-lg
+  list:
+    - term: 论文科研
+      links:
+        - title: AlphaXiv
+          logo: https://static.alphaxiv.org/logos/alphaxiv_logo.png
+          url: https://www.alphaxiv.org/
+          description: Chat with axriv papers.
+        - title: Papers Cool
+          logo: https://papers.cool/static/favicon.ico
+          url: https://papers.cool/
+          description: 苏剑林的 Arxiv 论文 AI 解读列表。
+        - title: Papers with Code
+          logo: https://paperswithcode.co/favicon-32.png?v=2
+          url: https://paperswithcode.co/
+          description: AI 前沿论文跟踪。
+        - title: Papers.Data.Code
+          logo: https://papersdatacode.com/icon-192.png
+          url: https://papersdatacode.com/
+          description: 每周精选 ML 论文、代码与数据集，按主题整理成可追踪的信号。
+        - title: Sci-Hub
+          logo: https://sci-hub.se/pictures/ravenround.png
+          url: https://sci-hub.box/
+          description: 
+        - title: Sci-Bot
+          logo: https://a.favicon.im/sci-bot.ru
+          url: https://sci-bot.ru/
+          description: Sci-Hub 的 AI 论文知识库问答。
+        - title: Engineering Village
+          logo: https://www.engineeringvillage.com/app/static/images/ei_x.png
+          url: https://www.engineeringvillage.com/app/search/quick/
+          description: EI 索引数据库。
+        - title: STORM
+          logo: https://favicon.im/storm.genie.stanford.edu?larger=true
+          url: https://storm.genie.stanford.edu/
+          description: 斯坦福STORM学术引擎
+        - title: PaSa
+          logo: https://lf3-transtudio.bytetos.com/obj/lab-mt-public/lab-academic/static/image/logo.55bf6955.png
+          url: https://pasa-agent.ai/
+          description: 字节跳动开发的AI学术论文搜索引擎
+        - title: Google Dataset Search
+          logo: https://www.gstatic.com/images/branding/product/ico/googleg_lodp.ico
+          url: https://datasetsearch.research.google.com/
+          description: ''
+        - title: 国家自然科学基金大数据知识管理服务门户
+          logo: https://kd.nsfc.cn/favicon.ico
+          url: https://kd.nsfc.cn/
+          description: ''
+        - title: Letpub
+          logo: https://www.letpub.com.cn/images/favicon.ico
+          url: https://www.letpub.com.cn/index.php?page=grant
+          description: 第三方国家自然科学基金项目查询系统
+        - title: 发表云
+          logo: https://www.fabiao.com.cn/favicon.ico
+          url: https://www.fabiao.com.cn/
+          description: 期刊杂志收录情况和影响因子查询
+    - term: 信息聚合
+      links:
+        - title: 专利之星
+          logo: https://a.favicon.im/prs.patentstar.com.cn
+          url: https://cprs.patentstar.com.cn/
+          description: ''
+        - title: 中国及多国专利审查信息查询
+          logo: https://cpquery.cponline.cnipa.gov.cn/imgs/logo/logoNew.png
+          url: https://cpquery.cponline.cnipa.gov.cn/chinesepatent/index
+          description: 专利审查进度查询
+        - title: 中国版权登记查询服务平台
+          logo: https://register.ccopyright.com.cn/logo.png
+          url: https://register.ccopyright.com.cn/query.html
+          description: 软件著作权登记查询
+        - title: 行业标准信息服务平台
+          logo: https://hbba.sacinfo.org.cn/statics/hb/shareLogo.png
+          url: https://hbba.sacinfo.org.cn/
+          description: ''
+        - title: 国家市场监督管理总局合同示范文本库
+          logo: https://a.favicon.im/htsfwb.samr.gov.cn
+          url: https://htsfwb.samr.gov.cn/
+          description: ''
+        - title: e-Gov 法令検索
+          logo: https://www.e-gov.go.jp/sites/default/files/filebrowser/favicon.ico
+          url: https://laws.e-gov.go.jp/
+          description: 日本国法律法规官方搜索引擎
+        - title: IPA 情報処理推進機構
+          logo: https://www.ipa.go.jp/icon-192x192.png
+          url: https://www.ipa.go.jp/
+          description: 日本信息处理推进机构
+        - title: Open Alternative
+          logo: https://openalternative.co/favicon.svg
+          url: https://openalternative.co/
+          description: 软件的开源替代品搜索引擎
+        - title: World Monitor
+          logo: https://www.worldmonitor.app/favico/favicon-32x32.png
+          url: https://www.worldmonitor.app/
+          description: 告诉你世界正在发生什么的面板
+      
+- taxonomy: 素材资源
+  icon: far fa-folder-open fa-lg
+  list:
+    - term: 图标素材
+      links:
+        - title: Freepik
+          logo: https://cdn-front.freepik.com/favicons/favicon-96x96.png
+          url: https://www.freepik.com/icons
+          description: 2,100,000+ free and premium vector icons.
+        - title: iconfont
+          logo: https://img.alicdn.com/imgextra/i4/O1CN01Z5paLz1O0zuCC7osS_!!6000000001644-55-tps-83-82.svg
+          url: http://www.iconfont.cn/
+          description: 阿里巴巴矢量图标库。
+        - title: Yesicon
+          logo: https://yesicon.app/favicon.svg
+          url: https://yesicon.app/
+          description: 开源矢量 icon 库。
+        - title: Svgl
+          logo: https://svgl.app/images/svgl_ico.ico
+          url: https://svgl.app/
+          description: SVG Logo 库
+        - title: SVG LOGOS
+          logo: https://svglogos.dev/brand/favicon-32x32.png
+          url: https://svglogos.dev/
+          description: SVG Logo 库
+        - title: Lobehub Icons
+          logo: https://web-assets.lobehub.com/landing-rr/prod/assets/logo-DauBOjoN.png
+          url: https://lobehub.com/zh/icons
+          description: AI / LLM 模型图标集
+    - term: 字体资源
+      links:
+        - title: Google Font
+          url: https://fonts.google.com/
+          logo: https://www.gstatic.com/images/icons/material/apps/fonts/1x/catalog/v5/favicon.svg
+          description: Making the web more beautiful, fast, and open through great typography.
+
+
+- taxonomy: 资讯学习
+  icon: fas fa-pencil-alt fa-lg
+  list: 
+    - term: 博客论坛
+      links:
+        - title: Hacker News
+          url: https://news.ycombinator.com/
+          logo: https://news.ycombinator.com/y18.svg
+          description: 一家关于计算机黑客和创业公司的社会化新闻网站。
+        - title: 阮一峰的网络日志
+          url: http://www.ruanyifeng.com/blog/
+          logo: https://favicon.im/www.ruanyifeng.com
+          description: 阮一峰，科技爱好者周刊。
+        - title: 通往AGI之路
+          url: https://www.waytoagi.com/zh
+          logo: https://www.waytoagi.com/favicon.ico
+          description: 通往AGI之路，探索人工智能的未来。
+        - title: Lil'Log
+          url: https://lilianweng.github.io/
+          logo: https://lilianweng.github.io/favicon_wine.ico
+          description: Lilian Weng 的博客。
+        - title: 科学空间|Scientific Spaces
+          url: https://spaces.ac.cn/
+          logo: https://spaces.ac.cn/usr/themes/geekg/favicon.ico
+          description: 苏剑林的个人博客
+        - title: Ahead of AI
+          url: https://magazine.sebastianraschka.com/
+          logo: https://substackcdn.com/image/fetch/$s_!ktrK!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F342e39ec-514c-4b4d-8a76-6acf0cbd8248%2Ffavicon-48x48.png
+          description: Sebastian Raschka 博士的 LLM 技术博客
+        - title: Matrix67 The Aha Moments
+          url: https://matrix67.com/blog/
+          logo: https://pbs.twimg.com/profile_images/2315765843/Matrix67_bg_400x400.png
+          description: ''
+        - title: Hello Github
+          url: https://hellogithub.com/
+          logo: https://hellogithub.com/favicon/favicon-96x96.png
+          description: Hello GitHub 是一个开源项目推荐平台，致力于帮助开发者发现和学习优秀的开源项目。
+        - title: Latent.Space
+          url: https://www.latent.space/
+          logo: https://latentspace.ai/favicon.ico
+          description: 每工作日更新的 AI 日刊
+        - title: DailyBit
+          url: https://www.dailybit.cc/home
+          logo: https://dailybit.ai/favicon.ico
+          description: HN Popularity Contest 2025 独立博客的每日更新日报
+        - title: 智语观潮·Daily
+          url: https://ai.daily.yangsir.net/daily
+          logo: https://ai.daily.yangsir.net/favicon.ico
+          description: 专注 AI 领域的精选日报，每日整合最新进展、工具发现与深度观点。
+        - title: Oil Book
+          logo: https://book.oiloil.org/assets/icons/oil-book-mark.webp
+          url: https://book.oiloil.org/
+          description: Oil 的 AI 实战指南与模型选型笔记，覆盖 Agent、前端与图片生成。
+    - term: 大厂博客
+      links:
+        - title: Manus Blog
+          url: https://manus.im/zh-cn/blog
+          logo: https://manus.im/favicon.ico
+          description: Manus 产品及 Agent 技术
+        - title: Zilliz Blog
+          url: https://zilliz.com/blog
+          logo: https://zilliz.com/favicon.svg
+          description: Milvus 产品及向量搜索和 RAG 技术
+        - title: BentoML Blog
+          url: https://www.bentoml.com/blog
+          logo: https://www.bentoml.com/bentoml-favicon/favicon-16x16.png
+          description: BentoML 产品及 LLM 模型和部署技术
+    - term: 日语辞典
+      links:
+        - title: 辞典横断検索 Metapedia
+          url: http://metapedia.jp/
+          logo: https://favicon.im/metapedia.jp
+          description: 491の辞典・辞書・事典・用語集・図鑑を一括検索
+        - title: IT 用语辞典
+          url: https://e-words.jp/
+          logo: https://p.e-words.jp/favicon.png
+          description: ''
+        - title: NINJAL-LWP for BCCWJ
+          url: https://nlb.ninjal.ac.jp/
+          logo: https://nlb.ninjal.ac.jp/static/images/toppage/top.ico
+          description: 日本语词频用法语料库
+    - term: 生活百科
+      links:
+        - title: 默沙东医学手册
+          url: https://www.msdmanuals.cn/
+          logo: https://www.msdmanuals.cn/_next/static/media/favicon.f7343459.ico
+          description: 默沙东医学手册是一本权威的医学参考书，提供了丰富的医学知识和临床信息，帮助医疗专业人员和患者更好地理解疾病和治疗方案。
+        - title: Chronas
+          url: https://chronas.org/
+          logo: https://chronas.org/images/favicon.ico
+          description: 交互式世界历史地图
+
+- taxonomy: 冷备份
+  icon: fas fa-archive fa-lg
+  list: 
+    - term: 杂项工具
+      links:
+        - title: Z.ai
+          logo: https://z-cdn.chatglm.cn/z-ai/frontend/static/apple-touch-icon.png
+          url: https://chat.z.ai/
+          description: ''
+        - title: Firebase Studio
+          logo: https://www.gstatic.com/monospace/250314/favicon.ico
+          url: https://studio.firebase.google.com/
+          description: Google 快速原型 APP 开发平台
+        - title: Napkin
+          logo: https://www.napkin.ai/favicon-32x32.png?v=2
+          url: https://www.napkin.ai/
+          description: 可视化图形/PPT 生成工具

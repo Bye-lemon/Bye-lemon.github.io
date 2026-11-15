@@ -1,0 +1,74 @@
+<%
+  var studio = theme.studio || {};
+  var heroTitle = studio.hero_title || "你的指尖<br>有改变世界的力量";
+  var heroQuote = studio.hero_quote || "行于无涯之海，敢以北辕适楚。";
+  var motto = studio.motto || "极限犹可突破，<br>至臻亦不可止。";
+  var mottoDate = studio.motto_date || "二〇二一 · 冬";
+  var seal = studio.seal || "英平";
+  var navTotal = 0;
+  (site.data.nav || []).forEach(function (t) {
+    if (t.list) { t.list.forEach(function (s) { navTotal += (s.links || []).length; }); }
+    else { navTotal += (t.links || []).length; }
+  });
+  var latest = site.posts.length ? date(site.posts.first().date, 'YYYY.MM.DD') : '—';
+-%>
+<main class="main index-page">
+    <section class="s-hero">
+        <div>
+            <div class="s-eyebrow"><i></i>研究生在读 · 大连理工大学 · 最近更新 <%= latest %></div>
+            <h1><%- heroTitle %></h1>
+            <p class="s-hero-quote"><%- heroQuote %></p>
+            <div class="s-actions">
+                <a class="s-btn s-btn-primary" href="<%- url_for('/nav/') %>">进入任意门 <span aria-hidden="true">→</span></a>
+                <a class="s-btn s-btn-ghost" href="<%- url_for('/archives/') %>">读文章</a>
+                <a class="s-btn s-btn-text" href="<%- url_for('/search/') %>">搜索</a>
+            </div>
+            <div class="s-stats">
+                <div class="s-stat"><b><%= site.posts.length %></b><span>文章</span></div>
+                <div class="s-stat"><b><%= navTotal %></b><span>收藏</span></div>
+                <div class="s-stat"><b><%= site.categories.length %></b><span>分类</span></div>
+            </div>
+        </div>
+
+    </section>
+
+    <section style="padding:48px 0 0">
+        <div class="s-sec-head">
+            <span class="n">01</span><span class="kana">さいきん</span>
+            <h2>最近写的</h2>
+            <a href="<%- url_for('/archives/') %>">全部 <%= site.posts.length %> 篇 →</a>
+        </div>
+        <ul class="s-list">
+            <%_ var __homePosts = page.posts && page.posts.toArray ? page.posts.toArray() : (page.posts || []); _%>
+            <%_ __homePosts.forEach(function (_post) { _%>
+            <li>
+                <time datetime="<%- date(_post.date, 'YYYY-MM-DD') %>"><%- date(_post.date, 'YYYY.MM.DD') %></time>
+                <a class="t" href="<%- url_for(_post.path) %>"><%- _post.title || '[Untitled Post]' %></a>
+                <span class="tg"><%_ if (_post.tags && _post.tags.length) { _%><%- _post.tags.limit(2).map(function (t) { return t.name; }).join(' · ') %><%_ } _%></span>
+            </li>
+            <%_ }) _%>
+        </ul>
+        <%_ if (page.prev_link || page.next_link) { _%>
+        <nav style="display:flex;justify-content:space-between;padding:18px 0 0;font-family:var(--s-mono);font-size:11px;letter-spacing:.06em">
+            <span><%_ if (page.next_link) { _%><a href="<%- url_for(page.next_link) %>" style="color:var(--s-muted);text-decoration:none">← 更早的文章</a><%_ } _%></span>
+            <span><%_ if (page.prev_link) { _%><a href="<%- url_for(page.prev_link) %>" style="color:var(--s-muted);text-decoration:none">更新的文章 →</a><%_ } _%></span>
+        </nav>
+        <%_ } _%>
+    </section>
+
+    <section style="padding:46px 0 0">
+        <div class="s-sec-head">
+            <span class="n">02</span><span class="kana">そのほか</span>
+            <h2>其他入口</h2>
+        </div>
+        <div class="s-more">
+            <a href="<%- url_for('/nav/') %>">站点导航<b><%= navTotal %></b></a>
+            <a href="<%- url_for('/archives/') %>">归档<b><%= site.posts.length %></b></a>
+            <a href="<%- url_for('/papers/') %>">论文笔记<b><%= (site.categories.findOne({name: '论文笔记'}) || {posts: {length: 0}}).posts.length %></b></a>
+            <a href="<%- url_for('/slides/') %>">幻灯片</a>
+            <a href="<%- url_for('/gist/') %>">代码片段</a>
+            <a href="<%- url_for('/friends/') %>">友链<b><%= Object.keys(theme.friends || {}).length %></b></a>
+            <a href="<%- url_for('/about/') %>">关于我</a>
+        </div>
+    </section>
+</main>

@@ -198,7 +198,7 @@ slidehtml:
   horizontalSeparator: '^\\n---\\n'
   verticalSeparator: '^\\n--\\n'
 # favicon
-favicon: /assets/favicon.ico
+favicon: /assets/favicon.svg
 # copyright
 copyright:
   enable: true

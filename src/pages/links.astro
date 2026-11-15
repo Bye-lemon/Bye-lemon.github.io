@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import yaml from 'js-yaml';
 import fs from 'node:fs';
-const raw = fs.readFileSync('source/_data/nav.yml', 'utf8');
+const raw = fs.readFileSync('src/data/nav.yml', 'utf8');
 const groups = yaml.load(raw) || [];
 const total = groups.reduce((n, g) => n + (g.links ? g.links.length : 0) + (g.list ? g.list.reduce((m, s) => m + (s.links ? s.links.length : 0), 0) : 0), 0);
 ---

@@ -1,11 +1,7 @@
 # Created by https://www.gitignore.io/api/hexo,windows,pycharm,node
 # Edit at https://www.gitignore.io/?templates=hexo,windows,pycharm,node
 
-### Hexo ###
-db.json
-.deploy_git/
-
-### Node ###
+### Astro / Node ###
 # Logs
 logs
 *.log
@@ -195,3 +191,5 @@ $RECYCLE.BIN/
 
 dist/
 .astro/
+
+.idea/

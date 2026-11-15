@@ -26,7 +26,7 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; 
 a:hover { text-decoration-thickness: 2px; }
 img { max-width: 100%; height: auto; }
 
-.wrap, header.site .inner, footer.site .inner { max-width: var(--measure); margin: 0 auto; padding-left: 4%; padding-right: 4%; }
+.wrap, header.site .inner, footer.site .inner { max-width: calc(var(--measure) + 48px); margin: 0 auto; padding-left: 24px; padding-right: 24px; }
 header.site { border-bottom: 1px solid var(--line); }
 header.site .inner { padding-top: 26px; padding-bottom: 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 .brand { font-size: 1.35rem; letter-spacing: .02em; text-decoration: none; }
@@ -93,6 +93,23 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
 
 @media (max-width: 767px) {
   body { font-size: 17px; line-height: 1.7; }
+  .wrap, header.site .inner, footer.site .inner { max-width: 100%; padding-left: 20px; padding-right: 20px; }
   h1 { font-size: 1.9rem; }
   nav.site { gap: 14px; font-size: .74rem; flex-wrap: wrap; }
 }
+
+
+/* ---------- 宽屏适配 ---------- */
+@media (min-width: 900px)  { :root { --measure: 50rem; } }
+@media (min-width: 1280px) { :root { --measure: 56rem; } }
+@media (min-width: 1700px) { :root { --measure: 62rem; } }
+@media (min-width: 2100px) { :root { --measure: 66rem; } }
+
+@media (min-width: 1280px) {
+  h1 { font-size: 2.6rem; }
+  h2 { font-size: 1.6rem; }
+  body { line-height: 1.75; }
+}
+
+/* 图片与代码块在宽栏下不无限拉伸 */
+.prose img { max-width: min(100%, 46rem); display: block; margin: 1.4em auto; }

@@ -9,7 +9,7 @@
   <link href="https://bye-lemon.github.io/atom.xml" rel="self"/>
   <rights>All rights reserved 2026, 李英平</rights>
   <title>Li.</title>
-  <updated>2026-11-15T12:10:08.895Z</updated>
+  <updated>2026-11-15T12:18:08.879Z</updated>
   <entry>
     <author>
       <name>李英平</name>
@@ -32,7 +32,7 @@
 <h2 id="使用-Docker-打包深度学习环境"><a href="#使用-Docker-打包深度学习环境" class="headerlink" title=]]>
     </summary>
     <title>当我们落魄到需要去借别人的算力跑实验的时候</title>
-    <updated>2026-11-15T12:10:08.895Z</updated>
+    <updated>2026-11-15T12:18:08.879Z</updated>
   </entry>
   <entry>
     <author>
@@ -53,7 +53,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span c]]>
     </summary>
     <title>借助SSH反向代理隧道实现内网服务器的校外访问</title>
-    <updated>2026-11-15T12:10:08.894Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -74,7 +74,7 @@
 <li>由于存在一定的安全漏洞]]>
     </summary>
     <title>Windows 10系统下使用SMB实现媒体文件共享</title>
-    <updated>2026-11-15T12:10:08.894Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -93,7 +93,7 @@
 <h3 id="Object-D]]>
     </summary>
     <title>避重就轻的论文阅读笔记</title>
-    <updated>2026-11-15T12:10:08.895Z</updated>
+    <updated>2026-11-15T12:18:08.879Z</updated>
   </entry>
   <entry>
     <author>
@@ -113,7 +113,7 @@
 <li><p>耀波师兄曾经给过我一个文档，记录了早年间，他在树莓派的命令行下认证DLUT的解决方案，其思路基本是抓包再重放。运]]>
     </summary>
     <title>DLUT校园网自动认证的解决方案</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -133,7 +133,7 @@
 <h3 id="1-什么是分布式系统？"><a href="#1-什么是分布式系]]>
     </summary>
     <title>《高级操作系统》复习纲要</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -152,7 +152,7 @@
 <li><p>无人驾驶是汽车自动]]>
     </summary>
     <title>自动驾驶中间件Cyber RT中的实时通信机制简述</title>
-    <updated>2026-11-15T12:10:08.895Z</updated>
+    <updated>2026-11-15T12:18:08.879Z</updated>
   </entry>
   <entry>
     <author>
@@ -168,7 +168,7 @@
       <![CDATA[<p><a href="https://www.nuedc-training.com.cn/index/news/details/new_id/228">https://www.nuedc-training.com.cn/index/news/details/new_id&#x2]]>
     </summary>
     <title>2020年电赛G题不完全实现方案</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -178,7 +178,7 @@
     <link href="https://bye-lemon.github.io/post/9dd7/"/>
     <published>2020-11-10T07:52:52.000Z</published>
     <title>如何为Hexo博客构建一个简单的全文搜索引擎</title>
-    <updated>2026-11-15T12:10:08.894Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -190,7 +190,7 @@
     <link href="https://bye-lemon.github.io/post/3eb8/"/>
     <published>2020-11-10T07:49:24.000Z</published>
     <title>Apollo D-Kit 调试笔记（四）：基于Camera的自动驾驶</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -210,7 +210,7 @@
 <li><p>在Apollo D-Kit中，各个传感器的坐标系定义如下图所示：<br><img src="ht]]>
     </summary>
     <title>Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -229,7 +229,7 @@
 <h4 id="Apollo-Fuel服务的申请"><a href="#Apollo-Fuel服务的申请" class=]]>
     </summary>
     <title>Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -248,7 +248,7 @@
 <h4 id="Apollo-D-Kit相关网站"><a href="#Apollo-D-Kit相关网站" class=]]>
     </summary>
     <title>Apollo D-Kit 调试笔记（一）：系统安装与传感器集成</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -268,7 +268,7 @@
 <li><p>Apollo前轮的零点如果发生变化，可以按照如下]]>
     </summary>
     <title>Apollo D-Kit 调试笔记（零）：修车备忘录</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -289,7 +289,7 @@
 <h2 id="Query-guided-Pe]]>
     </summary>
     <title>《Query-guided End-to-End Person Search》论文笔记</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -310,7 +310,7 @@
 <li>现有的行人重识别研究都是基于裁剪好的行人照片来进]]>
     </summary>
     <title>《Joint Detection and Identification Feature Learning for Person Search》论文笔记</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -330,7 +330,7 @@
 <li><p><strong>行人重识别（Person Re-identificati]]>
     </summary>
     <title>行人重识别（Person Re-identification）研究概述</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -350,7 +350,7 @@
 <li><p>伴随着深度神经网络技术的发展，Re-ID任]]>
     </summary>
     <title>《Transferable, Controllable, and Inconspicuous Adversarial Attacks on Person Re-identification With Deep Mis-Ranking》论文笔记</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -370,7 +370,7 @@
 <li><p>由于人工标注的代价十分高昂，对于可判别性视]]>
     </summary>
     <title>《Weakly supervised discriminative feature learning with state information for person identification》论文笔记</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
   <entry>
     <author>
@@ -390,6 +390,6 @@
 <li><p>许多Re-ID的方法都假设了行人完整的身体]]>
     </summary>
     <title>《Pose-guided Visible Part Matching for Occluded Person ReID》论文笔记</title>
-    <updated>2026-11-15T12:10:08.893Z</updated>
+    <updated>2026-11-15T12:18:08.878Z</updated>
   </entry>
 </feed>

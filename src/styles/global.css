@@ -35,7 +35,7 @@ a:hover { text-decoration-thickness: 2px; }
 img { max-width: 100%; height: auto; }
 
 .wrap, header.site .inner, footer.site .inner {
-  max-width: calc(var(--content) + var(--note) + var(--note-gap) + 48px);
+  max-width: calc(var(--content) + 48px);
   margin: 0 auto;
   padding-left: 24px;
   padding-right: 24px;
@@ -83,22 +83,28 @@ th[align="right"], td[align="right"] { text-align: right; }
 
 /* ---------- 边注 ---------- */
 .sidenote, .marginnote {
-  float: right;
-  clear: right;
-  width: var(--note);
-  margin: 0 calc(-1 * (var(--note) + var(--note-gap))) 1.2em 0;
   font-family: var(--sans);
   font-size: .72rem;
   line-height: 1.55;
   color: var(--muted);
   text-align: left;
+  margin: 1em 0;
+  padding-left: 12px;
+  border-left: 1px solid var(--line);
+}
+@media (min-width: 1500px) {
+  .sidenote, .marginnote {
+    float: right;
+    clear: right;
+    width: var(--note);
+    margin: 0 calc(-1 * (var(--note) + 24px)) 1.2em 0;
+    padding-left: 0;
+    border-left: 0;
+  }
 }
 .sidenote-number { counter-increment: sidenote-counter; font-size: .8em; vertical-align: super; }
 .sidenote::before { content: counter(sidenote-counter) " "; font-variant-numeric: tabular-nums; }
 main { counter-reset: sidenote-counter; }
-@media (max-width: 1099px) {
-  .sidenote, .marginnote { float: none; width: auto; margin: 1em 0; padding-left: 12px; border-left: 1px solid var(--line); }
-}
 .fullwidth { width: calc(100% + var(--note) + var(--note-gap)); max-width: none; }
 
 @media (min-width: 1280px) {

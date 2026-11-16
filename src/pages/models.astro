@@ -70,7 +70,6 @@ const latestUpdate = models
   .filter((value) => /^\d{4}-\d{2}-\d{2}$/.test(value))
   .sort()
   .at(-1) ?? '';
-const editUrl = 'https://github.com/Bye-lemon/Bye-lemon.github.io/tree/src/src/content/models';
 ---
 
 <BaseLayout title="模型库" current="/models/" wide>
@@ -79,7 +78,6 @@ const editUrl = 'https://github.com/Bye-lemon/Bye-lemon.github.io/tree/src/src/c
       <div>
         <h1>{pageAliases.models}</h1>
       </div>
-      <a class="m-edit" href={editUrl} target="_blank" rel="noopener">编辑数据 / 新增模型 ↗</a>
     </header>
 
     <div class="m-catbar" role="group" aria-label="按类别筛选">

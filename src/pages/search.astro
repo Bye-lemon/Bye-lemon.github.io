@@ -9,96 +9,74 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <p class="search-stat" id="stat">输入关键词开始搜索。支持中文、英文与混合查询。</p>
   <div id="results"></div>
   <script>
-    const CJK = /[\u4e00-\u9fff]/;
-    let docs = null;
-    const cache = new Map();
+    import { Index } from 'flexsearch';
 
-    function bigrams(s) {
+    /** CJK 二元分词 + 拉丁单词；FlexSearch 的内置 CJK 预设是按字切分，中文会退化成单字匹配。 */
+    function encode(str) {
       const out = [];
-      for (let i = 0; i < s.length - 1; i++) out.push(s.slice(i, i + 2));
+      const re = /[\u4e00-\u9fff]+|[a-z0-9][a-z0-9+.#-]*/gi;
+      for (const m of String(str).matchAll(re)) {
+        const t = m[0];
+        if (/^[\u4e00-\u9fff]/.test(t)) {
+          if (t.length === 1) out.push(t);
+          else for (let i = 0; i < t.length - 1; i++) out.push(t.slice(i, i + 2));
+        } else out.push(t.toLowerCase());
+      }
       return out;
     }
-    function tokens(text) {
-      const lower = String(text).toLowerCase();
-      const latin = lower.match(/[a-z0-9][a-z0-9+.#-]*/g) || [];
-      const cjkRuns = lower.match(/[\u4e00-\u9fff]+/g) || [];
-      const bi = cjkRuns.flatMap((r) => (r.length === 1 ? [r] : bigrams(r)));
-      return [...new Set([...latin, ...bi])];
-    }
-    function prepared(doc) {
-      if (cache.has(doc.id)) return cache.get(doc.id);
-      const title = tokens(doc.title);
-      const desc = tokens(doc.description || '');
-      const body = tokens(doc.text || '');
-      const all = new Set([...title, ...desc, ...body]);
-      const rec = { doc, title: new Set(title), desc: new Set(desc), body: new Set(body), all, lowerTitle: String(doc.title).toLowerCase() };
-      cache.set(doc.id, rec);
-      return rec;
-    }
+
+    let docs = null;
+    let index = null;
+
     function escapeHtml(s) {
       return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
+    function terms(q) {
+      return q.split(/\s+/).filter(Boolean).sort((a, b) => b.length - a.length);
+    }
     function highlight(text, q) {
       const safe = escapeHtml(text);
-      const terms = [...new Set([q, ...tokens(q)])].filter((t) => t.length > 1).sort((a, b) => b.length - a.length);
-      if (!terms.length) return safe;
-      const re = new RegExp('(' + terms.map((t) => t.replace(/[.*+?^${()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+      const list = [...new Set([q, ...terms(q)])].filter((t) => t.length > 0);
+      if (!list.length) return safe;
+      const re = new RegExp('(' + list.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
       return safe.replace(re, '<mark>$1</mark>');
     }
     function snippet(text, q) {
       const lower = text.toLowerCase();
-      const ql = q.toLowerCase();
-      let i = lower.indexOf(ql);
+      let i = lower.indexOf(q.toLowerCase());
       if (i === -1) {
-        for (const t of tokens(q)) { i = lower.indexOf(t); if (i > -1) break; }
+        for (const t of terms(q)) { i = lower.indexOf(t.toLowerCase()); if (i > -1) break; }
       }
       if (i === -1) return text.slice(0, 110);
       const start = Math.max(0, i - 40);
       return (start > 0 ? '…' : '') + text.slice(start, start + 120) + '…';
     }
-
-    function search(q) {
-      const qTokens = tokens(q);
-      if (!qTokens.length) return [];
-      const all = docs.map(prepared);
-      const score = (r) => {
-        let s = 0, hit = 0;
-        for (const t of qTokens) {
-          if (r.title.has(t)) s += 5;
-          else if (r.desc.has(t)) s += 3;
-          else if (r.body.has(t)) s += 1;
-          if (r.all.has(t)) hit++;
-        }
-        if (r.lowerTitle.includes(q.toLowerCase())) s += 8;
-        return { s, hit };
-      };
-      const AND = all.filter((r) => qTokens.every((t) => r.all.has(t)));
-      const pool = AND.length ? AND : all.filter((r) => qTokens.some((t) => r.all.has(t)));
-      return pool
-        .map((r) => ({ r, ...score(r) }))
-        .filter((x) => x.hit > 0)
-        .sort((a, b) => b.s - a.s)
-        .slice(0, 20);
+    async function ensureIndex() {
+      if (index) return;
+      docs = await (await fetch('/search.json')).json();
+      index = new Index({ encode });
+      docs.forEach((d, i) => index.add(i, [d.title, d.description || '', d.text || ''].join(' ')));
     }
 
     const input = document.getElementById('q');
     const box = document.getElementById('results');
     const stat = document.getElementById('stat');
+    const empty = '输入关键词开始搜索。支持中文、英文与混合查询。';
     let timer;
+
     input.addEventListener('input', () => {
       clearTimeout(timer);
       timer = setTimeout(async () => {
         const q = input.value.trim();
-        if (!q) { box.innerHTML = ''; stat.textContent = '输入关键词开始搜索。支持中文、英文与混合查询。'; return; }
-        if (!docs) {
-          try { docs = await (await fetch('/search.json')).json(); }
-          catch (e) { stat.textContent = '搜索索引加载失败。'; return; }
-        }
-        const rows = search(q);
-        stat.textContent = '找到 ' + rows.length + ' 条结果';
-        box.innerHTML = rows.length
-          ? rows.map(({ r }) => {
-              const d = r.doc;
+        if (!q) { box.innerHTML = ''; stat.textContent = empty; return; }
+        try { await ensureIndex(); }
+        catch (e) { stat.textContent = '搜索索引加载失败。'; return; }
+        let ids = index.search(q, { limit: 20, bool: 'and' });
+        if (!ids.length) ids = index.search(q, { limit: 20 });
+        stat.textContent = '找到 ' + ids.length + ' 条结果';
+        box.innerHTML = ids.length
+          ? ids.map((id) => {
+              const d = docs[id];
               return '<div class="search-result"><h3><a href="' + d.url + '">' + highlight(d.title, q) + '</a></h3>'
                 + '<p class="search-meta">' + d.kind + (d.date ? ' · ' + d.date : '') + '</p>'
                 + '<p>' + highlight(snippet(d.text || d.description || '', q), q) + '</p></div>';

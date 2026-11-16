@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageAliases } from '../data/aliases';
 ---
 <BaseLayout title="404">
-  <h1>404</h1>
+  <h1>{pageAliases.notFound}</h1>
+  <p class="lead">404 · 这一页走丢了。</p>
   <p class="lead">这一页走丢了。</p>
   <p><a href="/">回到首页</a> · <a href="/archive/">全部文章</a></p>
 </BaseLayout>

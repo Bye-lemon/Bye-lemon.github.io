@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageAliases } from '../data/aliases';
 import { getCollection } from 'astro:content';
 import { sortByDate, slugOf, dateOf } from '../lib/posts';
 const posts = sortByDate(await getCollection('posts'));
@@ -13,7 +14,7 @@ const years = [...groups.keys()].sort((a, b) => Number(b) - Number(a));
 const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 <BaseLayout title="归档" current="/archive/">
-  <h1>归档</h1>
+  <h1>{pageAliases.archive}</h1>
   {years.map((y) => (
     <section>
       <h2>{y}</h2>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageAliases } from '../data/aliases';
 import { friends } from '../data/friends';
 
 const industry = friends.filter((f) => f.kind === 'industry');
@@ -19,7 +20,7 @@ const academicLabel = (f: (typeof friends)[number]) => f.university + '·' + f.n
     @media (max-width: 767px) { .f-list li { flex-wrap: wrap; gap: .2em 1em; } }
   </style>
 
-  <h1>友链</h1>
+  <h1>{pageAliases.friends}</h1>
 
   <section class="f-section">
     <h2>产业界的朋友们</h2>

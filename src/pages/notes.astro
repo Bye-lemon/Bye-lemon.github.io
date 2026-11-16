@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageAliases } from '../data/aliases';
 import { getCollection } from 'astro:content';
 import { isPaper, sortByDate, slugOf, dateOf, tagsOf } from '../lib/posts';
 const posts = sortByDate((await getCollection('posts')).filter(isPaper));
 const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 <BaseLayout title="论文笔记" current="/notes/">
-  <h1>论文笔记</h1>
+  <h1>{pageAliases.notes}</h1>
   <ul class="post-list">
     {posts.map((post) => (
       <li>

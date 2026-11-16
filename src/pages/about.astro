@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageAliases } from '../data/aliases';
 import { getCollection, render } from 'astro:content';
 const [entry] = await getCollection('about');
 const { Content } = entry ? await render(entry) : { Content: null };
@@ -9,7 +10,7 @@ const now = Array.isArray(data.now) ? data.now : [];
 const timeline = Array.isArray(data.timeline) ? data.timeline : [];
 ---
 <BaseLayout title="关于" current="/about/">
-  <h1>关于</h1>
+  <h1>{pageAliases.about}</h1>
   <div class="prose">{Content && <Content />}</div>
 
   {profile.length > 0 && (

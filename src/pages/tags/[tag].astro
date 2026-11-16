@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { pageAliases } from '../../data/aliases';
 import { getCollection } from 'astro:content';
 import { tagsOf, sortByDate, slugOf, dateOf } from '../../lib/posts';
 import { tagSlug } from '../../lib/tags';
@@ -16,7 +17,8 @@ const posts = sortByDate((await getCollection('posts')).filter((p) => tagsOf(p).
 const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 <BaseLayout title={`标签：${tag}`} current="/tags/">
-  <h1>标签：{tag}</h1>
+  <h1>{pageAliases.tags}</h1>
+  <p class="lead">标签：{tag}</p>
   <ul class="post-list">
     {posts.map((post) => (
       <li><time datetime={dateOf(post).toISOString()}>{fmt(dateOf(post))}</time><a href={`/posts/${slugOf(post)}/`}>{String((post.data as any).title || slugOf(post))}</a></li>

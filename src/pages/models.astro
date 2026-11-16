@@ -4,6 +4,7 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import '../styles/models.css';
 import { getCollection } from 'astro:content';
 import taxonomy from '../data/model-taxonomy.json';
+import { pageAliases } from '../data/aliases';
 
 const entries = await getCollection('models');
 const models = entries.map((entry) => {
@@ -76,7 +77,7 @@ const editUrl = 'https://github.com/Bye-lemon/Bye-lemon.github.io/tree/src/src/c
   <div class="models-page">
     <header class="m-head">
       <div>
-        <h1>模型库</h1>
+        <h1>{pageAliases.models}</h1>
       </div>
       <a class="m-edit" href={editUrl} target="_blank" rel="noopener">编辑数据 / 新增模型 ↗</a>
     </header>

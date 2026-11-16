@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { pageAliases } from '../../data/aliases';
 import { getCollection } from 'astro:content';
 import { tagsOf } from '../../lib/posts';
 import { tagSlug } from '../../lib/tags';
@@ -9,7 +10,7 @@ for (const p of posts) for (const t of tagsOf(p)) counts.set(t, (counts.get(t) |
 const tags = [...counts.entries()].sort((a, b) => b[1] - a[1]);
 ---
 <BaseLayout title="标签" current="/tags/">
-  <h1>标签</h1>
+  <h1>{pageAliases.tags}</h1>
   <div class="tags" style="gap:1em 1.4em;font-size:.9rem">
     {tags.map(([t, n]) => <a href={`/tags/${tagSlug(t)}/`}>{t} <span style="color:var(--faint)">{n}</span></a>)}
   </div>

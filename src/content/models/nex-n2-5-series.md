@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/nex-agi/nex-n25"
 hf_id: ""
+hf_collection: "nex-agi/nex-n25"
+collection_models: ["nex-agi/Nex-N2.5-Max", "nex-agi/Nex-N2.5-Pro", "nex-agi/Nex-N2.5-mini"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

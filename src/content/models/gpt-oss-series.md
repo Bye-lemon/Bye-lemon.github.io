@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/openai/gpt-oss-68911959590a1634ba11c7a4"
 hf_id: ""
+hf_collection: "openai/gpt-oss-68911959590a1634ba11c7a4"
+collection_models: ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

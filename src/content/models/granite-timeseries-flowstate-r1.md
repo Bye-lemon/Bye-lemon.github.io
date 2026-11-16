@@ -1,15 +1,15 @@
 ---
 name: "Granite-TimeSeries-FlowState-R1"
 category: "time-series"
-tasks: []
-modalities_in: []
-modalities_out: []
+tasks: ["forecasting"]
+modalities_in: ["time-series"]
+modalities_out: ["time-series"]
 languages: []
 domains: []
 role: ""
-architecture: ""
+architecture: "ssm"
 training_stage: []
-access: ""
+access: "open-weights"
 status: ""
 size_class: ">1T"
 params: "<200M"
@@ -21,11 +21,11 @@ author: "IBM"
 updated: "2025-09-11"
 published: ""
 paper: "https://arxiv.org/abs/2508.05287"
-link: "https://arxiv.org/abs/2508.05287"
-hf_id: ""
-downloads: ""
-likes: ""
-hf_last_modified: ""
+link: "https://huggingface.co/ibm-granite/granite-timeseries-flowstate-r1"
+hf_id: "ibm-granite/granite-timeseries-flowstate-r1"
+downloads: 31889
+likes: 29
+hf_last_modified: "2026-04-29T14:31:21.000Z"
 note: ""
 tags: []
 ---

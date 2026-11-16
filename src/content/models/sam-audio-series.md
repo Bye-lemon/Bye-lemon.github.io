@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/facebook/sam-audio"
 hf_id: ""
+hf_collection: "facebook/sam-audio"
+collection_models: ["facebook/sam-audio-judge", "facebook/sam-audio-small", "facebook/sam-audio-base", "facebook/sam-audio-large", "facebook/sam-audio-small-tv", "facebook/sam-audio-base-tv", "facebook/sam-audio-large-tv"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

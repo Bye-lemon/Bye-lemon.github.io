@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2506.05176"
 link: "https://huggingface.co/collections/Qwen/qwen3-embedding-6841b2055b99c44d9a4c371f"
 hf_id: ""
+hf_collection: "Qwen/qwen3-embedding-6841b2055b99c44d9a4c371f"
+collection_models: ["Qwen/Qwen3-Embedding-0.6B-GGUF", "Qwen/Qwen3-Embedding-0.6B", "Qwen/Qwen3-Embedding-4B", "Qwen/Qwen3-Embedding-8B", "Qwen/Qwen3-Embedding-4B-GGUF", "Qwen/Qwen3-Embedding-8B-GGUF"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

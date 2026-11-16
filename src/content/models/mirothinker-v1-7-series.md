@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2511.11793"
 link: "https://huggingface.co/collections/miromind-ai/mirothinker-17"
 hf_id: ""
+hf_collection: "miromind-ai/mirothinker-17"
+collection_models: ["miromind-ai/MiroThinker-1.7", "miromind-ai/MiroThinker-1.7-mini"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

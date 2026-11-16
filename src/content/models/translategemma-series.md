@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/google/translategemma"
 hf_id: ""
+hf_collection: "google/translategemma"
+collection_models: ["google/translategemma-27b-it", "google/translategemma-4b-it", "google/translategemma-12b-it"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

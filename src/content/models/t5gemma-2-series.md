@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/google/t5gemma-2"
 hf_id: ""
+hf_collection: "google/t5gemma-2"
+collection_models: ["google/t5gemma-2-270m-270m", "google/t5gemma-2-4b-4b", "google/t5gemma-2-1b-1b"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

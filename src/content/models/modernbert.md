@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2412.13663"
 link: "https://huggingface.co/collections/answerdotai/modernbert-67627ad707a4acbf33c41deb"
 hf_id: ""
+hf_collection: "answerdotai/modernbert-67627ad707a4acbf33c41deb"
+collection_models: ["answerdotai/ModernBERT-base", "answerdotai/ModernBERT-large"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

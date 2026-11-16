@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/Qwen/qwen3-vl-embedding"
 hf_id: ""
+hf_collection: "Qwen/qwen3-vl-embedding"
+collection_models: ["Qwen/Qwen3-VL-Embedding-2B", "Qwen/Qwen3-VL-Embedding-8B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

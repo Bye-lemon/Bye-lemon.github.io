@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2504.18415"
 link: "https://huggingface.co/collections/microsoft/bitnet-67fddfe39a03686367734550"
 hf_id: ""
+hf_collection: "microsoft/bitnet-67fddfe39a03686367734550"
+collection_models: ["microsoft/bitnet-b1.58-2B-4T", "microsoft/bitnet-b1.58-2B-4T-bf16", "microsoft/bitnet-b1.58-2B-4T-gguf"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

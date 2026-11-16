@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2502.02737"
 link: "https://huggingface.co/collections/HuggingFaceTB/smollm2-6723884218bcda64b34d7db9"
 hf_id: ""
+hf_collection: "HuggingFaceTB/smollm2-6723884218bcda64b34d7db9"
+collection_models: ["HuggingFaceTB/SmolLM2-1.7B-Instruct", "HuggingFaceTB/SmolLM2-1.7B", "HuggingFaceTB/SmolLM2-360M-Instruct", "HuggingFaceTB/SmolLM2-360M", "HuggingFaceTB/SmolLM2-135M-Instruct", "HuggingFaceTB/SmolLM2-135M", "HuggingFaceTB/SmolLM2-360M-Instruct-GGUF", "HuggingFaceTB/SmolLM2-1.7B-Instruct-GGUF", "HuggingFaceTB/SmolLM2-1.7B-Instruct-Q8-mlx", "HuggingFaceTB/SmolLM2-360M-Instruct-Q8-mlx", "HuggingFaceTB/SmolLM2-135M-Instruct-Q8-mlx", "mlc-ai/SmolLM2-1.7B-Instruct-q0f16-MLC", "mlc-ai/SmolLM2-360M-Instruct-q0f16-MLC"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

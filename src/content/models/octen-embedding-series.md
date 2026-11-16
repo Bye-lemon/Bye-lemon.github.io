@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/Octen"
 hf_id: ""
+hf_org: "Octen"
+org_models: ["Octen/Octen-WebGR-0.6B", "Octen/Octen-Embedding-8B", "Octen/Octen-WebGR-4B", "Octen/Octen-Embedding-4B", "Octen/Octen-Embedding-0.6B", "Octen/Octen-Embedding-8B-INT8", "Octen/Octen-Embedding-4B-INT8"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2503.20314"
 link: "https://huggingface.co/collections/Wan-AI/wan22-68ac4ae80a8b477e79636fc8"
 hf_id: ""
+hf_collection: "Wan-AI/wan22-68ac4ae80a8b477e79636fc8"
+collection_models: ["Wan-AI/Wan2.2-Animate-2-14B", "Wan-AI/Wan2.2-Animate-14B", "Wan-AI/Wan2.2-S2V-14B", "Wan-AI/Wan2.2-TI2V-5B", "Wan-AI/Wan2.2-I2V-A14B", "Wan-AI/Wan2.2-T2V-A14B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

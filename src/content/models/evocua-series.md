@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/meituan/evocua"
 hf_id: ""
+hf_collection: "meituan/evocua"
+collection_models: ["meituan/EvoCUA-32B-20260105", "meituan/EvoCUA-8B-20260105"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

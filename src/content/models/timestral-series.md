@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/mistralai/timestral"
 hf_id: ""
+hf_collection: "mistralai/timestral"
+collection_models: ["mistralai/Timestral-209M", "mistralai/Timestral-123M", "mistralai/Timestral-28M", "mistralai/Timestral-5M"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

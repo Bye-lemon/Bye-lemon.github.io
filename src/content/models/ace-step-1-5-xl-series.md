@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2602.00744"
 link: "https://huggingface.co/collections/ACE-Step/ace-step-15-xl"
 hf_id: ""
+hf_collection: "ACE-Step/ace-step-15-xl"
+collection_models: ["ACE-Step/acestep-v15-xl-base", "ACE-Step/acestep-v15-xl-sft", "ACE-Step/acestep-v15-xl-turbo"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

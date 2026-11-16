@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2508.19205"
 link: "https://huggingface.co/collections/microsoft/vibevoice"
 hf_id: ""
+hf_collection: "microsoft/vibevoice"
+collection_models: ["microsoft/VibeVoice-1.5B", "microsoft/VibeVoice-Realtime-0.5B", "microsoft/VibeVoice-ASR", "microsoft/VibeVoice-ASR-Streaming-7B", "microsoft/VibeVoice-ASR-Streaming-1.5B", "microsoft/VibeVoice-ASR-BitNet"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/llm-jp/llm-jp-4-models"
 hf_id: ""
+hf_collection: "llm-jp/llm-jp-4-models"
+collection_models: ["llm-jp/llm-jp-4-33b-thinking", "llm-jp/llm-jp-4-33b-thinking-gguf", "llm-jp/llm-jp-4-33b-base", "llm-jp/llm-jp-4-32b-a3b-thinking", "llm-jp/llm-jp-4-32b-a3b-thinking-gguf", "llm-jp/llm-jp-4-32b-a3b-base", "llm-jp/llm-jp-4-8b-thinking", "llm-jp/llm-jp-4-8b-thinking-gguf", "llm-jp/llm-jp-4-8b-base", "llm-jp/llm-jp-4-8b-instruct"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/Qwen/qwen38"
 hf_id: ""
+hf_collection: "Qwen/qwen38"
+collection_models: ["Qwen/Qwen3.8-2.4T-A95B", "Qwen/Qwen3.8-2.4T-A95B-FP8", "Qwen/Qwen3.8-27B", "Qwen/Qwen3.8-27B-FP8"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

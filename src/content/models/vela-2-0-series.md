@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/vllm-sr/vela-20"
 hf_id: ""
+hf_collection: "vllm-sr/vela-20"
+collection_models: ["vllm-sr/Vela-2.0-0.3B", "vllm-sr/Vela-2.0-0.8B", "vllm-sr/Vela-2.0-4B", "vllm-sr/Vela-2.0-9B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

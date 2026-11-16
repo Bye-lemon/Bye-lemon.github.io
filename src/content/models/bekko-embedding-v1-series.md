@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2607.25180"
 link: "https://huggingface.co/collections/hotchpotch/bekko-embedding-v1"
 hf_id: ""
+hf_collection: "hotchpotch/bekko-embedding-v1"
+collection_models: ["hotchpotch/bekko-embedding-v1-a8m", "hotchpotch/bekko-embedding-v1-a25m", "hotchpotch/bekko-static-embedding-v1", "hotchpotch/bekko-embedding-v1-a8m-pt", "hotchpotch/bekko-embedding-v1-a25m-pt"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

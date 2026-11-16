@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2602.12147"
 link: "https://huggingface.co/collections/Datadog/toto-20"
 hf_id: ""
+hf_collection: "Datadog/toto-20"
+collection_models: ["Datadog/Toto-2.0-4m", "Datadog/Toto-2.0-22m", "Datadog/Toto-2.0-313m", "Datadog/Toto-2.0-1B", "Datadog/Toto-2.0-2.5B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

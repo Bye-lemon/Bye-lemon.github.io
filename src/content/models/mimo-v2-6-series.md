@@ -23,6 +23,8 @@ published: ""
 paper: "https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-RL/blob/main/MiMo_V2_6_technical_report.pdf"
 link: "https://huggingface.co/collections/XiaomiMiMo/mimo-v26"
 hf_id: ""
+hf_collection: "XiaomiMiMo/mimo-v26"
+collection_models: ["XiaomiMiMo/MiMo-V2.6-Pro-RL", "XiaomiMiMo/MiMo-V2.6-Flash-RL", "XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B", "XiaomiMiMo/MiMo-V2.6-Pro-MOPD", "XiaomiMiMo/MiMo-V2.6-Flash-MOPD"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

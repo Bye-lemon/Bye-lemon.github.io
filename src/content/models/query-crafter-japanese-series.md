@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/hotchpotch/query-crafter-japanese-6816d18f0499f6c7c7bcc67f"
 hf_id: ""
+hf_collection: "hotchpotch/query-crafter-japanese-6816d18f0499f6c7c7bcc67f"
+collection_models: ["hotchpotch/query-crafter-japanese-Qwen3-1.7B", "hotchpotch/query-crafter-japanese-Qwen3-4B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2602.11151"
 link: "https://huggingface.co/collections/perplexity-ai/pplx-embed-v2"
 hf_id: ""
+hf_collection: "perplexity-ai/pplx-embed-v2"
+collection_models: ["perplexity-ai/pplx-embed-v2-late-9b", "perplexity-ai/pplx-embed-v2-late-0.6b", "perplexity-ai/pplx-embed-v2-context-9b-preview", "perplexity-ai/pplx-embed-v2-context-0.6b", "perplexity-ai/pplx-embed-v2-context-9b"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

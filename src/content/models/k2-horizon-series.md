@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/IFM/k2-horizon"
 hf_id: ""
+hf_collection: "IFM/k2-horizon"
+collection_models: ["IFM/K2-Horizon-375B-A23B", "IFM/K2-Horizon-MoVA-36B-A4B", "IFM/K2-Horizon-7B-Uno", "IFM/K2-Horizon-32B", "IFM/K2-Horizon-7B", "IFM/K2-Horizon-3.7B", "IFM/K2-Horizon-0.9B", "IFM/K2-Horizon-0.9B-Uno"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

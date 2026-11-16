@@ -23,6 +23,8 @@ published: "ICML"
 paper: "https://arxiv.org/abs/2212.04356"
 link: "https://huggingface.co/collections/openai/whisper-release-6501bba2cf999715fd953013"
 hf_id: ""
+hf_collection: "openai/whisper-release-6501bba2cf999715fd953013"
+collection_models: ["openai/whisper-large-v2", "openai/whisper-large", "openai/whisper-medium", "openai/whisper-medium.en", "openai/whisper-small", "openai/whisper-small.en", "openai/whisper-base", "openai/whisper-base.en", "openai/whisper-tiny", "openai/whisper-tiny.en"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

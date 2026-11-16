@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/mistralai/ministral-3"
 hf_id: ""
+hf_collection: "mistralai/ministral-3"
+collection_models: ["mistralai/Ministral-3-14B-Instruct-2512", "mistralai/Ministral-3-8B-Instruct-2512", "mistralai/Ministral-3-3B-Instruct-2512", "mistralai/Ministral-3-14B-Reasoning-2512", "mistralai/Ministral-3-8B-Reasoning-2512", "mistralai/Ministral-3-3B-Reasoning-2512", "mistralai/Ministral-3-14B-Base-2512", "mistralai/Ministral-3-8B-Base-2512", "mistralai/Ministral-3-3B-Base-2512"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

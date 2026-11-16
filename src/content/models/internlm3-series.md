@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2403.17297"
 link: "https://huggingface.co/collections/internlm/internlm3-67875827c377690c01a9131d"
 hf_id: ""
+hf_collection: "internlm/internlm3-67875827c377690c01a9131d"
+collection_models: ["internlm/internlm3-8b-instruct", "internlm/internlm3-8b-instruct-gguf", "internlm/internlm3-8b-instruct-awq", "internlm/internlm3-8b-instruct-gptq-int4", "internlm/internlm3-8b-instruct-smoothquant-int8", "internlm/internlm3-8b-instruct-smoothquant-fp8"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

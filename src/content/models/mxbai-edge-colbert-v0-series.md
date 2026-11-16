@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2510.14880"
 link: "https://huggingface.co/collections/mixedbread-ai/mxbai-edge-colbert-v0-series-68f19e8f3fcaf60216fb7b12"
 hf_id: ""
+hf_collection: "mixedbread-ai/mxbai-edge-colbert-v0-series-68f19e8f3fcaf60216fb7b12"
+collection_models: ["mixedbread-ai/mxbai-edge-colbert-v0-17m", "mixedbread-ai/mxbai-edge-colbert-v0-32m"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

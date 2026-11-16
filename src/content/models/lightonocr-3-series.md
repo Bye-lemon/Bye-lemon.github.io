@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/pdf/2601.14251"
 link: "https://huggingface.co/collections/lightonai/lightonocr-3"
 hf_id: ""
+hf_collection: "lightonai/lightonocr-3"
+collection_models: ["lightonai/LightOnOCR-3-0.8B", "lightonai/LightOnOCR-3-1B", "lightonai/LightOnOCR-3-4B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

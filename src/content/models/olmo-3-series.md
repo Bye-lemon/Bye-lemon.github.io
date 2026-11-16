@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/allenai/olmo-3"
 hf_id: ""
+hf_collection: "allenai/olmo-3"
+collection_models: ["allenai/Olmo-3-1125-32B", "allenai/Olmo-3-32B-Think", "allenai/Olmo-3-1025-7B", "allenai/Olmo-3-7B-Think", "allenai/Olmo-3-7B-Instruct"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

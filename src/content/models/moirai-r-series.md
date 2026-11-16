@@ -23,6 +23,8 @@ published: "ICML"
 paper: "https://arxiv.org/abs/2402.02592"
 link: "https://huggingface.co/collections/Salesforce/moirai-r-models-65c8d3a94c51428c300e0742"
 hf_id: ""
+hf_collection: "Salesforce/moirai-r-models-65c8d3a94c51428c300e0742"
+collection_models: ["Salesforce/moirai-2.0-R-small", "Salesforce/moirai-moe-1.0-R-base", "Salesforce/moirai-1.1-R-small", "Salesforce/moirai-1.1-R-base", "Salesforce/moirai-1.1-R-large", "Salesforce/moirai-1.0-R-small", "Salesforce/moirai-1.0-R-base", "Salesforce/moirai-1.0-R-large", "Salesforce/moirai-moe-1.0-R-small", "Salesforce/moirai-agent"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

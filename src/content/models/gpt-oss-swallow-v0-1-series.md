@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/tokyotech-llm/gpt-oss-swallow-v01"
 hf_id: ""
+hf_collection: "tokyotech-llm/gpt-oss-swallow-v01"
+collection_models: ["tokyotech-llm/GPT-OSS-Swallow-20B-RL-v0.1", "tokyotech-llm/GPT-OSS-Swallow-120B-RL-v0.1", "tokyotech-llm/GPT-OSS-Swallow-20B-SFT-v0.1", "tokyotech-llm/GPT-OSS-Swallow-120B-SFT-v0.1", "tokyotech-llm/GPT-OSS-Swallow-20B-RL-v0.1-MXFP4", "tokyotech-llm/GPT-OSS-Swallow-120B-RL-v0.1-MXFP4"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

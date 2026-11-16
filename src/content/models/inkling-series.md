@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/thinkingmachines/inkling"
 hf_id: ""
+hf_collection: "thinkingmachines/inkling"
+collection_models: ["thinkingmachines/Inkling", "thinkingmachines/Inkling-NVFP4", "thinkingmachines/Inkling-Small", "thinkingmachines/Inkling-Small-NVFP4"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/internlm/intern-decision"
 hf_id: ""
+hf_collection: "internlm/intern-decision"
+collection_models: ["internlm/Intern-Decision-0.8B", "internlm/Intern-Decision-2B", "internlm/Intern-Decision-4B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

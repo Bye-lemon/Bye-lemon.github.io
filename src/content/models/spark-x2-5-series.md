@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/XHToken/spark-x25"
 hf_id: ""
+hf_collection: "XHToken/spark-x25"
+collection_models: ["XHToken/Spark-X2.5-1.7B", "XHToken/Spark-X2.5-4B", "XHToken/Spark-X2.5-1.7B-Base", "XHToken/Spark-X2.5-4B-Base", "XHToken/Spark-X2.5-1.7B-GGUF", "XHToken/Spark-X2.5-4B-GGUF", "XHToken/Spark-X2.5-1.7B-INT8", "XHToken/Spark-X2.5-4B-FP8", "XHToken/Spark-X2.5-4B-INT8", "XHToken/Spark-X2.5-1.7B-FP8"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

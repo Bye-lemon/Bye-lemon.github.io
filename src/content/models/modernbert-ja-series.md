@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/sbintuitions/modernbert-ja-67b68fe891132877cf67aa0a"
 hf_id: ""
+hf_collection: "sbintuitions/modernbert-ja-67b68fe891132877cf67aa0a"
+collection_models: ["sbintuitions/modernbert-ja-310m", "sbintuitions/modernbert-ja-130m", "sbintuitions/modernbert-ja-70m", "sbintuitions/modernbert-ja-30m"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

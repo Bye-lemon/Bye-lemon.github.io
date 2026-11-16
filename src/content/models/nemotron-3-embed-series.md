@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/nvidia/nemotron-3-embed"
 hf_id: ""
+hf_collection: "nvidia/nemotron-3-embed"
+collection_models: ["nvidia/Nemotron-3-Embed-1B-NVFP4", "nvidia/Nemotron-3-Embed-1B-BF16", "nvidia/Nemotron-3-Embed-8B-BF16"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2503.20215"
 link: "https://huggingface.co/collections/Qwen/qwen3-omni-68d100a86cd0906843ceccbe"
 hf_id: ""
+hf_collection: "Qwen/qwen3-omni-68d100a86cd0906843ceccbe"
+collection_models: ["Qwen/Qwen3-Omni-30B-A3B-Captioner", "Qwen/Qwen3-Omni-30B-A3B-Instruct", "Qwen/Qwen3-Omni-30B-A3B-Thinking"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

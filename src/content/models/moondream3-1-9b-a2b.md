@@ -21,7 +21,7 @@ author: "M87 Lab"
 updated: "2026-06-30"
 published: ""
 paper: ""
-link: "https://hf-mirror.com/moondream/moondream3.1-9B-A2B"
+link: "https://huggingface.co/moondream/moondream3.1-9B-A2B"
 hf_id: "moondream/moondream3.1-9B-A2B"
 downloads: 8982
 likes: 101

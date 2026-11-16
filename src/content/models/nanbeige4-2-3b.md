@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2607.22083"
 link: "https://huggingface.co/collections/Nanbeige/nanbeige42-3b"
 hf_id: ""
+hf_collection: "Nanbeige/nanbeige42-3b"
+collection_models: ["Nanbeige/Nanbeige4.2-3B", "Nanbeige/Nanbeige4.2-3B-Base", "Nanbeige/Nanbeige4.2-3B-FP8", "Nanbeige/Nanbeige4.2-3B-GPTQ-Int8", "Nanbeige/Nanbeige4.2-3B-DSpark"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

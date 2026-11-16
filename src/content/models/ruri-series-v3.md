@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2409.07737"
 link: "https://huggingface.co/collections/cl-nagoya/ruri-v3-67f382536e80902074ec6252"
 hf_id: ""
+hf_collection: "cl-nagoya/ruri-v3-67f382536e80902074ec6252"
+collection_models: ["cl-nagoya/ruri-v3-310m", "cl-nagoya/ruri-v3-reranker-310m", "cl-nagoya/ruri-v3-130m", "cl-nagoya/ruri-v3-70m", "cl-nagoya/ruri-v3-30m", "cl-nagoya/ruri-v3-pt-310m", "cl-nagoya/ruri-v3-pt-130m", "cl-nagoya/ruri-v3-pt-70m", "cl-nagoya/ruri-v3-pt-30m", "cl-nagoya/ruri-v3-reranker-310m-preview"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

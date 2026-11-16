@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2509.06888"
 link: "https://huggingface.co/collections/jhu-clsp/mmbert-a-modern-multilingual-encoder-68b725831d7c6e3acc435ed4"
 hf_id: ""
+hf_collection: "jhu-clsp/mmbert-a-modern-multilingual-encoder-68b725831d7c6e3acc435ed4"
+collection_models: ["jhu-clsp/mmBERT-base", "jhu-clsp/mmBERT-small", "jhu-clsp/mmBERT-checkpoints"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

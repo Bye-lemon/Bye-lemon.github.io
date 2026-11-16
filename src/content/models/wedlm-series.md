@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2512.22737"
 link: "https://huggingface.co/collections/tencent/wedlm"
 hf_id: ""
+hf_collection: "tencent/wedlm"
+collection_models: ["tencent/WeDLM-7B-Base", "tencent/WeDLM-7B-Instruct", "tencent/WeDLM-8B-Base", "tencent/WeDLM-8B-Instruct"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

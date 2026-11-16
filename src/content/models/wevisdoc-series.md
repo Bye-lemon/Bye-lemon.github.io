@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2609.20423"
 link: "https://huggingface.co/collections/tencent/wevisdoc"
 hf_id: ""
+hf_collection: "tencent/wevisdoc"
+collection_models: ["tencent/WeVisDoc-2B", "tencent/WeVisDoc-4B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

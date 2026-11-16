@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/mistralai/mistral-large-3"
 hf_id: ""
+hf_collection: "mistralai/mistral-large-3"
+collection_models: ["mistralai/Mistral-Large-3-675B-Instruct-2512", "mistralai/Mistral-Large-3-675B-Instruct-2512-NVFP4", "mistralai/Mistral-Large-3-675B-Instruct-2512-Eagle", "mistralai/Mistral-Large-3-675B-Base-2512"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

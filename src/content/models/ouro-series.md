@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2510.25741"
 link: "https://huggingface.co/collections/ByteDance/ouro"
 hf_id: ""
+hf_collection: "ByteDance/ouro"
+collection_models: ["ByteDance/Ouro-1.4B", "ByteDance/Ouro-1.4B-Thinking", "ByteDance/Ouro-2.6B", "ByteDance/Ouro-2.6B-Thinking"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2506.07900"
 link: "https://huggingface.co/collections/openbmb/minicpm5"
 hf_id: ""
+hf_collection: "openbmb/minicpm5"
+collection_models: ["openbmb/MiniCPM5-2B", "openbmb/MiniCPM5-1B", "openbmb/MiniCPM5-2B-GGUF", "openbmb/MiniCPM5-2B-DSpark", "openbmb/MiniCPM5-2B-MLX", "openbmb/MiniCPM5-2B-SFT", "openbmb/MiniCPM5-2B-Midtrain", "openbmb/MiniCPM5-2B-Base", "openbmb/MiniCPM5-2B-GPTQ", "openbmb/MiniCPM5-2B-DSpark-GGUF", "openbmb/MiniCPM5-1B-SFT", "openbmb/MiniCPM5-1B-Base", "openbmb/MiniCPM5-1B-MLX", "openbmb/MiniCPM5-1B-GGUF", "openbmb/JustRL-II-base-model"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: "WMT"
 paper: "https://arxiv.org/abs/2512.24092"
 link: "https://huggingface.co/collections/tencent/hy-mt2"
 hf_id: ""
+hf_collection: "tencent/hy-mt2"
+collection_models: ["tencent/Hy-MT2-30B-A3B", "tencent/Hy-MT2-30B-A3B-FP8", "tencent/Hy-MT2-30B-A3B-GGUF", "tencent/Hy-MT2-7B", "tencent/Hy-MT2-7B-FP8", "tencent/Hy-MT2-7B-GGUF", "tencent/Hy-MT2-1.8B", "tencent/Hy-MT2-1.8B-FP8", "tencent/Hy-MT2-1.8B-GGUF", "tencent/Hy-MT2-1.8B-2Bit-GGUF", "tencent/Hy-MT2-1.8B-1.25Bit-GGUF"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

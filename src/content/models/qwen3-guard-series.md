@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/Qwen/qwen3guard-68d2729abbfae4716f3343a1"
 hf_id: ""
+hf_collection: "Qwen/qwen3guard-68d2729abbfae4716f3343a1"
+collection_models: ["Qwen/Qwen3Guard-Gen-8B", "Qwen/Qwen3Guard-Gen-4B", "Qwen/Qwen3Guard-Gen-0.6B", "Qwen/Qwen3Guard-Stream-0.6B", "Qwen/Qwen3Guard-Stream-8B", "Qwen/Qwen3Guard-Stream-4B", "Qwen/Qwen3-4B-SafeRL"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

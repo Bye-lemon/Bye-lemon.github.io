@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/Tongyi-MAI/mai-ui"
 hf_id: ""
+hf_collection: "Tongyi-MAI/mai-ui"
+collection_models: ["Tongyi-MAI/MAI-UI-2B", "Tongyi-MAI/MAI-UI-8B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: "ICML"
 paper: "https://openreview.net/forum?id=3B6fF1PxYD"
 link: "https://huggingface.co/collections/microsoft/nextcoder-6815ee6bfcf4e42f20d45028"
 hf_id: ""
+hf_collection: "microsoft/nextcoder-6815ee6bfcf4e42f20d45028"
+collection_models: ["microsoft/NextCoder-7B", "microsoft/NextCoder-14B", "microsoft/NextCoder-32B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

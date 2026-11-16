@@ -21,7 +21,9 @@ for (const f of (await fs.readdir(DIR)).filter((x) => x.endsWith('.md')).sort())
   if (m) { try { rows.push({ file: f, ...yaml.load(m[1]) }); } catch {} }
 }
 const hf = rows.filter((r) => r.hf_id);
-const noHf = rows.filter((r) => !r.hf_id);
+const collections = rows.filter((r) => r.hf_collection && !r.hf_id);
+const orgs = rows.filter((r) => r.hf_org && !r.hf_id);
+const unresolved = rows.filter((r) => !r.hf_id && !r.hf_collection && !r.hf_org);
 const issues = { license: [], params: [], category: [], author: [] };
 
 for (const r of hf) {
@@ -51,19 +53,17 @@ for (const r of hf) {
 }
 
 const out = ['# 模型库数据审计', '', '> 由 scripts/audit-models.mjs 生成，只读。', '',
-  '- 条目：' + rows.length, '- 有 HF 仓库：' + hf.length, '- 无 HF 仓库（集合/组织页/论文/镜像）：' + noHf.length,
+  '- 条目：' + rows.length, '- 有 HF 模型仓库：' + hf.length, '- HF 集合：' + collections.length, '- HF 组织页：' + orgs.length, '- 未解析：' + unresolved.length,
   '- 许可与 HF 不一致：' + issues.license.length, '- 参数量与 safetensors 偏差 >25%：' + issues.params.length,
   '- 类别仍可能是旧值：' + issues.category.length, '- 作者与 HF org 不同：' + issues.author.length, '', '## 无 HF 仓库的条目', ''];
-const groups = new Map();
-for (const r of noHf) {
-  const k = /collections/.test(r.link || '') ? 'HF 集合（Series）' : /hf-mirror/.test(r.link || '') ? 'HF 镜像' : /arxiv/.test(r.link || '') ? '论文' : host(r.link || '');
-  groups.set(k, (groups.get(k) || []).concat(r));
-}
-for (const [k, list] of groups) {
-  out.push('### ' + k + '（' + list.length + '）', '');
-  for (const r of list) out.push('- ' + r.name + ' — ' + r.link);
-  out.push('');
-}
+for (const r of collections) out.push('- ' + r.name + ' — ' + r.link + '（' + (r.collection_models || []).length + ' 个模型）');
+if (!collections.length) out.push('- 无');
+out.push('', '## HF 组织页', '');
+for (const r of orgs) out.push('- ' + r.name + ' — ' + r.link + '（' + (r.org_models || []).length + ' 个模型）');
+if (!orgs.length) out.push('- 无');
+out.push('', '## 未解析链接', '');
+for (const r of unresolved) out.push('- ' + r.name + ' — ' + r.link);
+if (!unresolved.length) out.push('- 无');
 out.push('## 许可不一致', '');
 for (const x of issues.license) out.push('- ' + x.name + ': 库中 ' + x.ours + ' / HF ' + x.hf);
 if (!issues.license.length) out.push('- 无');
@@ -79,5 +79,5 @@ if (!issues.author.length) out.push('- 无');
 
 await fs.mkdir(path.dirname(OUT), { recursive: true });
 await fs.writeFile(OUT, out.join('\n') + '\n', 'utf8');
-console.log('条目', rows.length, '| HF', hf.length, '| 无 HF', noHf.length, '| license', issues.license.length, '| params', issues.params.length, '| category', issues.category.length, '| author', issues.author.length);
+console.log('条目', rows.length, '| HF', hf.length, '| 集合', collections.length, '| 组织', orgs.length, '| 未解析', unresolved.length, '| license', issues.license.length, '| params', issues.params.length, '| category', issues.category.length, '| author', issues.author.length);
 console.log('写入', path.relative(ROOT, OUT));

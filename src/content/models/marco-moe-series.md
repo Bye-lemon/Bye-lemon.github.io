@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/AIDC-AI/marco-moe"
 hf_id: ""
+hf_collection: "AIDC-AI/marco-moe"
+collection_models: ["ATH-MaaS/Marco-Nano-Base", "ATH-MaaS/Marco-Mini-Base", "ATH-MaaS/Marco-Mini-Global-Base", "ATH-MaaS/Marco-Nano-Instruct", "ATH-MaaS/Marco-Mini-Instruct"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

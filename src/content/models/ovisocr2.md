@@ -21,7 +21,7 @@ author: "阿里巴巴"
 updated: "2026-07-13"
 published: ""
 paper: "https://github.com/ATH-MaaS/Ovis/blob/main/docs/OvisOCR2_Tech_Report.pdf"
-link: "https://hf-mirror.com/ATH-MaaS/OvisOCR2"
+link: "https://huggingface.co/ATH-MaaS/OvisOCR2"
 hf_id: "ATH-MaaS/OvisOCR2"
 downloads: 26320
 likes: 504

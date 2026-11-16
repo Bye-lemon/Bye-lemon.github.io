@@ -43,6 +43,55 @@ function hfIdOf(md) {
   } catch { return ''; }
 }
 
+function collectionSlug(link) {
+  try {
+    const u = new URL(link || '');
+    if (!/(^|\.)huggingface\.co$/.test(u.hostname)) return '';
+    const m = u.pathname.match(/^\/collections\/([^/]+)\/([^/]+)/);
+    return m ? m[1] + '/' + m[2] : '';
+  } catch { return ''; }
+}
+
+function orgSlug(link) {
+  try {
+    const u = new URL(link || '');
+    if (!/(^|\.)huggingface\.co$/.test(u.hostname)) return '';
+    const m = u.pathname.match(/^\/([^/]+)\/?$/);
+    if (!m || ['collections', 'datasets', 'spaces', 'models', 'papers', 'docs'].includes(m[1])) return '';
+    return m[1];
+  } catch { return ''; }
+}
+
+async function fetchCached(url, cacheFile, refresh) {
+  if (!refresh) { try { return JSON.parse(await fs.readFile(cacheFile, 'utf8')); } catch {} }
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await fetch(url, { headers: { 'User-Agent': 'lml-models-sync/1.0' } });
+      if (res.status === 404) return null;
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      await fs.mkdir(path.dirname(cacheFile), { recursive: true });
+      await fs.writeFile(cacheFile, JSON.stringify(json), 'utf8');
+      return json;
+    } catch (e) {
+      if (attempt === 2) return { __error: String(e.message || e) };
+      await new Promise((r) => setTimeout(r, 800 * (attempt + 1)));
+    }
+  }
+}
+
+async function fetchCollection(slug) {
+  const data = await fetchCached('https://huggingface.co/api/collections/' + slug, path.join(CACHE, 'collections', slug.replace('/', '__') + '.json'), REFRESH);
+  if (!data || data.__error) return null;
+  return (data.items || []).filter((x) => x.type === 'model' && x.id).map((x) => x.id);
+}
+
+async function fetchOrgModels(org) {
+  const data = await fetchCached('https://huggingface.co/api/models?author=' + encodeURIComponent(org) + '&limit=200', path.join(CACHE, 'orgs', org + '.json'), REFRESH);
+  if (!Array.isArray(data)) return null;
+  return data.map((x) => x.id).filter(Boolean);
+}
+
 function archOf(md, info) {
   const s = JSON.stringify(info.tags || []).toLowerCase();
   if (/moe|mixture-of-experts/.test(s)) return 'moe';
@@ -164,8 +213,43 @@ for (const f of files) {
   const md = yaml.load(m[1]) || {};
   const body = m[2] || '';
   report.total++;
+  if (md.link && /^https?:\/\/hf-mirror\.com\//.test(md.link)) {
+    md.link = md.link.replace(/^https?:\/\/hf-mirror\.com\//, 'https://huggingface.co/');
+  }
   const id = hfIdOf(md);
-  if (!id) { report.skipped++; continue; }
+
+  // 集合 / 组织页：没有单个 repo，就列出全部模型
+  if (!id) {
+    const col = collectionSlug(md.link);
+    const org = orgSlug(md.link);
+    if (col) {
+      const list = await fetchCollection(col);
+      if (list) {
+        md.hf_collection = col;
+        md.collection_models = list;
+        const out = serialize(md) + body;
+        if (out !== raw) { report.updated++; if (WRITE) await fs.writeFile(p, out, 'utf8'); }
+        report.collections = (report.collections || 0) + 1;
+      } else { report.errors.push('collection ' + col); }
+      await new Promise((r) => setTimeout(r, DELAY));
+      continue;
+    }
+    if (org) {
+      const list = await fetchOrgModels(org);
+      if (list) {
+        md.hf_org = org;
+        md.org_models = list;
+        const out = serialize(md) + body;
+        if (out !== raw) { report.updated++; if (WRITE) await fs.writeFile(p, out, 'utf8'); }
+        report.orgs = (report.orgs || 0) + 1;
+      } else { report.errors.push('org ' + org); }
+      await new Promise((r) => setTimeout(r, DELAY));
+      continue;
+    }
+    report.skipped++;
+    continue;
+  }
+
   if (ONLY_MISSING && md.hf_last_modified) { report.skipped++; continue; }
   report.hf++; processed++;
   const info = await fetchInfo(id);
@@ -181,6 +265,6 @@ for (const f of files) {
 }
 
 console.log(WRITE ? '模式: write' : '模式: dry-run（加 --write 才写入）');
-console.log('扫描:', report.total, '| HF 仓库:', report.hf, '| 更新:', report.updated, '| 跳过:', report.skipped);
+console.log('扫描:', report.total, '| HF 仓库:', report.hf, '| 集合:', report.collections || 0, '| 组织:', report.orgs || 0, '| 更新:', report.updated, '| 跳过:', report.skipped);
 if (report.notFound.length) console.log('404:', report.notFound.slice(0, 10).join(', '), report.notFound.length > 10 ? '…' : '');
 if (report.errors.length) console.log('错误:', report.errors.slice(0, 5).join(' | '));

@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/Qwen/qwen3-asr"
 hf_id: ""
+hf_collection: "Qwen/qwen3-asr"
+collection_models: ["Qwen/Qwen3-ASR-1.7B", "Qwen/Qwen3-ASR-0.6B", "Qwen/Qwen3-ForcedAligner-0.6B", "Qwen/Qwen3-ASR-1.7B-hf", "Qwen/Qwen3-ASR-0.6B-hf", "Qwen/Qwen3-ForcedAligner-0.6B-hf"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/reazon-research/speech-language-models"
 hf_id: ""
+hf_collection: "reazon-research/speech-language-models"
+collection_models: ["reazon-research/japanese-hubert-base-k2-rs35kh-bpe", "reazon-research/japanese-hubert-base-k2-rs35kh", "reazon-research/japanese-zipformer-base-k2-rs35kh-bpe", "reazon-research/japanese-zipformer-base-k2-rs35kh", "reazon-research/japanese-wav2vec2-large-rs35kh", "reazon-research/japanese-wav2vec2-base-rs35kh", "reazon-research/japanese-hubert-base-k2", "reazon-research/japanese-zipformer-base-k2", "reazon-research/japanese-wav2vec2-large", "reazon-research/japanese-wav2vec2-base"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

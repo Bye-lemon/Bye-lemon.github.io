@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2506.05176"
 link: "https://huggingface.co/collections/Qwen/qwen3-reranker-6841b22d0192d7ade9cdefea"
 hf_id: ""
+hf_collection: "Qwen/qwen3-reranker-6841b22d0192d7ade9cdefea"
+collection_models: ["Qwen/Qwen3-Reranker-0.6B", "Qwen/Qwen3-Reranker-4B", "Qwen/Qwen3-Reranker-8B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

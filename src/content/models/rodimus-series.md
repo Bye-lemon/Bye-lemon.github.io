@@ -23,6 +23,8 @@ published: "ICLR"
 paper: "https://arxiv.org/abs/2410.06577"
 link: "https://huggingface.co/collections/codefuse-ai/rodimus-67c7b63802935d02b0ae9c80"
 hf_id: ""
+hf_collection: "codefuse-ai/rodimus-67c7b63802935d02b0ae9c80"
+collection_models: ["codefuse-ai/Rodimus-Plus-Coder-1.6B-Base", "codefuse-ai/Rodimus-Plus-Coder-1.6B-Chat", "codefuse-ai/Rodimus-Plus-Coder-4B-Base", "codefuse-ai/Rodimus-Plus-Coder-4B-Chat"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

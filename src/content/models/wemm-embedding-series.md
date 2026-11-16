@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2608.24053"
 link: "https://huggingface.co/collections/tencent/wemm-embedding"
 hf_id: ""
+hf_collection: "tencent/wemm-embedding"
+collection_models: ["tencent/WeMM-Embedding-2B", "tencent/WeMM-Embedding-4B", "tencent/WeMM-Embedding-9B"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

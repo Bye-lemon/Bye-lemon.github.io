@@ -23,6 +23,8 @@ published: ""
 paper: "https://arxiv.org/abs/2505.02707"
 link: "https://huggingface.co/collections/maitrix-org/voila-67e0d96962c19f221fc73fa5"
 hf_id: ""
+hf_collection: "maitrix-org/voila-67e0d96962c19f221fc73fa5"
+collection_models: ["maitrix-org/Voila-base", "maitrix-org/Voila-chat", "maitrix-org/Voila-audio-alpha", "maitrix-org/Voila-autonomous-preview", "maitrix-org/Voila-Tokenizer"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

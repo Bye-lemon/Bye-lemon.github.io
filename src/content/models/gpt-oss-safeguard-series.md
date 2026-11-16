@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/openai/gpt-oss-safeguard"
 hf_id: ""
+hf_collection: "openai/gpt-oss-safeguard"
+collection_models: ["openai/gpt-oss-safeguard-20b", "openai/gpt-oss-safeguard-120b"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

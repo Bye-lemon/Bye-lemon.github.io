@@ -23,6 +23,8 @@ published: ""
 paper: ""
 link: "https://huggingface.co/collections/meta-models/muse-glimmer"
 hf_id: ""
+hf_collection: "meta-models/muse-glimmer"
+collection_models: ["meta-models/Muse-Glimmer-30B", "meta-models/Muse-Glimmer-30B-GGUF", "meta-models/Muse-Glimmer-30B-ExecuTorch-PTE", "meta-models/Muse-Glimmer-30B-assistant"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

@@ -879,12 +879,15 @@
 .m-cat-chip[data-cat="world-model"] .m-cat-dot { background: #5a5a7a; }
 .m-cat-chip[data-cat="data"] .m-cat-dot { background: #5b6b4a; }
 
-/* 紧凑字号 */
-.models-page { font-size: .82rem; }
-.models-page h1 { font-size: 2rem; }
-.m-cat { font-size: .68rem; }
-.m-field label, .m-field select, .m-multi-trigger, .m-seg-btn { font-size: .7rem; }
-.m-count { font-size: .7rem; }
-.models-page .tabulator, .models-page .tabulator .tabulator-cell, .models-page .tabulator .tabulator-col-title { font-size: .7rem; }
-.models-page .tabulator .tabulator-col-title { font-size: .62rem; }
-.models-page .tabulator .tabulator-cell { padding: 6px 8px; }
+
+/* 表格之外对齐正文尺度 */
+.models-page .m-edit { font-size: .82rem; }
+.models-page .m-cat { font-size: .86rem; }
+.models-page .m-field label { font-size: .78rem; }
+.models-page .m-field select,
+.models-page .m-multi-trigger,
+.models-page .m-seg-btn { font-size: .88rem; }
+.models-page .m-count { font-size: .82rem; }
+.models-page .m-panel-body { font-size: .92rem; }
+.models-page .m-panel-title { font-size: 1.2rem; }
+.models-page .m-panel-hint { font-size: .92rem; }

@@ -1,13 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { sortByDate, slugOf, dateOf, tagsOf } from '../lib/posts';
+import { sortByDate, slugOf, dateOf } from '../lib/posts';
 const posts = sortByDate(await getCollection('posts')).slice(0, 12);
 const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 <BaseLayout current="/">
-  <h1>李英平</h1>
-  <p class="lead">你的指尖，有改变世界的力量。</p>
+  <style>
+    .s-poem-line { margin: .4em 0 2.4em; font-size: .8rem; line-height: 1.9; color: var(--muted); letter-spacing: .04em; }
+  </style>
+  <h1>你的指尖，有改变世界的力量。</h1>
+  <p class="s-poem-line">百工竞巧卷八荒，太仓一粟对苍茫。有涯欲逐无涯尽，新见方生旧说亡。北辕适楚马徒健，樗散何妨老道旁。莫笑汗漫无功返，浮桴终可问津梁。</p>
   <h2>最近写的</h2>
   <ul class="post-list">
     {posts.map((post) => (

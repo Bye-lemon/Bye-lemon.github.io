@@ -9,12 +9,11 @@ const academicLabel = (f: (typeof friends)[number]) => f.university + '·' + f.n
 ---
 <BaseLayout title="友链" current="/friends/">
   <style>
-    h1 { font-size: 2rem; }
     .f-section { margin: 0 0 2.2em; }
-    .f-section h2 { margin: 0 0 .7em; font-size: 1.2rem; }
+    .f-section h2 { margin: 0 0 .8em; }
     .f-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-    .f-list li { display: flex; align-items: baseline; justify-content: space-between; gap: 1.2em; padding: .5em 0; border-bottom: 1px solid var(--line); }
-    .f-list a { border: 0; text-decoration: none; font-family: var(--serif); font-size: .88rem; }
+    .f-list li { display: flex; align-items: baseline; justify-content: space-between; gap: 1.2em; padding: .62em 0; border-bottom: 1px solid var(--line); }
+    .f-list a { border: 0; text-decoration: none; font-family: var(--serif); font-size: inherit; }
     .f-list a:hover { color: var(--accent); text-decoration: underline; }
     .f-list .f-host { font-family: var(--mono); font-size: .6rem; color: var(--faint); white-space: nowrap; }
     @media (max-width: 767px) { .f-list li { flex-wrap: wrap; gap: .2em 1em; } }

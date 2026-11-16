@@ -5,7 +5,6 @@ import { getCollection, render } from 'astro:content';
 const [entry] = await getCollection('about');
 const { Content } = entry ? await render(entry) : { Content: null };
 const data = (entry?.data || {}) as any;
-const profile = Array.isArray(data.profile) ? data.profile : [];
 const now = Array.isArray(data.now) ? data.now : [];
 const timeline = Array.isArray(data.timeline) ? data.timeline : [];
 ---
@@ -13,32 +12,30 @@ const timeline = Array.isArray(data.timeline) ? data.timeline : [];
   <h1>{pageAliases.about}</h1>
   <div class="prose">{Content && <Content />}</div>
 
-  {profile.length > 0 && (
+  {timeline.length > 0 && (
     <section>
-      <h2>简历</h2>
-      <dl style="margin:0;display:grid;grid-template-columns:6em 1fr;gap:.5em 1em;font-family:var(--sans);font-size:.82rem">
-        {profile.map((row) => (<><dt style="color:var(--muted)">{row.k}</dt><dd style="margin:0">{row.v}</dd></>))}
-      </dl>
+      <h2>经历</h2>
+      <ul class="post-list">
+        {timeline.map((row) => (
+          <li>
+            <time>{row.when}</time>
+            <span>{row.what}</span>
+            {row.where && <span class="about-where">{row.where}</span>}
+          </li>
+        ))}
+      </ul>
     </section>
   )}
 
   {now.length > 0 && (
     <section>
-      <h2>现在在做什么</h2>
-      {now.map((item) => (
-        <p><strong>{item.title}</strong><br /><span style="color:var(--muted)">{item.text}</span></p>
-      ))}
+      <h2>现在在做</h2>
+      <p class="about-now">{now.map((item) => item.title).join('、')}</p>
     </section>
   )}
 
-  {timeline.length > 0 && (
-    <section>
-      <h2>走过的路</h2>
-      <ul class="post-list">
-        {timeline.map((row) => (
-          <li><time>{row.when}</time><span>{row.what}</span><span style="font-family:var(--sans);font-size:.72rem;color:var(--muted);margin-left:auto">{row.where || ''}</span></li>
-        ))}
-      </ul>
-    </section>
-  )}
+  <style>
+    .about-where { margin-left: auto; font-family: var(--sans); font-size: .72rem; color: var(--muted); }
+    .about-now { margin: 0; font-size: 1rem; }
+  </style>
 </BaseLayout>

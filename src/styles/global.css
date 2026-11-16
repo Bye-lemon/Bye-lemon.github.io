@@ -159,10 +159,11 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
 
 /* ---------- 全局搜索模态框 ---------- */
 .nav-search {
+  display: inline-flex; align-items: center; justify-content: center;
   border: 0; background: transparent; padding: 0;
-  font: inherit; color: var(--muted); cursor: pointer;
-  letter-spacing: .04em;
+  color: var(--muted); cursor: pointer; line-height: 1;
 }
+.nav-search svg { display: block; }
 .nav-search:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .3em; }
 .search-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-start; justify-content: center; padding: 9vh 1rem 1rem; }
 .search-modal[hidden] { display: none; }
@@ -180,7 +181,8 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
 #search-input:focus { outline: 0; border-color: var(--ink); }
 .search-close { border: 0; background: transparent; font-size: 1rem; color: var(--muted); cursor: pointer; padding: 4px 6px; }
 .search-close:hover { color: var(--ink); }
-.search-status { margin: 10px 0 4px; font-family: var(--sans); font-size: .7rem; color: var(--faint); }
+.search-status { margin: 8px 0 2px; font-family: var(--sans); font-size: .7rem; color: var(--faint); }
+.search-status:empty { display: none; }
 .search-results { overflow: auto; padding-bottom: 10px; }
 .sr-group h3 { margin: 12px 0 4px; font-family: var(--sans); font-size: .68rem; letter-spacing: .12em; color: var(--faint); font-weight: 400; text-transform: uppercase; }
 .sr-item { padding: 8px 0; border-bottom: 1px solid var(--line); }

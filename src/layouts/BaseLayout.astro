@@ -3,7 +3,7 @@ import '../styles/global.css';
 import 'katex/dist/katex.min.css';
 interface Props { title?: string; description?: string; current?: string; wide?: boolean; }
 const { title, description = '李英平的博客：自动驾驶、嵌入式与系统工具的开发笔记。', current = '', wide = false } = Astro.props;
-const nav = [{"href":"/","label":"文章"},{"href":"/archive/","label":"归档"},{"href":"/models/","label":"模型库"},{"href":"/notes/","label":"笔记"},{"href":"/nav/","label":"导航"},{"href":"/friends/","label":"友链"},{"href":"/about/","label":"关于"}];
+const nav = [{"href":"/","label":"Articles"},{"href":"/archive/","label":"Archive"},{"href":"/models/","label":"Models"},{"href":"/notes/","label":"Notes"},{"href":"/nav/","label":"Nav"},{"href":"/friends/","label":"Friends"},{"href":"/about/","label":"About"}];
 const fullTitle = title ? `${title} · 李英平` : '李英平';
 ---
 <!doctype html>
@@ -32,7 +32,7 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
           {nav.map((item) => (
             <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a>
           ))}
-          <button class="nav-search" id="search-open" type="button" aria-label="搜索">搜索</button>
+          <button class="nav-search" id="search-open" type="button" aria-label="搜索" title="搜索"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
         </nav>
       </div>
     </header>
@@ -48,13 +48,12 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
 
     <div class="search-modal" id="search-modal" hidden>
       <div class="search-backdrop" data-search-close></div>
-      <div class="search-dialog" role="dialog" aria-modal="true" aria-labelledby="search-title">
+      <div class="search-dialog" role="dialog" aria-modal="true" aria-label="搜索">
         <div class="search-head">
-          <h2 class="sr-only" id="search-title">搜索</h2>
           <input id="search-input" type="search" placeholder="搜索文章、模型与导航…" autocomplete="off" spellcheck="false" />
           <button class="search-close" type="button" data-search-close aria-label="关闭搜索">✕</button>
         </div>
-        <p class="search-status" id="search-status" aria-live="polite">输入关键词开始搜索</p>
+        <p class="search-status" id="search-status" aria-live="polite"></p>
         <div class="search-results" id="search-results"></div>
       </div>
     </div>
@@ -144,7 +143,7 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
         let timer;
         function run() {
           const q = input.value.trim();
-          if (!q) { resultsEl.innerHTML = ''; statusEl.textContent = '输入关键词开始搜索'; return; }
+          if (!q) { resultsEl.innerHTML = ''; statusEl.textContent = ''; return; }
           if (!index) { statusEl.textContent = '索引加载中…'; }
           ensure().then(() => {
             const tokens = segment(q);

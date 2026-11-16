@@ -3,10 +3,8 @@ slug: apollo1
 title: Apollo D-Kit 调试笔记（一）：系统安装与传感器集成
 tags:
   - Apollo
-mathjax: true
 categories: 开发和调试笔记
 abstract: 本文记录了笔者在对百度Apollo D-Kit上搭载的工控机重新安装系统、配置Apollo软件环境并进一步集成各类传感器的操作流程。
-abbrlink: 11e
 date: 2020-10-15 15:37:36
 ---
 

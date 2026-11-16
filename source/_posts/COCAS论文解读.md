@@ -10,8 +10,6 @@ categories: 论文笔记
 abstract: >-
   【CVPR2020】 Shijie Yu, Shihua Li, Dapeng Chen, Rui Zhao, Junjie Yan, and Yu
   Qiao†
-mathjax: true
-abbrlink: aa5f
 date: 2020-06-26 16:47:23
 ---
 ## Introduction

@@ -7,8 +7,6 @@ tags:
   - CVPR
 categories: 论文笔记
 abstract: 【CVPR2019】 Bharti Munjal Sikandar Amin Federico Tombari Fabio Galasso
-mathjax: true
-abbrlink: ffa2
 date: 2020-08-09 16:35:52
 ---
 ## Introduction

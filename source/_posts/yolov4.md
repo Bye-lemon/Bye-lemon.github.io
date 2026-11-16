@@ -1,13 +1,10 @@
 ---
 slug: yolov4
-layout: post
 title: '《YOLO v4: Optimal Speed and Accuracy of Object Detection》论文笔记'
-mathjax: true
 tags:
   - Object Detection
 categories: 论文笔记
 abstract: Alexey Bochkovskiy、hien-Yao Wang、Hong-Yuan Mark Liao
-abbrlink: dbc2
 date: 2020-05-09 17:38:50
 ---
 # 目标检测器的流水线

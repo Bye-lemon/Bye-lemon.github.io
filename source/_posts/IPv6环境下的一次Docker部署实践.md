@@ -7,7 +7,6 @@ tags:
   - Cernet
 categories: 开发和调试笔记
 abstract: 这篇文章记录了我参加赛尔网络主办的下一代互联网竞赛时，在IPv6服务器上部署服务的过程。
-abbrlink: a140
 date: 2018-12-01 23:03:29
 ---
 ## 服务器环境

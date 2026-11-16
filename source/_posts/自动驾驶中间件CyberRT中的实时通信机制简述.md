@@ -3,10 +3,8 @@ slug: zi-dong-jia-shi-zhong-jian-jian-cyber-rt-zhong-de-shi-shi
 title: 自动驾驶中间件Cyber RT中的实时通信机制简述
 tags:
   - Apollo
-mathjax: true
 categories: 开发和调试笔记
 abstract: 本文记录了笔者在对百度Apollo无人驾驶系统中间件应用Cyber RT中的多进程通信模块的调研笔记。
-abbrlink: 89b2
 date: 2020-12-30 21:04:09
 ---
 ### 无人驾驶系统与Cyber RT

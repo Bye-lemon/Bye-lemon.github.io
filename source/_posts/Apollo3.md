@@ -3,10 +3,8 @@ slug: apollo3
 title: Apollo D-Kit 调试笔记（三）：基于Lidar的自动驾驶
 tags:
   - Apollo
-mathjax: true
 categories: 开发和调试笔记
 abstract: 本文记录了笔者在对百度Apollo D-Kit上对激光雷达进行标定、制作虚拟车道线并进行感知适配和规划适配的全过程。
-abbrlink: d69d
 date: 2020-11-10 15:44:48
 ---
 ### 准备工作

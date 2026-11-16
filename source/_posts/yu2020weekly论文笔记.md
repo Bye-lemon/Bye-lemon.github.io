@@ -8,8 +8,6 @@ tags:
   - CVPR
 categories: 论文笔记
 abstract: 【CVPR2020】 Hong-Xing Yu， Wei-Shi Zheng
-mathjax: true
-abbrlink: 4d08
 date: 2020-07-04 19:57:13
 ---
 ## Introduction

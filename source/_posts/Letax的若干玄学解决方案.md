@@ -1,13 +1,11 @@
 ---
 slug: aurora-zai-refresh-shi-bao-cuo-running-problem-latex-de-ruo
-layout: post
 title: Aurora在Refresh时报错Running Problem Latex的若干玄学解决方案
 tags:
   - Aurora2
   - MS Office
 categories: 英平的工具箱
 abstract: 本文记录了笔者在Word中使用Aurora在Refresh公式时报错Running Problem Latex的解决方案。
-abbrlink: '1271'
 date: 2020-04-16 16:23:50
 ---
 ## 系统环境和软件环境

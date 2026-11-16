@@ -1,6 +1,5 @@
 ---
 slug: mi-mix2s-polaris-quan-cheng-fu-you-hua-ji-lu
-layout: post
 title: MI MIX2S(Polaris)全程负优化记录
 categories: 开发和调试笔记
 tags:
@@ -8,7 +7,6 @@ tags:
   - 小米
   - Android
 abstract: 本文是笔者对小米MIX2S（Polaris）的刷机备忘录。
-abbrlink: b76d
 date: 2020-01-30 13:58:56
 ---
 ## Preparation·准备工作

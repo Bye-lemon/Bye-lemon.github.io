@@ -7,8 +7,6 @@ tags:
   - CVPR
 categories: 论文笔记
 abstract: 【CVPR2017】 Tong Xiao Shuang Li Bochao Wang Liang Lin Xiaogang Wang
-mathjax: true
-abbrlink: c6f5
 date: 2020-08-09 14:28:52
 ---
 ## Introduction

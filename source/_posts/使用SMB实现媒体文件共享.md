@@ -6,7 +6,6 @@ tags:
   - Windows 10
 categories: 英平的工具箱
 abstract: 本文记录了笔者在Windows 10系统下启用SMB共享服务，实现媒体文件的共享访问的过程。
-abbrlink: f81
 date: 2021-02-25 19:03:25
 ---
 ## Step 1、打开SMB服务

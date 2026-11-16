@@ -6,8 +6,6 @@ tags:
   - CVPR
 categories: 论文笔记
 abstract: '【CVPR2020】 Shang Gao, Jingya Wang, Huchuan Lu, Zimo Liu'
-mathjax: true
-abbrlink: '8337'
 date: 2020-07-02 15:54:46
 ---
 ## Introduction

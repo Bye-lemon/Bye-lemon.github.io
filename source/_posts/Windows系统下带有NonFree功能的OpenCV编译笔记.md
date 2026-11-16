@@ -5,7 +5,6 @@ tags:
   - OpenCV
 categories: 开发和调试笔记
 abstract: 本文记录了笔者在Windows系统下为Anaconda编译带有SIFT等Nonfree功能的OpenCV 4.3版本的过程。
-abbrlink: 3acc
 date: 2020-04-12 20:14:01
 ---
 ## 系统环境和编译环境

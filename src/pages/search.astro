@@ -4,35 +4,112 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="搜索" current="/search/">
   <h1>搜索</h1>
   <form class="search-form" onsubmit="return false">
-    <input id="q" type="search" placeholder="搜索文章…" autocomplete="off" aria-label="搜索" />
+    <input id="q" type="search" placeholder="搜索文章与模型…" autocomplete="off" aria-label="搜索" />
   </form>
-  <div id="results"><p class="lead">输入关键词开始搜索。</p></div>
+  <p class="search-stat" id="stat">输入关键词开始搜索。支持中文、英文与混合查询。</p>
+  <div id="results"></div>
   <script>
-    let pagefind;
-    const pagefindUrl = ['', 'pagefind', 'pagefind.js'].join('/');
-    async function ensure() {
-      if (!pagefind) pagefind = await import(/* @vite-ignore */ pagefindUrl);
-      return pagefind;
+    const CJK = /[\u4e00-\u9fff]/;
+    let docs = null;
+    const cache = new Map();
+
+    function bigrams(s) {
+      const out = [];
+      for (let i = 0; i < s.length - 1; i++) out.push(s.slice(i, i + 2));
+      return out;
     }
+    function tokens(text) {
+      const lower = String(text).toLowerCase();
+      const latin = lower.match(/[a-z0-9][a-z0-9+.#-]*/g) || [];
+      const cjkRuns = lower.match(/[\u4e00-\u9fff]+/g) || [];
+      const bi = cjkRuns.flatMap((r) => (r.length === 1 ? [r] : bigrams(r)));
+      return [...new Set([...latin, ...bi])];
+    }
+    function prepared(doc) {
+      if (cache.has(doc.id)) return cache.get(doc.id);
+      const title = tokens(doc.title);
+      const desc = tokens(doc.description || '');
+      const body = tokens(doc.text || '');
+      const all = new Set([...title, ...desc, ...body]);
+      const rec = { doc, title: new Set(title), desc: new Set(desc), body: new Set(body), all, lowerTitle: String(doc.title).toLowerCase() };
+      cache.set(doc.id, rec);
+      return rec;
+    }
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    function highlight(text, q) {
+      const safe = escapeHtml(text);
+      const terms = [...new Set([q, ...tokens(q)])].filter((t) => t.length > 1).sort((a, b) => b.length - a.length);
+      if (!terms.length) return safe;
+      const re = new RegExp('(' + terms.map((t) => t.replace(/[.*+?^${()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+      return safe.replace(re, '<mark>$1</mark>');
+    }
+    function snippet(text, q) {
+      const lower = text.toLowerCase();
+      const ql = q.toLowerCase();
+      let i = lower.indexOf(ql);
+      if (i === -1) {
+        for (const t of tokens(q)) { i = lower.indexOf(t); if (i > -1) break; }
+      }
+      if (i === -1) return text.slice(0, 110);
+      const start = Math.max(0, i - 40);
+      return (start > 0 ? '…' : '') + text.slice(start, start + 120) + '…';
+    }
+
+    function search(q) {
+      const qTokens = tokens(q);
+      if (!qTokens.length) return [];
+      const all = docs.map(prepared);
+      const score = (r) => {
+        let s = 0, hit = 0;
+        for (const t of qTokens) {
+          if (r.title.has(t)) s += 5;
+          else if (r.desc.has(t)) s += 3;
+          else if (r.body.has(t)) s += 1;
+          if (r.all.has(t)) hit++;
+        }
+        if (r.lowerTitle.includes(q.toLowerCase())) s += 8;
+        return { s, hit };
+      };
+      const AND = all.filter((r) => qTokens.every((t) => r.all.has(t)));
+      const pool = AND.length ? AND : all.filter((r) => qTokens.some((t) => r.all.has(t)));
+      return pool
+        .map((r) => ({ r, ...score(r) }))
+        .filter((x) => x.hit > 0)
+        .sort((a, b) => b.s - a.s)
+        .slice(0, 20);
+    }
+
     const input = document.getElementById('q');
     const box = document.getElementById('results');
+    const stat = document.getElementById('stat');
     let timer;
     input.addEventListener('input', () => {
       clearTimeout(timer);
       timer = setTimeout(async () => {
         const q = input.value.trim();
-        if (!q) { box.innerHTML = '<p class="lead">输入关键词开始搜索。</p>'; return; }
-        try {
-          const pf = await ensure();
-          const res = await pf.search(q);
-          const items = await Promise.all(res.results.slice(0, 12).map((r) => r.data()));
-          box.innerHTML = items.length
-            ? items.map((d) => '<div class="search-result"><h3><a href="' + d.url + '">' + d.meta.title + '</a></h3><p>' + (d.excerpt || '') + '</p></div>').join('')
-            : '<p class="lead">没有匹配的结果。</p>';
-        } catch (e) {
-          box.innerHTML = '<p class="lead">搜索索引尚未生成（本地请先 npm run build）。</p>';
+        if (!q) { box.innerHTML = ''; stat.textContent = '输入关键词开始搜索。支持中文、英文与混合查询。'; return; }
+        if (!docs) {
+          try { docs = await (await fetch('/search.json')).json(); }
+          catch (e) { stat.textContent = '搜索索引加载失败。'; return; }
         }
+        const rows = search(q);
+        stat.textContent = '找到 ' + rows.length + ' 条结果';
+        box.innerHTML = rows.length
+          ? rows.map(({ r }) => {
+              const d = r.doc;
+              return '<div class="search-result"><h3><a href="' + d.url + '">' + highlight(d.title, q) + '</a></h3>'
+                + '<p class="search-meta">' + d.kind + (d.date ? ' · ' + d.date : '') + '</p>'
+                + '<p>' + highlight(snippet(d.text || d.description || '', q), q) + '</p></div>';
+            }).join('')
+          : '<p class="lead">没有匹配的结果。</p>';
       }, 120);
     });
   </script>
+  <style>
+    .search-stat { font-family: var(--sans); font-size: .76rem; color: var(--muted); margin: 0 0 1.6em; }
+    .search-result h3 { margin: 0 0 .2em; }
+    .search-meta { font-family: var(--sans); font-size: .7rem; color: var(--faint); margin: 0 0 .3em; }
+  </style>
 </BaseLayout>

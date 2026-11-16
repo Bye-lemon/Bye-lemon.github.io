@@ -5,7 +5,6 @@ tags:
   - Altium Designer
 categories: 开发和调试笔记
 abstract: 本文记录了笔者完成硬件综合训练的课程时使用AD的简要的流程，权当备忘，误人子弟有余，提供参考不足，特此声明。
-abbrlink: e971
 date: 2019-07-17 11:56:25
 ---
 1. 创建一个AD工程，对应PrjPCB文件，创建原理图和PCB文件，对应SchDoc文件和PcbDoc文件。

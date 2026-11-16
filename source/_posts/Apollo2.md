@@ -3,10 +3,8 @@ slug: apollo2
 title: Apollo D-Kit 调试笔记（二）：动力学标定与循迹验证
 tags:
   - Apollo
-mathjax: true
 categories: 开发和调试笔记
 abstract: 本文记录了笔者在对百度Apollo D-Kit进行动力学标定以及进行循迹验证的操作流程。
-abbrlink: d2b3
 date: 2020-10-22 20:41:29
 ---
 ### 准备工作

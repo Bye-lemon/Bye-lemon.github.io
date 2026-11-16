@@ -5,8 +5,6 @@ tags:
   - Re-ID
 categories: 论文笔记
 abstract: 本文是笔者近期对两篇2020年发表的Re-ID领域的Survey的阅读笔记，以及对Re-ID领域的一些内容的简要总结。
-mathjax: true
-abbrlink: cde6
 date: 2020-07-11 18:38:06
 ---
 ## 行人重识别任务

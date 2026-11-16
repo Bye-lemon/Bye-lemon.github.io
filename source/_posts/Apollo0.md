@@ -5,7 +5,6 @@ tags:
   - Apollo
 categories: 开发和调试笔记
 abstract: 本文记录了笔者在对百度Apollo D-Kit进行调试的过程中，遇到的文档中没有的问题，工程师所给出的答复。
-abbrlink: d923
 date: 2020-10-13 16:16:45
 ---
 ### 车前轮的零点飘移问题

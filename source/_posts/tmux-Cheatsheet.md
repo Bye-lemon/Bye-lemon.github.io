@@ -1,13 +1,11 @@
 ---
 slug: tmux-cheatsheet
-layout: post
 title: tmux Cheatsheet
 tags:
   - tmux
   - Linux
 categories: Cheatsheet
 abstract: '部分快捷键仅适用于配置https://github.com/gpakosz/.tmux'
-abbrlink: '6003'
 date: 2019-01-16 08:57:49
 ---
 ## System

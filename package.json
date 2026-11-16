@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -15,12 +15,8 @@
     "astro": "^5.14.0",
     "js-yaml": "^4.1.0",
     "katex": "^0.16.22",
-    "pagefind": "^1.4.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0"
-  },
-  "devDependencies": {
-    "pinyin-pro": "^3.26.0"
   },
   "allowScripts": {
     "esbuild@0.27.7": true,

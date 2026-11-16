@@ -8,8 +8,6 @@ tags:
   - CVPR
 categories: 论文笔记
 abstract: '【CVPR2020】 Hongjun Wang, Guangrun Wang, Ya Li, Dongyu Zhang, Liang Lin'
-mathjax: true
-abbrlink: 7f95
 date: 2020-07-07 11:04:08
 ---
 ## Introduction

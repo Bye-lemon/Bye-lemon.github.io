@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { slugOf, dateOf } from '../lib/posts';
 import { createRequire } from 'node:module';
+import fs from 'node:fs';
+import yaml from 'js-yaml';
 
 const require = createRequire(import.meta.url);
 
@@ -61,6 +63,26 @@ export const GET: APIRoute = async () => {
       };
     }),
   ];
+
+  // 导航（友链）条目
+  const navRaw = fs.readFileSync('src/data/nav.yml', 'utf8');
+  const navGroups = (yaml.load(navRaw) as any[]) || [];
+  const navLinks: any[] = [];
+  for (const g of navGroups) {
+    for (const l of g.links || []) navLinks.push(l);
+    for (const sub of g.list || []) for (const l of sub.links || []) navLinks.push(l);
+  }
+  for (const l of navLinks) {
+    docs.push({
+      id: 'n:' + l.url,
+      url: String(l.url),
+      title: String(l.title),
+      kind: '导航',
+      date: '',
+      description: String(l.description || ''),
+      text: [l.title, l.description || '', l.url].join(' '),
+    });
+  }
 
   const dict = new Set<string>(EXTRA_WORDS);
   const payload = docs.map((doc) => {

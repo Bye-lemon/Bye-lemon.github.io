@@ -156,3 +156,37 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
   blockquote { margin-left: 1rem; }
 }
 
+
+/* ---------- 全局搜索模态框 ---------- */
+.nav-search {
+  border: 0; background: transparent; padding: 0;
+  font: inherit; color: var(--muted); cursor: pointer;
+  letter-spacing: .04em;
+}
+.nav-search:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .3em; }
+.search-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-start; justify-content: center; padding: 9vh 1rem 1rem; }
+.search-modal[hidden] { display: none; }
+.search-backdrop { position: absolute; inset: 0; background: rgba(17, 17, 17, .38); }
+.search-dialog {
+  position: relative; width: min(700px, 100%); max-height: 78vh; display: flex; flex-direction: column;
+  background: var(--paper); border: 1px solid rgba(17, 17, 17, .28); padding: 16px 18px 8px;
+  box-shadow: 0 18px 50px rgba(17, 17, 17, .18);
+}
+.search-head { display: flex; align-items: center; gap: 10px; }
+#search-input {
+  flex: 1; min-width: 0; font-family: var(--sans); font-size: .95rem;
+  padding: 10px 12px; border: 1px solid var(--line); background: transparent; color: var(--ink);
+}
+#search-input:focus { outline: 0; border-color: var(--ink); }
+.search-close { border: 0; background: transparent; font-size: 1rem; color: var(--muted); cursor: pointer; padding: 4px 6px; }
+.search-close:hover { color: var(--ink); }
+.search-status { margin: 10px 0 4px; font-family: var(--sans); font-size: .7rem; color: var(--faint); }
+.search-results { overflow: auto; padding-bottom: 10px; }
+.sr-group h3 { margin: 12px 0 4px; font-family: var(--sans); font-size: .68rem; letter-spacing: .12em; color: var(--faint); font-weight: 400; text-transform: uppercase; }
+.sr-item { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.sr-item a { font-family: var(--serif); font-size: 1rem; text-decoration: none; }
+.sr-item a:hover { color: var(--accent); text-decoration: underline; }
+.sr-meta { margin: 2px 0 0; font-family: var(--sans); font-size: .66rem; color: var(--faint); }
+.sr-desc { margin: 3px 0 0; font-family: var(--sans); font-size: .74rem; color: var(--muted); line-height: 1.55; }
+html.search-open, html.search-open body { overflow: hidden; }
+@media (max-width: 640px) { .search-modal { padding-top: 6vh; } .search-dialog { max-height: 84vh; } }

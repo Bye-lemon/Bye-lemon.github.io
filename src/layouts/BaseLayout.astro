@@ -3,7 +3,7 @@ import '../styles/global.css';
 import 'katex/dist/katex.min.css';
 interface Props { title?: string; description?: string; current?: string; wide?: boolean; }
 const { title, description = '李英平的博客：自动驾驶、嵌入式与系统工具的开发笔记。', current = '', wide = false } = Astro.props;
-const nav = [{"href":"/","label":"文章"},{"href":"/archive/","label":"归档"},{"href":"/models/","label":"模型库"},{"href":"/notes/","label":"笔记"},{"href":"/links/","label":"链接"},{"href":"/friends/","label":"友链"},{"href":"/about/","label":"关于"},{"href":"/search/","label":"搜索"}];
+const nav = [{"href":"/","label":"文章"},{"href":"/archive/","label":"归档"},{"href":"/models/","label":"模型库"},{"href":"/notes/","label":"笔记"},{"href":"/nav/","label":"导航"},{"href":"/friends/","label":"友链"},{"href":"/about/","label":"关于"}];
 const fullTitle = title ? `${title} · 李英平` : '李英平';
 ---
 <!doctype html>
@@ -32,6 +32,7 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
           {nav.map((item) => (
             <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a>
           ))}
+          <button class="nav-search" id="search-open" type="button" aria-label="搜索">搜索</button>
         </nav>
       </div>
     </header>
@@ -44,5 +45,155 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
         <span><a href="/rss.xml">RSS</a></span>
       </div>
     </footer>
+
+    <div class="search-modal" id="search-modal" hidden>
+      <div class="search-backdrop" data-search-close></div>
+      <div class="search-dialog" role="dialog" aria-modal="true" aria-labelledby="search-title">
+        <div class="search-head">
+          <h2 class="sr-only" id="search-title">搜索</h2>
+          <input id="search-input" type="search" placeholder="搜索文章、模型与导航…" autocomplete="off" spellcheck="false" />
+          <button class="search-close" type="button" data-search-close aria-label="关闭搜索">✕</button>
+        </div>
+        <p class="search-status" id="search-status" aria-live="polite">输入关键词开始搜索</p>
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </div>
+
+    <script>
+      (() => {
+        const modal = document.getElementById('search-modal');
+        const openBtn = document.getElementById('search-open');
+        const input = document.getElementById('search-input');
+        const resultsEl = document.getElementById('search-results');
+        const statusEl = document.getElementById('search-status');
+        if (!modal || !input) return;
+
+        let docs = null, dict = null, index = null, loading = null;
+        const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+        const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ESC[c]);
+        const host = (u) => { try { return new URL(u).host.replace(/^www\./, ''); } catch (e) { return u; } };
+
+        async function ensure() {
+          if (index) return;
+          if (loading) return loading;
+          loading = (async () => {
+            const data = await (await fetch('/search.json')).json();
+            docs = data.docs;
+            dict = new Set(data.dict);
+            const { Index } = await import('flexsearch');
+            index = new Index({ encode: (s) => String(s).toLowerCase().split(/\s+/).filter(Boolean) });
+            docs.forEach((d, i) => index.add(i, String(d.tokens || '')));
+          })();
+          return loading;
+        }
+
+        function segment(q) {
+          const out = [];
+          const re = /[\u4e00-\u9fff]+|[a-z0-9][a-z0-9+.#-]*/gi;
+          for (const m of q.matchAll(re)) {
+            const s = m[0];
+            if (!/[\u4e00-\u9fff]/.test(s)) { out.push(s.toLowerCase()); continue; }
+            let i = 0;
+            while (i < s.length) {
+              let hit = null;
+              for (let n = Math.min(4, s.length - i); n >= 2; n--) {
+                const cand = s.slice(i, i + n);
+                if (dict.has(cand)) { hit = cand; break; }
+              }
+              if (hit) { out.push(hit); i += hit.length; } else { i += 1; }
+            }
+          }
+          return [...new Set(out)];
+        }
+
+        function snippet(text, q) {
+          const t = String(text || '');
+          const lower = t.toLowerCase();
+          let i = lower.indexOf(q.toLowerCase());
+          if (i === -1) {
+            for (const tok of segment(q)) { i = lower.indexOf(tok.toLowerCase()); if (i > -1) break; }
+          }
+          if (i === -1) return t.slice(0, 90);
+          const start = Math.max(0, i - 30);
+          return (start > 0 ? '…' : '') + t.slice(start, start + 100) + '…';
+        }
+
+        function item(d, q) {
+          const meta = d.kind === '导航' ? host(d.url) : (d.kind + (d.date ? ' · ' + d.date : ''));
+          const target = d.kind === '导航' ? ' target="_blank" rel="noopener"' : '';
+          const desc = d.kind === '导航' ? (d.description || '') : snippet(d.text || d.description || '', q);
+          return '<div class="sr-item"><a href="' + esc(d.url) + '"' + target + '>' + esc(d.title) + '</a>' +
+            '<p class="sr-meta">' + esc(meta) + '</p>' +
+            (desc ? '<p class="sr-desc">' + esc(desc) + '</p>' : '') + '</div>';
+        }
+
+        function render(ids, q) {
+          const nav = [], articles = [];
+          for (const id of ids) (docs[id].kind === '导航' ? nav : articles).push(docs[id]);
+          let html = '';
+          if (articles.length) {
+            html += '<section class="sr-group"><h3>文章</h3>' + articles.slice(0, 12).map((d) => item(d, q)).join('') + '</section>';
+          }
+          if (nav.length) {
+            html += '<section class="sr-group"><h3>导航</h3>' + nav.slice(0, 12).map((d) => item(d, q)).join('') + '</section>';
+          }
+          resultsEl.innerHTML = html;
+          statusEl.textContent = '文章 ' + articles.length + ' 条 · 导航 ' + nav.length + ' 条';
+        }
+
+        let timer;
+        function run() {
+          const q = input.value.trim();
+          if (!q) { resultsEl.innerHTML = ''; statusEl.textContent = '输入关键词开始搜索'; return; }
+          if (!index) { statusEl.textContent = '索引加载中…'; }
+          ensure().then(() => {
+            const tokens = segment(q);
+            const score = new Map(), hits = new Map();
+            for (const tok of tokens) {
+              const list = index.search(tok, { limit: 40 });
+              list.forEach((id, rank) => {
+                score.set(id, (score.get(id) || 0) + (20 - rank));
+                hits.set(id, (hits.get(id) || 0) + 1);
+              });
+            }
+            const maxHits = Math.max(0, ...hits.values());
+            const ids = [...score.entries()]
+              .filter(([id]) => maxHits < 2 || hits.get(id) === maxHits)
+              .sort((a, b) => (hits.get(b[0]) - hits.get(a[0])) || (b[1] - a[1]))
+              .map(([id]) => id);
+            render(ids, q);
+          }).catch(() => { statusEl.textContent = '索引加载失败'; });
+        }
+
+        function open() {
+          modal.hidden = false;
+          document.documentElement.classList.add('search-open');
+          input.focus();
+          input.select();
+          ensure().catch(() => {});
+          if (input.value.trim()) run();
+        }
+        function close() {
+          modal.hidden = true;
+          document.documentElement.classList.remove('search-open');
+          if (openBtn) openBtn.focus();
+        }
+
+        input.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(run, 120); });
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') { close(); return; }
+          if (e.key === 'Enter') {
+            const a = resultsEl.querySelector('a');
+            if (a) { a.click(); if (a.target !== '_blank') close(); }
+          }
+        });
+        document.addEventListener('keydown', (e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); modal.hidden ? open() : close(); }
+          if (e.key === 'Escape' && !modal.hidden) close();
+        });
+        if (openBtn) openBtn.addEventListener('click', open);
+        modal.querySelectorAll('[data-search-close]').forEach((el) => el.addEventListener('click', close));
+      })();
+    </script>
   </body>
 </html>

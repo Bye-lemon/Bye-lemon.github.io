@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { getCollection } from 'astro:content';
+import { marked } from 'marked';
 import { slugOf, dateOf, sortByDate, tagsOf } from '../lib/posts';
 
 export async function GET(context: APIContext) {
@@ -16,6 +17,7 @@ export async function GET(context: APIContext) {
       pubDate: dateOf(post),
       link: `/posts/${slugOf(post)}/`,
       description: String((post.data as any).abstract || ''),
+      content: marked.parse(post.body || '', { gfm: true, breaks: true }) as string,
       categories: tagsOf(post),
       author: '李英平',
     })),

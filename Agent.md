@@ -246,3 +246,21 @@ npm run build && npm run preview                 # 本地构建与预览
 1. 打开主页，判断是「论文型学术主页」还是「博客」，记录机构与职位；
 2. 在 `friends.ts` 追加对象（产业界只填 name/url/kind；学术界再填 university/title）；
 3. `npm run build` 后访问 `/friends/`，确认两段顺序与格式。
+
+
+## 11. 搜索与 RSS
+
+### 全局搜索（模态框）
+
+- 入口：顶栏「搜索」按钮，或 `⌘K` / `Ctrl+K`；不跳转页面
+- 数据：`/search.json`（由 `src/pages/search.json.ts` 构建），包含文章、模型与**导航**三类
+- 前端：动态加载 FlexSearch，按 token 检索；结果按「文章」「导航」分组，导航条目新标签页打开
+- 关闭：`Esc`、点击遮罩或关闭按钮
+- `/search/` 现在重定向回首页，避免旧链接 404
+
+### RSS
+
+- `/rss.xml` 由 `@astrojs/rss` 生成，按日期倒序
+- 每条包含 `content:encoded` 全文（`marked` 渲染 Markdown），以及标签与作者
+- 自带 `lastBuildDate` / `ttl`，每次构建自动更新
+- 页脚只保留 RSS 入口

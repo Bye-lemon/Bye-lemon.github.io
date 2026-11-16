@@ -12,7 +12,7 @@ training_stage: []
 access: "open-weights"
 status: ""
 size_class: "1-10B"
-params: "2B~4B"
+params: "2.4B"
 context_length: ""
 family: ""
 base: ""

@@ -1,6 +1,6 @@
 ---
 name: "Muse-Spark-Open-816B-A42B"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: ["text", "image", "audio", "video"]
 modalities_out: ["text", "image", "audio"]
@@ -11,8 +11,8 @@ architecture: "transformer"
 training_stage: []
 access: "gated"
 status: ""
-size_class: ">1T"
-params: "100B~1T"
+size_class: "100B-1T"
+params: "822B"
 context_length: ""
 family: ""
 base: ""

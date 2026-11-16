@@ -748,7 +748,11 @@
       "AGPL-3.0",
       "FluxDev Non-Commercial License",
       "Multiple-License",
-      "BSD-2-Clause"
+      "BSD-2-Clause",
+      "OpenRAIL",
+      "CC-BY-4.0",
+      "Llama 3.1",
+      "Llama 3"
     ],
     "aliases": {}
   },

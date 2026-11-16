@@ -12,7 +12,7 @@ training_stage: []
 access: "open-weights"
 status: ""
 size_class: "1-10B"
-params: "2B~4B"
+params: "2.1B"
 context_length: ""
 family: ""
 base: "Qwen3-VL-2B-Instruct"

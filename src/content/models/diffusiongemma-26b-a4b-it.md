@@ -1,6 +1,6 @@
 ---
 name: "DiffusionGemma-26B-A4B-IT"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: ["image"]
 modalities_out: ["image"]
@@ -12,7 +12,7 @@ training_stage: []
 access: "open-weights"
 status: ""
 size_class: "10-100B"
-params: "10B~40B"
+params: "25.8B"
 context_length: ""
 family: ""
 base: ""

@@ -12,7 +12,7 @@ training_stage: []
 access: "open-weights"
 status: ""
 size_class: "10-100B"
-params: "10B~40B"
+params: "25.8B"
 context_length: ""
 family: ""
 base: "Gemma-4-26B-A4B-it"

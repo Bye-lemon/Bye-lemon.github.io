@@ -1,6 +1,6 @@
 ---
 name: "UI-TARS-1.5-7B"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: ["image"]
 modalities_out: ["image"]
@@ -11,8 +11,8 @@ architecture: "dense"
 training_stage: []
 access: "open-weights"
 status: ""
-size_class: "10-100B"
-params: "4B~10B"
+size_class: "1-10B"
+params: "8.3B"
 context_length: ""
 family: ""
 base: "Qwen2.5-VL-7B"

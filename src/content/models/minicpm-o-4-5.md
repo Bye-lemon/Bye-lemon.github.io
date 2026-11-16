@@ -1,6 +1,6 @@
 ---
 name: "MiniCPM-o 4.5"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: ["text", "image", "audio", "video"]
 modalities_out: ["text", "image", "audio"]
@@ -11,8 +11,8 @@ architecture: "dense"
 training_stage: []
 access: "open-weights"
 status: ""
-size_class: "10-100B"
-params: "4B~10B"
+size_class: "1-10B"
+params: "9.4B"
 context_length: ""
 family: ""
 base: ""

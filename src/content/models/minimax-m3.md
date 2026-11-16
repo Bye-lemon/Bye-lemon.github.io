@@ -1,6 +1,6 @@
 ---
 name: "MiniMax-M3"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: ["image"]
 modalities_out: ["image"]
@@ -11,8 +11,8 @@ architecture: "dense"
 training_stage: []
 access: "open-weights"
 status: ""
-size_class: ">1T"
-params: "100B~1T"
+size_class: "100B-1T"
+params: "427B"
 context_length: ""
 family: ""
 base: ""

@@ -1,6 +1,6 @@
 ---
 name: "dot3-note Preview"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: []
 modalities_out: []
@@ -11,8 +11,8 @@ architecture: "transformer"
 training_stage: []
 access: "open-weights"
 status: ""
-size_class: ">1T"
-params: "100B~1T"
+size_class: "100B-1T"
+params: "288.4B"
 context_length: ""
 family: ""
 base: ""

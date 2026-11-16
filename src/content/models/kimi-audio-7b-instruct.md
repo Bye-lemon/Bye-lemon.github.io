@@ -1,6 +1,6 @@
 ---
 name: "Kimi-Audio-7B-Instruct"
-category: "language"
+category: "speech"
 tasks: ["tts"]
 modalities_in: ["audio"]
 modalities_out: ["audio"]
@@ -11,8 +11,8 @@ architecture: "dense"
 training_stage: []
 access: "open-weights"
 status: ""
-size_class: "10-100B"
-params: "4B~10B"
+size_class: "1-10B"
+params: "9.8B"
 context_length: ""
 family: ""
 base: "Qwen2.5-7B"

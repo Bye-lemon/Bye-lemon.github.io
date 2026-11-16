@@ -1,6 +1,6 @@
 ---
 name: "ZDTaichu5.0-9B"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: ["image"]
 modalities_out: ["image"]
@@ -11,8 +11,8 @@ architecture: "transformer"
 training_stage: []
 access: "open-weights"
 status: ""
-size_class: "10-100B"
-params: "4B~10B"
+size_class: "1-10B"
+params: "9.8B"
 context_length: ""
 family: ""
 base: "Qwen3.5-9B&C-RADIOv4-H"

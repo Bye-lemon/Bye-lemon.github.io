@@ -12,7 +12,7 @@ training_stage: []
 access: "gated"
 status: ""
 size_class: "1-10B"
-params: "2B~4B"
+params: "3.8B"
 context_length: ""
 family: ""
 base: "Sarashina2.2-3B-Instruct&SigLIP"

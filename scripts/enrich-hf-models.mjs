@@ -36,7 +36,7 @@ function hfIdOf(md) {
   if (md.hf_id) return md.hf_id;
   try {
     const u = new URL(md.link || '');
-    if (!/(^|\.)huggingface\.co$/.test(u.hostname)) return '';
+    if (!/(^|\.)(huggingface\.co|hf-mirror\.com)$/.test(u.hostname)) return '';
     const p = u.pathname.split('/').filter(Boolean);
     if (['collections', 'datasets', 'spaces'].includes(p[0])) return '';
     return p.length >= 2 ? p[0] + '/' + p[1] : '';
@@ -95,8 +95,29 @@ function merge(info, md, hfId) {
   out.languages = uniq([...(Array.isArray(md.languages) ? md.languages : []), ...langs]);
 
   const licTag = tags.map((t) => t.match(/^license:(.+)$/)).find(Boolean);
-  if (!get('license') && licTag) out.license = LICENSE[licTag[1]] || licTag[1];
-  else if (!get('license') && card.license) out.license = LICENSE[card.license] || card.license;
+  const rawLicense = card.license || (licTag ? licTag[1] : '');
+  if (rawLicense && rawLicense !== 'other') out.license = LICENSE[rawLicense] || rawLicense;
+
+  // 参数量：非系列条目用 safetensors.total 精确值覆盖粗区间
+  const total = info.safetensors?.total;
+  if (typeof total === 'number' && total > 0 && !/series/i.test(String(md.name || ''))) {
+    const ours = String(md.params || '');
+    const m = ours.match(/([0-9.]+)\s*([bmt])/i);
+    const oursNum = m ? Number(m[1]) * ({ b: 1, m: 1e3, t: 1e6 }[m[2].toLowerCase()] || 1) * 1e9 : 0;
+    if (!oursNum || ours.includes('~') || Math.abs(total - oursNum) / total > 0.1) {
+      const b = total / 1e9;
+      out.params = b >= 1000 ? (b / 1000).toFixed(1).replace(/\.0$/, '') + 'T' : b >= 1 ? b.toFixed(1).replace(/\.0$/, '') + 'B' : Math.round(total / 1e6) + 'M';
+      out.size_class = b >= 1000 ? '>1T' : b >= 100 ? '100B-1T' : b >= 10 ? '10-100B' : b >= 1 ? '1-10B' : '<1B';
+    }
+  }
+
+  // 类别：只有明显被旧 type 归到 language 的视觉/语音模型才改判
+  const pipe = info.pipeline_tag || '';
+  const catByPipe = /image-text-to-text|any-to-any|video-text-to-text/.test(pipe) ? 'multimodal'
+    : /text-to-speech|audio-to-audio|automatic-speech-recognition|voice-activity-detection|audio-classification/.test(pipe) ? 'speech'
+    : /text-to-image|image-to-image|text-to-video|text-to-3d/.test(pipe) ? 'generation'
+    : '';
+  if (catByPipe && (!md.category || md.category === 'language')) out.category = catByPipe;
 
   if (!get('architecture')) out.architecture = archOf(md, info);
 

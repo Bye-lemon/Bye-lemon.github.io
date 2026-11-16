@@ -1,6 +1,6 @@
 ---
 name: "BU-30B-A3B-Preview"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: []
 modalities_out: []
@@ -12,7 +12,7 @@ training_stage: []
 access: "open-weights"
 status: ""
 size_class: "10-100B"
-params: "10B~40B"
+params: "31.1B"
 context_length: ""
 family: ""
 base: "Qwen3-VL-30B-A3B-Instruct"

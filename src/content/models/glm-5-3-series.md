@@ -1,6 +1,6 @@
 ---
 name: "GLM-5.3 Series"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: ["image"]
 modalities_out: ["image"]

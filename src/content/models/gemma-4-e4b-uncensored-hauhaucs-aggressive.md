@@ -1,6 +1,6 @@
 ---
 name: "Gemma-4-E4B-Uncensored-HauhauCS-Aggressive"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: []
 modalities_out: []

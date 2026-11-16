@@ -12,7 +12,7 @@ training_stage: []
 access: "open-weights"
 status: ""
 size_class: "1-10B"
-params: "2B~4B"
+params: "3.9B"
 context_length: ""
 family: ""
 base: "Sarashina2.2-3B-Instruct&SigLIP2"

@@ -12,7 +12,7 @@ training_stage: []
 access: "open-weights"
 status: ""
 size_class: "10-100B"
-params: "10B~40B"
+params: "24B"
 context_length: ""
 family: ""
 base: "mistralai/Mistral-Small-3.1-24B-Base-2503"

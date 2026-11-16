@@ -1,6 +1,6 @@
 ---
 name: "Step-Audio-2-mini"
-category: "language"
+category: "multimodal"
 tasks: []
 modalities_in: ["audio"]
 modalities_out: ["audio"]
@@ -11,8 +11,8 @@ architecture: "dense"
 training_stage: []
 access: "open-weights"
 status: ""
-size_class: "10-100B"
-params: "4B~10B"
+size_class: "1-10B"
+params: "8.3B"
 context_length: ""
 family: ""
 base: ""

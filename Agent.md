@@ -145,6 +145,8 @@ node scripts/enrich-hf-models.mjs --write --refresh   # 忽略缓存
 | `downloads` / `likes` / `lastModified` | 对应字段 |
 | `collections` / 非 HF 链接 | 跳过并计入报告 |
 
+- 修正规则：许可按 HF 覆盖（"other" 保留人工值）；非 Series 条目用 `safetensors.total` 精确参数量；VLM/音频模型的 category 会按 pipeline 纠正
+- 镜像链接 `hf-mirror.com` 会转换为官方 HF id；集合（collections）、组织页、论文链接会跳过并计入报告
 - 缓存：`.cache/hf-models/<org>__<repo>.json`；`--refresh` 强制重拉
 - 限流：默认每个请求间隔 120ms；失败重试 2 次
 - 私有/受限仓库：当前不发送 token；需要时加 `HF_TOKEN` 环境变量与 `Authorization` 头
@@ -157,6 +159,7 @@ node scripts/enrich-hf-models.mjs --write --refresh   # 忽略缓存
 node scripts/refactor-models.mjs --dry-run   # 结构迁移是否还有遗留
 npm run models:normalize                     # 别名与格式（幂等，0 改动即通过）
 node scripts/enrich-hf-models.mjs --dry-run  # HF 是否还有可补字段
+node scripts/audit-models.mjs                # 生成 docs/model-audit.md（只读审计）
 npm run build
 ```
 
@@ -184,6 +187,9 @@ npm run build
 6. **未来日期**：脚本只告警不修改；发现即回源确认。
 7. **HF collections 链接**：不是模型仓库，脚本会跳过；请改成具体模型链接。
 8. **空值允许**：不要为凑字段编造；筛选与统计会按实际覆盖展示。
+9. **集合/组织页不是模型仓库**：`huggingface.co/collections/...`、`huggingface.co/<org>` 会被 HF 脚本跳过；审计报告 `docs/model-audit.md` 会列出来。
+10. **作者是品牌名，不是 HF org id**：`Meta/facebook`、`MongoDB/voyageai` 这类差异是正常的，不要机械合并。
+11. **Series 条目保留区间参数量**：如 `100B~1T`，不要用单个 repo 的 safetensors 数值覆盖。
 
 ## 8. 迁移记录
 

@@ -1,16 +1,31 @@
 ---
 name: "PPLX-Decider-v1.1-27B"
+category: "decision"
+tasks: ["classification"]
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "10B~40B"
+context_length: ""
+family: ""
+base: "Qwen3.8-27B"
 license: "Apache-2.0"
 author: "Perplexity.ai"
 updated: "2026-10-05"
-base: "Qwen3.8-27B"
 published: ""
 paper: ""
-type: "Decision"
-tags: ["Vision"]
 link: "https://huggingface.co/perplexity-ai/pplx-decider-v1.1-27b"
-params: "10B~40B"
-arch: ""
+hf_id: "perplexity-ai/pplx-decider-v1.1-27b"
+downloads: 3766
+likes: 182
+hf_last_modified: "2026-10-12T07:26:21.000Z"
 note: ""
-starred: false
+tags: []
 ---

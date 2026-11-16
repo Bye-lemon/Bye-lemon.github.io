@@ -1,16 +1,31 @@
 ---
 name: "Needle3"
+category: "language"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: []
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "1-10B"
+params: "0.2B~2B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "Cactus-Compute"
 updated: "2026-09-16"
-base: ""
 published: ""
 paper: ""
-type: "LLM"
-tags: []
 link: "https://huggingface.co/Cactus-Compute/needle3"
-params: "0.2B~2B"
-arch: ""
+hf_id: "Cactus-Compute/needle3"
+downloads: 185234
+likes: 417
+hf_last_modified: "2026-11-05T21:25:58.000Z"
 note: ""
-starred: false
+tags: []
 ---

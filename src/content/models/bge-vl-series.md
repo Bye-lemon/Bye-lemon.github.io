@@ -1,16 +1,31 @@
 ---
 name: "BGE-VL Series"
+category: "retrieval"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: "10-100B"
+params: "0.2B~2B, 2B~4B, 4B~10B"
+context_length: ""
+family: ""
+base: ""
 license: "MIT"
 author: "智源华章"
 updated: "2025-05-16"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2412.14475"
-type: "Similarty"
-tags: ["Vision"]
 link: "https://huggingface.co/collections/BAAI/megapairs-67c6bbe49c15a9e7a7c69d92"
-params: "0.2B~2B, 2B~4B, 4B~10B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

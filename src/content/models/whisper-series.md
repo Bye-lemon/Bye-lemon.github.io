@@ -1,16 +1,31 @@
 ---
 name: "Whisper Series"
+category: "speech"
+tasks: ["asr"]
+modalities_in: ["audio"]
+modalities_out: ["text"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: ">1T"
+params: "<200M, 0.2B~2B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "OpenAI"
 updated: "2023-08-23"
-base: ""
 published: "ICML"
 paper: "https://arxiv.org/abs/2212.04356"
-type: "Voice"
-tags: ["ASR"]
 link: "https://huggingface.co/collections/openai/whisper-release-6501bba2cf999715fd953013"
-params: "<200M, 0.2B~2B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

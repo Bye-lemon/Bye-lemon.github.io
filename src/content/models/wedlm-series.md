@@ -1,16 +1,31 @@
 ---
 name: "WeDLM Series"
+category: "language"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: "10-100B"
+params: "4B~10B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "腾讯"
 updated: "2025-12-29"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2512.22737"
-type: "LLM"
-tags: []
 link: "https://huggingface.co/collections/tencent/wedlm"
-params: "4B~10B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

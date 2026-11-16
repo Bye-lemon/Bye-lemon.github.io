@@ -1,16 +1,31 @@
 ---
 name: "Japanese-Reranker-V2 Series"
+category: "retrieval"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: ["ja"]
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: ">1T"
+params: "<200M, 0.2B~2B"
+context_length: ""
+family: ""
+base: "Ruri-V3"
 license: "MIT"
 author: "日本経済新聞社"
 updated: "2025-06-23"
-base: "Ruri-V3"
 published: ""
 paper: ""
-type: "Similarty"
-tags: ["Japanese"]
 link: "https://huggingface.co/collections/hotchpotch/japanese-reranker-66187360b02a077ef1c7b078"
-params: "<200M, 0.2B~2B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

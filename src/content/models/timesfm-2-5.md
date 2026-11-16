@@ -1,16 +1,31 @@
 ---
 name: "TimesFM-2.5"
-license: "Apache-2.0"
-author: "Google Inc"
-updated: "2025-09-02"
+category: "time-series"
+tasks: ["forecasting"]
+modalities_in: ["time-series"]
+modalities_out: ["time-series"]
+languages: []
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "1-10B"
+params: "0.2B~2B"
+context_length: ""
+family: ""
 base: ""
+license: "Apache-2.0"
+author: "Google"
+updated: "2025-09-02"
 published: "ICML"
 paper: "https://arxiv.org/abs/2310.10688"
-type: "Time Series Forecasting"
-tags: []
 link: "https://huggingface.co/google/timesfm-2.5-200m-pytorch"
-params: "0.2B~2B"
-arch: ""
+hf_id: "google/timesfm-2.5-200m-pytorch"
+downloads: 1611563
+likes: 282
+hf_last_modified: "2025-10-02T17:21:38.000Z"
 note: ""
-starred: false
+tags: []
 ---

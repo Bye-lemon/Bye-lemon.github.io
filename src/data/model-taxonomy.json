@@ -1,0 +1,772 @@
+{
+  "version": 3,
+  "description": "模型库分面分类词表。机器值用 kebab-case；label 为中文显示名。所有字段由 scripts/refactor-models.mjs 与 scripts/enrich-hf-models.mjs 共同维护。",
+  "fieldOrder": [
+    "name",
+    "category",
+    "tasks",
+    "modalities_in",
+    "modalities_out",
+    "languages",
+    "domains",
+    "role",
+    "architecture",
+    "training_stage",
+    "access",
+    "status",
+    "size_class",
+    "params",
+    "context_length",
+    "family",
+    "base",
+    "license",
+    "author",
+    "updated",
+    "published",
+    "paper",
+    "link",
+    "hf_id",
+    "downloads",
+    "likes",
+    "hf_last_modified",
+    "note",
+    "tags"
+  ],
+  "fields": {
+    "category": {
+      "label": "类别",
+      "type": "single",
+      "values": {
+        "language": "语言模型",
+        "vision": "视觉",
+        "speech": "语音",
+        "multimodal": "多模态",
+        "retrieval": "检索与嵌入",
+        "generation": "生成（图像/视频/3D）",
+        "time-series": "时间序列",
+        "decision": "决策与强化",
+        "world-model": "世界模型",
+        "data": "数据与表格"
+      }
+    },
+    "tasks": {
+      "label": "任务",
+      "type": "multi",
+      "values": {
+        "chat": "对话",
+        "text-generation": "文本生成",
+        "instruction": "指令跟随",
+        "reasoning": "推理",
+        "code": "代码生成",
+        "math": "数学",
+        "translation": "翻译",
+        "summarization": "摘要",
+        "classification": "分类",
+        "ner": "命名实体识别",
+        "embedding": "向量化",
+        "similarity": "相似度",
+        "rerank": "重排序",
+        "retrieval": "检索",
+        "qa": "问答",
+        "fill-mask": "完形填空",
+        "detection": "目标检测",
+        "segmentation": "分割",
+        "ocr": "OCR",
+        "document-extraction": "文档抽取",
+        "captioning": "图像描述",
+        "depth-estimation": "深度估计",
+        "asr": "语音识别",
+        "tts": "语音合成",
+        "vad": "语音活动检测",
+        "audio-generation": "音频生成",
+        "music": "音乐生成",
+        "image-generation": "图像生成",
+        "video-generation": "视频生成",
+        "3d-generation": "3D 生成",
+        "forecasting": "预测",
+        "planning": "规划",
+        "reward-modeling": "奖励建模",
+        "moderation": "内容安全",
+        "agent": "智能体",
+        "tool-use": "工具调用"
+      }
+    },
+    "modalities_in": {
+      "label": "输入模态",
+      "type": "multi",
+      "values": {
+        "text": "文本",
+        "image": "图像",
+        "video": "视频",
+        "audio": "音频",
+        "3d": "3D",
+        "document": "文档",
+        "tabular": "表格",
+        "time-series": "时间序列"
+      }
+    },
+    "modalities_out": {
+      "label": "输出模态",
+      "type": "multi",
+      "values": {
+        "text": "文本",
+        "image": "图像",
+        "video": "视频",
+        "audio": "音频",
+        "3d": "3D",
+        "embedding": "向量",
+        "score": "分数",
+        "action": "动作",
+        "time-series": "时间序列"
+      }
+    },
+    "languages": {
+      "label": "语言",
+      "type": "multi",
+      "values": {
+        "zh": "中文",
+        "en": "英文",
+        "ja": "日文",
+        "ko": "韩文",
+        "fr": "法文",
+        "de": "德文",
+        "es": "西班牙文",
+        "ru": "俄文",
+        "ar": "阿拉伯文",
+        "pt": "葡萄牙文",
+        "it": "意大利文",
+        "multilingual": "多语言",
+        "other": "其他"
+      },
+      "open": true,
+      "pattern": "^(multilingual|[a-z]{2,4}(-[a-z0-9]+)*)$",
+      "note": "ISO 639 代码是开放词表：常见语言有中文 label，其余代码直接展示；不要求全部登记。"
+    },
+    "domains": {
+      "label": "领域",
+      "type": "multi",
+      "values": {
+        "code": "代码",
+        "document": "文档",
+        "medical": "医疗",
+        "finance": "金融",
+        "legal": "法律",
+        "science": "科学",
+        "education": "教育",
+        "ecommerce": "电商",
+        "security": "安全",
+        "gaming": "游戏",
+        "music": "音乐",
+        "robotics": "机器人",
+        "autonomous-driving": "自动驾驶",
+        "industrial": "工业"
+      }
+    },
+    "role": {
+      "label": "模型角色",
+      "type": "single",
+      "values": {
+        "base": "基座",
+        "instruct": "指令微调",
+        "chat": "对话模型",
+        "backbone": "骨干网络",
+        "finetune": "微调版",
+        "application": "应用模型",
+        "agent": "智能体",
+        "reward": "奖励模型"
+      }
+    },
+    "architecture": {
+      "label": "架构",
+      "type": "single",
+      "values": {
+        "dense": "稠密 Transformer",
+        "moe": "MoE",
+        "diffusion": "扩散模型",
+        "transformer": "Transformer",
+        "cnn": "CNN",
+        "rnn": "RNN",
+        "ssm": "SSM/Mamba",
+        "hybrid": "混合架构",
+        "unknown": "未知"
+      }
+    },
+    "training_stage": {
+      "label": "训练阶段",
+      "type": "multi",
+      "values": {
+        "pretrained": "预训练",
+        "sft": "监督微调",
+        "rlhf": "RLHF",
+        "dpo": "DPO",
+        "distillation": "蒸馏",
+        "continual": "持续训练"
+      }
+    },
+    "access": {
+      "label": "开放程度",
+      "type": "single",
+      "values": {
+        "open-weights": "开放权重",
+        "open-source": "开源",
+        "api-only": "仅 API",
+        "gated": "需申请"
+      }
+    },
+    "status": {
+      "label": "状态",
+      "type": "single",
+      "values": {
+        "preview": "预览",
+        "stable": "稳定",
+        "deprecated": "已弃用"
+      }
+    },
+    "size_class": {
+      "label": "规模档位",
+      "type": "single",
+      "values": {
+        "<1B": "小于 1B",
+        "1-10B": "1–10B",
+        "10-100B": "10–100B",
+        "100B-1T": "100B–1T",
+        ">1T": "大于 1T"
+      }
+    }
+  },
+  "legacy": {
+    "types": {
+      "LLM": {
+        "category": "language"
+      },
+      "Voice": {
+        "category": "speech"
+      },
+      "CV": {
+        "category": "vision"
+      },
+      "Similarity": {
+        "category": "retrieval"
+      },
+      "AIGC": {
+        "category": "generation"
+      },
+      "Decision": {
+        "category": "decision"
+      },
+      "BasicLM": {
+        "category": "language",
+        "role": "base"
+      },
+      "Time Series Forecasting": {
+        "category": "time-series"
+      },
+      "World Model": {
+        "category": "world-model"
+      },
+      "DataScience": {
+        "category": "data"
+      }
+    },
+    "tags": {
+      "Vision": {
+        "modalities_in": [
+          "image"
+        ],
+        "modalities_out": [
+          "image"
+        ]
+      },
+      "Japanese": {
+        "languages": [
+          "ja"
+        ]
+      },
+      "IDP": {
+        "domains": [
+          "document"
+        ],
+        "tasks": [
+          "document-extraction",
+          "ocr"
+        ]
+      },
+      "TTS": {
+        "tasks": [
+          "tts"
+        ],
+        "modalities_out": [
+          "audio"
+        ]
+      },
+      "Omni": {
+        "category": "multimodal",
+        "modalities_in": [
+          "text",
+          "image",
+          "audio",
+          "video"
+        ],
+        "modalities_out": [
+          "text",
+          "image",
+          "audio"
+        ]
+      },
+      "ASR": {
+        "tasks": [
+          "asr"
+        ],
+        "modalities_in": [
+          "audio"
+        ],
+        "modalities_out": [
+          "text"
+        ]
+      },
+      "Voice": {
+        "category": "speech",
+        "modalities_in": [
+          "audio"
+        ],
+        "modalities_out": [
+          "audio"
+        ]
+      },
+      "Guard": {
+        "tasks": [
+          "moderation"
+        ]
+      },
+      "Video": {
+        "modalities_in": [
+          "video"
+        ],
+        "modalities_out": [
+          "video"
+        ]
+      },
+      "Code": {
+        "domains": [
+          "code"
+        ]
+      },
+      "NMT": {
+        "tasks": [
+          "translation"
+        ]
+      },
+      "Detection": {
+        "tasks": [
+          "detection"
+        ]
+      },
+      "Backbone": {
+        "role": "backbone"
+      },
+      "Text to Visual Document Retrieval": {
+        "tasks": [
+          "retrieval"
+        ],
+        "modalities_in": [
+          "image",
+          "document"
+        ],
+        "modalities_out": [
+          "text"
+        ]
+      },
+      "Provence": {
+        "family": "Provence"
+      },
+      "Reward": {
+        "tasks": [
+          "reward-modeling"
+        ]
+      },
+      "3D": {
+        "modalities_in": [
+          "3d"
+        ],
+        "modalities_out": [
+          "3d"
+        ]
+      },
+      "NER": {
+        "tasks": [
+          "ner"
+        ]
+      },
+      "VAD": {
+        "tasks": [
+          "vad"
+        ]
+      }
+    }
+  },
+  "hf": {
+    "pipeline_tags": {
+      "text-generation": [
+        "text-generation"
+      ],
+      "text2text-generation": [
+        "text-generation"
+      ],
+      "summarization": [
+        "summarization"
+      ],
+      "translation": [
+        "translation"
+      ],
+      "question-answering": [
+        "qa"
+      ],
+      "fill-mask": [
+        "fill-mask"
+      ],
+      "feature-extraction": [
+        "embedding"
+      ],
+      "sentence-similarity": [
+        "embedding",
+        "similarity"
+      ],
+      "text-classification": [
+        "classification"
+      ],
+      "token-classification": [
+        "ner"
+      ],
+      "zero-shot-classification": [
+        "classification"
+      ],
+      "image-classification": [
+        "classification"
+      ],
+      "object-detection": [
+        "detection"
+      ],
+      "image-segmentation": [
+        "segmentation"
+      ],
+      "depth-estimation": [
+        "depth-estimation"
+      ],
+      "image-to-text": [
+        "captioning"
+      ],
+      "text-to-image": [
+        "image-generation"
+      ],
+      "image-to-image": [
+        "image-generation"
+      ],
+      "text-to-video": [
+        "video-generation"
+      ],
+      "text-to-3d": [
+        "3d-generation"
+      ],
+      "automatic-speech-recognition": [
+        "asr"
+      ],
+      "audio-classification": [
+        "classification"
+      ],
+      "text-to-speech": [
+        "tts"
+      ],
+      "voice-activity-detection": [
+        "vad"
+      ],
+      "audio-to-audio": [
+        "audio-generation"
+      ],
+      "music-generation": [
+        "music"
+      ],
+      "reinforcement-learning": [
+        "planning"
+      ],
+      "tabular-classification": [
+        "classification"
+      ],
+      "time-series-forecasting": [
+        "forecasting"
+      ]
+    },
+    "license_map": {
+      "apache-2.0": "Apache-2.0",
+      "mit": "MIT",
+      "agpl-3.0": "AGPL-3.0",
+      "cc-by-nc-4.0": "CC-BY-NC-4.0",
+      "gemma": "Gemma",
+      "bsd-2-clause": "BSD-2-Clause",
+      "cc-by-4.0": "CC-BY-4.0",
+      "openrail": "OpenRAIL",
+      "llama3.1": "Llama 3.1",
+      "llama3": "Llama 3",
+      "other": "Model-Specific"
+    },
+    "pipeline_modalities": {
+      "text-generation": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "text2text-generation": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "summarization": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "translation": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "question-answering": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "fill-mask": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "feature-extraction": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "embedding"
+        ]
+      },
+      "sentence-similarity": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "score"
+        ]
+      },
+      "text-classification": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "token-classification": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "zero-shot-classification": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "image-classification": {
+        "in": [
+          "image"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "object-detection": {
+        "in": [
+          "image"
+        ],
+        "out": []
+      },
+      "image-segmentation": {
+        "in": [
+          "image"
+        ],
+        "out": []
+      },
+      "depth-estimation": {
+        "in": [
+          "image"
+        ],
+        "out": [
+          "image"
+        ]
+      },
+      "image-to-text": {
+        "in": [
+          "image"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "text-to-image": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "image"
+        ]
+      },
+      "image-to-image": {
+        "in": [
+          "image"
+        ],
+        "out": [
+          "image"
+        ]
+      },
+      "text-to-video": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "video"
+        ]
+      },
+      "text-to-3d": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "3d"
+        ]
+      },
+      "automatic-speech-recognition": {
+        "in": [
+          "audio"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "audio-classification": {
+        "in": [
+          "audio"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "text-to-speech": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "audio"
+        ]
+      },
+      "voice-activity-detection": {
+        "in": [
+          "audio"
+        ],
+        "out": [
+          "action"
+        ]
+      },
+      "audio-to-audio": {
+        "in": [
+          "audio"
+        ],
+        "out": [
+          "audio"
+        ]
+      },
+      "music-generation": {
+        "in": [
+          "text"
+        ],
+        "out": [
+          "audio"
+        ]
+      },
+      "reinforcement-learning": {
+        "in": [],
+        "out": [
+          "action"
+        ]
+      },
+      "tabular-classification": {
+        "in": [
+          "tabular"
+        ],
+        "out": [
+          "text"
+        ]
+      },
+      "time-series-forecasting": {
+        "in": [
+          "time-series"
+        ],
+        "out": [
+          "time-series"
+        ]
+      }
+    }
+  },
+  "licenses": {
+    "canonical": [
+      "Apache-2.0",
+      "MIT",
+      "Model-Specific",
+      "Gemma",
+      "CC-BY-NC-4.0",
+      "Nvidia Open Model License",
+      "AGPL-3.0",
+      "FluxDev Non-Commercial License",
+      "Multiple-License",
+      "BSD-2-Clause"
+    ],
+    "aliases": {}
+  },
+  "authors": {
+    "aliases": {
+      "Google Inc": "Google",
+      "Mistrai.ai": "Mistral.ai"
+    },
+    "unresolved": [
+      "SBInstitution",
+      "ThinkingMachines",
+      "HuggingFace",
+      "Line Corp.",
+      "Rakuten Corp.",
+      "Boss直聘",
+      "Allen.ai",
+      "M87 Lab",
+      "OuteAI"
+    ]
+  }
+}

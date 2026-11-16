@@ -1,16 +1,31 @@
 ---
 name: "Granite-TimeSeries-FlowState-R1"
+category: "time-series"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: ">1T"
+params: "<200M"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "IBM"
 updated: "2025-09-11"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2508.05287"
-type: "Time Series Forecasting"
-tags: []
 link: "https://arxiv.org/abs/2508.05287"
-params: "<200M"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

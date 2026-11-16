@@ -1,16 +1,31 @@
 ---
 name: "Qwen-Image-2.1-Turbo"
+category: "generation"
+tasks: ["image-generation"]
+modalities_in: ["text"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "4B~10B"
+context_length: ""
+family: ""
+base: "Qwen/Qwen-Image-2.1"
 license: "Model-Specific"
 author: "阿里巴巴"
 updated: "2026-10-09"
-base: ""
 published: ""
 paper: "https://qwen.ai/blog?id=qwen-image-2.1"
-type: "AIGC"
-tags: []
 link: "https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo"
-params: "4B~10B"
-arch: ""
+hf_id: "Qwen/Qwen-Image-2.1-Turbo"
+downloads: 33586
+likes: 1142
+hf_last_modified: "2026-10-12T09:45:49.000Z"
 note: ""
-starred: false
+tags: []
 ---

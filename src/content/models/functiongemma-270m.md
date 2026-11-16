@@ -1,16 +1,31 @@
 ---
 name: "FunctionGemma-270M"
-license: "Gemma"
-author: "Google Inc"
-updated: "2025-12-18"
+category: "language"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: []
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "gated"
+status: ""
+size_class: "1-10B"
+params: "0.2B~2B"
+context_length: ""
+family: ""
 base: "Gemma3-270M"
+license: "Gemma"
+author: "Google"
+updated: "2025-12-18"
 published: ""
 paper: ""
-type: "LLM"
-tags: []
 link: "https://huggingface.co/google/functiongemma-270m-it"
-params: "0.2B~2B"
-arch: ""
+hf_id: "google/functiongemma-270m-it"
+downloads: 14912
+likes: 1131
+hf_last_modified: "2026-01-14T09:33:54.000Z"
 note: ""
-starred: false
+tags: []
 ---

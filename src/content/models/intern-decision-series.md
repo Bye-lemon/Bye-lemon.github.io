@@ -1,16 +1,31 @@
 ---
 name: "Intern-Decision Series"
+category: "decision"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: "1-10B"
+params: "0.2B~2B, 2B~4B"
+context_length: ""
+family: ""
+base: "Qwen3.5 Series"
 license: "Apache-2.0"
 author: "上海浦江"
 updated: "2026-09-26"
-base: "Qwen3.5 Series"
 published: ""
 paper: ""
-type: "Decision"
-tags: ["Vision"]
 link: "https://huggingface.co/collections/internlm/intern-decision"
-params: "0.2B~2B, 2B~4B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

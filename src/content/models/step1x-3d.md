@@ -1,16 +1,31 @@
 ---
 name: "Step1X-3D"
+category: "generation"
+tasks: []
+modalities_in: ["3d"]
+modalities_out: ["3d"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ""
+params: ""
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "阶跃星辰"
 updated: "2025-05-11"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2505.07747"
-type: "AIGC"
-tags: ["3D"]
 link: "https://huggingface.co/stepfun-ai/Step1X-3D"
-params: ""
-arch: ""
+hf_id: "stepfun-ai/Step1X-3D"
+downloads: 0
+likes: 108
+hf_last_modified: "2025-05-13T03:17:49.000Z"
 note: ""
-starred: false
+tags: []
 ---

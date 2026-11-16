@@ -1,16 +1,31 @@
 ---
 name: "Xiaomi-TabLDM"
+category: "data"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ""
+params: ""
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "小米"
 updated: "2026-09-04"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2609.03880"
-type: "DataScience"
-tags: []
 link: "https://huggingface.co/occams/Xiaomi-TabLDM"
-params: ""
-arch: ""
+hf_id: "occams/Xiaomi-TabLDM"
+downloads: 420
+likes: 26
+hf_last_modified: "2026-10-13T06:14:04.000Z"
 note: ""
-starred: false
+tags: []
 ---

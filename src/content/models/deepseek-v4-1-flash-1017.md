@@ -1,16 +1,31 @@
 ---
 name: "DeepSeek-V4.1-Flash-1017"
+category: "language"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: "moe"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: "100B~1T"
+context_length: ""
+family: ""
+base: ""
 license: "MIT"
 author: "深度求索"
 updated: "2026-10-17"
-base: ""
 published: ""
 paper: "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/main/DeepSeek_V41_Tech_Report.pdf"
-type: "LLM"
-tags: ["Vision"]
 link: "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
-params: "100B~1T"
-arch: "MoE"
+hf_id: "deepseek-ai/DeepSeek-V4.1-Flash-1017"
+downloads: 467224
+likes: 5757
+hf_last_modified: "2026-11-10T02:22:56.000Z"
 note: ""
-starred: false
+tags: []
 ---

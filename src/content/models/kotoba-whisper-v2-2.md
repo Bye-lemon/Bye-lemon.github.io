@@ -1,16 +1,31 @@
 ---
 name: "Kotoba-Whisper-v2.2"
+category: "speech"
+tasks: ["asr"]
+modalities_in: ["audio"]
+modalities_out: ["text"]
+languages: ["ja"]
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "1-10B"
+params: "0.2B~2B"
+context_length: ""
+family: ""
+base: "Kotoba-Whisper-v2.0"
 license: "Apache-2.0"
 author: "Kotoba.tech"
 updated: "2024-10-18"
-base: "Kotoba-Whisper-v2.0"
 published: ""
 paper: ""
-type: "Voice"
-tags: ["ASR", "Japanese"]
 link: "https://huggingface.co/kotoba-tech/kotoba-whisper-v2.2"
-params: "0.2B~2B"
-arch: ""
+hf_id: "kotoba-tech/kotoba-whisper-v2.2"
+downloads: 15815
+likes: 134
+hf_last_modified: "2024-10-23T00:49:36.000Z"
 note: ""
-starred: false
+tags: []
 ---

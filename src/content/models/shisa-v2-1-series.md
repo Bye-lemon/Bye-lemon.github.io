@@ -1,16 +1,31 @@
 ---
 name: "Shisa V2.1 Series"
+category: "language"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: ["ja"]
+domains: []
+role: ""
+architecture: "dense"
+training_stage: []
+access: ""
+status: ""
+size_class: "100B-1T"
+params: "0.2B~2B, 2B~4B, 4B~10B, 10B~40B, 40B~100B"
+context_length: ""
+family: ""
+base: ""
 license: "Multiple-License"
 author: "Shisa.ai"
 updated: "2025-11-22"
-base: ""
 published: ""
 paper: ""
-type: "LLM"
-tags: ["Japanese"]
 link: "https://huggingface.co/collections/shisa-ai/shisa-v21"
-params: "0.2B~2B, 2B~4B, 4B~10B, 10B~40B, 40B~100B"
-arch: "Dense"
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

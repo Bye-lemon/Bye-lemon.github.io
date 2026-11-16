@@ -1,16 +1,31 @@
 ---
 name: "Kimi-Linear-48B-A3B-Instruct"
+category: "language"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: []
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "100B-1T"
+params: "40B~100B"
+context_length: ""
+family: ""
+base: ""
 license: "MIT"
 author: "月之暗面"
 updated: "2025-10-30"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2510.26692"
-type: "LLM"
-tags: []
 link: "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
-params: "40B~100B"
-arch: ""
+hf_id: "moonshotai/Kimi-Linear-48B-A3B-Instruct"
+downloads: 48989
+likes: 618
+hf_last_modified: "2025-12-16T14:50:08.000Z"
 note: ""
-starred: false
+tags: []
 ---

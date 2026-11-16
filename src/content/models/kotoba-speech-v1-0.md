@@ -1,16 +1,31 @@
 ---
 name: "Kotoba-Speech-v1.0"
+category: "speech"
+tasks: ["tts"]
+modalities_in: ["text"]
+modalities_out: ["audio"]
+languages: ["ja"]
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "1-10B"
+params: "0.2B~2B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "Kotoba.tech"
 updated: "2024-03-14"
-base: ""
 published: ""
 paper: ""
-type: "Voice"
-tags: ["TTS", "Japanese"]
 link: "https://huggingface.co/kotoba-tech/kotoba-speech-v0.1"
-params: "0.2B~2B"
-arch: ""
+hf_id: "kotoba-tech/kotoba-speech-v0.1"
+downloads: 21
+likes: 17
+hf_last_modified: "2024-04-17T07:54:48.000Z"
 note: ""
-starred: false
+tags: []
 ---

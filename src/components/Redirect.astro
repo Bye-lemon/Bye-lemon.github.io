@@ -10,7 +10,6 @@ const { to, title = '页面已迁移' } = Astro.props;
     <link rel="canonical" href={new URL(to, Astro.site)} />
     <meta http-equiv="refresh" content={`0; url=${to}`} />
     <title>{title}</title>
-    <script is:inline>location.replace({JSON.stringify(to)} + location.hash);</script>
   </head>
   <body style="font-family:serif;padding:3rem;line-height:1.7">
     <p>这个页面已经搬家：<a href={to}>{to}</a></p>

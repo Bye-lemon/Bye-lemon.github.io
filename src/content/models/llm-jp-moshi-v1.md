@@ -1,16 +1,31 @@
 ---
 name: "LLM-jp-Moshi-v1"
+category: "language"
+tasks: []
+modalities_in: ["audio"]
+modalities_out: ["audio"]
+languages: ["ja"]
+domains: []
+role: ""
+architecture: "dense"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "4B~10B"
+context_length: ""
+family: ""
+base: "moshiko-pytorch-bf16"
 license: "Apache-2.0"
 author: "LLM-JP"
 updated: "2026-01-20"
-base: "moshiko-pytorch-bf16"
 published: ""
-paper: ""
-type: "LLM"
-tags: ["Voice", "Japanese"]
+paper: "https://arxiv.org/abs/2410.00037"
 link: "https://huggingface.co/llm-jp/llm-jp-moshi-v1"
-params: "4B~10B"
-arch: "Dense"
+hf_id: "llm-jp/llm-jp-moshi-v1"
+downloads: 1178
+likes: 49
+hf_last_modified: "2026-10-26T04:42:51.000Z"
 note: ""
-starred: false
+tags: []
 ---

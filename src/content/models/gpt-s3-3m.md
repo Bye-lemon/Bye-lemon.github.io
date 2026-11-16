@@ -1,16 +1,31 @@
 ---
 name: "GPT-S3-3M"
+category: "language"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: ["en"]
+domains: []
+role: "base"
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: "<200M"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "AxiomicLabs"
 updated: "2026-10-03"
-base: ""
 published: ""
 paper: ""
-type: "BasicLM"
-tags: []
 link: "https://huggingface.co/AxiomicLabs/GPT-S3-3M"
-params: "<200M"
-arch: ""
+hf_id: "AxiomicLabs/GPT-S3-3M"
+downloads: 892
+likes: 13
+hf_last_modified: "2026-10-10T00:32:53.000Z"
 note: ""
-starred: false
+tags: []
 ---

@@ -1,16 +1,31 @@
 ---
 name: "Kimi-K3"
+category: "language"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: "moe"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: ">1T"
+context_length: ""
+family: ""
+base: ""
 license: "Model-Specific"
 author: "月之暗面"
 updated: "2026-06-27"
-base: ""
 published: ""
 paper: "https://www.kimi.com/blog/kimi-k3"
-type: "LLM"
-tags: ["Vision"]
 link: "https://huggingface.co/moonshotai/Kimi-K3"
-params: ">1T"
-arch: "MoE"
+hf_id: "moonshotai/Kimi-K3"
+downloads: 767314
+likes: 11997
+hf_last_modified: "2026-09-02T02:22:41.000Z"
 note: ""
-starred: false
+tags: []
 ---

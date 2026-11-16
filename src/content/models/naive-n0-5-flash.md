@@ -1,16 +1,31 @@
 ---
 name: "Naive-N0.5-Flash"
+category: "language"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: []
+domains: []
+role: ""
+architecture: "moe"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: "100B~1T"
+context_length: ""
+family: ""
+base: "MiMo-V2.5"
 license: "MIT"
 author: "Naive.ai"
 updated: "2026-09-27"
-base: "MiMo-V2.5"
 published: ""
 paper: "https://naive.ai/en/research/"
-type: "LLM"
-tags: []
 link: "https://huggingface.co/NaiveAI/Naive-N0.5-Flash"
-params: "100B~1T"
-arch: ""
+hf_id: "NaiveAI/Naive-N0.5-Flash"
+downloads: 15677
+likes: 408
+hf_last_modified: "2026-09-27T15:16:00.000Z"
 note: ""
-starred: false
+tags: []
 ---

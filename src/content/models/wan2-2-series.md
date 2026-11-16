@@ -1,16 +1,31 @@
 ---
 name: "Wan2.2 Series"
+category: "generation"
+tasks: []
+modalities_in: ["video"]
+modalities_out: ["video"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: "10-100B"
+params: "10B~40B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "阿里巴巴"
 updated: "2025-09-11"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2503.20314"
-type: "AIGC"
-tags: ["Video"]
 link: "https://huggingface.co/collections/Wan-AI/wan22-68ac4ae80a8b477e79636fc8"
-params: "10B~40B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

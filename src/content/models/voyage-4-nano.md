@@ -1,16 +1,31 @@
 ---
 name: "Voyage-4-nano"
+category: "retrieval"
+tasks: ["embedding"]
+modalities_in: ["text"]
+modalities_out: ["embedding"]
+languages: ["multilingual"]
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "1-10B"
+params: "0.2B~2B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "MongoDB"
 updated: "2026-01-06"
-base: ""
 published: ""
 paper: ""
-type: "Similarty"
-tags: []
 link: "https://huggingface.co/voyageai/voyage-4-nano"
-params: "0.2B~2B"
-arch: ""
+hf_id: "voyageai/voyage-4-nano"
+downloads: 118355
+likes: 153
+hf_last_modified: "2026-10-22T18:59:41.000Z"
 note: ""
-starred: false
+tags: []
 ---

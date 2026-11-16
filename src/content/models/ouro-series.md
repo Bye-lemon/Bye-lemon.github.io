@@ -1,17 +1,32 @@
 ---
 name: "Ouro Series"
+category: "language"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: "1-10B"
+params: "0.2B~2B, 2B~4B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "字节跳动"
 updated: "2025-10-28"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2510.25741"
-type: "LLM"
-tags: []
 link: "https://huggingface.co/collections/ByteDance/ouro"
-params: "0.2B~2B, 2B~4B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: "LoopLM 范式"
-starred: false
+tags: []
 ---
 LoopLM 范式

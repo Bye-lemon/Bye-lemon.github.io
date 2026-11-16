@@ -1,16 +1,31 @@
 ---
 name: "Xing4.0-29B-A4B"
+category: "language"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: ["en", "zh"]
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "10B~40B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "中国电信"
 updated: "2026-09-16"
-base: ""
 published: ""
-paper: ""
-type: "LLM"
-tags: []
+paper: "https://arxiv.org/abs/2512.24157"
 link: "https://huggingface.co/XingChen-AGI/Xing4.0-29B-A4B"
-params: "10B~40B"
-arch: ""
+hf_id: "XingChen-AGI/Xing4.0-29B-A4B"
+downloads: 5326
+likes: 1869
+hf_last_modified: "2026-11-10T11:45:38.000Z"
 note: ""
-starred: false
+tags: []
 ---

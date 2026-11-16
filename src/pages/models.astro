@@ -1,195 +1,1210 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import 'tabulator-tables/dist/css/tabulator.min.css';
+import '../styles/models.css';
 import { getCollection } from 'astro:content';
+import taxonomy from '../data/model-taxonomy.json';
 
 const entries = await getCollection('models');
-const models = entries.map((e) => {
-  const d = e.data as any;
-  return { ...d, id: e.id, tags: Array.isArray(d.tags) ? d.tags : [], starred: !!d.starred };
+const models = entries.map((entry) => {
+  const d = entry.data as any;
+  return {
+    id: entry.id,
+    name: String(d.name ?? ''),
+    category: d.category ?? '',
+    tasks: Array.isArray(d.tasks) ? d.tasks : [],
+    languages: Array.isArray(d.languages) ? d.languages : [],
+    role: d.role ?? '',
+    access: d.access ?? '',
+    updated: d.updated ?? '',
+  };
 });
-const uniq = (key: string) => [...new Set(models.map((m) => m[key]).filter(Boolean))].sort();
-const types = uniq('type');
-const licenses = uniq('license');
-const authors = uniq('author');
-const starredCount = models.filter((m) => m.starred).length;
-const editUrl = 'https://github.com/Bye-lemon/Bye-lemon.github.io/tree/src/src/content/models';
 
-function hue(text: string): number {
-  let h = 0;
-  for (let i = 0; i < text.length; i++) h = (h * 31 + text.charCodeAt(i)) % 360;
-  return h;
+const fields = (taxonomy as any)?.fields ?? {};
+const valuesOf = (field: string): Record<string, string> => (fields?.[field]?.values ?? {});
+const labelOf = (field: string, value: string) => valuesOf(field)[value] ?? value;
+const labelPayload = JSON.stringify(
+  Object.fromEntries(Object.keys(fields).map((field) => [field, valuesOf(field)])),
+);
+
+const categoryCounts = Object.entries(valuesOf('category'))
+  .map(([value, label]) => ({ value, label, count: models.filter((m) => m.category === value).length }))
+  .filter((item) => item.count > 0);
+const categoryCount = categoryCounts.length;
+
+const roleOptions = Object.entries(valuesOf('role'))
+  .map(([value, label]) => ({ value, label, count: models.filter((m) => m.role === value).length }))
+  .filter((item) => item.count > 0);
+
+const accessOptions = Object.entries(valuesOf('access'))
+  .map(([value, label]) => ({ value, label, count: models.filter((m) => m.access === value).length }))
+  .filter((item) => item.count > 0);
+
+const knownLanguages = new Set(Object.keys(valuesOf('languages')));
+const languageCounts = new Map<string, number>();
+let otherLanguageModels = 0;
+for (const m of models) {
+  for (const value of new Set(m.languages)) {
+    if (knownLanguages.has(value)) languageCounts.set(value, (languageCounts.get(value) ?? 0) + 1);
+  }
+  if (m.languages.some((value) => !knownLanguages.has(value))) otherLanguageModels += 1;
 }
-const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./, ''); } catch { return ''; } };
+const languageOptions = [
+  ...Object.entries(valuesOf('languages'))
+    .filter(([value]) => languageCounts.get(value))
+    .map(([value, label]) => ({ value, label, count: languageCounts.get(value) ?? 0 })),
+  ...(otherLanguageModels ? [{ value: 'other', label: '其他语种', count: otherLanguageModels }] : []),
+];
+
+const taskCounts = new Map<string, number>();
+for (const m of models) {
+  for (const value of new Set(m.tasks)) taskCounts.set(value, (taskCounts.get(value) ?? 0) + 1);
+}
+const taskOptions = Object.entries(valuesOf('tasks'))
+  .filter(([value]) => taskCounts.get(value))
+  .map(([value, label]) => ({ value, label, count: taskCounts.get(value) ?? 0 }));
+
+const latestUpdate = models
+  .map((m) => m.updated)
+  .filter((value) => /^\d{4}-\d{2}-\d{2}$/.test(value))
+  .sort()
+  .at(-1) ?? '';
+const editUrl = 'https://github.com/Bye-lemon/Bye-lemon.github.io/tree/src/src/content/models';
 ---
+
 <BaseLayout title="模型库" current="/models/" wide>
-  <style>
-    .m-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 1.2em; }
-    .m-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.2em; font-family: var(--sans); align-items: center; }
-    .m-tools input, .m-tools select { font: inherit; font-size: .78rem; padding: 7px 9px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
-    .m-tools input[type="search"] { flex: 1 1 240px; }
-    .m-tools input:focus, .m-tools select:focus { outline: 0; border-color: var(--ink); }
-    .m-star-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--muted); cursor: pointer; user-select: none; }
-    .m-count { font-family: var(--sans); font-size: .74rem; color: var(--muted); margin-left: auto; }
-    .m-wrap { overflow-x: auto; border-top: 1px solid var(--line); }
-    table.models { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: .74rem; line-height: 1.5; white-space: nowrap; }
-    table.models thead th { position: sticky; top: 0; background: var(--paper); text-align: left; font-weight: 600; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--line); }
-    table.models tbody td { padding: 8px 10px; border-bottom: 1px solid rgba(17,17,17,.08); vertical-align: middle; }
-    table.models tbody tr:hover { background: rgba(17,17,17,.03); }
-    .m-name { font-family: var(--serif); font-size: .92rem; text-decoration: none; }
-    .m-name:hover { text-decoration: underline; }
-    .m-star { color: var(--accent); font-size: .8rem; width: 1.2em; text-align: center; }
-    .m-dim { color: var(--muted); }
-    .m-badge { display: inline-block; padding: 1px 6px; border-radius: 2px; font-size: .68rem; border: 1px solid hsl(var(--h) 45% 62% / .45); background: hsl(var(--h) 60% 95%); color: hsl(var(--h) 55% 32%); }
-    .m-type { font-weight: 600; color: hsl(var(--h) 55% 40%); }
-    .m-tag { display: inline-block; margin: 0 4px 2px 0; padding: 1px 6px; border-radius: 2px; font-size: .66rem; border: 1px solid hsl(var(--h) 40% 58% / .45); background: hsl(var(--h) 50% 96%); color: hsl(var(--h) 45% 30%); }
-    .m-params { font-family: var(--mono); font-size: .7rem; color: #1f4f7a; background: #eef4fa; border: 1px solid #cfe0ef; border-radius: 2px; padding: 1px 5px; }
-    .m-link, .m-paper { text-decoration: none; color: var(--muted); }
-    .m-link:hover, .m-paper:hover { color: var(--ink); text-decoration: underline; }
-    .m-edit { font-family: var(--sans); font-size: .74rem; color: var(--muted); }
-    @media (max-width: 767px) { table.models { font-size: .7rem; } table.models tbody td, table.models thead th { padding: 6px 8px; } }
-    .model-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--note-gap); align-items: start; max-width: var(--content); }
-    @media (min-width: 1100px) { .model-layout { grid-template-columns: minmax(0, 1fr) var(--note); max-width: calc(var(--content) + var(--note) + var(--note-gap)); width: 100%; } }
-    .model-aside { position: sticky; top: 20px; font-family: var(--sans); font-size: .74rem; line-height: 1.6; border: 1px solid var(--line); padding: 14px; color: var(--muted); }
-    .model-aside h3 { margin: 0 0 .4em; font-family: var(--serif); font-size: 1rem; font-style: normal; color: var(--ink); }
-    .model-aside .kv { display: grid; grid-template-columns: 4.6em 1fr; gap: .25em .6em; margin: .8em 0; }
-    .model-aside .kv dt { color: var(--faint); }
-    .model-aside .kv dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
-    .model-aside a { color: var(--ink); }
-    .model-aside .hint { color: var(--faint); }
-    table.models tbody tr { cursor: pointer; }
-    table.models tbody tr.active { background: rgba(184, 64, 44, .06); }
-    table.models tbody tr.active td:first-child { box-shadow: inset 2px 0 0 var(--accent); }
-  </style>
+  <div class="models-page">
+    <header class="m-head">
+      <div>
+        <h1>模型库</h1>
+        <p class="m-lede">一份持续维护的模型索引：类别、任务、语言与开放程度。点选任意一行，在页边展开它的档案。</p>
+      </div>
+      <a class="m-edit" href={editUrl} target="_blank" rel="noopener">编辑数据 / 新增模型 ↗</a>
+    </header>
 
-  <div class="m-head">
-    <div>
-      <h1 style="margin-bottom:.2em">模型库</h1>
-      <p class="lead" style="margin:0">我关注的模型，共 <span id="m-total">{models.length}</span> 个，收藏 <span id="m-starred">{starredCount}</span> 个。</p>
+    <p class="m-summary">
+      {models.length} 个模型<span aria-hidden="true"> · </span>{categoryCount} 个类别<span aria-hidden="true"> · </span>最近更新 {latestUpdate || '—'}
+    </p>
+
+    <div class="m-catbar" role="group" aria-label="按类别筛选">
+      <button type="button" class="m-cat" data-category="" aria-pressed="true">
+        <span class="m-cat-label">全部</span><span class="m-cat-n">{models.length}</span>
+      </button>
+      {categoryCounts.map((item) => (
+        <button
+          type="button"
+          class="m-cat"
+          data-category={item.value}
+          aria-pressed="false"
+          title={item.label + '：' + item.count + ' 个模型'}
+        >
+          <span class="m-cat-dot" aria-hidden="true"></span>
+          <span class="m-cat-label">{item.label}</span>
+          <span class="m-cat-n">{item.count}</span>
+        </button>
+      ))}
     </div>
-    <a class="m-edit" href={editUrl} target="_blank" rel="noopener">编辑数据 / 新增模型 ↗</a>
+
+    <div class="m-layout">
+      <section class="m-main" aria-labelledby="m-table-title">
+        <h2 class="m-sr" id="m-table-title">模型列表</h2>
+
+        <div class="m-filters" role="search" aria-label="筛选模型">
+          <div class="m-filters-main">
+            <div class="m-field m-field--q">
+              <label class="m-label" for="m-q">关键词</label>
+              <input id="m-q" type="search" name="q" autocomplete="off" spellcheck="false"
+                placeholder="名称、作者、任务、语言、备注…" />
+            </div>
+            <div class="m-field m-field--role">
+              <label class="m-label" for="m-role">模型角色</label>
+              <select id="m-role">
+                <option value="">全部角色</option>
+                {roleOptions.map((item) => <option value={item.value}>{item.label}（{item.count}）</option>)}
+              </select>
+            </div>
+            <div class="m-field m-field--access">
+              <label class="m-label" for="m-access">开放程度</label>
+              <select id="m-access">
+                <option value="">全部</option>
+                {accessOptions.map((item) => <option value={item.value}>{item.label}（{item.count}）</option>)}
+              </select>
+            </div>
+            <div class="m-field m-field--clear">
+              <button type="button" class="m-clear" id="m-clear" disabled>清除全部</button>
+            </div>
+          </div>
+
+          <div class="m-filters-aux">
+            <details class="m-multi" id="m-tasks-pop">
+              <summary class="m-multi-trigger">
+                <span class="m-label">任务</span>
+                <span class="m-multi-value" id="m-tasks-value">全部任务</span>
+                <span class="m-caret" aria-hidden="true"></span>
+              </summary>
+              <div class="m-multi-panel">
+                <div class="m-multi-list" role="group" aria-label="按任务筛选">
+                  {taskOptions.map((item) => (
+                    <label class="m-opt">
+                      <input type="checkbox" value={item.value} data-multi="tasks" />
+                      <span class="m-opt-label">{item.label}</span>
+                      <span class="m-opt-n">{item.count}</span>
+                    </label>
+                  ))}
+                </div>
+                <div class="m-multi-foot">
+                  <button type="button" class="m-multi-clear" data-clear-multi="tasks">清除任务</button>
+                </div>
+              </div>
+            </details>
+
+            <details class="m-multi" id="m-languages-pop">
+              <summary class="m-multi-trigger">
+                <span class="m-label">语言</span>
+                <span class="m-multi-value" id="m-languages-value">全部语言</span>
+                <span class="m-caret" aria-hidden="true"></span>
+              </summary>
+              <div class="m-multi-panel">
+                <div class="m-multi-list" role="group" aria-label="按语言筛选">
+                  {languageOptions.map((item) => (
+                    <label class="m-opt">
+                      <input type="checkbox" value={item.value} data-multi="languages" />
+                      <span class="m-opt-label">{item.label}</span>
+                      <span class="m-opt-n">{item.count}</span>
+                    </label>
+                  ))}
+                </div>
+                <div class="m-multi-foot">
+                  <button type="button" class="m-multi-clear" data-clear-multi="languages">清除语言</button>
+                </div>
+              </div>
+            </details>
+
+            <div class="m-field m-field--cols">
+              <span class="m-label" id="m-cols-label">列显示</span>
+              <div class="m-seg" role="group" aria-labelledby="m-cols-label">
+                <button type="button" class="m-seg-btn" data-cols="compact" aria-pressed="true"
+                  title="精简：名称、类别、任务、语言、协议、作者、更新、参数量">精简</button>
+                <button type="button" class="m-seg-btn" data-cols="full" aria-pressed="false"
+                  title="完整：追加模态、领域、角色、架构、开放程度、规模档位与 HF 热度">完整</button>
+              </div>
+            </div>
+            <div class="m-field m-field--sort">
+              <label class="m-label" for="m-sort">排序</label>
+              <select id="m-sort">
+                <option value="updated:desc">最近更新</option>
+                <option value="name:asc">名称 A→Z</option>
+                <option value="author:asc">作者</option>
+                <option value="downloads:desc">HF 下载量</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="m-table-meta">
+          <p class="m-count" id="m-count" role="status" aria-live="polite" aria-atomic="true">正在载入模型…</p>
+        </div>
+        <p class="m-sr" id="m-table-help">
+          表格可按表头排序。按 Tab 聚焦某一行，按 Enter 打开该行详情面板；按 Escape 关闭详情面板。每页 50 条。
+        </p>
+
+        <div class="m-table" id="models-table" aria-busy="true">
+          <p class="m-loading">正在载入模型数据…</p>
+        </div>
+        <noscript>
+          <p class="m-error">模型表格需要 JavaScript 才能排序与筛选。数据也可以直接读取：<a href="/models.json">/models.json</a>。</p>
+        </noscript>
+      </section>
+
+      <aside class="m-panel" id="m-panel" aria-labelledby="m-panel-title">
+        <header class="m-panel-head">
+          <div>
+            <p class="m-panel-eyebrow">模型档案</p>
+            <h2 class="m-panel-title" id="m-panel-title">档案</h2>
+          </div>
+          <button type="button" class="m-panel-close" id="m-panel-close" aria-label="关闭详情面板" hidden>✕</button>
+        </header>
+        <div class="m-panel-body" id="m-panel-body" aria-live="polite">
+          <p class="m-panel-hint">点选表格中的一行，在这里查看该模型的任务、语言、模态、角色与开放程度。</p>
+        </div>
+      </aside>
+    </div>
   </div>
 
-  <div class="model-layout">
-    <div class="model-main">
-    <div class="m-tools">
-    <input id="q" type="search" placeholder="搜索模型名、作者、标签…" aria-label="搜索模型" />
-    <select id="f-type" aria-label="按类型筛选"><option value="">全部类型</option>{types.map((t) => <option value={t}>{t}</option>)}</select>
-    <select id="f-license" aria-label="按协议筛选"><option value="">全部协议</option>{licenses.map((l) => <option value={l}>{l}</option>)}</select>
-    <select id="f-author" aria-label="按作者筛选"><option value="">全部作者</option>{authors.map((x) => <option value={x}>{x}</option>)}</select>
-    <select id="sort" aria-label="排序">
-      <option value="updated-desc">按更新时间</option>
-      <option value="starred">收藏优先</option>
-      <option value="name-asc">按名称</option>
-      <option value="author-asc">按作者</option>
-    </select>
-    <label class="m-star-toggle"><input type="checkbox" id="only-starred" /> 只看收藏</label>
-    <span class="m-count">显示 <span id="m-shown">{models.length}</span> / {models.length}</span>
-  </div>
-
-  <div class="m-wrap">
-    <table class="models" id="m-table">
-      <thead>
-        <tr>
-          <th aria-label="收藏"></th><th>模型名</th><th>协议</th><th>作者</th><th>更新时间</th><th>基模型</th><th>发表</th><th>论文</th><th>类型</th><th>标签</th><th>链接</th><th>参数量</th>
-        </tr>
-      </thead>
-      <tbody>
-        {models.map((m) => (
-          <tr data-id={m.id} data-name={String(m.name).toLowerCase()} data-title={String(m.name)} data-author={m.author || ''} data-type={m.type || ''} data-license={m.license || ''} data-updated={m.updated || ''} data-base={m.base || ''} data-published={m.published || ''} data-params={m.params || ''} data-link={m.link || ''} data-paper={m.paper || ''} data-tags={m.tags.join(' ')} data-starred={m.starred ? '1' : '0'}>
-            <td class="m-star" title={m.starred ? '已收藏' : undefined}>{m.starred ? '★' : ''}</td>
-            <td><a class="m-name" href={`/models/${m.id}/`}>{m.name}</a></td>
-            <td>{m.license ? <span class="m-badge" style={`--h:${hue(m.license)}`}>{m.license}</span> : <span class="m-dim">—</span>}</td>
-            <td>{m.author || '—'}</td>
-            <td class="m-dim">{m.updated || '—'}</td>
-            <td class="m-dim">{m.base || '—'}</td>
-            <td class="m-dim">{m.published || '—'}</td>
-            <td>{m.paper ? <a class="m-paper" href={m.paper} target="_blank" rel="noopener">论文</a> : <span class="m-dim">—</span>}</td>
-            <td>{m.type ? <span class="m-type" style={`--h:${hue(m.type)}`}>{m.type}</span> : '—'}</td>
-            <td>{m.tags.length ? m.tags.map((t) => <span class="m-tag" style={`--h:${hue(t)}`}>{t}</span>) : <span class="m-dim">—</span>}</td>
-            <td>{m.link ? <a class="m-link" href={m.link} target="_blank" rel="noopener">{host(m.link)} ↗</a> : '—'}</td>
-            <td>{m.params ? <span class="m-params">{m.params}</span> : <span class="m-dim">—</span>}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    </div>
-    </div>
-    <aside class="model-aside" id="model-aside">
-      <p class="hint">点击表格中的一行，在这里查看详情。</p>
-    </aside>
-  </div>
+  <script type="application/json" id="m-labels" is:inline set:html={labelPayload}></script>
 
   <script>
-    const rows = [...document.querySelectorAll('table.models tbody tr')];
-    const q = document.getElementById('q');
-    const fType = document.getElementById('f-type');
-    const fLicense = document.getElementById('f-license');
-    const fAuthor = document.getElementById('f-author');
-    const sort = document.getElementById('sort');
-    const onlyStarred = document.getElementById('only-starred');
-    const shown = document.getElementById('m-shown');
-    const tbody = document.querySelector('table.models tbody');
+    const PAGE_SIZE = 50;
 
-    function apply() {
-      const text = q.value.trim().toLowerCase();
-      let n = 0;
-      for (const row of rows) {
-        const d = row.dataset;
-        const hit = (!text || (d.name + ' ' + d.tags + ' ' + d.author).includes(text))
-          && (!fType.value || d.type === fType.value)
-          && (!fLicense.value || d.license === fLicense.value)
-          && (!fAuthor.value || d.author === fAuthor.value)
-          && (!onlyStarred.checked || d.starred === '1');
-        row.hidden = !hit;
-        if (hit) n++;
+    const tableEl = document.getElementById('models-table');
+    const countEl = document.getElementById('m-count');
+    const qEl = document.getElementById('m-q');
+    const roleEl = document.getElementById('m-role');
+    const accessEl = document.getElementById('m-access');
+    const sortEl = document.getElementById('m-sort');
+    const clearEl = document.getElementById('m-clear');
+    const panelEl = document.getElementById('m-panel');
+    const panelTitle = document.getElementById('m-panel-title');
+    const panelBody = document.getElementById('m-panel-body');
+    const closeBtn = document.getElementById('m-panel-close');
+    const segButtons = [...document.querySelectorAll('.m-seg-btn')];
+    const catButtons = [...document.querySelectorAll('.m-cat')];
+    const mobileMq = window.matchMedia('(max-width: 767px)');
+    const narrowMq = window.matchMedia('(max-width: 1099px)');
+
+    const LABELS = (() => {
+      try { return JSON.parse(document.getElementById('m-labels').textContent || '{}'); }
+      catch (err) { return {}; }
+    })();
+
+    const labelOf = (field, value) => {
+      const table = LABELS[field];
+      return (table && table[value]) || value || '';
+    };
+    const KNOWN_LANGS = new Set(Object.keys(LABELS.languages || {}));
+    const CATEGORY_SHORT = {
+      language: '语言',
+      vision: '视觉',
+      speech: '语音',
+      multimodal: '多模态',
+      retrieval: '检索',
+      generation: '生成',
+      'time-series': '时间序列',
+      decision: '决策',
+      'world-model': '世界模型',
+      data: '数据',
+    };
+    const catShort = (value) => CATEGORY_SHORT[value] || labelOf('category', value);
+
+    const ROLE_OPTIONS = [...roleEl.options].map((o) => o.value).filter(Boolean);
+    const ACCESS_OPTIONS = [...accessEl.options].map((o) => o.value).filter(Boolean);
+    const CATEGORY_OPTIONS = catButtons.map((b) => b.dataset.category).filter(Boolean);
+    const TASK_CHECKS = [...document.querySelectorAll('input[data-multi="tasks"]')];
+    const LANG_CHECKS = [...document.querySelectorAll('input[data-multi="languages"]')];
+    const TASK_OPTIONS = TASK_CHECKS.map((c) => c.value);
+    const LANG_OPTIONS = LANG_CHECKS.map((c) => c.value);
+
+    const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+    const esc = (value) => String(value == null ? '' : value).replace(/[&<>"']/g, (ch) => ESC[ch]);
+    const escAttr = esc;
+    const dash = () => '<span class="m-dash" aria-hidden="true">—</span>';
+    const numberFormat = new Intl.NumberFormat('zh-CN', { notation: 'compact', maximumFractionDigits: 1 });
+
+    function fmtNum(value) {
+      const n = Number(value) || 0;
+      return n ? numberFormat.format(n) : '0';
+    }
+
+    function safeUrl(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      try {
+        const url = new URL(raw, window.location.origin);
+        if (url.protocol === 'http:' || url.protocol === 'https:') return url.href;
+      } catch (err) {
+        return '';
       }
-      shown.textContent = String(n);
+      return '';
     }
 
-    function sortRows() {
-      const mode = sort.value;
-      const key = mode === 'name-asc' ? (r) => r.dataset.name
-        : mode === 'author-asc' ? (r) => r.dataset.author
-        : mode === 'starred' ? (r) => (r.dataset.starred === '1' ? '0' + r.dataset.name : '1' + r.dataset.name)
-        : (r) => r.dataset.updated;
-      const dir = mode === 'updated-desc' ? -1 : 1;
-      rows.sort((a, b) => key(a) < key(b) ? -dir : key(a) > key(b) ? dir : 0);
-      rows.forEach((r) => tbody.appendChild(r));
+    function hostOf(value) {
+      try { return new URL(value, window.location.origin).host.replace(/^www\./, ''); }
+      catch (err) { return ''; }
     }
 
-    [q, fType, fLicense, fAuthor, onlyStarred].forEach((el) => el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', apply));
-    sort.addEventListener('change', () => { sortRows(); apply(); });
-    apply();
+    function pick(value, options) {
+      return value && options.includes(value) ? value : '';
+    }
 
-    const aside = document.getElementById('model-aside');
-    const hintHTML = aside.innerHTML;
-    function showModel(row) {
-      document.querySelectorAll('table.models tbody tr.active').forEach((r) => r.classList.remove('active'));
-      row.classList.add('active');
-      const d = row.dataset;
-      const meta = [['协议', d.license], ['作者', d.author], ['更新', d.updated], ['基模型', d.base], ['发表', d.published], ['类型', d.type], ['参数', d.params], ['标签', d.tags]].filter(([, v]) => v);
-      aside.textContent = '';
-      const h = document.createElement('h3');
-      h.textContent = d.title;
-      aside.appendChild(h);
+    function parseList(raw, options) {
+      if (!raw) return [];
+      return [...new Set(raw.split(',').map((value) => value.trim()).filter((value) => options.includes(value)))];
+    }
+
+    function readState() {
+      const params = new URLSearchParams(window.location.search);
+      const page = Number.parseInt(params.get('page') || '1', 10);
+      return {
+        q: (params.get('q') || '').slice(0, 120),
+        category: pick(params.get('category'), CATEGORY_OPTIONS),
+        tasks: parseList(params.get('tasks'), TASK_OPTIONS),
+        languages: parseList(params.get('languages'), LANG_OPTIONS),
+        role: pick(params.get('role'), ROLE_OPTIONS),
+        access: pick(params.get('access'), ACCESS_OPTIONS),
+        page: Number.isFinite(page) && page > 0 ? page : 1,
+        cols: params.get('cols') === 'full' ? 'full' : 'compact',
+        sort: null,
+        selectedId: '',
+      };
+    }
+
+    let state = readState();
+    let TabulatorFull = null;
+    let table = null;
+    let modelData = [];
+    let byId = new Map();
+    let filteredCount = 0;
+    let pendingPage = null;
+    let pendingUrlMode = 'replace';
+    let pageUrlMode = 'push';
+    let dataReady = false;
+
+    function hasFilters() {
+      return !!(state.q || state.category || state.role || state.access || state.tasks.length || state.languages.length);
+    }
+
+    function updateClearState() {
+      clearEl.disabled = !hasFilters();
+    }
+
+    function updateCategoryButtons() {
+      catButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String((button.dataset.category || '') === state.category));
+      });
+    }
+
+    function updateMultiUI() {
+      const pairs = [['tasks', TASK_CHECKS], ['languages', LANG_CHECKS]];
+      for (const [field, checks] of pairs) {
+        const selected = checks.filter((check) => check.checked);
+        const target = document.getElementById('m-' + field + '-value');
+        const emptyText = field === 'tasks' ? '全部任务' : '全部语言';
+        if (!target) continue;
+        if (!selected.length) {
+          target.textContent = emptyText;
+        } else {
+          const names = selected.map((check) => {
+            const label = check.closest('label');
+            const span = label ? label.querySelector('.m-opt-label') : null;
+            return span ? span.textContent.trim() : check.value;
+          });
+          target.textContent = names.slice(0, 2).join('、') + (names.length > 2 ? ' +' + (names.length - 2) : '');
+        }
+      }
+    }
+
+    function updateControls() {
+      qEl.value = state.q;
+      roleEl.value = state.role;
+      accessEl.value = state.access;
+      segButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.cols === state.cols));
+      });
+      updateCategoryButtons();
+      TASK_CHECKS.forEach((check) => { check.checked = state.tasks.includes(check.value); });
+      LANG_CHECKS.forEach((check) => { check.checked = state.languages.includes(check.value); });
+      updateMultiUI();
+      updateClearState();
+    }
+
+    function syncUrl(mode = 'replace') {
+      const params = new URLSearchParams();
+      if (state.q) params.set('q', state.q);
+      if (state.category) params.set('category', state.category);
+      if (state.tasks.length) params.set('tasks', state.tasks.join(','));
+      if (state.languages.length) params.set('languages', state.languages.join(','));
+      if (state.role) params.set('role', state.role);
+      if (state.access) params.set('access', state.access);
+      if (state.page > 1) params.set('page', String(state.page));
+      if (state.cols === 'full') params.set('cols', 'full');
+      const qs = params.toString();
+      const next = window.location.pathname + (qs ? '?' + qs : '');
+      if (next === window.location.pathname + window.location.search) return;
+      const method = mode === 'push' ? 'pushState' : 'replaceState';
+      window.history[method](null, '', next);
+    }
+
+    function languageLabels(values) {
+      const list = Array.isArray(values) ? values : [];
+      const known = [];
+      let other = 0;
+      for (const value of list) {
+        if (LABELS.languages && LABELS.languages[value]) {
+          const label = LABELS.languages[value];
+          if (!known.includes(label)) known.push(label);
+        } else {
+          other += 1;
+        }
+      }
+      if (other) known.push('其他语种');
+      return known;
+    }
+
+    function matches(data) {
+      if (state.category && data.category !== state.category) return false;
+      if (state.role && data.role !== state.role) return false;
+      if (state.access && data.access !== state.access) return false;
+      if (state.tasks.length) {
+        const tasks = Array.isArray(data.tasks) ? data.tasks : [];
+        if (!state.tasks.some((value) => tasks.includes(value))) return false;
+      }
+      if (state.languages.length) {
+        const langs = Array.isArray(data.languages) ? data.languages : [];
+        const hit = state.languages.some((value) => value === 'other'
+          ? langs.some((lang) => !KNOWN_LANGS.has(lang))
+          : langs.includes(value));
+        if (!hit) return false;
+      }
+      if (state.q) {
+        const terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+        if (terms.length) {
+          const parts = [
+            data.name,
+            data.author,
+            data.family,
+            data.note,
+            data.hf_id,
+            labelOf('category', data.category),
+            labelOf('role', data.role),
+            labelOf('access', data.access),
+            labelOf('architecture', data.architecture),
+          ];
+          for (const field of ['tasks', 'languages', 'domains', 'modalities_in', 'modalities_out']) {
+            for (const value of data[field] || []) parts.push(value, labelOf(field, value));
+          }
+          for (const value of languageLabels(data.languages)) parts.push(value);
+          for (const value of data.tags || []) parts.push(value);
+          const hay = parts.join(' ').toLowerCase();
+          for (const term of terms) {
+            if (!hay.includes(term)) return false;
+          }
+        }
+      }
+      return true;
+    }
+
+    function updateCount() {
+      if (!dataReady) {
+        countEl.textContent = '正在载入模型…';
+        return;
+      }
+      const total = modelData.length;
+      const shown = filteredCount;
+      const pages = Math.max(1, Math.ceil(shown / PAGE_SIZE));
+      const page = Math.min(Math.max(1, state.page), pages);
+      const from = shown ? (page - 1) * PAGE_SIZE + 1 : 0;
+      const to = Math.min(page * PAGE_SIZE, shown);
+      if (!shown) {
+        countEl.textContent = '没有匹配的模型 · 共 ' + total + ' 个';
+      } else if (shown === total) {
+        countEl.textContent = '共 ' + total + ' 个模型 · 第 ' + from + '–' + to + ' 个';
+      } else {
+        countEl.textContent = '筛选出 ' + shown + ' 个（共 ' + total + '）· 第 ' + from + '–' + to + ' 个';
+      }
+    }
+
+    function flushPendingPage() {
+      if (pendingPage === null || !table) return;
+      const target = Math.min(Math.max(1, pendingPage), Math.max(1, table.getPageMax() || 1));
+      pendingPage = null;
+      const mode = pendingUrlMode;
+      pendingUrlMode = 'replace';
+      state.page = target;
+      if (filteredCount > 0 && table.getPage() !== target) {
+        pageUrlMode = mode;
+        table.setPage(target);
+      } else {
+        updateCount();
+        syncUrl(mode);
+      }
+    }
+
+    function refreshFilters(mode = 'replace') {
+      updateClearState();
+      if (!table) {
+        syncUrl(mode);
+        return;
+      }
+      pendingPage = state.page;
+      pendingUrlMode = mode;
+      table.setFilter(matches);
+      if (pendingPage !== null) {
+        window.setTimeout(() => { if (pendingPage !== null) flushPendingPage(); }, 0);
+      }
+    }
+
+    function syncSelectionDom() {
+      tableEl.querySelectorAll('.tabulator-row[data-model-id]').forEach((rowEl) => {
+        const on = rowEl.dataset.modelId === state.selectedId;
+        rowEl.classList.toggle('is-selected', on);
+        rowEl.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+
+    function enhanceToggles() {
+      tableEl.querySelectorAll('.tabulator-responsive-collapse-toggle').forEach((toggle) => {
+        if (toggle.dataset.enhanced === '1') return;
+        toggle.dataset.enhanced = '1';
+        toggle.setAttribute('role', 'button');
+        toggle.setAttribute('tabindex', '0');
+        toggle.setAttribute('aria-label', '展开该行更多字段');
+        toggle.setAttribute('aria-expanded', toggle.classList.contains('open') ? 'true' : 'false');
+        toggle.addEventListener('click', () => {
+          toggle.setAttribute('aria-expanded', toggle.classList.contains('open') ? 'true' : 'false');
+        });
+        toggle.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggle.click();
+          }
+        });
+      });
+    }
+
+    function enhanceHeaders() {
+      tableEl.querySelectorAll('.tabulator-col.tabulator-sortable').forEach((col) => {
+        if (col.dataset.enhanced === '1') return;
+        col.dataset.enhanced = '1';
+        if (!col.hasAttribute('tabindex')) col.tabIndex = 0;
+        const title = col.querySelector('.tabulator-col-title');
+        const label = title ? title.textContent.trim() : '';
+        if (label) col.setAttribute('aria-label', label + '，按 Enter 排序');
+        col.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            col.click();
+          }
+        });
+      });
+    }
+
+    function syncSortSelect() {
+      if (!table) return;
+      const first = table.getSorters()[0];
+      if (!first) return;
+      const key = first.field + ':' + first.dir;
+      if ([...sortEl.options].some((option) => option.value === key)) sortEl.value = key;
+    }
+
+    function collapseFormatter(items) {
       const dl = document.createElement('dl');
-      dl.className = 'kv';
-      for (const [k, v] of meta) {
-        const dt = document.createElement('dt'); dt.textContent = k;
-        const dd = document.createElement('dd'); dd.textContent = v;
+      dl.className = 'm-collapse';
+      items.forEach((item) => {
+        const dt = document.createElement('dt');
+        dt.textContent = item.title || '';
+        const dd = document.createElement('dd');
+        if (item.value instanceof HTMLElement) dd.appendChild(item.value);
+        else dd.innerHTML = String(item.value == null || item.value === '' ? '—' : item.value);
         dl.append(dt, dd);
-      }
-      aside.appendChild(dl);
-      const links = document.createElement('p');
-      if (d.link) { const a = document.createElement('a'); a.href = d.link; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '权重 / 主页 ↗'; links.appendChild(a); links.appendChild(document.createTextNode(' ')); }
-      if (d.paper) { const a = document.createElement('a'); a.href = d.paper; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '论文 ↗'; links.appendChild(a); }
-      aside.appendChild(links);
-      const more = document.createElement('p');
-      const a = document.createElement('a'); a.href = '/models/' + d.id + '/'; a.textContent = '打开详情页 →';
-      more.appendChild(a); aside.appendChild(more);
+      });
+      return dl;
     }
-    document.querySelectorAll('table.models tbody tr').forEach((row) => {
-      row.addEventListener('click', (e) => { if (e.target.closest('a')) return; showModel(row); });
+
+    function nameFormatter(cell) {
+      const data = cell.getRow().getData();
+      const href = data.url || ('/models/' + encodeURIComponent(data.id) + '/');
+      return '<a class="m-name" href="' + escAttr(href) + '" title="' + escAttr(data.name) + '">' + esc(cell.getValue()) + '</a>';
+    }
+
+    function categoryFormatter(cell) {
+      const value = cell.getValue();
+      if (!value) return dash();
+      return '<span class="m-cat-chip" data-cat="' + escAttr(value) + '" title="' + escAttr(labelOf('category', value)) + '">'
+        + '<span class="m-cat-dot" aria-hidden="true"></span>' + esc(catShort(value)) + '</span>';
+    }
+
+    function chipList(field, values, max) {
+      const list = Array.isArray(values) ? values : [];
+      if (!list.length) return dash();
+      const labels = list.map((value) => labelOf(field, value));
+      const shown = labels.slice(0, max);
+      const rest = labels.length - shown.length;
+      return '<span class="m-chips" title="' + escAttr(labels.join('、')) + '">'
+        + shown.map((label) => '<span class="m-chip">' + esc(label) + '</span>').join('')
+        + (rest > 0 ? '<span class="m-chip m-chip--more">+' + rest + '</span>' : '')
+        + '</span>';
+    }
+
+    function tasksFormatter(cell) { return chipList('tasks', cell.getValue(), 2); }
+    function modalitiesInFormatter(cell) { return chipList('modalities_in', cell.getValue(), 2); }
+    function modalitiesOutFormatter(cell) { return chipList('modalities_out', cell.getValue(), 2); }
+    function domainsFormatter(cell) { return chipList('domains', cell.getValue(), 2); }
+
+    function languagesFormatter(cell) {
+      const labels = languageLabels(cell.getValue());
+      if (!labels.length) return dash();
+      const shown = labels.slice(0, 2).join('、');
+      return '<span class="m-lang" title="' + escAttr(labels.join('、')) + '">' + esc(shown)
+        + (labels.length > 2 ? ' +' + (labels.length - 2) : '') + '</span>';
+    }
+
+    function licenseFormatter(cell) {
+      const value = cell.getValue();
+      if (!value) return dash();
+      return '<span class="m-license ' + licenseClass(value) + '" title="' + escAttr(value) + '">' + esc(value) + '</span>';
+    }
+
+    function licenseClass(value) {
+      const s = String(value || '').toLowerCase();
+      if (!s) return 'is-other';
+      if (/(agpl|lgpl|gpl|copyleft)/.test(s)) return 'is-copyleft';
+      if (/(^|[\s-])nc($|[\s-])|non-?commercial|research only|cc-by-nc|noncommercial/.test(s)) return 'is-nc';
+      if (/(^|[\s-])(mit|apache|bsd|isc|unlicense|cc0|mpl)([\s-]|$)|public domain/.test(s)) return 'is-open';
+      if (/(gemma|llama|qwen|deepseek|nvidia|open model license|community|openrail|cc-by|mistral|model-specific|multiple-license)/.test(s)) return 'is-community';
+      return 'is-other';
+    }
+
+    function textFormatter(cell) {
+      const value = cell.getValue();
+      if (value === null || value === undefined || value === '') return dash();
+      return '<span class="m-dim" title="' + escAttr(String(value)) + '">' + esc(value) + '</span>';
+    }
+
+    function labelFormatter(field) {
+      return function (cell) {
+        const value = cell.getValue();
+        if (!value) return dash();
+        return '<span class="m-label-value" title="' + escAttr(labelOf(field, value)) + '">' + esc(labelOf(field, value)) + '</span>';
+      };
+    }
+
+    function accessFormatter(cell) {
+      const value = cell.getValue();
+      if (!value) return dash();
+      const cls = value === 'open-weights' || value === 'open-source' ? 'is-open'
+        : value === 'gated' ? 'is-gated' : 'is-api';
+      return '<span class="m-access ' + cls + '" title="' + escAttr(labelOf('access', value)) + '">' + esc(labelOf('access', value)) + '</span>';
+    }
+
+    function dateFormatter(cell) {
+      const value = cell.getValue();
+      if (!value) return dash();
+      return '<span class="m-date">' + esc(value) + '</span>';
+    }
+
+    function paramsFormatter(cell) {
+      const value = cell.getValue();
+      if (!value) return dash();
+      return '<span class="m-params" title="' + escAttr(value) + '">' + esc(value) + '</span>';
+    }
+
+    function heatFormatter(cell) {
+      const data = cell.getRow().getData();
+      const downloads = Number(data.downloads) || 0;
+      const likes = Number(data.likes) || 0;
+      if (!downloads && !likes) return dash();
+      const bits = [];
+      if (downloads) bits.push('<span class="m-heat-down">↓' + fmtNum(downloads) + '</span>');
+      if (likes) bits.push('<span class="m-heat-like">♥' + fmtNum(likes) + '</span>');
+      const title = '下载 ' + downloads.toLocaleString('zh-CN') + ' · 点赞 ' + likes.toLocaleString('zh-CN');
+      return '<span class="m-heat" title="' + escAttr(title) + '">' + bits.join(' ') + '</span>';
+    }
+
+    function buildColumns(useResponsive) {
+      const full = state.cols === 'full';
+      const columns = [];
+
+      if (useResponsive) {
+        columns.push({
+          title: '展开',
+          field: 'responsive',
+          width: 42,
+          minWidth: 42,
+          resizable: false,
+          headerSort: false,
+          hozAlign: 'center',
+          cssClass: 'm-col-toggle',
+          responsive: false,
+          formatter: 'responsiveCollapse',
+        });
+      }
+
+      columns.push(
+        {
+          field: 'name', title: '模型名', width: 168, minWidth: 120,
+          sorter: 'string', headerSort: true, formatter: nameFormatter,
+          cssClass: 'm-col-name', responsive: 1,
+        },
+        {
+          field: 'category', title: '类别', width: 84, minWidth: 60,
+          sorter: 'string', headerSort: true, formatter: categoryFormatter,
+          cssClass: 'm-col-cat', responsive: 2,
+        },
+        {
+          field: 'tasks', title: '任务', width: 124, minWidth: 70,
+          headerSort: false, formatter: tasksFormatter,
+          cssClass: 'm-col-tasks', responsive: 7,
+        },
+        {
+          field: 'languages', title: '语言', width: 70, minWidth: 56,
+          headerSort: false, formatter: languagesFormatter,
+          cssClass: 'm-col-langs', responsive: 6,
+        },
+        {
+          field: 'license', title: '协议', width: 74, minWidth: 56,
+          sorter: 'string', headerSort: true, formatter: licenseFormatter,
+          cssClass: 'm-col-license', responsive: 5,
+        },
+        {
+          field: 'author', title: '作者', width: 60, minWidth: 50,
+          sorter: 'string', headerSort: true, formatter: textFormatter,
+          cssClass: 'm-col-author', responsive: 4,
+        },
+        {
+          field: 'updated', title: '更新', width: 64, minWidth: 56,
+          sorter: 'string', headerSort: true, formatter: dateFormatter,
+          cssClass: 'm-col-updated', responsive: 3,
+        },
+        {
+          field: 'params', title: '参数量', width: 56, minWidth: 50, hozAlign: 'right',
+          headerSort: false, formatter: paramsFormatter,
+          cssClass: 'm-col-params', responsive: 2,
+        },
+      );
+
+      if (full) {
+        columns.push(
+          {
+            field: 'modalities_in', title: '输入模态', width: 96, minWidth: 60,
+            headerSort: false, formatter: modalitiesInFormatter,
+            cssClass: 'm-col-modin', responsive: 9,
+          },
+          {
+            field: 'modalities_out', title: '输出模态', width: 96, minWidth: 60,
+            headerSort: false, formatter: modalitiesOutFormatter,
+            cssClass: 'm-col-modout', responsive: 9,
+          },
+          {
+            field: 'domains', title: '领域', width: 96, minWidth: 60,
+            headerSort: false, formatter: domainsFormatter,
+            cssClass: 'm-col-domains', responsive: 9,
+          },
+          {
+            field: 'role', title: '角色', width: 76, minWidth: 56,
+            sorter: 'string', headerSort: true, formatter: labelFormatter('role'),
+            cssClass: 'm-col-role', responsive: 8,
+          },
+          {
+            field: 'architecture', title: '架构', width: 90, minWidth: 60,
+            sorter: 'string', headerSort: true, formatter: labelFormatter('architecture'),
+            cssClass: 'm-col-arch', responsive: 8,
+          },
+          {
+            field: 'access', title: '开放程度', width: 82, minWidth: 60,
+            sorter: 'string', headerSort: true, formatter: accessFormatter,
+            cssClass: 'm-col-access', responsive: 8,
+          },
+          {
+            field: 'size_class', title: '规模档位', width: 76, minWidth: 56,
+            sorter: 'string', headerSort: true, formatter: labelFormatter('size_class'),
+            cssClass: 'm-col-size', responsive: 8,
+          },
+          {
+            field: 'downloads', title: 'HF 热度', width: 96, minWidth: 70, hozAlign: 'right',
+            sorter: 'number', headerSort: true, formatter: heatFormatter,
+            cssClass: 'm-col-heat', responsive: 8,
+          },
+        );
+      }
+
+      return columns;
+    }
+
+    function mountTable() {
+      if (!TabulatorFull || !modelData.length) return;
+
+      const mobile = mobileMq.matches;
+      const useResponsive = mobile;
+
+      tableEl.className = 'm-table';
+      tableEl.setAttribute('aria-busy', 'true');
+      tableEl.replaceChildren();
+
+      const options = {
+        data: modelData,
+        index: 'id',
+        layout: 'fitDataStretch',
+        columns: buildColumns(useResponsive),
+        columnDefaults: { resizable: false, headerSort: true, minWidth: 36 },
+        initialSort: state.sort && state.sort.length
+          ? state.sort
+          : [{ column: 'updated', dir: 'desc' }],
+        initialFilter: matches,
+        pagination: true,
+        paginationSize: PAGE_SIZE,
+        paginationSizeSelector: false,
+        paginationCounter: false,
+        paginationInitialPage: state.page,
+        selectableRows: false,
+        responsiveLayout: useResponsive ? 'collapse' : false,
+        responsiveLayoutCollapseStartOpen: mobile,
+        responsiveLayoutCollapseFormatter: collapseFormatter,
+        placeholder: '没有匹配的模型。试试放宽筛选条件，或点“清除全部”。',
+        langs: {
+          default: {
+            data: { loading: '正在载入…', error: '载入失败' },
+            pagination: {
+              page_size: '每页',
+              page_title: '跳转到页',
+              first: '首页',
+              first_title: '第一页',
+              last: '末页',
+              last_title: '最后一页',
+              prev: '上一页',
+              prev_title: '上一页',
+              next: '下一页',
+              next_title: '下一页',
+              all: '全部',
+              counter: { showing: '显示', of: '共', rows: '条', pages: '页' },
+            },
+          },
+        },
+        rowFormatter: (row) => {
+          const el = row.getElement();
+          const data = row.getData();
+          el.tabIndex = 0;
+          el.dataset.modelId = data.id;
+          el.setAttribute('aria-selected', data.id === state.selectedId ? 'true' : 'false');
+          el.classList.toggle('is-selected', data.id === state.selectedId);
+        },
+      };
+
+      table = new TabulatorFull(tableEl, options);
+
+      table.on('tableBuilt', () => {
+        tableEl.setAttribute('aria-busy', 'false');
+        const root = tableEl.querySelector('.tabulator');
+        if (root) {
+          root.setAttribute('aria-label', '模型列表');
+          root.setAttribute('aria-describedby', 'm-table-help');
+        }
+        enhanceHeaders();
+        enhanceToggles();
+        syncSelectionDom();
+        syncSortSelect();
+        updateCount();
+        if (state.page > 1) {
+          const max = Math.max(1, table.getPageMax() || 1);
+          const target = Math.min(state.page, max);
+          if (target !== table.getPage()) {
+            pageUrlMode = 'replace';
+            state.page = target;
+            table.setPage(target);
+          }
+        }
+      });
+
+      table.on('dataFiltered', (filters, rows) => {
+        filteredCount = rows.length;
+        updateCount();
+        flushPendingPage();
+      });
+
+      table.on('dataProcessed', updateCount);
+
+      table.on('pageLoaded', (page) => {
+        state.page = page;
+        updateCount();
+        syncSortSelect();
+        const mode = pageUrlMode;
+        pageUrlMode = 'push';
+        syncUrl(mode);
+      });
+
+      table.on('dataSorted', (sorters) => {
+        state.sort = sorters.map((sorter) => ({ column: sorter.field, dir: sorter.dir }));
+        syncSortSelect();
+      });
+
+      table.on('renderComplete', () => {
+        enhanceToggles();
+        syncSelectionDom();
+      });
+
+      table.on('rowClick', (event, row) => {
+        if (event.target.closest('a, button, input, select, textarea, .tabulator-responsive-collapse-toggle')) return;
+        activate(row.getData());
+      });
+    }
+
+    function activate(data) {
+      if (!data) return;
+      state.selectedId = data.id;
+      showPanel(data);
+      syncSelectionDom();
+    }
+
+    function showPanel(data) {
+      const taskLabels = (data.tasks || []).map((value) => labelOf('tasks', value));
+      const langLabels = languageLabels(data.languages);
+      const modIn = (data.modalities_in || []).map((value) => labelOf('modalities_in', value));
+      const modOut = (data.modalities_out || []).map((value) => labelOf('modalities_out', value));
+      const domainLabels = (data.domains || []).map((value) => labelOf('domains', value));
+      const tags = Array.isArray(data.tags) ? data.tags : [];
+      const downloads = Number(data.downloads) || 0;
+      const likes = Number(data.likes) || 0;
+
+      const rows = [
+        ['任务', taskLabels.length ? taskLabels.map((label) => '<span class="m-chip">' + esc(label) + '</span>').join('') : ''],
+        ['语言', langLabels.length ? esc(langLabels.join('、')) : ''],
+        ['输入模态', modIn.length ? modIn.map((label) => '<span class="m-chip">' + esc(label) + '</span>').join('') : ''],
+        ['输出模态', modOut.length ? modOut.map((label) => '<span class="m-chip">' + esc(label) + '</span>').join('') : ''],
+        ['领域', domainLabels.length ? domainLabels.map((label) => '<span class="m-chip">' + esc(label) + '</span>').join('') : ''],
+        ['角色', data.role ? esc(labelOf('role', data.role)) : ''],
+        ['架构', data.architecture ? esc(labelOf('architecture', data.architecture)) : ''],
+        ['开放程度', data.access ? '<span class="m-access ' + (data.access === 'open-weights' || data.access === 'open-source' ? 'is-open' : data.access === 'gated' ? 'is-gated' : 'is-api') + '">' + esc(labelOf('access', data.access)) + '</span>' : ''],
+        ['规模档位', data.size_class ? esc(labelOf('size_class', data.size_class)) : ''],
+        ['协议', data.license ? '<span class="m-license ' + licenseClass(data.license) + '">' + esc(data.license) + '</span>' : ''],
+        ['作者', data.author ? esc(data.author) : ''],
+        ['更新时间', data.updated ? '<span class="m-date">' + esc(data.updated) + '</span>' : ''],
+        ['基模型', data.base ? esc(data.base) : ''],
+        ['发表情况', data.published ? esc(data.published) : ''],
+        ['参数量', data.params ? '<span class="m-params">' + esc(data.params) + '</span>' : ''],
+        ['上下文长度', data.context_length ? esc(String(data.context_length)) : ''],
+        ['HF 热度', (downloads || likes) ? '下载 ' + downloads.toLocaleString('zh-CN') + ' · 点赞 ' + likes.toLocaleString('zh-CN') : ''],
+        ['备注', data.note ? esc(data.note) : ''],
+      ];
+      const definitions = rows
+        .filter(([, value]) => value)
+        .map(([label, value]) => '<dt>' + label + '</dt><dd' + (label === '备注' ? ' class="m-note"' : '') + '>' + value + '</dd>')
+        .join('');
+
+      const links = [];
+      const hfUrl = data.hf_id ? safeUrl('https://huggingface.co/' + data.hf_id) : '';
+      if (hfUrl) links.push('<li><a href="' + escAttr(hfUrl) + '" target="_blank" rel="noopener">HF 模型页 ↗ <span class="m-host">' + esc(hostOf(hfUrl)) + '</span></a></li>');
+      const linkUrl = safeUrl(data.link);
+      if (linkUrl) links.push('<li><a href="' + escAttr(linkUrl) + '" target="_blank" rel="noopener">权重 / 主页 ↗ <span class="m-host">' + esc(hostOf(linkUrl)) + '</span></a></li>');
+      const paperUrl = safeUrl(data.paper);
+      if (paperUrl) links.push('<li><a href="' + escAttr(paperUrl) + '" target="_blank" rel="noopener">论文 ↗</a></li>');
+      const detailUrl = data.url || ('/models/' + encodeURIComponent(data.id) + '/');
+      links.push('<li><a href="' + escAttr(detailUrl) + '">打开详情页 →</a></li>');
+
+      const typeHtml = '<span class="m-cat-chip" data-cat="' + escAttr(data.category) + '"><span class="m-cat-dot" aria-hidden="true"></span>' + esc(labelOf('category', data.category)) + '</span>';
+      const accessHtml = data.access ? '<span class="m-access ' + (data.access === 'open-weights' || data.access === 'open-source' ? 'is-open' : data.access === 'gated' ? 'is-gated' : 'is-api') + '">' + esc(labelOf('access', data.access)) + '</span>' : '';
+      const tagsHtml = tags.length
+        ? '<p class="m-panel-tags">' + tags.map((tag) => '<span class="m-tag">' + esc(tag) + '</span>').join('') + '</p>'
+        : '';
+
+      panelTitle.textContent = data.name;
+      panelBody.innerHTML = ''
+        + '<p class="m-panel-type">' + typeHtml + accessHtml + '</p>'
+        + (definitions ? '<dl class="m-kv">' + definitions + '</dl>' : '<dl class="m-kv"><dt>档案</dt><dd class="m-dim">暂无更多字段</dd></dl>')
+        + tagsHtml
+        + '<ul class="m-panel-links">' + links.join('') + '</ul>';
+      closeBtn.hidden = false;
+
+      if (narrowMq.matches) {
+        const rect = panelEl.getBoundingClientRect();
+        if (rect.top > window.innerHeight - 80) {
+          const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+          window.requestAnimationFrame(() => {
+            panelEl.scrollIntoView({ block: 'nearest', behavior });
+          });
+        }
+      }
+    }
+
+    function closePanel(options = {}) {
+      const id = state.selectedId;
+      if (!id) return;
+      state.selectedId = '';
+      syncSelectionDom();
+      panelTitle.textContent = '档案';
+      panelBody.innerHTML = '<p class="m-panel-hint">点选表格中的一行，在这里查看该模型的任务、语言、模态、角色与开放程度。</p>';
+      closeBtn.hidden = true;
+      if (options.returnFocus !== false) {
+        const rowEl = tableEl.querySelector('.tabulator-row[data-model-id="' + CSS.escape(id) + '"]');
+        if (rowEl) rowEl.focus();
+        else tableEl.querySelector('.tabulator-tableholder')?.focus();
+      }
+    }
+
+    function rebuild() {
+      if (!table) return;
+      try { table.destroy(); } catch (err) { console.warn('[models] rebuild failed', err); }
+      table = null;
+      mountTable();
+    }
+
+    async function fetchModels() {
+      const response = await fetch('/models.json', { headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const data = await response.json();
+      if (!Array.isArray(data)) throw new Error('Unexpected models payload');
+      return data;
+    }
+
+    async function boot() {
+      updateControls();
+      updateCount();
+      try {
+        const results = await Promise.all([import('tabulator-tables'), fetchModels()]);
+        TabulatorFull = results[0].TabulatorFull;
+        modelData = results[1];
+        byId = new Map(modelData.map((model) => [model.id, model]));
+        filteredCount = modelData.length;
+        dataReady = true;
+        updateCount();
+        mountTable();
+      } catch (err) {
+        console.error('[models] unable to load data', err);
+        dataReady = true;
+        tableEl.removeAttribute('aria-busy');
+        tableEl.innerHTML = '<p class="m-error">模型数据未能载入。<button type="button" class="m-retry" id="m-retry">重试</button></p>';
+        const retry = document.getElementById('m-retry');
+        if (retry) retry.addEventListener('click', boot);
+        countEl.textContent = '模型数据载入失败';
+      }
+    }
+
+    qEl.addEventListener('input', () => {
+      window.clearTimeout(qEl._timer);
+      qEl._timer = window.setTimeout(() => {
+        state.q = qEl.value.trim();
+        state.page = 1;
+        updateClearState();
+        refreshFilters('replace');
+      }, 220);
     });
+
+    roleEl.addEventListener('change', () => {
+      state.role = roleEl.value;
+      state.page = 1;
+      refreshFilters('push');
+    });
+
+    accessEl.addEventListener('change', () => {
+      state.access = accessEl.value;
+      state.page = 1;
+      refreshFilters('push');
+    });
+
+    catButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const value = button.dataset.category || '';
+        state.category = state.category === value ? '' : value;
+        state.page = 1;
+        updateCategoryButtons();
+        updateClearState();
+        refreshFilters('push');
+      });
+    });
+
+    document.querySelectorAll('input[data-multi]').forEach((check) => {
+      check.addEventListener('change', () => {
+        const field = check.dataset.multi;
+        const checks = field === 'tasks' ? TASK_CHECKS : LANG_CHECKS;
+        state[field] = checks.filter((item) => item.checked).map((item) => item.value);
+        state.page = 1;
+        updateMultiUI();
+        updateClearState();
+        refreshFilters('push');
+      });
+    });
+
+    document.querySelectorAll('[data-clear-multi]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const field = button.dataset.clearMulti;
+        state[field] = [];
+        state.page = 1;
+        (field === 'tasks' ? TASK_CHECKS : LANG_CHECKS).forEach((check) => { check.checked = false; });
+        updateMultiUI();
+        updateClearState();
+        refreshFilters('push');
+      });
+    });
+
+    document.querySelectorAll('details.m-multi').forEach((details) => {
+      details.addEventListener('toggle', () => {
+        if (!details.open) return;
+        document.querySelectorAll('details.m-multi[open]').forEach((other) => {
+          if (other !== details) other.open = false;
+        });
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      document.querySelectorAll('details.m-multi[open]').forEach((details) => {
+        if (!details.contains(event.target)) details.open = false;
+      });
+    });
+
+    sortEl.addEventListener('change', () => {
+      if (!table) return;
+      const parts = sortEl.value.split(':');
+      table.setSort([{ column: parts[0], dir: parts[1] }]);
+    });
+
+    segButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const cols = button.dataset.cols;
+        if (cols === state.cols) return;
+        state.cols = cols;
+        updateControls();
+        syncUrl('push');
+        rebuild();
+      });
+    });
+
+    clearEl.addEventListener('click', () => {
+      state.q = '';
+      state.category = '';
+      state.tasks = [];
+      state.languages = [];
+      state.role = '';
+      state.access = '';
+      state.page = 1;
+      updateControls();
+      refreshFilters('push');
+      qEl.focus();
+    });
+
+    closeBtn.addEventListener('click', () => closePanel());
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      const openMulti = document.querySelector('details.m-multi[open]');
+      if (openMulti) {
+        openMulti.open = false;
+        return;
+      }
+      if (state.selectedId) {
+        event.preventDefault();
+        closePanel();
+      }
+    });
+
+    tableEl.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') return;
+      if (event.target.closest('a, button, input, select, textarea, .tabulator-responsive-collapse-toggle')) return;
+      const rowEl = event.target.closest('.tabulator-row');
+      if (!rowEl) return;
+      const data = byId.get(rowEl.dataset.modelId);
+      if (!data) return;
+      event.preventDefault();
+      if (rowEl.getAttribute('aria-selected') === 'true' && state.selectedId === data.id) {
+        closePanel();
+      } else {
+        activate(data);
+      }
+    });
+
+    window.addEventListener('popstate', () => {
+      const next = readState();
+      const colsChanged = next.cols !== state.cols;
+      const keepId = state.selectedId;
+      const keepSort = state.sort;
+      state = next;
+      state.selectedId = keepId;
+      state.sort = keepSort;
+      updateControls();
+      if (!table) return;
+      if (colsChanged) {
+        rebuild();
+        return;
+      }
+      pendingPage = state.page;
+      pendingUrlMode = 'replace';
+      table.setFilter(matches);
+      if (pendingPage !== null) {
+        window.setTimeout(() => { if (pendingPage !== null) flushPendingPage(); }, 0);
+      }
+    });
+
+    if (mobileMq.addEventListener) {
+      mobileMq.addEventListener('change', () => { if (table) rebuild(); });
+    }
+
+    boot();
   </script>
 </BaseLayout>

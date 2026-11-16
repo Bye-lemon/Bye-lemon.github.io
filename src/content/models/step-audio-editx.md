@@ -1,16 +1,31 @@
 ---
 name: "Step-Audio-EditX"
+category: "generation"
+tasks: []
+modalities_in: ["audio"]
+modalities_out: ["audio"]
+languages: []
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "4B~10B"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "阶跃星辰"
 updated: "2025-11-05"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2511.03601"
-type: "AIGC"
-tags: ["Voice"]
 link: "https://huggingface.co/stepfun-ai/Step-Audio-EditX"
-params: "4B~10B"
-arch: ""
+hf_id: "stepfun-ai/Step-Audio-EditX"
+downloads: 2095
+likes: 147
+hf_last_modified: "2026-02-14T09:34:10.000Z"
 note: ""
-starred: false
+tags: []
 ---

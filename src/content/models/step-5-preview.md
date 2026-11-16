@@ -1,16 +1,31 @@
 ---
 name: "Step-5-Preview"
+category: "language"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: "moe"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: "100B~1T"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "阶跃星辰"
 updated: "2026-09-20"
-base: ""
 published: ""
 paper: ""
-type: "LLM"
-tags: ["Vision"]
 link: "https://huggingface.co/stepfun-ai/Step-5-Preview"
-params: "100B~1T"
-arch: "MoE"
+hf_id: "stepfun-ai/Step-5-Preview"
+downloads: 8976
+likes: 143
+hf_last_modified: "2026-10-15T01:28:10.000Z"
 note: ""
-starred: false
+tags: []
 ---

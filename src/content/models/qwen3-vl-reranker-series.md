@@ -1,16 +1,31 @@
 ---
 name: "Qwen3-VL-Reranker Series"
+category: "retrieval"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: "10-100B"
+params: "2B~4B, 4B~10B"
+context_length: ""
+family: ""
+base: "Qwen3-VL Series"
 license: "Apache-2.0"
 author: "阿里巴巴"
 updated: "2026-01-07"
-base: "Qwen3-VL Series"
 published: ""
 paper: ""
-type: "Similarty"
-tags: ["Vision"]
 link: "https://huggingface.co/collections/Qwen/qwen3-vl-reranker"
-params: "2B~4B, 4B~10B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

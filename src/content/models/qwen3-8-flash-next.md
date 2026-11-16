@@ -1,16 +1,31 @@
 ---
 name: "Qwen3.8-Flash-Next"
+category: "language"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: "100B~1T"
+context_length: ""
+family: ""
+base: ""
 license: "Model-Specific"
 author: "阿里巴巴"
 updated: "2026-08-26"
-base: ""
 published: ""
 paper: ""
-type: "LLM"
-tags: ["Vision"]
 link: "https://huggingface.co/Qwen/Qwen3.8-Flash-Next"
-params: "100B~1T"
-arch: ""
+hf_id: "Qwen/Qwen3.8-Flash-Next"
+downloads: 2975526
+likes: 7166
+hf_last_modified: "2026-11-07T04:42:40.000Z"
 note: ""
-starred: false
+tags: []
 ---

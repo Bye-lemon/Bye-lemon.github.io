@@ -1,16 +1,31 @@
 ---
 name: "WeMM-Embedding Series"
+category: "retrieval"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: "10-100B"
+params: "2B~4B, 4B~10B"
+context_length: ""
+family: ""
+base: "Qwen3.5"
 license: "Apache-2.0"
 author: "腾讯"
 updated: "2026-08-25"
-base: "Qwen3.5"
 published: ""
 paper: "https://arxiv.org/abs/2608.24053"
-type: "Similarty"
-tags: ["Vision"]
 link: "https://huggingface.co/collections/tencent/wemm-embedding"
-params: "2B~4B, 4B~10B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

@@ -1,16 +1,31 @@
 ---
 name: "Qwen-3-VL-Ricoh-8B"
+category: "language"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: ["ja"]
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "gated"
+status: ""
+size_class: "10-100B"
+params: "4B~10B"
+context_length: ""
+family: ""
+base: "Qwen3-VL-8B"
 license: "Apache-2.0"
 author: "Ricoh.ai"
 updated: "2026-03-25"
-base: "Qwen3-VL-8B"
 published: ""
 paper: ""
-type: "LLM"
-tags: ["Japanese", "Vision"]
 link: "https://huggingface.co/ricoh-ai/Qwen-3-VL-Ricoh-8B-20260227"
-params: "4B~10B"
-arch: ""
+hf_id: "ricoh-ai/Qwen-3-VL-Ricoh-8B-20260227"
+downloads: 105
+likes: 21
+hf_last_modified: "2026-03-30T03:51:30.000Z"
 note: ""
-starred: false
+tags: []
 ---

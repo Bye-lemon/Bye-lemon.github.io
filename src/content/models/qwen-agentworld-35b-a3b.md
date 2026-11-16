@@ -1,16 +1,31 @@
 ---
 name: "Qwen-AgentWorld-35B-A3B"
+category: "world-model"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: []
+domains: []
+role: ""
+architecture: "moe"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "10B~40B"
+context_length: ""
+family: ""
+base: "Qwen3.5-35B-A3B-Base"
 license: "Apache-2.0"
 author: "阿里巴巴"
 updated: "2026-06-23"
-base: "Qwen3.5-35B-A3B-Base"
 published: ""
 paper: "https://arxiv.org/abs/2606.24597"
-type: "World Model"
-tags: []
 link: "https://huggingface.co/Qwen/Qwen-AgentWorld-35B-A3B"
-params: "10B~40B"
-arch: ""
+hf_id: "Qwen/Qwen-AgentWorld-35B-A3B"
+downloads: 9143
+likes: 749
+hf_last_modified: "2026-06-25T07:24:16.000Z"
 note: ""
-starred: false
+tags: []
 ---

@@ -1,16 +1,31 @@
 ---
 name: "Stable-DiffCoder-8B-Instruct"
+category: "language"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: []
+domains: ["code"]
+role: ""
+architecture: "dense"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "4B~10B"
+context_length: ""
+family: ""
+base: "ByteDance-Seed/Stable-DiffCoder-8B-Base"
 license: "MIT"
 author: "字节跳动"
 updated: "2026-01-15"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2601.15892"
-type: "LLM"
-tags: ["Code"]
 link: "https://huggingface.co/ByteDance-Seed/Stable-DiffCoder-8B-Instruct"
-params: "4B~10B"
-arch: "Dense"
+hf_id: "ByteDance-Seed/Stable-DiffCoder-8B-Instruct"
+downloads: 769
+likes: 144
+hf_last_modified: "2026-03-25T12:48:29.000Z"
 note: ""
-starred: false
+tags: []
 ---

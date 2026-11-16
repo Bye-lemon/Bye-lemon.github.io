@@ -1,16 +1,31 @@
 ---
 name: "FLUX.2 Series"
-license: " FluxDev Non-Commercial License"
+category: "generation"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: "10-100B"
+params: "4B~10B, 10B~40B"
+context_length: ""
+family: ""
+base: ""
+license: "FluxDev Non-Commercial License"
 author: "Black Forest Labs"
 updated: "2026-01-15"
-base: ""
 published: ""
 paper: ""
-type: "AIGC"
-tags: []
 link: "https://huggingface.co/collections/black-forest-labs/flux2"
-params: "4B~10B, 10B~40B"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

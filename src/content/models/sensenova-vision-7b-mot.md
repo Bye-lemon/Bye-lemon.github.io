@@ -1,16 +1,31 @@
 ---
 name: "SenseNova-Vision-7B-MoT"
+category: "vision"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: ["en"]
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "4B~10B"
+context_length: ""
+family: ""
+base: ""
 license: "CC-BY-NC-4.0"
 author: "商汤"
 updated: "2026-06-29"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2607.06560"
-type: "CV"
-tags: []
 link: "https://huggingface.co/sensenova/SenseNova-Vision-7B-MoT"
-params: "4B~10B"
-arch: ""
+hf_id: "sensenova/SenseNova-Vision-7B-MoT"
+downloads: 599
+likes: 117
+hf_last_modified: "2026-07-10T09:16:41.000Z"
 note: ""
-starred: false
+tags: []
 ---

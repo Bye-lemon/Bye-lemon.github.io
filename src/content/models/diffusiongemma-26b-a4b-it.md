@@ -1,16 +1,31 @@
 ---
 name: "DiffusionGemma-26B-A4B-IT"
-license: "Apache-2.0"
-author: "Google Inc"
-updated: "2026-06-10"
+category: "language"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: "diffusion"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "10B~40B"
+context_length: ""
+family: ""
 base: ""
+license: "Apache-2.0"
+author: "Google"
+updated: "2026-06-10"
 published: ""
 paper: ""
-type: "LLM"
-tags: ["Vision"]
 link: "https://huggingface.co/google/diffusiongemma-26B-A4B-it"
-params: "10B~40B"
-arch: ""
+hf_id: "google/diffusiongemma-26B-A4B-it"
+downloads: 648032
+likes: 1329
+hf_last_modified: "2026-11-16T10:03:36.000Z"
 note: ""
-starred: false
+tags: []
 ---

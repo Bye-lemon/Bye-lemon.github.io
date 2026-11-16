@@ -1,16 +1,31 @@
 ---
 name: "Nex-N2.5 Series"
+category: "language"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: ">1T"
+params: "10B~40B, 100B~1T, >1T"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "上海创智"
 updated: "2026-09-10"
-base: ""
 published: ""
 paper: ""
-type: "LLM"
-tags: ["Vision"]
 link: "https://huggingface.co/collections/nex-agi/nex-n25"
-params: "10B~40B, 100B~1T, >1T"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

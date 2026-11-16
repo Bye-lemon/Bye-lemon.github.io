@@ -1,16 +1,31 @@
 ---
 name: "GPT-X3-150M"
+category: "language"
+tasks: ["text-generation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: ["en"]
+domains: []
+role: "base"
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: "<200M"
+context_length: ""
+family: ""
+base: ""
 license: "Apache-2.0"
 author: "AxiomicLabs"
 updated: "2026-10-09"
-base: ""
 published: ""
 paper: ""
-type: "BasicLM"
-tags: []
 link: "https://huggingface.co/AxiomicLabs/GPT-X3-150M"
-params: "<200M"
-arch: ""
+hf_id: "AxiomicLabs/GPT-X3-150M"
+downloads: 2514
+likes: 105
+hf_last_modified: "2026-10-25T03:19:45.000Z"
 note: ""
-starred: false
+tags: []
 ---

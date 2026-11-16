@@ -1,16 +1,31 @@
 ---
 name: "MiniMax-M3"
+category: "language"
+tasks: []
+modalities_in: ["image"]
+modalities_out: ["image"]
+languages: []
+domains: []
+role: ""
+architecture: "dense"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: "100B~1T"
+context_length: ""
+family: ""
+base: ""
 license: "Model-Specific"
 author: "MiniMax"
 updated: "2026-06-12"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2606.13392"
-type: "LLM"
-tags: ["Vision"]
 link: "https://huggingface.co/MiniMaxAI/MiniMax-M3"
-params: "100B~1T"
-arch: "Dense"
+hf_id: "MiniMaxAI/MiniMax-M3"
+downloads: 126961
+likes: 1604
+hf_last_modified: "2026-10-26T07:08:14.000Z"
 note: ""
-starred: false
+tags: []
 ---

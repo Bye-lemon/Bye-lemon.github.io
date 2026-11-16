@@ -1,16 +1,31 @@
 ---
 name: "Japanese-SPLADE-V2"
+category: "retrieval"
+tasks: []
+modalities_in: []
+modalities_out: []
+languages: ["ja"]
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: ">1T"
+params: "<200M"
+context_length: ""
+family: ""
+base: "Ruri-base"
 license: "MIT"
 author: "日本経済新聞社"
 updated: "2024-12-16"
-base: "Ruri-base"
 published: ""
 paper: ""
-type: "Similarty"
-tags: ["Japanese"]
 link: "https://huggingface.co/hotchpotch/japanese-splade-v2"
-params: "<200M"
-arch: ""
+hf_id: "hotchpotch/japanese-splade-v2"
+downloads: 4485
+likes: 17
+hf_last_modified: "2024-12-23T20:51:48.000Z"
 note: ""
-starred: false
+tags: []
 ---

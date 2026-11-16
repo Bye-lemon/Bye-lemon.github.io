@@ -1,16 +1,31 @@
 ---
 name: "GPT-OSS-SafeGuard Series"
+category: "language"
+tasks: ["moderation"]
+modalities_in: []
+modalities_out: []
+languages: []
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: ""
+status: ""
+size_class: ">1T"
+params: "10B~40B, 100B~1T"
+context_length: ""
+family: ""
+base: "GPT-OSS Series"
 license: "Apache-2.0"
 author: "OpenAI"
 updated: "2025-10-29"
-base: "GPT-OSS Series"
 published: ""
 paper: ""
-type: "LLM"
-tags: ["Guard"]
 link: "https://huggingface.co/collections/openai/gpt-oss-safeguard"
-params: "10B~40B, 100B~1T"
-arch: ""
+hf_id: ""
+downloads: ""
+likes: ""
+hf_last_modified: ""
 note: ""
-starred: false
+tags: []
 ---

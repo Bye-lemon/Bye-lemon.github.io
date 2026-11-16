@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "models:normalize": "node scripts/normalize-models.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.12",
@@ -18,7 +19,8 @@
     "js-yaml": "^4.1.0",
     "katex": "^0.16.22",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "tabulator-tables": "^6.7.1"
   },
   "allowScripts": {
     "esbuild@0.27.7": true,

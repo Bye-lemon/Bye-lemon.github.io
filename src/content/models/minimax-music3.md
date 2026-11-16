@@ -1,16 +1,31 @@
 ---
 name: "MiniMax-Music3"
+category: "generation"
+tasks: []
+modalities_in: ["audio"]
+modalities_out: ["audio"]
+languages: []
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "1-10B"
+params: "2B~4B"
+context_length: ""
+family: ""
+base: ""
 license: "Model-Specific"
 author: "MiniMax"
 updated: "2026-08-13"
-base: ""
 published: ""
 paper: ""
-type: "AIGC"
-tags: ["Voice"]
 link: "https://huggingface.co/MiniMaxAI/MiniMax-Music3"
-params: "2B~4B"
-arch: ""
+hf_id: "MiniMaxAI/MiniMax-Music3"
+downloads: 5369
+likes: 1532
+hf_last_modified: "2026-10-26T07:08:16.000Z"
 note: ""
-starred: false
+tags: []
 ---

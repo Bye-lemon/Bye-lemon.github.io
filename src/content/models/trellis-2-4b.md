@@ -1,16 +1,31 @@
 ---
 name: "TRELLIS.2-4B"
+category: "generation"
+tasks: []
+modalities_in: ["3d"]
+modalities_out: ["3d"]
+languages: ["en"]
+domains: []
+role: ""
+architecture: ""
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "4B~10B"
+context_length: ""
+family: ""
+base: ""
 license: "MIT"
 author: "Microsoft"
 updated: "2025-12-01"
-base: ""
 published: ""
 paper: "https://arxiv.org/abs/2512.14692"
-type: "AIGC"
-tags: ["3D"]
 link: "https://huggingface.co/microsoft/TRELLIS.2-4B"
-params: "4B~10B"
-arch: ""
+hf_id: "microsoft/TRELLIS.2-4B"
+downloads: 2427171
+likes: 1506
+hf_last_modified: "2025-12-27T13:21:56.000Z"
 note: ""
-starred: false
+tags: []
 ---

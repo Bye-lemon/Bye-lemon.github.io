@@ -1,17 +1,32 @@
 ---
 name: "Confucius4-T3PO"
+category: "language"
+tasks: ["translation"]
+modalities_in: ["text"]
+modalities_out: ["text"]
+languages: ["zh", "en"]
+domains: []
+role: ""
+architecture: "transformer"
+training_stage: []
+access: "open-weights"
+status: ""
+size_class: "10-100B"
+params: "10B~40B"
+context_length: ""
+family: ""
+base: "Qwen/Qwen2.5-14B"
 license: "Apache-2.0"
 author: "网易"
 updated: "2026-09-07"
-base: ""
 published: ""
 paper: ""
-type: "LLM"
-tags: ["NMT"]
 link: "https://huggingface.co/netease-youdao/Confucius4-T3PO"
-params: "10B~40B"
-arch: ""
+hf_id: "netease-youdao/Confucius4-T3PO"
+downloads: 574
+likes: 80
+hf_last_modified: "2026-10-21T09:17:40.000Z"
 note: "SiMT 实时同步翻译"
-starred: false
+tags: []
 ---
 SiMT 实时同步翻译

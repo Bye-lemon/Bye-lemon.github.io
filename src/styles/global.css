@@ -58,6 +58,7 @@ footer.site .footer-inner { display: block; font-size: .7rem; line-height: 1.9; 
 footer.site .footer-inner p { margin: 0; }
 footer.site .footer-inner a { color: var(--muted); text-decoration: underline; text-underline-offset: .15em; }
 footer.site .footer-inner a:hover { color: var(--ink); }
+footer.site .footer-keep { margin-top: .5em; font-style: italic; letter-spacing: .04em; color: var(--muted); }
 footer.site a { color: var(--muted); }
 
 h1, h2, h3 { font-weight: 400; line-height: 1.3; }

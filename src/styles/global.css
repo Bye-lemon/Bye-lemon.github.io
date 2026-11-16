@@ -54,6 +54,10 @@ nav.site a:hover, nav.site a[aria-current="page"] { color: var(--ink); text-deco
 
 footer.site { border-top: 1px solid var(--line); font-family: var(--sans); font-size: .72rem; color: var(--muted); }
 footer.site .inner { padding-top: 20px; padding-bottom: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer.site .footer-inner { display: block; font-size: .7rem; line-height: 1.9; }
+footer.site .footer-inner p { margin: 0; }
+footer.site .footer-inner a { color: var(--muted); text-decoration: underline; text-underline-offset: .15em; }
+footer.site .footer-inner a:hover { color: var(--ink); }
 footer.site a { color: var(--muted); }
 
 h1, h2, h3 { font-weight: 400; line-height: 1.3; }
@@ -159,12 +163,14 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
 
 
 /* ---------- 全局搜索模态框 ---------- */
-.nav-search {
+.nav-search, .nav-icon {
   display: inline-flex; align-items: center; justify-content: center;
   border: 0; background: transparent; padding: 0;
   color: var(--muted); cursor: pointer; line-height: 1;
+  text-decoration: none;
 }
-.nav-search svg { display: block; }
+.nav-search svg, .nav-icon svg { display: block; }
+.nav-search:hover, .nav-icon:hover { color: var(--ink); }
 .nav-search:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .3em; }
 .search-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-start; justify-content: center; padding: 9vh 1rem 1rem; }
 .search-modal[hidden] { display: none; }

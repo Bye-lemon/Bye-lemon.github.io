@@ -11,29 +11,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <script>
     import { Index } from 'flexsearch';
 
-    /** CJK 二元分词 + 拉丁单词；FlexSearch 的内置 CJK 预设是按字切分，中文会退化成单字匹配。 */
-    function encode(str) {
-      const out = [];
-      const re = /[\u4e00-\u9fff]+|[a-z0-9][a-z0-9+.#-]*/gi;
-      for (const m of String(str).matchAll(re)) {
-        const t = m[0];
-        if (/^[\u4e00-\u9fff]/.test(t)) {
-          if (t.length === 1) out.push(t);
-          else for (let i = 0; i < t.length - 1; i++) out.push(t.slice(i, i + 2));
-        } else out.push(t.toLowerCase());
-      }
-      return out;
-    }
-
     let docs = null;
+    let dict = null;
     let index = null;
+    let loading = null;
 
     function escapeHtml(s) {
       return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
-    function terms(q) {
-      return q.split(/\s+/).filter(Boolean).sort((a, b) => b.length - a.length);
-    }
+    function terms(q) { return q.split(/\s+/).filter(Boolean).sort((a, b) => b.length - a.length); }
     function highlight(text, q) {
       const safe = escapeHtml(text);
       const list = [...new Set([q, ...terms(q)])].filter((t) => t.length > 0);
@@ -44,35 +30,76 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     function snippet(text, q) {
       const lower = text.toLowerCase();
       let i = lower.indexOf(q.toLowerCase());
-      if (i === -1) {
-        for (const t of terms(q)) { i = lower.indexOf(t.toLowerCase()); if (i > -1) break; }
-      }
+      if (i === -1) { for (const t of terms(q)) { i = lower.indexOf(t.toLowerCase()); if (i > -1) break; } }
       if (i === -1) return text.slice(0, 110);
       const start = Math.max(0, i - 40);
       return (start > 0 ? '…' : '') + text.slice(start, start + 120) + '…';
     }
+
+    /** 查询分词：优先匹配构建时词典里的词（最长 3 字），否则退化为单字。 */
+    const CJK = /[\u4e00-\u9fff]/;
+    function segment(q) {
+      const out = [];
+      const re = /[\u4e00-\u9fff]+|[a-z0-9][a-z0-9+.#-]*/gi;
+      for (const m of q.matchAll(re)) {
+        const s = m[0];
+        if (!CJK.test(s)) { out.push(s.toLowerCase()); continue; }
+        let i = 0;
+        while (i < s.length) {
+          let hit = null;
+          for (let n = Math.min(4, s.length - i); n >= 2; n--) {
+            const cand = s.slice(i, i + n);
+            if (dict.has(cand)) { hit = cand; break; }
+          }
+          if (hit) { out.push(hit); i += hit.length; } else { out.push(s[i]); i += 1; }
+        }
+      }
+      return [...new Set(out)];
+    }
+
     async function ensureIndex() {
       if (index) return;
-      docs = await (await fetch('/search.json')).json();
-      index = new Index({ encode });
-      docs.forEach((d, i) => index.add(i, [d.title, d.description || '', d.text || ''].join(' ')));
+      if (loading) return loading;
+      loading = (async () => {
+        const data = await (await fetch('/search.json')).json();
+        docs = data.docs;
+        dict = new Set(data.dict);
+        index = new Index({ encode: (s) => String(s).toLowerCase().split(/\s+/).filter(Boolean) });
+        docs.forEach((d, i) => index.add(i, String(d.tokens || '')));
+      })();
+      return loading;
     }
 
     const input = document.getElementById('q');
     const box = document.getElementById('results');
     const stat = document.getElementById('stat');
-    const empty = '输入关键词开始搜索。支持中文、英文与混合查询。';
+    const idle = '输入关键词开始搜索。支持中文、英文与混合查询。';
     let timer;
 
     input.addEventListener('input', () => {
       clearTimeout(timer);
       timer = setTimeout(async () => {
         const q = input.value.trim();
-        if (!q) { box.innerHTML = ''; stat.textContent = empty; return; }
+        if (!q) { box.innerHTML = ''; stat.textContent = idle; return; }
+        if (!index) stat.textContent = '正在加载搜索索引…';
         try { await ensureIndex(); }
         catch (e) { stat.textContent = '搜索索引加载失败。'; return; }
-        let ids = index.search(q, { limit: 20, bool: 'and' });
-        if (!ids.length) ids = index.search(q, { limit: 20 });
+        const tokens = segment(q);
+        const score = new Map();
+        const hits = new Map();
+        for (const t of tokens) {
+          const list = index.search(t, { limit: 20 });
+          list.forEach((id, rank) => {
+            score.set(id, (score.get(id) || 0) + (20 - rank));
+            hits.set(id, (hits.get(id) || 0) + 1);
+          });
+        }
+        const maxHits = Math.max(0, ...hits.values());
+        const ids = [...score.entries()]
+          .filter(([id]) => maxHits < 2 || hits.get(id) === maxHits)
+          .sort((a, b) => (hits.get(b[0]) - hits.get(a[0])) || (b[1] - a[1]))
+          .map(([id]) => id)
+          .slice(0, 20);
         stat.textContent = '找到 ' + ids.length + ' 条结果';
         box.innerHTML = ids.length
           ? ids.map((id) => {

@@ -1,10 +1,16 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { slugOf, dateOf } from '../lib/posts';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+
+/** 领域词典：jieba 默认词典没有这些词。 */
+const EXTRA_WORDS = ['重识别', '行人重识别', '车辆重识别', '小目标', '目标检测', '自监督', '对抗样本', '行人搜索', '目标跟踪', '语义分割', '模型库'];
 
 function stripMarkdown(md: string): string {
   return md
-    .replace(/```[sS]*?```/g, ' ')
+    .replace(/```[\s\S]*?```/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/<[^>]+>/g, ' ')
@@ -16,7 +22,17 @@ function stripMarkdown(md: string): string {
     .trim();
 }
 
+function loadJieba() {
+  const jieba = require('jieba-wasm') as any;
+  for (const w of EXTRA_WORDS) jieba.add_word(w, 100000, 'n');
+  return jieba;
+}
+
+const clean = (arr: string[]) => arr.map((t) => t.trim()).filter((t) => t && !/^[\s\p{P}]+$/u.test(t));
+const cjk = /[\u4e00-\u9fff]/;
+
 export const GET: APIRoute = async () => {
+  const jieba = loadJieba();
   const posts = await getCollection('posts');
   const models = await getCollection('models');
   const docs = [
@@ -45,5 +61,16 @@ export const GET: APIRoute = async () => {
       };
     }),
   ];
-  return new Response(JSON.stringify(docs), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
+
+  const dict = new Set<string>(EXTRA_WORDS);
+  const payload = docs.map((doc) => {
+    const body = [doc.title, doc.description, doc.text].join(' ');
+    const tokens = [...new Set([...clean(jieba.cut(body, true)), ...clean(jieba.cut_for_search(body, true))])];
+    for (const t of tokens) if (t.length >= 2 && cjk.test(t)) dict.add(t);
+    return { ...doc, tokens: tokens.join(' ') };
+  });
+
+  return new Response(JSON.stringify({ docs: payload, dict: [...dict].sort() }), {
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+  });
 };

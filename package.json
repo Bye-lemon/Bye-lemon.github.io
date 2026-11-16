@@ -14,6 +14,7 @@
     "@astrojs/sitemap": "^3.6.0",
     "astro": "^5.14.0",
     "flexsearch": "^0.8.212",
+    "jieba-wasm": "^2.4.0",
     "js-yaml": "^4.1.0",
     "katex": "^0.16.22",
     "rehype-katex": "^7.0.1",

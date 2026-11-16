@@ -47,8 +47,9 @@ header.site { border-bottom: 1px solid var(--line); }
 header.site .inner { padding-top: 26px; padding-bottom: 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 .brand { font-size: 1.35rem; letter-spacing: .02em; text-decoration: none; }
 .brand small { display: block; font-family: var(--sans); font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
-nav.site { display: flex; gap: 20px; font-family: var(--sans); font-size: .78rem; letter-spacing: .04em; }
+nav.site { display: flex; align-items: center; gap: 20px; font-family: var(--serif); font-size: .92rem; letter-spacing: .015em; }
 nav.site a { text-decoration: none; color: var(--muted); }
+nav.site a[aria-current="page"] { font-style: italic; }
 nav.site a:hover, nav.site a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-underline-offset: .3em; }
 
 footer.site { border-top: 1px solid var(--line); font-family: var(--sans); font-size: .72rem; color: var(--muted); }

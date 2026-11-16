@@ -878,3 +878,13 @@
 .m-cat-chip[data-cat="decision"] .m-cat-dot { background: #7a5b3f; }
 .m-cat-chip[data-cat="world-model"] .m-cat-dot { background: #5a5a7a; }
 .m-cat-chip[data-cat="data"] .m-cat-dot { background: #5b6b4a; }
+
+/* 紧凑字号 */
+.models-page { font-size: .82rem; }
+.models-page h1 { font-size: 2rem; }
+.m-cat { font-size: .68rem; }
+.m-field label, .m-field select, .m-multi-trigger, .m-seg-btn { font-size: .7rem; }
+.m-count { font-size: .7rem; }
+.models-page .tabulator, .models-page .tabulator .tabulator-cell, .models-page .tabulator .tabulator-col-title { font-size: .7rem; }
+.models-page .tabulator .tabulator-col-title { font-size: .62rem; }
+.models-page .tabulator .tabulator-cell { padding: 6px 8px; }

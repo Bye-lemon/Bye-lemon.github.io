@@ -8,7 +8,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "models:normalize": "node scripts/normalize-models.mjs"
+    "models:normalize": "node scripts/normalize-models.mjs",
+    "models:refactor": "node scripts/refactor-models.mjs",
+    "models:enrich": "node scripts/enrich-hf-models.mjs",
+    "models:audit": "node scripts/audit-models.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.12",
@@ -19,6 +22,7 @@
     "js-yaml": "^4.1.0",
     "katex": "^0.16.22",
     "marked": "^18.2.0",
+    "pinyin": "^4.0.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "tabulator-tables": "^6.7.1"

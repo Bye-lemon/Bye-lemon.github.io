@@ -6,6 +6,9 @@
 
 | 路径 | 作用 |
 | --- | --- |
+| `source/_posts/*.md` | 文章源文件（Hexo 迁移而来） |
+| `source/about/index.md` | 关于页数据（frontmatter 的 `timeline` / `now`） |
+| `src/content.config.ts` | 内容集合 schema |
 | `src/content/models/*.md` | 唯一数据源，一条模型一个文件，文件名即 slug |
 | `src/data/model-taxonomy.json` | 词表与映射（字段顺序、枚举、旧值别名、HF pipeline 映射） |
 | `scripts/refactor-models.mjs` | 旧版 `type + tags` → 分面字段；幂等 |
@@ -16,6 +19,17 @@
 | `src/pages/models.json.ts` | 列表页数据端点 |
 | `src/pages/models/[...slug].astro` | 详情页 |
 | `src/content/models/README.txt` | 给人看的快速上手（不含枚举全集） |
+| `src/data/friends.ts` | 友链数据（industry / academic） |
+| `src/data/aliases.ts` | 页面 H1 诗句 |
+| `src/lib/tags.ts` | 标签 → 拼音 ASCII slug |
+| `src/pages/nav.astro` | 导航页（143 条站点） |
+| `src/pages/search.json.ts` | 搜索索引（文章 / 模型 / 导航） |
+| `src/pages/rss.xml.ts` | RSS 全文输出 |
+| `src/layouts/BaseLayout.astro` | 顶栏、搜索模态框、页脚 |
+| `src/styles/global.css` / `models.css` | 全站样式 / 模型库样式 |
+| `public/favicon.*` | 纸墨风格 favicon（svg / ico / png） |
+| `docs/model-audit.md` | 模型数据审计报告 |
+| `README.md` | 项目说明（给人看） |
 
 **不要**再从思源导出覆盖这些文件；思源数据已经过时，反向导出会覆盖人工修正。
 
@@ -178,6 +192,11 @@ npm run build
 - URL 参数：`?q=&category=&tasks=&languages=&role=&=&page=`
 - 详情页展示：分类、任务、模态、语言、领域、角色、架构、规模、上下文、许可、HF 热度、外链、基础模型
 - 颜色按**固定枚举**映射（不要字符串哈希）
+- 顶栏品牌固定 `Li Yingping`；导航用英文：`Articles / Archive / Models / Notes / Sites / Friends / About`，当前页斜体
+- 页面 H1 用 `src/data/aliases.ts` 里的诗句，不再写页面名；`<title>` 保留「归档 · 李英平」这类原名
+- 搜索是全局模态框（`⌘K` / 图标），不占新页面；结果分「文章」「导航」两组
+- RSS 是顶栏图标（`/rss.xml`），页脚只留一行版权 + `Keep it simple and stupid.`
+- 模型库右上角不再放「编辑数据 / 新增模型」入口
 
 ## 7. 常见坑
 
@@ -202,12 +221,16 @@ npm run build
 ## 9. 命令速查
 
 ```bash
-npm run models:normalize                         # 归一化 + 校验
-node scripts/refactor-models.mjs --dry-run       # 检查旧结构残留
-node scripts/refactor-models.mjs --write         # 执行迁移
-node scripts/enrich-hf-models.mjs --dry-run      # 预览 HF 补全
-node scripts/enrich-hf-models.mjs --write        # 写入 HF 数据
-npm run build && npm run preview                 # 本地构建与预览
+npm run dev                                      # 本地开发
+npm run build                                    # 生产构建
+npm run preview                                  # 预览构建结果
+
+npm run models:refactor -- --dry-run             # 检查旧结构残留
+npm run models:refactor -- --write               # 执行旧结构迁移
+npm run models:normalize                         # 归一化 + 校验（幂等）
+npm run models:enrich -- --dry-run               # 预览 HF 补全
+npm run models:enrich -- --write                 # 写入 HF 数据
+npm run models:audit                             # 生成 docs/model-audit.md
 ```
 
 
@@ -252,18 +275,18 @@ npm run build && npm run preview                 # 本地构建与预览
 
 ### 全局搜索（模态框）
 
-- 入口：顶栏「搜索」按钮，或 `⌘K` / `Ctrl+K`；不跳转页面
+- 入口：顶栏放大镜图标，或 `⌘K` / `Ctrl+K`；不跳转页面
 - 数据：`/search.json`（由 `src/pages/search.json.ts` 构建），包含文章、模型与**导航**三类
 - 前端：动态加载 FlexSearch，按 token 检索；结果按「文章」「导航」分组，导航条目新标签页打开
-- 关闭：`Esc`、点击遮罩或关闭按钮
-- `/search/` 现在重定向回首页，避免旧链接 404
+- 关闭：`Esc`、点击遮罩或关闭按钮；打开时有焦点圈定
+- `/search/` 重定向回首页，避免旧链接 404
 
 ### RSS
 
 - `/rss.xml` 由 `@astrojs/rss` 生成，按日期倒序
 - 每条包含 `content:encoded` 全文（`marked` 渲染 Markdown），以及标签与作者
 - 自带 `lastBuildDate` / `ttl`，每次构建自动更新
-- 页脚只保留 RSS 入口
+- 入口是顶栏 RSS 图标；页脚不再放 RSS
 
 
 ## 12. 页面别名（诗句 H1）
@@ -288,3 +311,17 @@ npm run build && npm run preview                 # 本地构建与预览
 - 首页 H1 保持「你的指尖，有改变世界的力量。」；文章/模型详情页 H1 保持标题/模型名
 - 标签详情页 H1 用诗句，下方用一行「标签：X」说明当前标签
 - 新增页面：在 `aliases.ts` 加诗句，并在页面 H1 引用
+
+
+## 13. 站点约定
+
+| 项 | 约定 |
+| --- | --- |
+| 品牌 | 顶栏 `Li Yingping`，页脚 `Li Yingping 2018 – 2026` |
+| 导航 | 英文 `Articles / Archive / Models / Notes / Sites / Friends / About`；当前页斜体 |
+| 图标 | 搜索与 RSS 都是线性 SVG，无文字 |
+| 页面 H1 | 诗句别名（见 §12），不写页面名 |
+| 标签 URL | 中文标签转拼音 ASCII（`src/lib/tags.ts`）；不要再用 `encodeURIComponent`，否则静态托管会 404 |
+| 页脚 | 一行：CC BY 4.0 说明 + 年份 + `Keep it simple and stupid.` |
+| favicon | 纸色底、墨色细框、墨色「李」、右上一点朱红 |
+| 维护入口 | 不在页面上放入口，统一写进 `Agent.md` 与 `README.md` |

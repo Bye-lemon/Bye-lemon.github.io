@@ -32,8 +32,10 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
           {nav.map((item) => (
             <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a>
           ))}
-          <button class="nav-search" id="search-open" type="button" aria-label="搜索" title="搜索"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
+          <span class="nav-actions">
+          <button class="nav-search" id="search-open" type="button" aria-label="搜索" title="搜索" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-modal"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
           <a class="nav-icon" href="/rss.xml" aria-label="RSS" title="RSS"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"></circle></svg></a>
+          </span>
         </nav>
       </div>
     </header>
@@ -166,6 +168,7 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
 
         function open() {
           modal.hidden = false;
+          if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
           document.documentElement.classList.add('search-open');
           input.focus();
           input.select();
@@ -174,6 +177,7 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
         }
         function close() {
           modal.hidden = true;
+          if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
           document.documentElement.classList.remove('search-open');
           if (openBtn) openBtn.focus();
         }
@@ -189,6 +193,14 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
         document.addEventListener('keydown', (e) => {
           if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); modal.hidden ? open() : close(); }
           if (e.key === 'Escape' && !modal.hidden) close();
+        });
+        modal.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab') return;
+          const items = [...modal.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])')].filter((el) => el.offsetParent !== null);
+          if (!items.length) return;
+          const first = items[0], last = items[items.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
         });
         if (openBtn) openBtn.addEventListener('click', open);
         modal.querySelectorAll('[data-search-close]').forEach((el) => el.addEventListener('click', close));

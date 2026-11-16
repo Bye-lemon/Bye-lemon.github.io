@@ -13,7 +13,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(search|search\.json|404|sites|nav|gist|papers|slides)\/?$/.test(page),
+      filter: (page) => !/\/(search|search\.json|404|sites|gist|papers|slides|links)\/?$/.test(page),
     }),
   ],
 });

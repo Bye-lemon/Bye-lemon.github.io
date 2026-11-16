@@ -54,11 +54,10 @@ nav.site a:hover, nav.site a[aria-current="page"] { color: var(--ink); text-deco
 
 footer.site { border-top: 1px solid var(--line); font-family: var(--sans); font-size: .72rem; color: var(--muted); }
 footer.site .inner { padding-top: 20px; padding-bottom: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-footer.site .footer-inner { display: block; font-size: .7rem; line-height: 1.9; }
-footer.site .footer-inner p { margin: 0; }
+footer.site .footer-inner { display: block; }
+footer.site .footer-line { margin: 0; font-family: var(--serif); font-size: .76rem; line-height: 1.9; color: var(--muted); letter-spacing: .005em; }
 footer.site .footer-inner a { color: var(--muted); text-decoration: underline; text-underline-offset: .15em; }
 footer.site .footer-inner a:hover { color: var(--ink); }
-footer.site .footer-keep { margin-top: .5em; font-style: italic; letter-spacing: .04em; color: var(--muted); }
 footer.site a { color: var(--muted); }
 
 h1, h2, h3 { font-weight: 400; line-height: 1.3; }

@@ -9,9 +9,7 @@ const academicLabel = (f: (typeof friends)[number]) => f.university + '·' + f.n
 ---
 <BaseLayout title="友链" current="/friends/">
   <style>
-    .f-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.4em; }
-    @media (min-width: 900px) { .f-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3.2em; } }
-    .f-section { margin: 0; }
+    .f-section { margin: 0 0 2.6em; }
     .f-section h2 { margin: 0 0 .8em; }
     .f-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
     .f-list li { display: flex; align-items: baseline; justify-content: space-between; gap: 1.2em; padding: .62em 0; border-bottom: 1px solid var(--line); }
@@ -23,29 +21,27 @@ const academicLabel = (f: (typeof friends)[number]) => f.university + '·' + f.n
 
   <h1>友链</h1>
 
-  <div class="f-cols">
-    <section class="f-section">
-      <h2>产业界的朋友们</h2>
-      <ul class="f-list">
-        {industry.map((f) => (
-          <li>
-            <a href={f.url} target="_blank" rel="noopener">{f.name}</a>
-            <span class="f-host">{host(f.url)} ↗</span>
-          </li>
-        ))}
-      </ul>
-    </section>
+  <section class="f-section">
+    <h2>产业界的朋友们</h2>
+    <ul class="f-list">
+      {industry.map((f) => (
+        <li>
+          <a href={f.url} target="_blank" rel="noopener">{f.name}</a>
+          <span class="f-host">{host(f.url)} ↗</span>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-    <section class="f-section">
-      <h2>学术界的朋友们</h2>
-      <ul class="f-list">
-        {academic.map((f) => (
-          <li>
-            <a href={f.url} target="_blank" rel="noopener">{academicLabel(f)}</a>
-            <span class="f-host">{host(f.url)} ↗</span>
-          </li>
-        ))}
-      </ul>
-    </section>
-  </div>
+  <section class="f-section">
+    <h2>学术界的朋友们</h2>
+    <ul class="f-list">
+      {academic.map((f) => (
+        <li>
+          <a href={f.url} target="_blank" rel="noopener">{academicLabel(f)}</a>
+          <span class="f-host">{host(f.url)} ↗</span>
+        </li>
+      ))}
+    </ul>
+  </section>
 </BaseLayout>

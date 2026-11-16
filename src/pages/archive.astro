@@ -14,7 +14,6 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 <BaseLayout title="归档" current="/archive/">
   <h1>归档</h1>
-  <p class="lead">共 {posts.length} 篇。</p>
   {years.map((y) => (
     <section>
       <h2>{y}</h2>

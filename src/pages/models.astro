@@ -82,10 +82,6 @@ const editUrl = 'https://github.com/Bye-lemon/Bye-lemon.github.io/tree/src/src/c
       <a class="m-edit" href={editUrl} target="_blank" rel="noopener">编辑数据 / 新增模型 ↗</a>
     </header>
 
-    <p class="m-summary">
-      {models.length} 个模型<span aria-hidden="true"> · </span>{categoryCount} 个类别<span aria-hidden="true"> · </span>最近更新 {latestUpdate || '—'}
-    </p>
-
     <div class="m-catbar" role="group" aria-label="按类别筛选">
       <button type="button" class="m-cat" data-category="" aria-pressed="true">
         <span class="m-cat-label">全部</span><span class="m-cat-n">{models.length}</span>
@@ -219,7 +215,6 @@ const editUrl = 'https://github.com/Bye-lemon/Bye-lemon.github.io/tree/src/src/c
       <aside class="m-panel" id="m-panel" aria-labelledby="m-panel-title">
         <header class="m-panel-head">
           <div>
-            <p class="m-panel-eyebrow">模型档案</p>
             <h2 class="m-panel-title" id="m-panel-title">档案</h2>
           </div>
           <button type="button" class="m-panel-close" id="m-panel-close" aria-label="关闭详情面板" hidden>✕</button>

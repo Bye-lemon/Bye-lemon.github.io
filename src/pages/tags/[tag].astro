@@ -17,7 +17,6 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 <BaseLayout title={`标签：${tag}`} current="/tags/">
   <h1>标签：{tag}</h1>
-  <p class="lead">共 {posts.length} 篇。</p>
   <ul class="post-list">
     {posts.map((post) => (
       <li><time datetime={dateOf(post).toISOString()}>{fmt(dateOf(post))}</time><a href={`/posts/${slugOf(post)}/`}>{String((post.data as any).title || slugOf(post))}</a></li>

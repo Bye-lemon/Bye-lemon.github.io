@@ -14,7 +14,7 @@ const tags: string[] = Array.isArray(m.tags) ? m.tags : [];
 const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./, ''); } catch { return ''; } };
 const rows = [
   ['协议', m.license], ['作者', m.author], ['更新时间', m.updated], ['基模型', m.base],
-  ['发表情况', m.published], ['类型', m.type], ['参数量', m.params],
+  ['发表情况', m.published], ['类型', m.type], ['参数量', m.params], ['模型架构', m.arch],
 ].filter(([, v]) => v);
 ---
 <BaseLayout title={String(m.name)} wide>

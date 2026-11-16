@@ -37,6 +37,8 @@ const models = defineCollection({
     tags: z.array(z.string()).nullish().transform((v) => v ?? []),
     link: z.string().optional(),
     params: z.string().optional(),
+    arch: z.string().optional(),
+    note: z.string().optional(),
     starred: z.boolean().default(false),
   }).passthrough(),
 });

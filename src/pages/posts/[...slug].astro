@@ -15,8 +15,8 @@ const data = post.data as any;
 const fmt = dateOf(post).toISOString().slice(0, 10);
 ---
 <BaseLayout title={String(data.title || slugOf(post))} description={String(data.abstract || data.title || '')} current="/">
-  <article data-pagefind-body>
-    <h1 data-pagefind-meta="title">{String(data.title || slugOf(post))}</h1>
+  <article>
+    <h1>{String(data.title || slugOf(post))}</h1>
     <p class="article-meta">
       <time datetime={dateOf(post).toISOString()}>{fmt}</time>
       {data.abstract && <span>{String(data.abstract)}</span>}
@@ -25,7 +25,7 @@ const fmt = dateOf(post).toISOString().slice(0, 10);
       )}
     </p>
     {headings.length > 1 && (
-      <details class="toc" data-pagefind-ignore>
+      <details class="toc">
         <summary>目录</summary>
         <ol>{headings.filter((h) => h.depth <= 3).map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
       </details>

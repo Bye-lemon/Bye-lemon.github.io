@@ -11,5 +11,9 @@ export default defineConfig({
     rehypePlugins: [rehypeKatex, rehypeTableWrap],
     shikiConfig: { theme: 'github-light', wrap: false },
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !/\/(search|search\.json|404|sites|nav|gist|papers|slides)\/?$/.test(page),
+    }),
+  ],
 });

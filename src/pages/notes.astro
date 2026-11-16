@@ -7,7 +7,6 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 <BaseLayout title="论文笔记" current="/notes/">
   <h1>论文笔记</h1>
-  <p class="lead">读过的论文，只留下骨架：方法、结论，以及还没想通的部分。</p>
   <ul class="post-list">
     {posts.map((post) => (
       <li>

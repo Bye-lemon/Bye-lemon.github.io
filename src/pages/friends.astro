@@ -1,14 +1,60 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { friends } from '../data/friends';
----
 
+const industry = friends.filter((f) => f.kind === 'industry');
+const academic = friends.filter((f) => f.kind === 'academic');
+const host = (url: string) => { try { return new URL(url).host.replace(/^www\./, ''); } catch { return url; } };
+---
 <BaseLayout title="友链" current="/friends/">
+  <style>
+    .f-intro { font-family: var(--sans); font-size: .8rem; color: var(--muted); margin: 0 0 2.4em; max-width: 38rem; }
+    .f-section { margin: 0 0 3em; }
+    .f-section h2 { display: flex; align-items: baseline; gap: .6em; margin: 0 0 1em; }
+    .f-section h2 .n { font-family: var(--sans); font-size: .68rem; color: var(--faint); font-weight: 400; letter-spacing: .06em; }
+    .f-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+    .f-card { display: block; padding: 14px 16px; border: 1px solid var(--line); border-radius: 2px; text-decoration: none; }
+    .f-card:hover { background: rgba(17, 17, 17, .03); }
+    .f-name { display: block; font-family: var(--serif); font-size: 1.02rem; color: var(--ink); }
+    .f-desc { display: block; margin: 4px 0 0; font-family: var(--sans); font-size: .72rem; color: var(--muted); }
+    .f-host { display: block; margin-top: 6px; font-family: var(--mono); font-size: .64rem; color: var(--faint); }
+    .f-acad .f-name { font-size: 1.08rem; }
+    .f-affil { display: block; margin-top: 6px; font-family: var(--serif); font-size: .95rem; color: var(--ink); letter-spacing: .01em; }
+    .f-note { display: block; margin-top: 5px; font-family: var(--sans); font-size: .7rem; color: var(--muted); }
+    .f-empty { font-family: var(--sans); font-size: .78rem; color: var(--faint); }
+  </style>
+
   <h1>友链</h1>
-  <p class="lead">一些长期在读的博客，和写它们的人。</p>
-  <ul class="post-list">
-    {friends.map((f) => (
-      <li><a href={f.url} target="_blank" rel="noopener">{f.name}</a><span style="font-family:var(--mono);font-size:.7rem;color:var(--muted)">{f.url.replace(/^https?:\/\//, '')}</span></li>
-    ))}
-  </ul>
+  <p class="f-intro">一些长期在读的博客与主页。产业界在前，学术界在后。</p>
+
+  <section class="f-section">
+    <h2>产业界的朋友们 <span class="n">{industry.length} 个博客</span></h2>
+    <div class="f-grid">
+      {industry.map((f) => (
+        <a class="f-card" href={f.url} target="_blank" rel="noopener">
+          <span class="f-name">{f.name}</span>
+          {f.description && <span class="f-desc">{f.description}</span>}
+          <span class="f-host">{host(f.url)} ↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="f-section">
+    <h2>学术界的朋友们 <span class="n">{academic.length} 个主页</span></h2>
+    {academic.length > 0 ? (
+      <div class="f-grid">
+        {academic.map((f) => (
+          <a class="f-card f-acad" href={f.url} target="_blank" rel="noopener">
+            <span class="f-name">{f.name}</span>
+            <span class="f-affil">{f.university}·{f.title}</span>
+            {f.note && <span class="f-note">{f.note}</span>}
+            <span class="f-host">{host(f.url)} ↗</span>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p class="f-empty">暂无。</p>
+    )}
+  </section>
 </BaseLayout>

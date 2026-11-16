@@ -209,3 +209,35 @@ node scripts/enrich-hf-models.mjs --dry-run      # 预览 HF 补全
 node scripts/enrich-hf-models.mjs --write        # 写入 HF 数据
 npm run build && npm run preview                 # 本地构建与预览
 ```
+
+
+## 10. 友链（/friends/）
+
+数据文件：`src/data/friends.ts`，页面：`src/pages/friends.astro`。分两类，顺序固定：**产业界在前，学术界在后**。
+
+### 字段
+
+| 字段 | 适用 | 说明 |
+| --- | --- | --- |
+| `name` | 全部 | 姓名或站点名 |
+| `url` | 全部 | 博客或主页地址 |
+| `kind` | 全部 | `industry` / `academic` |
+| `description` | industry | 一句话：公司/方向，例如「大疆创新 · AI Agent / 后端工程师」 |
+| `university` | academic | 学校/机构中文名，如 `南开大学` |
+| `title` | academic | 职位/身份，如 `博士研究生`、`博士`、`研究员`、`讲师`、`副教授`、`教授` |
+| `note` | academic | 可选：实验室、导师等补充 |
+
+### 学术界规范（严格）
+
+- 页面只渲染 `university·title` 这一种格式，例如：`南开大学·博士研究生`、`东京大学·讲师`
+- **必须读对方主页确认**，不要凭印象填写；英文主页的 `Ph.D. Candidate at X` 对应 `X·博士研究生`，`Assistant Professor` 对应 `助理教授`
+- 公司里的 `Researcher`（如 Alibaba Group）属于产业界，不要放进学术界
+- 只有主页明确写出「大学/机构 + 学术职位」时才标为 `academic`；否则归入 `industry`
+- 职位用中文：博士研究生 / 博士 / 博士后 / 研究员 / 助理研究员 / 讲师 / 副教授 / 教授
+- 不写「XX 的博客」这类后缀；姓名与机构分字段，格式由模板统一
+
+### 新增一条
+
+1. 打开对方主页，确认是博客还是学术主页，以及机构与职位
+2. 在 `friends.ts` 里追加对象，选择 `kind`
+3. `npm run build` 后访问 `/friends/` 检查两个分区与格式

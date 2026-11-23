@@ -1,0 +1,25 @@
+name: 新增模型
+description: 向模型库（/models/）收录一个模型，字段规范见 Agent.md §2/§4.1
+title: "[模型] "
+labels: [model-add]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: 模型名称
+      placeholder: 保持官方写法，如 DeepSeek-V3
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: 链接
+      description: Hugging Face 模型页或官方主页
+      placeholder: "https://huggingface.co/org/repo"
+    validations:
+      required: true
+  - type: textarea
+    id: note
+    attributes:
+      label: 备注（可选）
+      placeholder: 一句话说明这个模型值得收录的原因

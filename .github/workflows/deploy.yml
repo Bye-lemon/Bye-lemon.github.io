@@ -3,6 +3,11 @@ name: Deploy Astro
 on:
   push:
     branches: [src]
+    paths-ignore:
+      - 'README.md'
+      - 'Agent.md'
+      - 'docs/**'
+      - '.github/ISSUE_TEMPLATE/**'
   workflow_dispatch:
 
 permissions:

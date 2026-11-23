@@ -1,0 +1,34 @@
+name: 新增网站
+description: 向导航页（/nav/）收录一个网站，维护规则见 Agent.md §14
+title: "[网站] "
+labels: [nav-add]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: 网址
+      placeholder: "https://..."
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: 站点名
+      placeholder: 保持官方写法，如 ChatGPT
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: 建议分类
+      placeholder: "如：AI 相关 / AI 产品；拿不准留空，由维护者提案"
+  - type: input
+    id: logo
+    attributes:
+      label: Logo（可选）
+      placeholder: 官网 favicon 直链；留空则由维护者补
+  - type: textarea
+    id: description
+    attributes:
+      label: 一句话说明（可选）
+      placeholder: 这是什么 / 用来做什么，尽量 ≤40 字

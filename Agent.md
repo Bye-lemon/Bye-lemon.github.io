@@ -7,6 +7,7 @@
 | 路径 | 作用 |
 | --- | --- |
 | `source/_posts/*.md` | 文章源文件（Hexo 迁移而来） |
+| `source/papers-queue.md` | 论文笔记生成队列（一行一个 arXiv / PDF 链接，见 §15） |
 | `source/about/index.md` | 关于页数据（frontmatter 的 `timeline` / `now`） |
 | `src/content.config.ts` | 内容集合 schema |
 | `src/content/models/*.md` | 唯一数据源，一条模型一个文件，文件名即 slug |
@@ -398,3 +399,83 @@ npm run models:audit                             # 生成 docs/model-audit.md
 - 需要子分类就用 `list`，扁平展示就用 `links`，不要两种混用。
 - 重命名 / 合并 / 删除分类会破坏锚点与深链，**必须先得到用户确认**，并同步更新本节与 §1 的基线数字。
 - 分类顺序就是页面与分类栏顺序；调整顺序会产生大 diff，非必要不做。
+
+
+## 15. 论文笔记生成规范
+
+根据一个 arXiv 链接或 PDF 生成符合本站模板的论文笔记。分析方法改编自 Agentero 项目的 `paper-reader` skill（致谢：poco-ai/Agentero），工具层已替换为本仓库的实现。文风向苏剑林「科学空间」看齐。
+
+### 输入与队列
+
+- 队列文件：`source/papers-queue.md`，一行一个链接（arXiv abs 页 / arXiv PDF / 其他 PDF 直链），可带行尾备注。处理后从队列中删除该行。
+- arXiv 论文的元数据（标题 / 作者 / 年份 / 摘要 / 链接）一律调官方 API（`export.arxiv.org/api/query?id_list=`）获取，**不靠模型记忆**。
+
+### Frontmatter 模板
+
+```yaml
+---
+slug: post-N            # 扫描现有 _posts 里最大的 post-N 编号 +1
+title: 《论文英文原名》论文笔记
+tags: [领域, 会议]       # 如 [Re-ID, CVPR]
+categories: 论文笔记
+abstract: '【会议+年份】 一作 et al.'
+date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
+---
+```
+
+### 正文骨架（固定 + 可选）
+
+| 段落 | 约束 |
+| --- | --- |
+| `## Introduction` | 固定。背景 → 领域顽疾 → 前人方案的 bottleneck → 本文动机与切入点，配框架图 |
+| `## Methodology` | 固定。开头先给 **Overview**（占本节 1/3~1/2 篇幅，建立全局理解），随后按 `###` 逐模块讲解，**论文 Method 章节的每个模块都不许遗漏** |
+| `## Experiments` | 可选。论文有实验就写：实验设置、关键数字用表格对比 Baseline、按 Ablation 做归因分析 |
+| `## Conclusion` | 可选。局限与展望；论文未明确讨论就写 "Not explicitly discussed in paper" |
+| `## Paper Information` | 固定。GB/T 引用 + Paper 链接 + Code 链接（没有 Code 就不写该行） |
+
+### 分析方法（红线）
+
+1. **反幻觉**：论文中未明确说明的细节（训练超参数、硬件型号等），必须写 "Not explicitly specified in text"，严禁编造。
+2. **详略与原文成正比**：作者重点呈现的创新点详细阐述，原文简略的部分不灌水；严禁生搬硬套某一类论文的分析模板。
+3. **先物理意义，后公式**：遇到数学公式先解释它要表达什么，再给出公式，并逐一解释变量含义。
+4. **图文对应**：在论述与论文配图之间建立对应关系，关键图（尤其主图 Figure 1/2 的 pipeline）必须贴出并配合讲解。
+
+### 文风（向科学空间看齐）
+
+- 从问题与直觉出发，不从定义出发；先讲「为什么需要它」，再讲「它是什么」。
+- 推导不跳步：原文里「不难发现」「显然」式的省略，要展开成读者能跟着走的步骤。
+- 个人评论、类比和吐槽**直接写进正文**（这是本站风格），但要用「笔者认为」这类措辞与论文原作者的观点区分开。
+- 中文行文，术语保留英文（简写与论文保持一致）；专业但亲切，像导师讲课，杜绝学术八股。
+
+### Tufte 排版机制
+
+本站是 Tufte 式排版（`global.css` 已实现），生成笔记时必须利用旁注机制：
+
+| 机制 | 语法（Markdown 里直接写 HTML） | 用途 |
+| --- | --- | --- |
+| 带编号旁注 | `<span class="sidenote-number"></span><span class="sidenote">…</span>` | **概念解释**（术语、背景知识）与**引用来源**（某结论出自论文哪一节/哪篇相关工作） |
+| 无编号旁注 | `<span class="marginnote">…</span>` | 简短的补充说明；也可内嵌小图当旁图 |
+| 通栏 | `<div class="fullwidth">…</div>` | 宽表格、多图并排 |
+
+使用原则：
+
+- 主线正文保持连贯；概念解释和引用来源放旁注，评论放正文（见文风一节）。
+- 旁注的编号 span 与内容 span 必须成对出现、标签闭合。
+- 窄屏（<1100px）下旁注退化为行内左边框块，所以每条旁注必须能独立读懂，不依赖「如右栏所示」这类指代。
+- 正文图用标准 `![描述](url)`，图片外链到图床（见流水线）。
+
+### 流水线
+
+1. 读 `source/papers-queue.md`，取一条链接；arXiv 链接调官方 API 取元数据。
+2. 下载 PDF，提取正文；用 PyMuPDF 抠出框架图与关键实验图。
+3. 图片 push 到图床仓库 `Bye-lemon/Pictures`，路径 `papers/<arxiv-id>/fig-N.png`（非 arXiv 论文用 slug 代替 arxiv-id），正文引用 `https://raw.githubusercontent.com/Bye-lemon/Pictures/master/papers/<arxiv-id>/fig-N.png`。
+4. 按本节约定的骨架、红线、文风与排版机制生成笔记。
+5. 自检清单（全部通过才提交）：
+   - [ ] frontmatter 字段齐全，能通过 `src/content.config.ts` 的 posts schema
+   - [ ] `slug` 与现有文章不冲突（扫描 `post-N` 最大值 +1）
+   - [ ] 公式用 `$...$`（行内）/ `$$...$$`（行间，独占一行且上下空行），KaTeX 可渲染；**不要**用旧文里的 `$$$`（Hexo 遗留）
+   - [ ] 所有图片链接可访问
+   - [ ] sidenote / marginnote 的 HTML 标签配对闭合
+   - [ ] 未明确说明的细节已标注 "Not explicitly specified in text"
+6. 从队列删除已处理行，直接 commit 到 `src` 分支，提交信息 `post: add <论文名> 论文笔记`。
+7. 汇报：生成了什么、图片几张、哪些地方拿不准（作者单位、会议信息等）。

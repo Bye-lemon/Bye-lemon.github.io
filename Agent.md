@@ -7,7 +7,7 @@
 | 路径 | 作用 |
 | --- | --- |
 | `source/_posts/*.md` | 文章源文件（Hexo 迁移而来） |
-| `source/papers-queue.md` | 论文笔记生成队列（一行一个 arXiv / PDF 链接，见 §15） |
+| `.github/ISSUE_TEMPLATE/` | Issue 模板：新增网站（`nav-add`）/ 论文笔记（`paper-note`）/ 新增模型（`model-add`），协作入口（见 §15） |
 | `source/about/index.md` | 关于页数据（frontmatter 的 `timeline` / `now`） |
 | `src/content.config.ts` | 内容集合 schema |
 | `src/content/models/*.md` | 唯一数据源，一条模型一个文件，文件名即 slug |
@@ -186,6 +186,7 @@ npm run build
 - `refactor-models.mjs` 默认 dry-run，加 `--write` 才写
 - `normalize-models.mjs` 会打印每字段改动数和告警；告警必须在合并前清零
 - 不提交 `.cache/`、`dist/`、`node_modules/`
+- `deploy.yml` 对 `README.md`、`Agent.md`、`docs/**`、`.github/ISSUE_TEMPLATE/**` 的改动不触发部署（paths-ignore）
 
 ## 6. UI 约定（给改页面的 Agent）
 
@@ -386,12 +387,13 @@ npm run models:audit                             # 生成 docs/model-audit.md
 
 ### 新增一个网站
 
-1. 在文件里找到最匹配的子分类（形态 A）或「常用推荐」（形态 B）；找不到合适的子分类就先向用户提案，不要硬塞。
-2. 按模板追加到该子分类**末尾**（或用户指定位置），默认不排序、不插队。
-3. 字段顺序沿用邻居：`title` → `logo` → `url` → `description`（少数条目字段顺序不同，保持该条目自身风格，不要顺手改）。
-4. 描述写一句中文，说明「这是什么/用来做什么」，不重复标题，尽量 ≤ 40 字；拿不准就留空 `''`。
-5. `npm run build` 后用 `npm run preview` 检查 `/nav/`：新条目出现在正确分类下，页面顶部计数 +1，筛选能命中。
-6. 提交信息示例：`nav: add Hugging Face Papers`。
+1. 入口通常是 `nav-add` label 的 Issue（模板「新增网站」）：取 issue 里的网址、站点名、建议分类与说明。
+2. 在 `nav.yml` 里找到最匹配的子分类（形态 A）或「常用推荐」（形态 B）；找不到合适的子分类就先向用户提案（在 issue 下评论），不要硬塞。
+3. 按模板追加到该子分类**末尾**（或用户指定位置），默认不排序、不插队。
+4. 字段顺序沿用邻居：`title` → `logo` → `url` → `description`（少数条目字段顺序不同，保持该条目自身风格，不要顺手改）。
+5. 描述写一句中文，说明「这是什么/用来做什么」，不重复标题，尽量 ≤ 40 字；拿不准就留空 `''`。
+6. `npm run build` 后用 `npm run preview` 检查 `/nav/`：新条目出现在正确分类下，页面顶部计数 +1，筛选能命中。
+7. 提交信息示例：`nav: add Hugging Face Papers (close #N)`；提交后在 issue 下评论确认并关闭。
 
 ### 新增 / 调整分类
 
@@ -405,10 +407,15 @@ npm run models:audit                             # 生成 docs/model-audit.md
 
 根据一个 arXiv 链接或 PDF 生成符合本站模板的论文笔记。分析方法改编自 Agentero 项目的 `paper-reader` skill（致谢：poco-ai/Agentero），工具层已替换为本仓库的实现。文风向苏剑林「科学空间」看齐。
 
-### 输入与队列
+### 输入：GitHub Issue
 
-- 队列文件：`source/papers-queue.md`，一行一个链接（arXiv abs 页 / arXiv PDF / 其他 PDF 直链），可带行尾备注。处理后从队列中删除该行。
+- 协作入口是 GitHub Issue，不使用队列文件。三类模板对应三类维护任务：
+  - `nav-add`「新增网站」→ 按 §14 处理
+  - `paper-note`「论文笔记」→ 按本节处理
+  - `model-add`「新增模型」→ 按 §4.1 处理（处理后同样在 issue 下评论并关闭）
+- 论文链接从 `paper-note` issue 正文读取（arXiv abs 页 / arXiv PDF / 其他 PDF 直链），「关注点」字段是用户给的写作侧重，生成时要回应。
 - arXiv 论文的元数据（标题 / 作者 / 年份 / 摘要 / 链接）一律调官方 API（`export.arxiv.org/api/query?id_list=`）获取，**不靠模型记忆**。
+- 定时任务或值班 Agent 定期扫描 open 的 `paper-note` issue，逐条处理；处理失败在 issue 下评论原因并保持 open。
 
 ### Frontmatter 模板
 
@@ -466,7 +473,7 @@ date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
 
 ### 流水线
 
-1. 读 `source/papers-queue.md`，取一条链接；arXiv 链接调官方 API 取元数据。
+1. 扫描 open 的 `paper-note` issue，取 issue 里的链接与「关注点」备注；arXiv 链接调官方 API 取元数据。
 2. 下载 PDF，提取正文；用 PyMuPDF 抠出框架图与关键实验图。
 3. 图片 push 到图床仓库 `Bye-lemon/Pictures`，路径 `papers/<arxiv-id>/fig-N.png`（非 arXiv 论文用 slug 代替 arxiv-id），正文引用 `https://raw.githubusercontent.com/Bye-lemon/Pictures/master/papers/<arxiv-id>/fig-N.png`。
 4. 按本节约定的骨架、红线、文风与排版机制生成笔记。
@@ -477,5 +484,5 @@ date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
    - [ ] 所有图片链接可访问
    - [ ] sidenote / marginnote 的 HTML 标签配对闭合
    - [ ] 未明确说明的细节已标注 "Not explicitly specified in text"
-6. 从队列删除已处理行，直接 commit 到 `src` 分支，提交信息 `post: add <论文名> 论文笔记`。
+6. 直接 commit 到 `src` 分支，提交信息 `post: add <论文名> 论文笔记 (close #N)`；随后在 issue 下评论生成的文章链接并关闭 issue。
 7. 汇报：生成了什么、图片几张、哪些地方拿不准（作者单位、会议信息等）。

@@ -13,22 +13,20 @@ body:
   - type: input
     id: title
     attributes:
-      label: 站点名
-      placeholder: 保持官方写法，如 ChatGPT
-    validations:
-      required: true
+      label: 站点名（可选）
+      placeholder: 留空则由 Agent 按官网名称补全
   - type: input
     id: category
     attributes:
-      label: 建议分类
-      placeholder: "如：AI 相关 / AI 产品；拿不准留空，由维护者提案"
+      label: 建议分类（可选）
+      placeholder: "如：AI 相关 / AI 产品；留空则由 Agent 按 Agent.md §14 判断"
   - type: input
     id: logo
     attributes:
       label: Logo（可选）
-      placeholder: 官网 favicon 直链；留空则由维护者补
+      placeholder: 官网 favicon 直链；留空则由 Agent 补
   - type: textarea
     id: description
     attributes:
       label: 一句话说明（可选）
-      placeholder: 这是什么 / 用来做什么，尽量 ≤40 字
+      placeholder: 留空则由 Agent 按 Agent.md §14 撰写

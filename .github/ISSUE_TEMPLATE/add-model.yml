@@ -4,13 +4,6 @@ title: "[模型] "
 labels: [model-add]
 body:
   - type: input
-    id: name
-    attributes:
-      label: 模型名称
-      placeholder: 保持官方写法，如 DeepSeek-V3
-    validations:
-      required: true
-  - type: input
     id: link
     attributes:
       label: 链接
@@ -18,8 +11,13 @@ body:
       placeholder: "https://huggingface.co/org/repo"
     validations:
       required: true
+  - type: input
+    id: name
+    attributes:
+      label: 模型名称（可选）
+      placeholder: 留空则由 Agent 按官方写法补全
   - type: textarea
     id: note
     attributes:
       label: 备注（可选）
-      placeholder: 一句话说明这个模型值得收录的原因
+      placeholder: 一句话说明这个模型值得收录的原因；留空则由 Agent 按 Agent.md §4.1 判断

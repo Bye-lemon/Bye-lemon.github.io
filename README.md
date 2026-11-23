@@ -78,7 +78,7 @@ npm run models:audit                   # 生成 docs/model-audit.md
 | `/archive/` | 归档 |
 | `/models/` | 模型库（219 条） |
 | `/notes/` | 论文笔记 |
-| `/nav/` | 导航（143 个站点） |
+| `/nav/` | 导航（133 个站点） |
 | `/friends/` | 友链：产业界博客 / 学术界主页 |
 | `/about/` | 关于：经历与现在在做 |
 | `/tags/` | 标签（拼音 slug） |

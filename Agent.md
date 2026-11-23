@@ -24,7 +24,7 @@
 | `src/data/aliases.ts` | 页面 H1 诗句 |
 | `src/data/nav.yml` | 导航数据（分类 / 子分类 / 链接），唯一数据源（从 Navi 仓库迁移，Navi 不再维护） |
 | `src/lib/tags.ts` | 标签 → 拼音 ASCII slug |
-| `src/pages/nav.astro` | 导航页（143 条站点） |
+| `src/pages/nav.astro` | 导航页（133 条站点） |
 | `src/pages/search.json.ts` | 搜索索引（文章 / 模型 / 导航） |
 | `src/pages/rss.xml.ts` | RSS 全文输出 |
 | `src/layouts/BaseLayout.astro` | 顶栏、搜索模态框、页脚 |
@@ -332,7 +332,7 @@ npm run models:audit                             # 生成 docs/model-audit.md
 
 ## 14. 导航（/nav/）
 
-数据文件：`src/data/nav.yml`，页面：`src/pages/nav.astro`。数据从 Navi 仓库（Hugo 导航站）迁移而来，沿用其 `webstack.yml` 格式；**Navi 仓库不再维护，`nav.yml` 是唯一数据源**。当前基线：7 个分类 / 18 个子分类 / 143 条网址（改动后若数量变化，顺手更新本节与 §1 的数字）。
+数据文件：`src/data/nav.yml`，页面：`src/pages/nav.astro`。数据从 Navi 仓库（Hugo 导航站）迁移而来，沿用其 `webstack.yml` 格式；**Navi 仓库不再维护，`nav.yml` 是唯一数据源**。当前基线：7 个分类 / 18 个子分类 / 133 条网址（改动后若数量变化，顺手更新本节与 §1 的数字）。
 
 ### 数据结构
 

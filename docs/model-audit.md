@@ -2,15 +2,15 @@
 
 > 由 scripts/audit-models.mjs 生成，只读。
 
-- 条目：219
-- 有 HF 模型仓库：132
+- 条目：220
+- 有 HF 模型仓库：133
 - HF 集合：86
 - HF 组织页：1
 - 未解析：0
 - 许可与 HF 不一致：0
-- 参数量与 safetensors 偏差 >25%：2
+- 参数量与 safetensors 偏差 >25%：0
 - 类别仍可能是旧值：0
-- 作者与 HF org 不同：6
+- 作者与 HF org 不同：0
 
 ## 无 HF 仓库的条目
 
@@ -114,8 +114,7 @@
 
 ## 参数量偏差
 
-- GLM-5.3 Series: 100B~1T（HF 321.32B） [Series]
-- Granite-TimeSeries-FlowState-R1: <200M（HF 0.01B） [Series]
+- 无
 
 ## 类别可疑
 
@@ -123,9 +122,4 @@
 
 ## 作者与 HF org 不同
 
-- MoonDream3.1-9B-A2B: M87 Lab / moondream
-- PLaMo-Embedding-1B: Preferred.jp / pfnet
-- SAM3.1: Meta / facebook
-- Sarashina2.2-OCR: SBInstitution / sbintuitions
-- Sarashina2.2-Vision-3B: SBInstitution / sbintuitions
-- Voyage-4-nano: MongoDB / voyageai
+- 无

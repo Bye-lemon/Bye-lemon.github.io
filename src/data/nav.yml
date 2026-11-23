@@ -231,7 +231,7 @@
         - title: S1MB
           logo: https://avatars.githubusercontent.com/u/198708?v=4
           url: https://huggingface.co/spaces/hotchpotch/S1MB-leaderboard
-          description: 小语言模型基准榜单，覆盖推理、代码、指令跟随、数学与多语言任务。
+          description: System One 决策模型榜单，覆盖 100+ Choice、Noul 与 Score 基准，支持英文、日文和视觉任务。
         - title: Artificial Analysis
           logo: https://artificialanalysis.ai/favicon.ico
           url: https://artificialanalysis.ai/

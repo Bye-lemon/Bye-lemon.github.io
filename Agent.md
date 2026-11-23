@@ -330,6 +330,8 @@ npm run models:audit                             # 生成 docs/model-audit.md
 | 维护入口 | 不在页面上放入口，统一写进 `Agent.md` 与 `README.md` |
 
 
+> **内容生成前核验**：任何会写入站点内容的任务（`nav-add`、`model-add`、`paper-note`、文案/说明更新）都必须先打开并读取目标源内容，用官方网页、模型页、论文/PDF/API 等一手来源核对名称、用途、分类、指标与结论。**不要仅凭 issue 正文、搜索摘要或模型记忆生成描述**；源内容无法访问或信息不足时，先在 issue 下说明并保持 open / 向用户确认，不要硬写。
+
 ## 14. 导航（/nav/）
 
 数据文件：`src/data/nav.yml`，页面：`src/pages/nav.astro`。数据从 Navi 仓库（Hugo 导航站）迁移而来，沿用其 `webstack.yml` 格式；**Navi 仓库不再维护，`nav.yml` 是唯一数据源**。当前基线：7 个分类 / 18 个子分类 / 133 条网址（改动后若数量变化，顺手更新本节与 §1 的数字）。

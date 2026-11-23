@@ -21,6 +21,7 @@
 | `src/content/models/README.txt` | 给人看的快速上手（不含枚举全集） |
 | `src/data/friends.ts` | 友链数据（industry / academic） |
 | `src/data/aliases.ts` | 页面 H1 诗句 |
+| `src/data/nav.yml` | 导航数据（分类 / 子分类 / 链接），唯一数据源（从 Navi 仓库迁移，Navi 不再维护） |
 | `src/lib/tags.ts` | 标签 → 拼音 ASCII slug |
 | `src/pages/nav.astro` | 导航页（143 条站点） |
 | `src/pages/search.json.ts` | 搜索索引（文章 / 模型 / 导航） |
@@ -325,3 +326,75 @@ npm run models:audit                             # 生成 docs/model-audit.md
 | 页脚 | 一行：CC BY 4.0 说明 + 年份 + `Keep it simple and stupid.` |
 | favicon | 纸色底、墨色细框、墨色「李」、右上一点朱红 |
 | 维护入口 | 不在页面上放入口，统一写进 `Agent.md` 与 `README.md` |
+
+
+## 14. 导航（/nav/）
+
+数据文件：`src/data/nav.yml`，页面：`src/pages/nav.astro`。数据从 Navi 仓库（Hugo 导航站）迁移而来，沿用其 `webstack.yml` 格式；**Navi 仓库不再维护，`nav.yml` 是唯一数据源**。当前基线：7 个分类 / 18 个子分类 / 143 条网址（改动后若数量变化，顺手更新本节与 §1 的数字）。
+
+### 数据结构
+
+文件以 `---` 开头（YAML 文档起始标记，不要删）。两种形态可混用，但同一分类不要两者都有：
+
+```yaml
+# 形态 A：分类 → 子分类(term) → 链接
+- taxonomy: AI 相关
+  icon: far fa-gem fa-lg
+  list:
+    - term: AI 产品
+      links:
+        - title: ChatGPT
+          logo: https://chatgpt.com/cdn/assets/favicon-eex17e9e.ico
+          url: https://chat.openai.com/chat
+          description: ''
+
+# 形态 B：分类 → 直接挂链接（没有子分类）
+- taxonomy: 常用推荐
+  icon: far fa-star
+  links:
+    - title: GitHub
+      logo: https://github.githubassets.com/favicons/favicon-dark.svg
+      url: https://github.com/
+      description: ''
+```
+
+字段规则：
+
+| 字段 | 必填 | 说明 |
+| --- | --- | --- |
+| `taxonomy` | 是 | 一级分类显示名，同时是右侧分类栏的分组名 |
+| `icon` | 是 | Font Awesome 5 的 class；页面暂不渲染，保留以兼容 Navi 数据 |
+| `list` | 二选一 | 子分类数组；与 `links` 互斥 |
+| `links` | 二选一 | 链接数组；形态 B 时直接挂在分类下 |
+| `term` | 形态 A 必填 | 子分类显示名 |
+| `title` | 是 | 站点名，保持官方写法 |
+| `logo` | 否 | **完整外链 URL** 的 favicon；为空或加载失败时卡片自动不显示图标。Navi 的本地 logo（只写文件名）规则不适用于本站 |
+| `url` | 是 | `https://` 开头（历史遗留的少数 http 站点保持原样即可） |
+| `description` | 否 | 一句话中文说明；同时用于卡片副标题与站内筛选；可为空字符串 |
+
+**锚点规则（与 Navi 不同）**：`nav.astro` 直接用分类名生成锚点——直挂分类的 `id` = `taxonomy`，子分类的 `id` = `taxonomy-term`（明文中文，不是 md5）。**重命名 `taxonomy`/`term` 会改变锚点，旧的 `#hash` 深链全部失效**；除非用户明确要求，不要重命名已有分类。
+
+### 编辑硬规则
+
+1. 缩进 **2 空格，禁止 Tab**；只改目标条目，不要整文件重排、格式化、重排字段顺序（diff 越小越好审）。
+2. 同一 URL 不重复收录。新增前先全文搜域名。
+3. YAML 字符串里出现 `:`、`#`、`{`、`[`、`&`、`*`、`!` 等符号时加引号；描述里不要出现换行。
+4. logo 优先官网 favicon 直链；官网取不到才用 `https://favicon.im/<域名>` 或 `https://a.favicon.im/<域名>`。**不要新增带哈希/版本号的 CDN 图片地址**（会随站点发版失效）。
+5. 不要新增 URL 短链、返利/推广参数、需要登录才能判断真假的站点；不确定的域名先核实再收录。
+6. `icon` 只用 Font Awesome **5 免费**图标；新分类不要与现有分类重名。
+
+### 新增一个网站
+
+1. 在文件里找到最匹配的子分类（形态 A）或「常用推荐」（形态 B）；找不到合适的子分类就先向用户提案，不要硬塞。
+2. 按模板追加到该子分类**末尾**（或用户指定位置），默认不排序、不插队。
+3. 字段顺序沿用邻居：`title` → `logo` → `url` → `description`（少数条目字段顺序不同，保持该条目自身风格，不要顺手改）。
+4. 描述写一句中文，说明「这是什么/用来做什么」，不重复标题，尽量 ≤ 40 字；拿不准就留空 `''`。
+5. `npm run build` 后用 `npm run preview` 检查 `/nav/`：新条目出现在正确分类下，页面顶部计数 +1，筛选能命中。
+6. 提交信息示例：`nav: add Hugging Face Papers`。
+
+### 新增 / 调整分类
+
+- 新分类追加到 `nav.yml` 末尾并补齐 `icon`；页面与分类栏自动生成，**无需改模板**。
+- 需要子分类就用 `list`，扁平展示就用 `links`，不要两种混用。
+- 重命名 / 合并 / 删除分类会破坏锚点与深链，**必须先得到用户确认**，并同步更新本节与 §1 的基线数字。
+- 分类顺序就是页面与分类栏顺序；调整顺序会产生大 diff，非必要不做。

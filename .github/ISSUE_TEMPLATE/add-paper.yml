@@ -1,0 +1,18 @@
+name: 论文笔记
+description: 提交一篇论文，由 Agent 按 Agent.md §15 生成论文笔记
+title: "[论文] "
+labels: [paper-note]
+body:
+  - type: input
+    id: link
+    attributes:
+      label: 论文链接
+      description: arXiv abs 页 / arXiv PDF / 其他 PDF 直链
+      placeholder: "https://arxiv.org/abs/..."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: 关注点（可选）
+      placeholder: 想重点看的部分、写作侧重等

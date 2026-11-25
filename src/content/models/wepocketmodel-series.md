@@ -24,7 +24,7 @@ paper: "https://arxiv.org/abs/2611.27365"
 link: "https://huggingface.co/collections/tencent/wepocketmodel"
 hf_id: ""
 hf_collection: "tencent/wepocketmodel"
-collection_models: ["tencent/WePocketModel1.0-4B", "tencent/WePocketModel1.0-2B", "tencent/WePocketModel1.0-4B-GGUF", "tencent/WePocketModel1.0-2B-GGUF"]
+collection_models: ["tencent/WePocketModel1.0-2B", "tencent/WePocketModel1.0-4B", "tencent/WePocketModel1.0-4B-GGUF", "tencent/WePocketModel1.0-2B-GGUF"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

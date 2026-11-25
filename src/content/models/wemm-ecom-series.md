@@ -24,7 +24,7 @@ paper: "https://arxiv.org/abs/2611.30662"
 link: "https://huggingface.co/collections/tencent/wemm-ecom"
 hf_id: ""
 hf_collection: "tencent/wemm-ecom"
-collection_models: ["tencent/WeMM-Ecom-35B-A3B", "tencent/WeMM-Ecom-9B", "tencent/WeMM-Ecom-4B", "tencent/WeMM-Ecom-2B", "tencent/WeMM-Ecom-0.8B", "tencent/WeMM-Ecom-35B-A3B-FP8", "tencent/WeMM-Ecom-35B-A3B-GPTQ", "tencent/WeMM-Ecom-35B-A3B-GGUF", "tencent/WeMM-Ecom-9B-GGUF", "tencent/WeMM-Ecom-4B-GGUF", "tencent/WeMM-Ecom-2B-GGUF", "tencent/WeMM-Ecom-0.8B-GGUF", "tencent/WeMM-Ecom-4B-GPTQ", "tencent/WeMM-Ecom-2B-GPTQ"]
+collection_models: ["tencent/WeMM-Ecom-35B-A3B", "tencent/WeMM-Ecom-9B", "tencent/WeMM-Ecom-4B", "tencent/WeMM-Ecom-2B", "tencent/WeMM-Ecom-0.8B", "tencent/WeMM-Ecom-35B-A3B-GGUF", "tencent/WeMM-Ecom-9B-GGUF", "tencent/WeMM-Ecom-4B-GGUF", "tencent/WeMM-Ecom-2B-GGUF", "tencent/WeMM-Ecom-0.8B-GGUF", "tencent/WeMM-Ecom-35B-A3B-GPTQ", "tencent/WeMM-Ecom-9B-GPTQ", "tencent/WeMM-Ecom-4B-GPTQ", "tencent/WeMM-Ecom-2B-GPTQ", "tencent/WeMM-Ecom-0.8B-GPTQ", "tencent/WeMM-Ecom-35B-A3B-FP8", "tencent/WeMM-Ecom-9B-FP8", "tencent/WeMM-Ecom-4B-FP8", "tencent/WeMM-Ecom-2B-FP8", "tencent/WeMM-Ecom-0.8B-FP8"]
 downloads: ""
 likes: ""
 hf_last_modified: ""

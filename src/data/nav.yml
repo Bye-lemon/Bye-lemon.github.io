@@ -280,6 +280,30 @@
           logo: https://www.ultralytics.com/icon.svg
           url: https://www.ultralytics.com/benchmarks/vlm
           description: 46 个视觉语言模型在真实检测数据集自动标注任务上的准确率、成本与速度排行。
+        - title: HAKARI-Bench
+          logo: https://huggingface.co/favicon.ico
+          url: https://huggingface.co/spaces/hakari-bench/leaderboard
+          description: 轻量多语言信息检索基准榜单，覆盖 dense、sparse、reranker、late-interaction 与 BM25 等 SentenceTransformers 兼容系统。
+        - title: TabArena
+          logo: https://a.favicon.im/tabarena.ai
+          url: https://huggingface.co/spaces/TabArena/leaderboard
+          description: 表格机器学习 Elo 排行榜，覆盖 IID 及 beyond-IID 设定。
+        - title: Open ASR Leaderboard
+          logo: https://huggingface.co/favicon.ico
+          url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard
+          description: 可复现、透明的多语言与长语音语音识别（ASR）评测榜单。
+        - title: Open TTS Leaderboard
+          logo: https://huggingface.co/favicon.ico
+          url: https://huggingface.co/spaces/hf-audio/open_tts_leaderboard
+          description: TTS 客观指标榜单：可懂度 WER、速度 RTFx、声音克隆相似度 SIM，覆盖两套多语言评测集。
+        - title: Jev Decision Index
+          logo: https://huggingface.co/favicon.ico
+          url: https://huggingface.co/spaces/multimodalart/jev-decision-index
+          description: 汇总社区对 TypeSafe Jev 决策模型的各类复现的基准评测与动态。
+        - title: Open SLM Leaderboard
+          logo: https://huggingface.co/favicon.ico
+          url: https://huggingface.co/spaces/AxiomicLabs/Open_SLM_Leaderboard
+          description: 开源小语言模型榜单，按 Intelligence Index 评分，追踪 <150M、<100M、<50M、<10M、<3M 各参数档位的历史领先者。
 
 
 - taxonomy: 开发相关

@@ -103,7 +103,7 @@ const latestUpdate = models
       <section class="m-main" aria-labelledby="m-table-title">
         <h2 class="m-sr" id="m-table-title">模型列表</h2>
 
-        <div class="m-filters" role="search" aria-label="筛选模型">
+        <div class="m-filters" id="m-filters" role="search" aria-label="筛选模型">
           <div class="m-filters-main">
             <div class="m-field m-field--q">
               <label class="m-label" for="m-q">关键词</label>
@@ -124,6 +124,9 @@ const latestUpdate = models
                 {accessOptions.map((item) => <option value={item.value}>{item.label}（{item.count}）</option>)}
               </select>
             </div>
+            <button type="button" class="m-filter-btn" id="m-filter-btn" aria-expanded="false" aria-controls="m-filters">
+              <span>筛选</span><span class="m-filter-n" id="m-filter-n" hidden></span>
+            </button>
             <div class="m-field m-field--clear">
               <button type="button" class="m-clear" id="m-clear" disabled>清除全部</button>
             </div>
@@ -236,6 +239,9 @@ const latestUpdate = models
     const accessEl = document.getElementById('m-access');
     const sortEl = document.getElementById('m-sort');
     const clearEl = document.getElementById('m-clear');
+    const filtersEl = document.getElementById('m-filters');
+    const filterBtn = document.getElementById('m-filter-btn');
+    const filterN = document.getElementById('m-filter-n');
     const panelEl = document.getElementById('m-panel');
     const panelTitle = document.getElementById('m-panel-title');
     const panelBody = document.getElementById('m-panel-body');
@@ -346,8 +352,25 @@ const latestUpdate = models
       return !!(state.q || state.category || state.role || state.access || state.tasks.length || state.languages.length);
     }
 
+    function activeFilterCount() {
+      return (state.q ? 1 : 0) + (state.category ? 1 : 0) + (state.role ? 1 : 0)
+        + (state.access ? 1 : 0) + state.tasks.length + state.languages.length;
+    }
+
     function updateClearState() {
       clearEl.disabled = !hasFilters();
+      if (!filterBtn || !filterN) return;
+      const n = activeFilterCount();
+      filterN.hidden = n === 0;
+      filterN.textContent = String(n);
+      filterBtn.classList.toggle('has-active', n > 0);
+    }
+
+    if (filterBtn && filtersEl) {
+      filterBtn.addEventListener('click', () => {
+        const open = filtersEl.classList.toggle('is-open');
+        filterBtn.setAttribute('aria-expanded', String(open));
+      });
     }
 
     function updateCategoryButtons() {

@@ -267,8 +267,21 @@ main { counter-reset: sidenote-counter; }
 mark { background: rgba(163,52,31,.14); color: inherit; }
 
 .prose img { max-width: min(100%, 46rem); display: block; margin: 1.7em auto; }
-figure { margin: 1.8em 0; }
-figcaption { font-family: var(--sans); font-size: .78em; line-height: 1.6; color: var(--muted); margin-top: .7em; }
+.prose figure { margin: 2.2em 0; }
+.prose figure p { margin: 0; }
+.prose figure img { margin: 0 auto; }
+.prose figcaption {
+  max-width: none; margin: .95em 0 0;
+  font-family: var(--sans); font-size: .8em; line-height: 1.7; color: var(--muted);
+  text-align: left;
+}
+.prose figcaption .fig-label {
+  display: inline-block; margin-right: .55em;
+  font-size: .92em; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--faint); font-variant: small-caps;
+}
+.prose figure:has(figcaption) img { margin-bottom: 0; }
+@media (max-width: 767px) { .prose figcaption { font-size: .86em; } }
 
 /* ---------- 代码 ---------- */
 pre { font-family: var(--mono); font-size: .8em; line-height: 1.7; background: #f5f2ea; border: 1px solid var(--line); padding: 16px 18px; overflow-x: auto; border-radius: 2px; margin: 0 0 1.7em; }

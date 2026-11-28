@@ -928,3 +928,43 @@
 
 /* 单元格内 chips 单行显示，避免撑高行 */
 .models-page .tabulator .tabulator-row .m-chips { flex-wrap: nowrap; overflow: hidden; }
+
+/* ---------- 移动端筛选抽屉：默认收起，首屏直接看到表格 ---------- */
+.m-filter-btn { display: none; }
+@media (max-width: 767px) {
+  .m-filter-btn {
+    display: inline-flex; align-items: center; gap: .45em;
+    font-family: var(--sans); font-size: .86rem; line-height: 1.2;
+    color: var(--muted); background: transparent;
+    border: 1px solid var(--m-rule-strong); border-radius: 2px;
+    padding: .55em .8em; cursor: pointer; white-space: nowrap;
+  }
+  .m-filter-btn::after {
+    content: ""; width: 0; height: 0; margin-left: .1em;
+    border-left: 4px solid transparent; border-right: 4px solid transparent;
+    border-top: 5px solid currentColor;
+  }
+  .m-filter-btn[aria-expanded="true"] { border-color: var(--ink); color: var(--ink); }
+  .m-filter-btn[aria-expanded="true"]::after {
+    border-top-color: transparent;
+    border-bottom: 5px solid currentColor;
+  }
+  .m-filter-btn.has-active { border-color: var(--accent); color: var(--ink); }
+  .m-filter-n[hidden] { display: none; }
+  .m-filter-n {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 1.45em; padding: 0 .3em;
+    font-size: .74em; font-variant-numeric: tabular-nums;
+    color: var(--paper); background: var(--accent); border-radius: 999px;
+  }
+  .m-filters:not(.is-open) .m-field--role,
+  .m-filters:not(.is-open) .m-field--access,
+  .m-filters:not(.is-open) .m-field--clear,
+  .m-filters:not(.is-open) .m-filters-aux { display: none; }
+  .m-filters-main { row-gap: 1em; align-items: flex-end; }
+  .m-field--q { order: 1; flex: 1 1 0; min-width: 0; }
+  .m-filter-btn { order: 2; flex: 0 0 auto; }
+  .m-field--role, .m-field--access { order: 3; flex: 1 1 100%; }
+  .m-field--clear { order: 4; }
+  .m-filters-aux { margin-top: .2em; }
+}

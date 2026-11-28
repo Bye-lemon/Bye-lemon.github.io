@@ -12,34 +12,40 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
+# src 是默认分支（相当于 main）。这里按 commit 维度分组：
+# GitHub 对同一分组只保留 1 个排队中的运行，共享 group 会让「后来的提交把排队中的提交顶掉」，
+# 因此用 sha 隔离，保证 src 上每个提交都完整跑完；Pages 的部署本身由 github-pages 环境串行化。
 concurrency:
-  group: pages
+  group: pages-${{ github.sha }}
   cancel-in-progress: false
 
+env:
+  ASTRO_TELEMETRY_DISABLED: '1'
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
           cache: npm
-      - run: npm install --no-audit --no-fund
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Build site
+        run: npm run build
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - id: deployment
         uses: actions/deploy-pages@v5

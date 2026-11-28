@@ -1,0 +1,58 @@
+name: CI
+
+# PR 校验：只跑必需的构建，不做部署。
+# 同一 PR 反复推送时取消旧运行（cancel-in-progress），只保留最新一次。
+on:
+  pull_request:
+    branches: [src]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  ASTRO_TELEMETRY_DISABLED: '1'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      # 只改文档的 PR 不必跑构建；但这个 job 本身始终执行，
+      # 所以必需检查一定会报告结果，不会出现 PR 卡在「等待状态」的情况。
+      - name: Detect doc-only changes
+        id: scope
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          files=$(git diff --name-only "$BASE_SHA" HEAD)
+          if [ -n "$files" ]; then echo "$files"; fi
+          if [ -z "$files" ]; then
+            code=false
+          elif printf '%s\n' "$files" | grep -qvE '^(README\.md|Agent\.md|docs/|\.github/ISSUE_TEMPLATE/)'; then
+            code=true
+          else
+            code=false
+          fi
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v5
+        if: github.event_name != 'pull_request' || steps.scope.outputs.code == 'true'
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install dependencies
+        if: github.event_name != 'pull_request' || steps.scope.outputs.code == 'true'
+        run: npm ci --no-audit --no-fund
+      - name: Build site
+        if: github.event_name != 'pull_request' || steps.scope.outputs.code == 'true'
+        run: npm run build

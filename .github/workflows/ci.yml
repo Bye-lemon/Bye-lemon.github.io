@@ -1,6 +1,7 @@
 name: CI
 
 # PR 校验：只跑必需的构建，不做部署。
+# 实测：纯文档 PR 约 10s（只跑 checkout + 变更检测）；有代码改动时约 25s。
 # 同一 PR 反复推送时取消旧运行（cancel-in-progress），只保留最新一次。
 on:
   pull_request:

@@ -18,4 +18,5 @@ export const friends: Friend[] = [
   { name: '李运恒', url: 'https://lyhisme.github.io/', kind: 'academic', university: '南开大学', title: '博士' },
   { name: '陈建川', url: 'https://janaldochen.github.io/', kind: 'academic', university: '阿里巴巴', title: '研究员' },
   { name: '张津榕', url: 'https://zhangjinrong731.github.io/', kind: 'academic', university: '哈尔滨工业大学（深圳）', title: '博士' },
+  { name: '莫冯然', url: 'https://fengran-mo.github.io/', kind: 'academic', university: '罗切斯特理工学院', title: '助理教授' },
 ];

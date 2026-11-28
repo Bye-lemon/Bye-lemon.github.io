@@ -11,7 +11,7 @@ const tags = [...counts.entries()].sort((a, b) => b[1] - a[1]);
 ---
 <BaseLayout title="标签" current="/tags/">
   <h1>{pageAliases.tags}</h1>
-  <div class="tags" style="gap:1em 1.4em;font-size:.9rem">
-    {tags.map(([t, n]) => <a href={`/tags/${tagSlug(t)}/`}>{t} <span style="color:var(--faint)">{n}</span></a>)}
+  <div class="tags" style="gap:.75em 1.7em;font-size:1rem">
+    {tags.map(([t, n]) => <a href={`/tags/${tagSlug(t)}/`}>{t} <span style="color:var(--faint);font-size:.8em">{n}</span></a>)}
   </div>
 </BaseLayout>

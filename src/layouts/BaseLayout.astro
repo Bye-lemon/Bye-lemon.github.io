@@ -32,11 +32,11 @@ const fullTitle = title ? `${title} · 李英平` : '李英平';
           {nav.map((item) => (
             <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a>
           ))}
-          <span class="nav-actions">
+        </nav>
+        <span class="nav-actions">
           <button class="nav-search" id="search-open" type="button" aria-label="搜索" title="搜索" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-modal"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
           <a class="nav-icon" href="/rss.xml" aria-label="RSS" title="RSS"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"></circle></svg></a>
-          </span>
-        </nav>
+        </span>
       </div>
     </header>
     <main class="wrap">

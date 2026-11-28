@@ -13,23 +13,48 @@ const { post } = Astro.props;
 const { Content, headings } = await render(post);
 const data = post.data as any;
 const fmt = dateOf(post).toISOString().slice(0, 10);
+const title = String(data.title || slugOf(post));
+const toc = headings.filter((h) => h.depth <= 3);
 ---
-<BaseLayout title={String(data.title || slugOf(post))} description={String(data.abstract || data.title || '')} current="/">
-  <article>
-    <h1>{String(data.title || slugOf(post))}</h1>
-    <p class="article-meta">
-      <time datetime={dateOf(post).toISOString()}>{fmt}</time>
-      {data.abstract && <span>{String(data.abstract)}</span>}
-      {tagsOf(post).length > 0 && (
-        <span class="tags">{tagsOf(post).map((t) => <a href={`/tags/${tagSlug(t)}/`}>{t}</a>)}</span>
-      )}
-    </p>
-    {headings.length > 1 && (
-      <details class="toc">
-        <summary>目录</summary>
-        <ol>{headings.filter((h) => h.depth <= 3).map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
-      </details>
+<BaseLayout title={title} description={String(data.abstract || title)} current="/">
+  <article class="post">
+    <header class="post-head">
+      <h1>{title}</h1>
+      <p class="article-meta">
+        <time datetime={dateOf(post).toISOString()}>{fmt}</time>
+        {tagsOf(post).length > 0 && (
+          <span class="tags">{tagsOf(post).map((t) => <a href={`/tags/${tagSlug(t)}/`}>{t}</a>)}</span>
+        )}
+      </p>
+      {data.abstract && <p class="dek">{String(data.abstract)}</p>}
+    </header>
+
+    {toc.length > 1 && (
+      <aside class="post-aside">
+        <details class="toc" id="post-toc">
+          <summary>目录</summary>
+          <nav aria-label="文章目录">
+            <ol>
+              {toc.map((h) => <li class={h.depth > 2 ? 'd3' : undefined}><a href={`#${h.slug}`}>{h.text}</a></li>)}
+            </ol>
+          </nav>
+        </details>
+      </aside>
     )}
+
     <div class="prose"><Content /></div>
   </article>
+
+  {toc.length > 1 && (
+    <script is:inline>
+      (() => {
+        const toc = document.getElementById('post-toc');
+        if (!toc) return;
+        const mq = window.matchMedia('(min-width: 1100px)');
+        const sync = () => { toc.open = mq.matches; };
+        if (mq.matches) toc.open = true;
+        if (mq.addEventListener) mq.addEventListener('change', sync);
+      })();
+    </script>
+  )}
 </BaseLayout>

@@ -27,6 +27,8 @@ export function dateOf(post: Post): Date {
 }
 
 export function isPaper(post: Post): boolean {
+  const kind = String((post.data as any).kind || '');
+  if (kind === 'paper' || kind === 'survey' || kind === 'report') return true;
   return categoriesOf(post).includes('论文笔记');
 }
 

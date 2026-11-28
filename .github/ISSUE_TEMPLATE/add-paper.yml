@@ -1,18 +1,30 @@
 name: 论文笔记
-description: 提交一篇论文，由 Agent 按 Agent.md §15 生成论文笔记
+description: 提交论文 / 综述 / 技术报告，由 Agent 按 Agent.md §15 生成笔记
 title: "[论文] "
 labels: [paper-note]
 body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 类型
+      description: 决定正文骨架。大模型随发布推出的技术报告（DeepSeek-V3、Qwen3、Llama 4 这类）选「技术报告」。
+      options:
+        - 论文（提出方法 / 系统 / 数据集，并有实验验证）
+        - 综述（梳理一个领域的研究地图，不提出新方法）
+        - 技术报告（机构随模型或系统发布，重点是规格、训练与评测）
+    validations:
+      required: true
   - type: input
     id: link
     attributes:
-      label: 论文链接
-      description: arXiv abs 页 / arXiv PDF / 其他 PDF 直链
+      label: 链接
+      description: arXiv abs 页 / arXiv PDF / 期刊页 / 官方 PDF 或 HTML（技术报告可以用官网链接）
       placeholder: "https://arxiv.org/abs/..."
     validations:
       required: true
   - type: textarea
     id: notes
     attributes:
-      label: 关注点（可选）
-      placeholder: 想重点看的部分、写作侧重等
+      label: 关注点或范围（可选，综述建议填写）
+      description: 想重点看的部分、写作侧重。综述请给出覆盖范围（年份、主线方向），否则会先在 issue 下确认再动笔。
+      placeholder: 例如：只写 2022 年以后的多模态检索主线；重点看训练数据配比与评测口径

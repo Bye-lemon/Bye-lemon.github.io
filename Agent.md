@@ -426,9 +426,21 @@ npm run models:audit                             # 生成 docs/model-audit.md
 - 分类顺序就是页面与分类栏顺序；调整顺序会产生大 diff，非必要不做。
 
 
-## 15. 论文笔记生成规范
+## 15. 论文 / 综述 / 技术报告笔记规范
 
-根据一个 arXiv 链接或 PDF 生成符合本站模板的论文笔记。分析方法改编自 Agentero 项目的 `paper-reader` skill（致谢：poco-ai/Agentero），工具层已替换为本仓库的实现。文风向苏剑林「科学空间」看齐。
+根据一个 arXiv 链接、PDF 或技术报告生成符合本站模板的笔记。分析方法改编自 Agentero 项目的 `paper-reader` skill（致谢：poco-ai/Agentero），工具层已替换为本仓库的实现。文风向苏剑林「科学空间」看齐。
+
+### 类型判定
+
+先归到三类之一，写进 frontmatter 的 `kind`。骨架、元数据、自检都按类型走：
+
+| kind | 判定 | 常见形态 |
+| --- | --- | --- |
+| `paper` | 提出一个方法 / 系统 / 数据集，并做实验验证 | 会议、期刊论文、arXiv preprint |
+| `survey` | 不提出新方法，梳理一个领域的研究地图 | Survey、综述、Tutorial、领域回顾 |
+| `report` | 机构随模型或系统发布的技术报告，重点是规格、训练与评测 | 大模型技术报告（DeepSeek-V3、Qwen3、Llama 4 这类）、system card、模型卡 |
+
+判不准时看「有没有一个可复述的新方法」：有 → `paper`；只是组织和比较既有工作 → `survey`；主要在交代自己模型的规格、训练与评测 → `report`。
 
 ### 输入：GitHub Issue
 
@@ -436,9 +448,12 @@ npm run models:audit                             # 生成 docs/model-audit.md
   - `nav-add`「新增网站」→ 按 §14 处理
   - `paper-note`「论文笔记」→ 按本节处理
   - `model-add`「新增模型」→ 按 §4.1 处理（处理后同样在 issue 下评论并关闭）
-- 论文链接从 `paper-note` issue 正文读取（arXiv abs 页 / arXiv PDF / 其他 PDF 直链），「关注点」字段是用户给的写作侧重，生成时要回应。
-- arXiv 论文的元数据（标题 / 作者 / 年份 / 摘要 / 链接）一律调官方 API（`export.arxiv.org/api/query?id_list=`）获取，**不靠模型记忆**。
-- 定时任务或值班 Agent 定期扫描 open 的 `paper-note` issue，逐条处理；处理失败在 issue 下评论原因并保持 open。
+- 从 issue 读取：**链接**、**类型**（论文 / 综述 / 技术报告）、**关注点或范围**。关注点必须在正文里回应；综述没有给范围时，先在 issue 下问清楚，不要擅自铺开整篇。
+- 元数据不靠记忆：
+  - arXiv → 官方 API（`export.arxiv.org/api/query?id_list=`）；
+  - 期刊 / 会议页 → 官方页面；
+  - 技术报告（很多只有官网 PDF 或 HTML）→ 官方页面或 PDF 首页，记录机构、版本、发布日期。
+- 定时任务或值班 Agent 定期扫描 open 的 `paper-note` issue，逐条处理；失败就在 issue 下评论原因并保持 open。
 
 ### Frontmatter 模板
 
@@ -446,14 +461,23 @@ npm run models:audit                             # 生成 docs/model-audit.md
 ---
 slug: post-N            # 扫描现有 _posts 里最大的 post-N 编号 +1
 title: 《论文英文原名》论文笔记
-tags: [领域, 会议]       # 如 [Re-ID, CVPR]
+                        # 综述：XX 领域研究综述笔记
+                        # 技术报告：《模型名》技术报告笔记
+tags: [领域, 会议或机构]  # 如 [Re-ID, CVPR]、[LLM, DeepSeek-AI]
 categories: 论文笔记
+kind: paper             # paper | survey | report
 abstract: '【会议+年份】 一作 et al.'
+                        # survey：【期刊或会议+年份】一作 et al.
+                        # report：【技术报告 · 机构】YYYY-MM
 date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
 ---
 ```
 
-### 正文骨架（固定 + 可选）
+### 正文骨架
+
+三类共用「先问题、再内容、后评价」的语气，但章节不同。**不要拿 paper 的骨架硬套 survey / report**。
+
+#### paper
 
 | 段落 | 约束 |
 | --- | --- |
@@ -463,12 +487,50 @@ date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
 | `## Conclusion` | 可选。局限与展望；论文未明确讨论就写 "Not explicitly discussed in paper" |
 | `## Paper Information` | 固定。GB/T 引用 + Paper 链接 + Code 链接（没有 Code 就不写该行） |
 
+#### survey
+
+| 段落 | 约束 |
+| --- | --- |
+| `## Introduction` | 这份地图解决什么问题：领域为什么碎、既有综述缺什么、本文的覆盖范围与时间窗 |
+| `## 研究地图` | 3–5 条主线，不要几十篇平铺。每条讲清问题设定、代表工作、方法差异、演进关系；最后用一张 taxonomy 表或图收口 |
+| `## 评估口径` | 常用数据集、指标、评测协议；写清「不同论文的数字为什么不能直接横比」 |
+| `## 开放问题` | 作者列出的和笔者认为缺的分开写，不要把两者混成一段 |
+| `## Survey Information` | 覆盖范围（年份、会议、检索方式）、**明确没覆盖的部分**、GB/T 引用 |
+
+篇幅红线：综述按「主线 + 代表工作」写，不逐篇复述；一篇 100 页的综述写成 8000 字以内，宁可少写几条线，也不要把摘要拼成目录。
+
+#### report（大模型技术报告）
+
+| 段落 | 约束 |
+| --- | --- |
+| `## 概览` | 模型定位与代际关系、发布日期、规模 / 上下文 / 许可、相对上一代的关键变化 |
+| `## 架构与预训练` | 架构改动、数据（token 量、配比、截止时间）、tokenizer、长上下文；只写影响复现或理解能力边界的部分 |
+| `## 后训练` | SFT / RL / 蒸馏流程、奖励模型、数据来源；报告没写的直接写「报告未披露」，不要用博客或传闻补 |
+| `## 评测` | 基准表必须带口径：shot 数、是否厂商自测、对比对象的版本。区分「报告自报」与「第三方复现」，不要写成客观排名 |
+| `## 工程与成本` | 可选。集群规模、并行策略、精度（FP8/FP4）、吞吐与成本，只在报告给了数字时写 |
+| `## 局限与安全` | 报告自己承认的局限与安全 / 对齐说明；没有就写「报告未讨论」 |
+| `## Report Information` | 机构、版本与日期、官方链接、许可、HF 模型卡；GB/T 引用用 `[R]` 或 `[EB/OL]` |
+
+### 引用与出处
+
+| 类型 | 末节标题 | GB/T 7714 常用类型 |
+| --- | --- | --- |
+| paper | `## Paper Information` | `[C]` 会议 / `[J]` 期刊 / `[EB/OL]` 预印本 |
+| survey | `## Survey Information` | `[J]`（如 ACM Computing Surveys）/ `[EB/OL]` |
+| report | `## Report Information` | `[R]` 技术报告 / `[EB/OL]` 官网 PDF |
+
+- 综述里转引自别的论文的图或结论，图注写「引自 [X]」并给链接，不要让人误以为是你复现的。
+- 报告里的每个关键数字都要能追到「哪张表、什么口径、谁测的」；厂商自测和第三方并列写。
+
 ### 分析方法（红线）
 
 1. **反幻觉**：论文中未明确说明的细节（训练超参数、硬件型号等），必须写 "Not explicitly specified in text"，严禁编造。
 2. **详略与原文成正比**：作者重点呈现的创新点详细阐述，原文简略的部分不灌水；严禁生搬硬套某一类论文的分析模板。
 3. **先物理意义，后公式**：遇到数学公式先解释它要表达什么，再给出公式，并逐一解释变量含义。
 4. **图文对应**：在论述与论文配图之间建立对应关系，关键图（尤其主图 Figure 1/2 的 pipeline）必须贴出并配合讲解。
+5. **按类型反幻觉**：paper 写 "Not explicitly specified in text"；survey 写「该文未展开，见原始论文」；report 写「报告未披露」。共同点是缺失就说缺失，不许用常识补洞。
+6. **综述的二手信息**：区分「综述作者的观点」与「原论文的结论」；转述标出处，不把综述的概括当成一手事实。
+7. **报告的数字口径**：每个关键数字都要能追到「哪张表、什么 shot、谁测的」；厂商自测与第三方复现并列写，不写成客观排名。
 
 ### 文风（向科学空间看齐）
 
@@ -500,9 +562,11 @@ date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
 ### 流水线
 
 1. 扫描 open 的 `paper-note` issue，取 issue 里的链接与「关注点」备注；arXiv 链接调官方 API 取元数据。
+   同时读取 issue 里的**类型**（论文 / 综述 / 技术报告）与**范围**；元数据按来源取：arXiv API、期刊页、官方 PDF 或 HTML。
 2. 下载 PDF，提取正文；用 PyMuPDF 抠出框架图与关键实验图。
 3. 图片 push 到图床仓库 `Bye-lemon/Pictures`，路径 `papers/<arxiv-id>/fig-N.png`（非 arXiv 论文用 slug 代替 arxiv-id），正文引用 `https://raw.githubusercontent.com/Bye-lemon/Pictures/master/papers/<arxiv-id>/fig-N.png`。
 4. 按本节约定的骨架、红线、文风与排版机制生成笔记。
+   骨架按 `kind` 选：`paper` / `survey` / `report` 三张表，不要混用。
 5. 自检清单（全部通过才提交）：
    - [ ] frontmatter 字段齐全，能通过 `src/content.config.ts` 的 posts schema
    - [ ] `slug` 与现有文章不冲突（扫描 `post-N` 最大值 +1）
@@ -510,7 +574,10 @@ date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
    - [ ] 所有图片链接可访问
    - [ ] sidenote / marginnote 的 HTML 标签配对闭合
    - [ ] 未明确说明的细节已标注 "Not explicitly specified in text"
-6. 直接 commit 到 `src` 分支，提交信息 `post: add <论文名> 论文笔记 (close #N)`；随后在 issue 下评论生成的文章链接并关闭 issue。
+   - [ ] `kind` 与骨架匹配：survey 有「研究地图 + 范围声明」，report 有「概览 + 报告信息」
+   - [ ] 综述转引的图/结论标了出处；报告的关键数字带了口径（shot / 自测或第三方）
+   - [ ] 缺失信息的措辞与类型一致（论文 / 综述 / 报告三套）
+6. 直接 commit 到 `src` 分支，提交信息 `post: add <名称> 论文 / 综述 / 技术报告笔记 (close #N)`；随后在 issue 下评论生成的文章链接并关闭 issue。
 7. 汇报：生成了什么、图片几张、哪些地方拿不准（作者单位、会议信息等）。
 
 ## 16. Markdown 版式速查（构建自动完成）

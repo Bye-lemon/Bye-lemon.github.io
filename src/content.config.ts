@@ -9,6 +9,7 @@ const posts = defineCollection({
     tags: z.union([z.array(z.string()), z.string()]).nullish(),
     categories: z.union([z.array(z.string()), z.string()]).nullish(),
     abstract: z.string().nullish(),
+    kind: z.enum(['paper', 'survey', 'report']).optional(),
     slug: z.string().nullish(),
   }).passthrough(),
 });

@@ -38,7 +38,9 @@ date: 2026-11-23 16:45:00
 
 论文的关键对照是 **TRACE APPEND**。它使用相同上下文 $x$、相同 reasoning traces、相同 serializer 生成同一个 $T$，只是把 $T$ 放在上下文之后：$[x,T,q]$。因此，这不是“有没有 trace”的比较，而是严格的**位置干预**：同一批状态信息，在上下文前还是上下文后可用，哪一种更有用？
 
-![Figure 1: TRACE AS STATE 总览。A 表示因果状态更新；B 表示 condition-first 与 condition-last 的内存差异；C 表示 reasoning trace 作为任务状态代理；D 表示把 trace 放到新一遍长上下文之前。](https://raw.githubusercontent.com/Bye-lemon/Pictures/master/papers/2609.02702/fig1.png)
+![](https://raw.githubusercontent.com/Bye-lemon/Pictures/master/papers/2609.02702/fig1.png)
+
+图 1：TRACE AS STATE 总览。A 表示因果状态更新；B 表示 condition-first 与 condition-last 的内存差异；C 表示 reasoning trace 作为任务状态代理；D 表示把 trace 放到新一遍长上下文之前。
 
 ### 一句话结论
 
@@ -118,7 +120,9 @@ $$
 
 这保证了上下文、trace、serializer 都相同，唯一变化是 $T$ 的插入位置。TRACE AS STATE 中，$T$ 在模型重新处理 $x$ 时已经可用；TRACE APPEND 中，$T$ 来得较晚，仍可影响后续 reasoning 和最终答案，但不能改变已经为前文上下文 token 形成的表示。
 
-![Figure 2: DeepSeek V4 Pro Preview 在 GraphWalks 256K 上的 trace-count ablation。随着第一遍 traces 数量 $n_{tr}$ 从 1 增加到 5，TRACE AS STATE 始终高于 TRACE APPEND。](https://raw.githubusercontent.com/Bye-lemon/Pictures/master/papers/2609.02702/fig2.png)
+![](https://raw.githubusercontent.com/Bye-lemon/Pictures/master/papers/2609.02702/fig2.png)
+
+图 2：DeepSeek V4 Pro Preview 在 GraphWalks 256K 上的 trace-count ablation。随着第一遍 traces 数量 $n_{tr}$ 从 1 增加到 5，TRACE AS STATE 始终高于 TRACE APPEND。
 
 ## Experiments
 

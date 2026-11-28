@@ -10,7 +10,7 @@ export default defineConfig({
   site: 'https://bye-lemon.github.io',
   markdown: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex, rehypeChapterNumbers, rehypeTableWrap, rehypeFigures],
+    rehypePlugins: [rehypeFigures, rehypeKatex, rehypeChapterNumbers, rehypeTableWrap],
     shikiConfig: { theme: 'github-light', wrap: false },
   },
   integrations: [

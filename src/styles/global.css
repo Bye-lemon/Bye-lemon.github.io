@@ -175,19 +175,19 @@ main { counter-reset: sidenote-counter; }
 .dek { font-size: .96em; line-height: 1.7; color: var(--muted); margin: 0 0 1.7em; max-width: 34em; }
 
 /* ---------- 目录：窄屏折叠，宽屏常驻右栏 ---------- */
-.post-aside { font-family: var(--sans); }
-.toc { font-size: .8em; line-height: 1.55; margin: 0 0 2em; }
-.toc > summary { display: inline-block; cursor: pointer; list-style: none; padding: .15em 0; color: var(--faint); font-size: .86em; letter-spacing: .16em; text-transform: uppercase; }
+.post-aside { font-family: var(--serif); }
+.toc { font-size: .84em; line-height: 1.6; margin: 0 0 2em; }
+.toc > summary { display: inline-block; cursor: pointer; list-style: none; padding: .15em 0; color: var(--faint); font-family: var(--serif); font-size: .88em; letter-spacing: .3em; }
 .toc > summary::-webkit-details-marker { display: none; }
 .toc > summary:hover { color: var(--ink); }
 .toc ol { list-style: none; margin: .9em 0 0; padding: 0; border-left: 1px solid var(--line); }
 .toc li { margin: 0; }
-.toc a { display: block; padding: .3em 0 .3em .9em; color: var(--ink); text-decoration: none; line-height: 1.5; }
+.toc a { display: block; padding: .28em 0 .28em .9em; color: var(--ink); text-decoration: none; line-height: 1.55; font-family: var(--serif); }
 .toc a.is-active { color: var(--ink); box-shadow: inset 2px 0 0 var(--accent); }
-.toc-num { display: inline-block; min-width: 1.2em; margin-right: .35em; font-family: var(--serif-italic); font-style: italic; color: var(--faint); }
+.toc-num { display: inline-block; min-width: 1.35em; margin-right: .4em; font-family: var(--serif-italic); font-style: italic; font-size: 1.02em; color: var(--faint); letter-spacing: .02em; }
 .toc a:hover { color: var(--accent); }
 .toc li:not(.d3):not(:first-child) { margin-top: .5em; }
-.toc li.d3 a { padding-left: 1.7em; font-size: .95em; color: var(--muted); }
+.toc li.d3 a { padding-left: 1.7em; font-size: .92em; color: var(--muted); }
 
 @media (min-width: 1100px) {
   .post { display: grid; grid-template-columns: minmax(0, var(--content)) var(--note); column-gap: var(--note-gap); align-items: start; max-width: none; }
@@ -281,6 +281,8 @@ mark { background: rgba(163,52,31,.14); color: inherit; }
   color: var(--faint); font-variant: small-caps;
 }
 .prose figure:has(figcaption) img { margin-bottom: 0; }
+.prose figcaption .katex { font-size: 1em; }
+.prose figcaption code { font-size: .92em; }
 @media (max-width: 767px) { .prose figcaption { font-size: .86em; } }
 
 /* ---------- 代码 ---------- */

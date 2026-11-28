@@ -209,6 +209,7 @@ npm run build
 - 小字号一律用 `em` 相对正文（旁注/代码块/元信息 14–16px）。**不要用 `rem` 写小字**——`rem` 以 16px 为基准，会排到 11–12px
 - 文字颜色只有三档：`--ink`（正文）、`--muted`（旁注/次要，9:1）、`--faint`（元信息，4.9:1，只用于小字标签，不要再调浅）
 - 文章页 `article.post` 是两栏网格：正文在左，目录 `details.toc` 常驻右栏并 sticky；窄于 1100px 时目录折叠成整行入口。内联脚本负责：宽屏自动展开、窄屏点完关闭、以及滚动时给当前章节加 `aria-current` / `.is-active`
+- 目录用 ET Book 衬线（和正文同一套声音）：「目录」标题是小字宽字距，条目衬线、序号为斜体老式数字；当前章节用 `aria-current` + 左侧朱红细线标出，不要改回无衬线小字
 - 编号跳过：`Paper Information` / 参考文献 / 附录 / 致谢 / 传送门 / 相关链接，以及已手动编号的标题（`一、`、`1.`、`Step 1`）；可编号小节少于 2 个时不编号。想要「Chapter 1」字样，只改 `.post .prose h2[data-chapter]::before` 的 `content`
 - 文章里出现 `.sidenote` / `.marginnote` 时，目录自动回到正文流，右栏让给旁注（`global.css` 的 `:has()` 规则）；有目录的文章，`.fullwidth` 不再溢出右栏
 - 列表页（首页/归档/笔记/标签）用 `grid` 定宽日期列 5.8em，移动端日期在上；新增列表页沿用 `.post-list`
@@ -253,6 +254,7 @@ npm run models:normalize                         # 归一化 + 校验（幂等�
 npm run models:enrich -- --dry-run               # 预览 HF 补全
 npm run models:enrich -- --write                 # 写入 HF 数据
 npm run models:audit                             # 生成 docs/model-audit.md
+                                # 改了 markdown 插件（remark/rehype）后：先删 .astro 再 npm run build，否则读的是缓存
 ```
 
 
@@ -493,6 +495,7 @@ date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
 - 正文图用标准 `![描述](url)`，图片外链到图床（见流水线）。
 - **图片说明统一交给构建**：`rehype-figures.mjs` 会把独占一段的图片包成 `<figure>`；说明取自 alt（≥ 40 字或以上 `Figure/图/表 + 编号` 开头）或图片后紧跟的一行 `图 1：…`，转成 `<figcaption>` 并把 `图 1` 做成小字标签。不要在 Markdown 里手写 `<figure>`。
 - 图注用中文、一句话说清「这张图在讲什么」，不要重复正文；图里的英文说明如果已经烧进图片，就不要在 alt 里再抄一遍。
+- **图注里要写公式（`$...$`）时，必须用「图 N：…」段落形式**：它会作为真正的段落交给 remark-math，KaTeX 才能渲染；写进 alt 的 `$` 会被解析器吃掉，只剩 `n_{tr}` 这样的纯文本。
 
 ### 流水线
 
@@ -509,3 +512,29 @@ date: YYYY-MM-DD HH:mm:ss   # 生成当时的时间
    - [ ] 未明确说明的细节已标注 "Not explicitly specified in text"
 6. 直接 commit 到 `src` 分支，提交信息 `post: add <论文名> 论文笔记 (close #N)`；随后在 issue 下评论生成的文章链接并关闭 issue。
 7. 汇报：生成了什么、图片几张、哪些地方拿不准（作者单位、会议信息等）。
+
+## 16. Markdown 版式速查（构建自动完成）
+
+写文章只用普通 Markdown + 少量 HTML，下面这些效果都由构建时自动生成，**不要手写**：
+
+| 你写的 | 构建后 | 说明 |
+| --- | --- | --- |
+| `## 标题` | 章节标题（ET Book 斜体）+ 上方细线 + 页边序号 | 自动编号并进目录；`Paper Information`、参考文献、附录、致谢、传送门等不编号；已有 `一、`、`1.`、`Step 1` 的标题不再加号；可编号小节少于 2 个时不编号 |
+| `### 小节` | 小节标题（1.34rem） | 进目录第二级 |
+| `![](url)` | `<figure>` + `loading=lazy` | 只有「独占一段」的图片会被包成 figure，正文里的行内小图保持原样 |
+| `![长说明](url)` | `<figure><figcaption>` | alt ≥ 40 字，或以 `图 1：` / `Figure 1:` 开头时才当图注；短 alt 只作无障碍文本 |
+| 图片后一行 `图 1：说明` | `<figcaption>` | **推荐写法**；说明里的 `$...$` 会渲染成公式 |
+| `$x$` / `$$x$$` | KaTeX | 行内 / 行间；行间公式独占一行、上下空行 |
+| 表格 | 自动套 `.table-wrap`，可横向滚动 | 宽表不用手写容器；确实要越过正文宽度时用 `<div class="fullwidth">` |
+| `<span class="sidenote-number"></span><span class="sidenote">…</span>` | 右栏带编号旁注 | 窄屏退化为行内块；文章里出现旁注时目录自动回到正文流 |
+| `<span class="marginnote">…</span>` | 右栏无编号旁注 | 同上 |
+| `<div class="fullwidth">…</div>` | 通栏 | 有目录时不再溢出右栏 |
+| `> 引用` | 左侧细线的引文（不倾斜） | 中文斜体是伪斜，引文统一直立 |
+| 代码块（` ```lang `） | Shiki 浅色高亮 | 行内代码用反引号即可 |
+
+规则：
+
+- 目录由页面自动生成（h2/h3），不手写、不维护；宽屏常驻右栏并随滚动高亮当前章节，窄屏折叠成整行入口。
+- 章节序号、图注、表格容器、图片懒加载都由 `src/plugins/*.mjs` 处理。要改行为就改插件，不要在正文里补 HTML。
+- 改了 `remark`/`rehype` 插件后，先删 `.astro` 再构建，否则读到的是缓存里编译好的旧内容。
+- 新增排版元素时，先在 `global.css` 里定义角色（字号用 `em`，颜色只用 `--ink` / `--muted` / `--faint`），再写一篇样例文章验证。

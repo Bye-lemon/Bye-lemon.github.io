@@ -31,18 +31,64 @@ function isImageParagraph(node) {
   return allowed && !!findImage(node);
 }
 
-function captionNode(text) {
-  const clean = text.replace(/\$([^$]*)\$/g, '$1').trim();
+function mathSpan(tex) {
+  return { type: 'element', tagName: 'span', properties: { className: ['math', 'math-inline'] }, children: [{ type: 'text', value: tex.trim() }] };
+}
+
+/** 纯文本 → 节点；$...$ 变成 math-inline，交给后面的 rehype-katex 渲染。 */
+function nodesFromText(text) {
+  const out = [];
+  const re = /\$([^$]+)\$/g;
+  let last = 0;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) out.push({ type: 'text', value: text.slice(last, m.index) });
+    out.push(mathSpan(m[1]));
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) out.push({ type: 'text', value: text.slice(last) });
+  return out;
+}
+
+function labelSpan(label) {
+  return { type: 'element', tagName: 'span', properties: { className: ['fig-label'] }, children: [{ type: 'text', value: label }] };
+}
+
+function captionFromText(text) {
+  const clean = String(text || '').trim();
   const m = clean.match(LABEL);
   const children = [];
   if (m) {
-    children.push({ type: 'element', tagName: 'span', properties: { className: ['fig-label'] }, children: [{ type: 'text', value: m[1] }] });
+    children.push(labelSpan(m[1]));
     const rest = clean.slice(m[0].length).trim();
-    if (rest) children.push({ type: 'text', value: ' ' + rest });
+    if (rest) {
+      children.push({ type: 'text', value: ' ' });
+      children.push(...nodesFromText(rest));
+    }
   } else {
-    children.push({ type: 'text', value: clean });
+    children.push(...nodesFromText(clean));
   }
   return { type: 'element', tagName: 'figcaption', properties: {}, children };
+}
+
+/** 图注段落 → 复用它的子节点（行内公式、代码、链接都在），只把开头的「图 1：」抽成标签。 */
+function captionFromParagraph(paragraph) {
+  const children = (paragraph.children || []).map((child) => ({ ...child }));
+  let label = '';
+  const first = children[0];
+  if (first && first.type === 'text') {
+    const m = String(first.value || '').match(LABEL);
+    if (m) {
+      label = m[1];
+      const rest = String(first.value).slice(m[0].length).replace(/^\s+/, '');
+      if (rest) first.value = rest;
+      else children.shift();
+    }
+  }
+  const out = [];
+  if (label) out.push(labelSpan(label), { type: 'text', value: ' ' });
+  out.push(...children);
+  return { type: 'element', tagName: 'figcaption', properties: {}, children: out };
 }
 
 function walk(parent) {
@@ -58,20 +104,24 @@ function walk(parent) {
       }
 
       const alt = String((img && img.properties && img.properties.alt) || '').trim();
-      const next = children[i + 1];
+
+      // 跳过图片段落与图注段落之间的空白文本节点
+      let j = i + 1;
+      while (j < children.length && children[j].type === 'text' && !String(children[j].value || '').trim()) j += 1;
+      const next = children[j];
       const nextText = next && next.type === 'element' && next.tagName === 'p' ? textOf(next).trim() : '';
 
-      let caption = '';
-      if (alt.length >= 40 || CAPTION.test(alt)) {
-        caption = alt;
+      let caption = null;
+      if (nextText && CAPTION.test(nextText) && next.type === 'element' && next.tagName === 'p') {
+        caption = captionFromParagraph(next);
+        i = j;
+      } else if (alt.length >= 40 || CAPTION.test(alt)) {
+        caption = captionFromText(alt);
         if (img.properties) img.properties.alt = '';
-      } else if (nextText && CAPTION.test(nextText)) {
-        caption = nextText;
-        i += 1;
       }
 
       const figure = { type: 'element', tagName: 'figure', properties: {}, children: [node] };
-      if (caption) figure.children.push(captionNode(caption));
+      if (caption) figure.children.push(caption);
       out.push(figure);
       continue;
     }

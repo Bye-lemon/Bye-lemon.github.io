@@ -7,6 +7,7 @@ tags:
   - Re-ID
   - CVPR
 categories: 论文笔记
+kind: paper
 abstract: 【CVPR2020】 Hong-Xing Yu， Wei-Shi Zheng
 date: 2020-07-04 19:57:13
 ---
@@ -70,6 +71,58 @@ $$$d(\mathbb{P}(\mathcal{Q}_j),\mathbb{P}(\mathcal{X}))=\|m_j-m\|_2^2+\|\sigma_j
     
 - 模型的损失函数被定义为
 $$$\mathop{\min}_{\theta,\{\mu_k\}}L=L_{surr}+\lambda L_{drift}$$$
+
+## Experiments
+
+### 数据集与设置
+
+- **行人重识别**：Market-1501（32,668 图 / 1,501 ID）、DukeMTMC-reID（36,411 图 / 1,404 ID）。图像缩放至 384×128，设置 $K=2000$。
+- **姿态不变人脸识别（PIFR）**：Multi-PIE（754,200 图 / 337 人，9 个姿态），CFP（500 人，frontal-profile 验证设置）。Multi-PIE 设置 $K=500$，图像缩放至 224×224。
+- **预训练**：MSMT17（仅用于预训练，场景和身份池与目标数据集完全不同）。
+- 实现：ResNet-50 骨干网络；训练约 1,600 次迭代，batch size 384，动量 0.9，权重衰减 0.005；SGD 学习率 0.001，在 1,000/1,400 次迭代后除以 10；4 块 Titan X GPU 训练不到 2 小时；K-means 聚类初始化代理分类器。超参数：除 Multi-PIE 外 $\lambda=10, b=0.95$；Multi-PIE $\lambda=1, b=0.5$；soft 版本 $a=5$，hard 版本 $a=\infty$。
+
+### Re-ID 任务结果（表1）
+
+| 方法 | Duke rank-1 | Duke mAP | Market rank-1 | Market mAP |
+|------|------------|----------|---------------|------------|
+| Supervised fine-tune（上限） | 75.0 | 57.2 | 85.9 | 66.8 |
+| Pretrained | 43.1 | 28.8 | 46.2 | 24.6 |
+| K-means as labels | 37.3 | 25.2 | 47.3 | 25.6 |
+| Basic model | 56.8 | 39.6 | 55.8 | 31.5 |
+| Basic + WDBR (hard) | 69.4 | 50.2 | 60.3 | 34.5 |
+| Basic + WFDR | 67.7 | 47.5 | 67.4 | 39.4 |
+| **Full model (hard)** | **72.1** | **53.8** | **74.0** | **47.9** |
+
+- 完整模型（hard 版本）在 Duke 上达到 72.1% rank-1 / 53.8% mAP，在 Market 上达到 74.0% rank-1 / 47.9% mAP，大幅超越 Basic model 和所有消融变体。
+
+### PIFR 任务结果（表2、表3）
+
+**Multi-PIE**（top-1 识别率，5 次运行平均）：
+
+| 方法 | avg | 0° | ±15° | ±30° | ±45° | ±60° |
+|------|-----|-----|------|------|------|------|
+| Supervised fine-tune | 98.2 | 99.7 | 99.4 | 98.8 | 98.1 | 95.7 |
+| Basic model | 54.5 | 91.2 | 86.5 | 60.0 | 34.5 | 18.8 |
+| Basic + WDBR (soft) | 97.0 | 99.1 | 98.9 | 98.3 | 96.8 | 93.0 |
+| **Full model (soft)** | **97.1** | **99.1** | **98.9** | **98.3** | **96.8** | **93.1** |
+
+- soft 版本的 WDBR 在 Multi-PIE 上表现更佳，大姿态角（±60°）下从 Basic model 的 18.8% 提升至 93.1%。
+
+**CFP**（frontal-profile 验证）：Full model (soft) 达到 95.49% Accuracy / 4.74% EER / 98.83% AUC，与 Supervised fine-tune（95.50%）几乎持平。
+
+### 与最先进水平对比
+
+**无监督/域适应 Re-ID**（表4）：Full model (hard) 在 Duke 上 72.1% rank-1 / 53.8% mAP，在 Market 上 74.0% rank-1 / 47.9% mAP，超越当时所有无监督 Re-ID 方法（最佳此前方法 MAR: Duke 67.1/48.0, Market 67.7/40.0）。
+
+**有监督 PIFR**（表5，Multi-PIE avg）：Full model (soft) 97.1%，超越 DRGAN（90.2%）、FFGAN（91.6%）和 p-CNN（93.5%）。
+
+## Conclusion
+
+- 论文提出了使用状态信息作为弱监督条件的无监督判别特征学习方法，通过 WDBR 修正因环境因素导致的决策边界偏移，通过 WFDR 正则化不同状态下的特征漂移。
+
+- 方法在 Re-ID 和 PIFR 两个任务上均取得领先性能，证明了状态信息作为弱监督信号的有效性。
+
+- 局限性：方法依赖 K-means 初始化的代理分类器，对初始聚类质量敏感；状态信息需要预先定义（如相机视角、光照条件），在状态标签不可获取的场景下适用性受限。
 
 ## Paper Information
 

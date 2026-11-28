@@ -44,9 +44,9 @@ date: 2020-05-09 17:38:50
 
 - 分组卷积将特征图分成若干组，对于每一组特征图的子集进行独立的卷积运算，最后将每一组的输出进行通道拼接。
 
-- 分组卷积能够减少参数量，从$$C_{in}\times W\times H\times C_{out}$$减少到了$$G\times\frac{C_{in}}{G}\times W\times H\times \frac{C_{out}}{G}$$，参数量变为原本的$$\frac{1}{G}$$。
+- 分组卷积能够减少参数量，从$C_{in}\times W\times H\times C_{out}$减少到了$G\times\frac{C_{in}}{G}\times W\times H\times \frac{C_{out}}{G}$，参数量变为原本的$\frac{1}{G}$。
 
-- ResNeXt可以使用分组卷积实现，$$input \rightarrow 256,1\times1,128\rightarrow 128,3\times3,128,group=32\rightarrow 128,1\times1,256\rightarrow +input$$。
+- ResNeXt可以使用分组卷积实现，$input \rightarrow 256,1\times1,128\rightarrow 128,3\times3,128,group=32\rightarrow 128,1\times1,256\rightarrow +input$。
 
 ---
 # Neck
@@ -127,47 +127,47 @@ date: 2020-05-09 17:38:50
 # Focal Loss
 
 - 交叉熵损失和焦点损失的对比：
-$$$L=-y\log\hat{y}-(1-y)\log (1-\hat{y}) $$$
-$$$L_{fl}=-y\alpha(1-\hat{y})^{\gamma}\log\hat{y}-(1-y)(1-\alpha)\hat{y}^{\gamma}log(1-\hat{y})$$$
+$$L=-y\log\hat{y}-(1-y)\log (1-\hat{y}) $$
+$$L_{fl}=-y\alpha(1-\hat{y})^{\gamma}\log\hat{y}-(1-y)(1-\alpha)\hat{y}^{\gamma}log(1-\hat{y})$$
 
-- 焦点损失一般用在一阶段网络中，因子$$\gamma$$使得容易分类的（预测值与0或1接近的）样本在损失中占有一个较小的比重，而不易预测的在损失中占有一个较大的比重；因子$$\alpha$$用于平衡正负样本自身的不均衡。
+- 焦点损失一般用在一阶段网络中，因子$\gamma$使得容易分类的（预测值与0或1接近的）样本在损失中占有一个较小的比重，而不易预测的在损失中占有一个较大的比重；因子$\alpha$用于平衡正负样本自身的不均衡。
 
 ---
 # IoU Loss
 
 - 对于目标的定位损失，常用的计算方式是对BBox和Ground Truth的坐标计算MSE Loss。但是我们评估的时候是使用IoU评判二者的重合程度，优化坐标和优化IoU不是等价的，此外，坐标对于尺度是敏感的而IoU具有良好的尺度不变性。所以，有学者提出了IoU Loss。
-$$$\mathcal{L}_{IoU}=-\ln IoU$$$
-$$$\mathcal{L}_{IoU}=1-IoU$$$
+$$\mathcal{L}_{IoU}=-\ln IoU$$
+$$\mathcal{L}_{IoU}=1-IoU$$
 - 但是IoU在BBox和GT不重合时不能很好的描述二者的差异（IoU均为0），且即便是重合，同一种IoU可能对应着不同的重合情况，这些也是有差异的，IoU不能描述出这种差异。
 
 ---
 # GIoU Loss
 
 - GIoU：Generalized IoU 广义交并比
-$$$GIoU=IoU-\frac{|A_c-U|}{|A_c|}$$$
-$$$\mathcal{L}_{GIoU}=1-GIoU$$$
-- 其中$$A_c$$代表BBox和GT的最小闭包面积，即能覆盖二者的最小矩形框面积。
+$$GIoU=IoU-\frac{|A_c-U|}{|A_c|}$$
+$$\mathcal{L}_{GIoU}=1-GIoU$$
+- 其中$A_c$代表BBox和GT的最小闭包面积，即能覆盖二者的最小矩形框面积。
 
-- $$GIoU\in[-1, 1]$$，当BB和GT完全重合时最大，毫无交集且无限远时最小，GIoU不仅反映了BB与GT重合部分的情况，也描述了非重叠部分的情况，更能反应二者重合度。
+- $GIoU\in[-1, 1]$，当BB和GT完全重合时最大，毫无交集且无限远时最小，GIoU不仅反映了BB与GT重合部分的情况，也描述了非重叠部分的情况，更能反应二者重合度。
 
 ---
 # DIoU Loss
 
 - DIoU：Distance IoU 距离交并比
-$$$DIoU = IoU-\frac{\rho^2(b,b^{gt})}{c^2}$$$
-$$$\mathcal{L}_{DIoU} = 1-DIou$$$
-- 其中，$$\rho(b,b^{gt})$$代表BB和GT的中心点的距离，$$c$$代表BB和GT的最小闭包的对角线的距离。
+$$DIoU = IoU-\frac{\rho^2(b,b^{gt})}{c^2}$$
+$$\mathcal{L}_{DIoU} = 1-DIou$$
+- 其中，$\rho(b,b^{gt})$代表BB和GT的中心点的距离，$c$代表BB和GT的最小闭包的对角线的距离。
 
-- $$GIoU\in[-1, 1]$$，当BB和GT完全重合时最大，毫无交集且无限远时最小，DIoU直接最小化BB和GT的距离，相较于GIoU收敛更快，并且当BB和GT在水平方向或垂直方向上重叠时，GIoU退化为IoU而DIoU依然有效。
+- $GIoU\in[-1, 1]$，当BB和GT完全重合时最大，毫无交集且无限远时最小，DIoU直接最小化BB和GT的距离，相较于GIoU收敛更快，并且当BB和GT在水平方向或垂直方向上重叠时，GIoU退化为IoU而DIoU依然有效。
 
 ---
 # CIoU loss
 
 - CIoU：Complete IoU 完全交并比
-$$$\mathcal{L}_{CIoU}=1-IoU+\frac{\rho^2(b,b^{gt})}{c^2}+\alpha\upsilon$$$
-$$$\alpha=\frac{\upsilon}{(1-IoU)+\upsilon}\ ,\upsilon=\frac{4}{\pi^2}(\arctan\frac{w^{gt}}{h^{gt}}-\arctan\frac{w}{h})$$$
+$$\mathcal{L}_{CIoU}=1-IoU+\frac{\rho^2(b,b^{gt})}{c^2}+\alpha\upsilon$$
+$$\alpha=\frac{\upsilon}{(1-IoU)+\upsilon}\ ,\upsilon=\frac{4}{\pi^2}(\arctan\frac{w^{gt}}{h^{gt}}-\arctan\frac{w}{h})$$
 
-- 其中，$$\upsilon$$描述了BB和GT长宽比的相似性，$$\alpha$$是一个折中项。
+- 其中，$\upsilon$描述了BB和GT长宽比的相似性，$\alpha$是一个折中项。
 
 - BB回归三要素：距离、尺寸、长宽比。CIoU引入了GIoU和DIou中没有考虑过的长宽比这一要素，进一步约束BB和GT。
 

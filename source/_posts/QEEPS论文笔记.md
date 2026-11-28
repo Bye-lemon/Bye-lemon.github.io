@@ -51,7 +51,7 @@ date: 2020-08-09 16:35:52
 
 - 总损失函数：
 
-$$L = \lambda_1 L_{cls} + \lambda_2 L_{reg} + \lambda_3 L_{rpn_o} + \lambda_4 L_{rpn_r} + \lambda_5 L_{oim} + \lambda_6 L_{qrpn} + \lambda_7 L_{sim}$$
+$L = \lambda_1 L_{cls} + \lambda_2 L_{reg} + \lambda_3 L_{rpn_o} + \lambda_4 L_{rpn_r} + \lambda_5 L_{oim} + \lambda_6 L_{qrpn} + \lambda_7 L_{sim}$
 
 所有权重 $\lambda_{1-7}$ 均设为 1。
 

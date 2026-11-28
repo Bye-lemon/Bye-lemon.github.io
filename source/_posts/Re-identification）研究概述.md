@@ -59,22 +59,22 @@ date: 2020-07-11 18:38:06
 
 - **Top-K**是指检索结果中置信度最高的K张图像中有正确结果的概率，即如果前K个结果中有正确的图像，Top-K就是1，否则就是0。Top-K的图像是一个单位阶跃函数，在首次出现的排名F处开始从0变成1。
 
-- **CMC（Cumulative Matching Characteristics，累计匹配特性）**是Top-K的平均，$$\text{CMC}(N)=\frac{1}{N}\sum_{n=1}^N\text{Top-K}(n)$$，CMC曲线上的某一点代表了检索结果前几位中包含正确结果的概率。
+- **CMC（Cumulative Matching Characteristics，累计匹配特性）**是Top-K的平均，$\text{CMC}(N)=\frac{1}{N}\sum_{n=1}^N\text{Top-K}(n)$，CMC曲线上的某一点代表了检索结果前几位中包含正确结果的概率。
 
 - **Rank-N**指CMC曲线上横轴取值为N一点处的CMC值，其意义如上所述。
 
 #### Precision、Recall、AP、mAP
 
-- 在Re-ID任务中，对于一张待查询图像$$I$$，在图库中其同ID图像的集合为$$\mathcal{I}$$，Re-ID系统返回的查询结果的前k个的集合为$$\mathcal{R}_k$$，那么，前k位的**查准率Precision@k**和**查全率Recall@k**被定义为
-$$$
+- 在Re-ID任务中，对于一张待查询图像$I$，在图库中其同ID图像的集合为$\mathcal{I}$，Re-ID系统返回的查询结果的前k个的集合为$\mathcal{R}_k$，那么，前k位的**查准率Precision@k**和**查全率Recall@k**被定义为
+$$
 \text{precision@k}=\frac{|\mathcal{I}\cap \mathcal{R}_k|}{|\mathcal{R}_k|}\\
 \text{recall@k}=\frac{|\mathcal{I}\cap \mathcal{R}_k|}{|\mathcal{I}|}
-$$$
+$$
 
 - 为了更好的描述排名情况，引入了**平均精度（Average Precision，AP）**来评估查询结果，它是PR曲线下的面积，可以被使用以下公式计算
-$$$
+$$
 \text{AP}=\frac{1}{2}\sum_{i=2}^{R}[(\text{recall@i}-\text{recall@i-1})(\text{precision@i}+\text{precision@i-1})]
-$$$
+$$
 
 - Re-ID的mAP即是每一个Query的AP的均值。
 ![](https://raw.githubusercontent.com/Bye-lemon/Pictures/master/20200712112318.png)

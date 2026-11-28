@@ -260,7 +260,7 @@ date: 2020-10-15 15:37:36
 
 - 完成M2主机上的配置之后，工控机上Apollo项目的配置文件也应同步修改，具体应该修改的内容包括以下几个文件：
   
-  - GNSS配置：编辑配置文件``modules/calibration/data/dev_kit/gnss_conf/gnss_conf.pb.txt``，修改其中``proj4_text: "+proj=utm +zone=50 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"``一行的``+zone``参数，将其改为所在地区的UTM Zone，50对应了北京，大连的UTM Zone为51，该值可以通过$$utmzone=\lfloor \lfloor longitude \rfloor / 6 \rfloor + 31$$计算。
+  - GNSS配置：编辑配置文件``modules/calibration/data/dev_kit/gnss_conf/gnss_conf.pb.txt``，修改其中``proj4_text: "+proj=utm +zone=50 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"``一行的``+zone``参数，将其改为所在地区的UTM Zone，50对应了北京，大连的UTM Zone为51，该值可以通过$utmzone=\lfloor \lfloor longitude \rfloor / 6 \rfloor + 31$计算。
   
   - Localization配置：编辑配置文件``modules/calibration/data/dev_kit/localization_conf/localization.conf``，修改其中的``local_utm_zone_id``为上一环节中所计算的区域UTM Zone的值，修改其中``--enable_lidar_localization``的值为``false``。
   

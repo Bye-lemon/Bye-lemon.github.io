@@ -314,23 +314,23 @@ date: 2020-02-24 09:34:17
 - 可重入型函数使用的是**局部变量**，在通常的C编译器中把局部变量分配在栈中。
 
 #### 嵌入式操作系统的案例
-##### $$\mu$$C/OS-II
+##### $\mu$C/OS-II
 
-- $$\mu$$C/OS全称Micro Controller Operating System，是由美国人J.Labrosse开发的实时操作系统，其成果与1992年在《Embedding System Programming》杂志上发表。
+- $\mu$C/OS全称Micro Controller Operating System，是由美国人J.Labrosse开发的实时操作系统，其成果与1992年在《Embedding System Programming》杂志上发表。
 
-- $$\mu$$C/OS-II是一个**开源的抢占式实时多任务内核**，使用ANSI C编写，包含一小部分汇编语言代码。它支持从8位到64位的处理器，已移植到40余种不同架构的处理器上。
+- $\mu$C/OS-II是一个**开源的抢占式实时多任务内核**，使用ANSI C编写，包含一小部分汇编语言代码。它支持从8位到64位的处理器，已移植到40余种不同架构的处理器上。
 
-- $$\mu$$C/OS-II的特点：**抢占**、**多任务**、**静态优先级**、**体积小**（基本代码尺寸仅8.3KB）、**可移植**、**可固化**、**可裁剪**。
+- $\mu$C/OS-II的特点：**抢占**、**多任务**、**静态优先级**、**体积小**（基本代码尺寸仅8.3KB）、**可移植**、**可固化**、**可裁剪**。
 
-- $$\mu$$C/OS-II将进程分为5个状态：**就绪Ready**、**运行Running**、**等待Wait**、**休眠Dormant**和**中断ISR**。
+- $\mu$C/OS-II将进程分为5个状态：**就绪Ready**、**运行Running**、**等待Wait**、**休眠Dormant**和**中断ISR**。
 
-- $$\mu$$C/OS-II内核的基本功能包括：任务管理、定时器管理、事件管理、系统管理、消息管理、信号量管理等。没有I/O管理、文件系统和网络协议。
+- $\mu$C/OS-II内核的基本功能包括：任务管理、定时器管理、事件管理、系统管理、消息管理、信号量管理等。没有I/O管理、文件系统和网络协议。
 
-- $$\mu$$C/OS-II的源代码文件结构：
+- $\mu$C/OS-II的源代码文件结构：
 
     - 对函数和环境的定义：PC.C
     
-    - 与处理器无关的部分：OS_CORE.C、OS_FLAG.C、OS_MBOX.C、OS_MEM.C、OS_MUTEX.C、OS_Q.C、OS_SEM.C、OS_TASK.C、OS_TIME.C、$$\mu$$COS-II.C、$$\mu$$COS-II.h
+    - 与处理器无关的部分：OS_CORE.C、OS_FLAG.C、OS_MBOX.C、OS_MEM.C、OS_MUTEX.C、OS_Q.C、OS_SEM.C、OS_TASK.C、OS_TIME.C、$\mu$COS-II.C、$\mu$COS-II.h
     
     - 与处理器相关的部分：OS_CPU_A.S、OS_CPU_C.C、OS_CPU.H
     
@@ -338,7 +338,7 @@ date: 2020-02-24 09:34:17
     
     - 配置文件：OS_CFG.H
     
-- $$\mu$$COS-II的启动函数如下
+- $\mu$COS-II的启动函数如下
 ```C
 void main(void) {
     OSInit(); // 初始化系统
@@ -347,7 +347,7 @@ void main(void) {
 }
 ```
 
-- $$\mu$$COS-II的不足之处：
+- $\mu$COS-II的不足之处：
 
     - 只有多任务调度的简单内核；
     

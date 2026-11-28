@@ -17,10 +17,10 @@ const fmt = dateOf(post).toISOString().slice(0, 10);
 const title = String(data.title || slugOf(post));
 const toc = headings.filter((h) => h.depth <= 3);
 const h2s = headings.filter((h) => h.depth === 2);
-const chapters = new Map<string, number>();
+const chapters = new Map<string, string>();
 if (h2s.filter((h) => isChapterHeading(h.text)).length > 1) {
   let n = 0;
-  for (const h of h2s) if (isChapterHeading(h.text)) chapters.set(h.slug, ++n);
+  for (const h of h2s) if (isChapterHeading(h.text)) { n += 1; chapters.set(h.slug, String(n)); }
 }
 ---
 <BaseLayout title={title} description={String(data.abstract || title)} current="/">

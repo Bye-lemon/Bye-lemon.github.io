@@ -16,11 +16,13 @@ permissions:
 # 实测基线（ubuntu-latest）：checkout 1s / setup-node 2s / npm ci 3s / build 5s /
 # upload-pages-artifact 1s / deploy-pages 6s；其余是 runner 排队与 job 启动开销。
 #
-# src 是默认分支（相当于 main）。这里按 commit 维度分组：
-# GitHub 对同一分组只保留 1 个排队中的运行，共享 group 会让「后来的提交把排队中的提交顶掉」，
-# 因此用 sha 隔离，保证 src 上每个提交都完整跑完；Pages 的部署本身由 github-pages 环境串行化。
+# 部署必须串行：实测两个运行同时执行 actions/deploy-pages 会互相卡死
+# （并发部署时第二个运行停在 deploy-pages 数分钟不结束）。
+# 因此沿用共享 group + cancel-in-progress: false：正在跑的部署绝不会被打断。
+# 代价是 GitHub 对同一 group 只保留 1 个排队运行，3 个以上提交在同一个 job 时长内
+# 连推时，最早的排队运行会被顶掉；被顶掉的提交内容仍会随后续提交的完整构建上线。
 concurrency:
-  group: pages-${{ github.sha }}
+  group: pages
   cancel-in-progress: false
 
 env:
@@ -29,7 +31,8 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 部署占着 pages 这个全局串行锁，实测正常只要 ~30s；超时收紧，避免卡住后续提交的部署。
+    timeout-minutes: 5
     permissions:
       contents: read
       pages: write

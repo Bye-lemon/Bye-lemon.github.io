@@ -51,9 +51,40 @@ const toc = headings.filter((h) => h.depth <= 3);
         const toc = document.getElementById('post-toc');
         if (!toc) return;
         const mq = window.matchMedia('(min-width: 1100px)');
-        const sync = () => { toc.open = mq.matches; };
         if (mq.matches) toc.open = true;
-        if (mq.addEventListener) mq.addEventListener('change', sync);
+        if (mq.addEventListener) mq.addEventListener('change', () => { toc.open = mq.matches; });
+        toc.addEventListener('click', (e) => {
+          if (!mq.matches && e.target.closest('a')) toc.open = false;
+        });
+
+        const decode = (v) => { try { return decodeURIComponent(v); } catch { return v; } };
+        const links = new Map();
+        toc.querySelectorAll('a').forEach((a) => {
+          const id = decode((a.getAttribute('href') || '').replace(/^#/, ''));
+          if (id) links.set(id, a);
+        });
+        const heads = [...document.querySelectorAll('.prose h2[id], .prose h3[id]')];
+        if (!heads.length || !links.size) return;
+        let ticking = false;
+        const update = () => {
+          ticking = false;
+          let active = heads[0];
+          for (const h of heads) {
+            if (h.getBoundingClientRect().top <= 120) active = h;
+            else break;
+          }
+          links.forEach((a) => { a.classList.remove('is-active'); a.removeAttribute('aria-current'); });
+          const link = links.get(active.id);
+          if (link) { link.classList.add('is-active'); link.setAttribute('aria-current', 'true'); }
+        };
+        const onScroll = () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(update);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
       })();
     </script>
   )}

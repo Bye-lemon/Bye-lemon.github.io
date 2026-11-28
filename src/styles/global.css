@@ -72,7 +72,7 @@ footer.site .footer-inner a:hover { color: var(--ink); }
 h1, h2, h3, h4 { font-weight: 400; line-height: 1.42; text-wrap: balance; }
 h1 { font-size: 2.35rem; letter-spacing: -.004em; margin: 0 0 .62em; }
 h2 { font-family: var(--serif-italic); font-style: italic; font-size: 1.45rem; margin: 2.4em 0 .7em; }
-h3 { font-family: var(--serif-italic); font-style: italic; font-size: 1.16rem; margin: 2em 0 .5em; }
+h3 { font-family: var(--serif); font-style: normal; font-weight: 600; font-size: 1.24rem; line-height: 1.5; margin: 2.1em 0 .5em; }
 h4 { font-size: 1.02rem; font-weight: 600; font-family: var(--sans); letter-spacing: .01em; margin: 1.9em 0 .4em; }
 .prose > h2:first-child, .prose > h3:first-child, .prose > h4:first-child { margin-top: 0; }
 h2, h3, h4 { scroll-margin-top: 1.5em; }
@@ -93,8 +93,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2.8em 0; }
 .table-wrap { margin: 0 0 1.8em; overflow-x: auto; }
 .table-wrap table { margin: 0; }
 table { width: 100%; border-collapse: collapse; font-family: var(--serif); font-size: .86em; line-height: 1.65; }
-th, td { padding: .55em .75em; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-thead th { font-weight: 600; border-bottom: 1px solid rgba(17,17,17,.45); }
+th, td { padding: .5em .7em; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+td { font-variant-numeric: tabular-nums; }
+thead th { font-weight: 600; white-space: nowrap; border-bottom: 1px solid rgba(17,17,17,.45); }
 th[align="center"], td[align="center"] { text-align: center; }
 th[align="right"], td[align="right"] { text-align: right; }
 
@@ -145,6 +146,7 @@ main { counter-reset: sidenote-counter; }
 .toc ol { list-style: none; margin: .9em 0 0; padding: 0; border-left: 1px solid var(--line); }
 .toc li { margin: 0; }
 .toc a { display: block; padding: .3em 0 .3em .9em; color: var(--ink); text-decoration: none; line-height: 1.5; }
+.toc a.is-active { color: var(--ink); box-shadow: inset 2px 0 0 var(--accent); }
 .toc a:hover { color: var(--accent); }
 .toc li:not(.d3):not(:first-child) { margin-top: .5em; }
 .toc li.d3 a { padding-left: 1.7em; font-size: .95em; color: var(--muted); }
@@ -152,7 +154,7 @@ main { counter-reset: sidenote-counter; }
 @media (min-width: 1100px) {
   .post { display: grid; grid-template-columns: minmax(0, var(--content)) var(--note); column-gap: var(--note-gap); align-items: start; max-width: none; }
   .post > .post-head { grid-column: 1; grid-row: 1; }
-  .post > .post-aside { grid-column: 2; grid-row: 1 / span 2; align-self: start; position: sticky; top: 2rem; padding-top: .35em; max-height: calc(100vh - 4rem); overflow-y: auto; }
+  .post > .post-aside { grid-column: 2; grid-row: 1 / span 2; align-self: start; position: sticky; top: 2rem; padding-top: .35em; max-height: calc(100vh - 4rem); max-height: calc(100dvh - 4rem); overflow-y: auto; scrollbar-width: thin; overscroll-behavior: contain; }
   .post > .post-aside .toc { margin-bottom: 0; }
   .post > .prose { grid-column: 1; grid-row: 2; max-width: var(--content); }
 }
@@ -170,6 +172,19 @@ main { counter-reset: sidenote-counter; }
   .post:has(.sidenote, .marginnote) .fullwidth { width: 100%; }
   .post:has(.post-aside) .fullwidth { width: 100%; }
 }
+@media (max-width: 1099px) {
+  .toc > summary {
+    display: flex; align-items: center; gap: .5em;
+    min-height: 44px; padding: .35em 0;
+    font-size: .95em; letter-spacing: .1em; text-transform: none; color: var(--muted);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .toc > summary:hover { color: var(--ink); }
+  .toc[open] > summary { border-bottom-color: transparent; }
+  .toc ol { margin: .7em 0 1.8em; }
+  .toc a { padding: .45em 0 .45em .9em; }
+}
+
 @media (max-width: 767px) {
   body { font-size: 17.5px; line-height: 1.86; }
   .wrap, header.site .inner, footer.site .inner { max-width: 100%; padding-left: 20px; padding-right: 20px; }
@@ -177,14 +192,17 @@ main { counter-reset: sidenote-counter; }
   main > * { max-width: 100%; }
   h1 { font-size: 1.72rem; }
   h2 { font-size: 1.32rem; }
-  h3 { font-size: 1.1rem; }
+  h3 { font-size: 1.18rem; }
   blockquote { margin-left: 0; }
 }
 
 @media (max-width: 640px) {
   header.site .inner { gap: 10px 14px; }
   .nav-actions { order: 2; margin-left: auto; }
-  nav.site { order: 3; flex-basis: 100%; gap: 12px; font-size: .84rem; }
+  nav.site { order: 3; flex-basis: 100%; gap: 6px 12px; font-size: .88rem; }
+  nav.site a { padding: .3em 0; }
+  .nav-actions { gap: 2px; }
+  .nav-search, .nav-icon { padding: 12px; margin: -4px; }
 }
 
 .lead { color: var(--muted); }

@@ -171,7 +171,7 @@ node scripts/enrich-hf-models.mjs --write --refresh   # 忽略缓存
 
 ## 5. 校验与 CI
 
-本地/CI 都跑：
+本地提交前手工跑（其中只有最后一条 `npm run build` 会在 CI 里执行）：
 
 ```bash
 node scripts/refactor-models.mjs --dry-run   # 结构迁移是否还有遗留
@@ -186,7 +186,17 @@ npm run build
 - `refactor-models.mjs` 默认 dry-run，加 `--write` 才写
 - `normalize-models.mjs` 会打印每字段改动数和告警；告警必须在合并前清零
 - 不提交 `.cache/`、`dist/`、`node_modules/`
-- `deploy.yml` 对 `README.md`、`Agent.md`、`docs/**`、`.github/ISSUE_TEMPLATE/**` 的改动不触发部署（paths-ignore）
+
+CI 结构：
+
+| 工作流 | 触发 | 做什么 |
+| --- | --- | --- |
+| `deploy.yml` | push 到 `src` | 单 job：`npm ci` → `npm run build` → 上传 `dist/` 并发布 Pages。concurrency 按 commit 隔离，每个提交都会完整跑完，不会互相顶掉 |
+| `ci.yml` | PR → `src` | 只构建、不发布。只改文档时跳过构建，但 job 本身照常执行，必需检查一定会报告结果 |
+
+- `README.md`、`Agent.md`、`docs/**`、`.github/ISSUE_TEMPLATE/**` 的改动不触发 `deploy.yml`（paths-ignore）
+- 同一 PR 连续推送会取消旧运行（`cancel-in-progress`），只保留最新一次；`src` 上不取消
+- `models:normalize` / `models:audit` 会直接改工作区文件，因此不进 CI，只在本地手动跑
 
 ## 6. UI 约定（给改页面的 Agent）
 

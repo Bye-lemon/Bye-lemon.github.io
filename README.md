@@ -94,9 +94,13 @@ npm run models:audit                   # 生成 docs/model-audit.md
 
 推送到 `src` 分支即触发 GitHub Actions（`.github/workflows/deploy.yml`）：
 
-1. `npm install --no-audit --no-fund`
+1. `npm ci --no-audit --no-fund`
 2. `npm run build`
-3. 上传 `dist/` 并部署到 GitHub Pages
+3. 上传 `dist/` 并用 `actions/deploy-pages` 发布到 GitHub Pages（构建与发布在同一个 job 内完成，省掉两个 job 之间的调度空档）
+
+PR 走 `.github/workflows/ci.yml`：只构建、不发布；只改文档的 PR 会跳过构建，但检查本身仍会报告结果，不会把 PR 卡在「等待状态」。
+
+只改 `README.md`、`Agent.md`、`docs/**`、`.github/ISSUE_TEMPLATE/**` 时不触发部署；同一 PR 连续推送会取消旧运行，只保留最新一次。
 
 本地预览与线上构建一致；`dist/`、`.cache/`、`node_modules/` 不提交。
 

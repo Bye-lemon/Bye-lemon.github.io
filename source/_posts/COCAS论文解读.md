@@ -7,6 +7,7 @@ tags:
   - Re-ID
   - CVPR
 categories: 论文笔记
+kind: paper
 abstract: >-
   【CVPR2020】 Shijie Yu, Shihua Li, Dapeng Chen, Rui Zhao, Junjie Yan, and Yu
   Qiao†
@@ -69,24 +70,26 @@ date: 2020-06-26 16:47:23
 
 #### BF Branch
 
-- BF分支将一组用户输入$$I^p$$通过ResNet50骨干网络产生一组特征图$$A^p\in \mathbb{R}^{H\times W\times D}$$，为了提取到与衣服无关的特征，在骨干网络之后，BF分支引入了一个Mask模块，通过特征图预测出一组掩码$$M^p\in \mathbb{R}^{H\times W\times 1}$$。BF分支最终的输出特征$$f^B\in \mathbb{R}^D$$，$$f^B$$中的每一个元素$$f_k^B$$是第$$k$$张特征图$$A_k^p$$与掩码矩阵$$M^p$$的哈达马积的全局平均池化，即
-$$$f_k^B=\frac{1}{H\times W}\sum_{i=1}^{H}\sum_{j=1}^{W}[A_k^p\circ M^p]_{i,j}$$$
+- BF分支将一组用户输入$I^p$通过ResNet50骨干网络产生一组特征图$A^p\in \mathbb{R}^{H\times W\times D}$，为了提取到与衣服无关的特征，在骨干网络之后，BF分支引入了一个Mask模块，通过特征图预测出一组掩码$M^p\in \mathbb{R}^{H\times W\times 1}$。BF分支最终的输出特征$f^B\in \mathbb{R}^D$，$f^B$中的每一个元素$f_k^B$是第$k$张特征图$A_k^p$与掩码矩阵$M^p$的哈达马积的全局平均池化，即
+$f_k^B=\frac{1}{H\times W}\sum_{i=1}^{H}\sum_{j=1}^{W}[A_k^p\circ M^p]_{i,j}$
 
 #### CF Branch
 
-- CF分支通过一个Faster R-CNN检测器预测目标图像中衣服的位置，将检测结果resize到和衣服模板相同的尺寸作为输入$$I^c$$，通过骨干网络ResNet50提取特征$$A^c$$，经过全局平均池化得到CF分支的输出特征$$f^C\in \mathbb{R}^D$$。
+- CF分支通过一个Faster R-CNN检测器预测目标图像中衣服的位置，将检测结果resize到和衣服模板相同的尺寸作为输入$I^c$，通过骨干网络ResNet50提取特征$A^c$，经过全局平均池化得到CF分支的输出特征$f^C\in \mathbb{R}^D$。
 
 #### Fusion
 
-- BF分支输出的特征向量$$f^B$$和CF分支输出的特征向量$$f^C$$进行连接后，通过一个线性变换得到最终的人物表征$$f$$，即$$f=\mathbf{W}[(f^B)^\top,(f^C)^\top]^\top+\mathbf{b}$$。
+- BF分支输出的特征向量$f^B$和CF分支输出的特征向量$f^C$进行连接后，通过一个线性变换得到最终的人物表征$f$，即$f=\mathbf{W}[(f^B)^\top,(f^C)^\top]^\top+\mathbf{b}$。
 
 ### Loss Function
 
 - BC-Net的损失函数包含一个交叉熵判别损失和一个基于欧氏距离的三元损失可以表示为
-$$$
+
+$$
 \mathcal{L}^f=\mathcal{L}_{id}^f+\alpha\mathcal{L}_{triplet}^{f} \\
 \mathcal{L}_{triplet}^f=\frac{1}{N_{triplet}}\sum_{i=1}^{N_{triplet}}[d(\mathcal{I}_i^a,\mathcal{I}_i^b)+\eta-d(\mathcal{I}_i^a,\mathcal{I}_i^c)]\\
-\mathcal{L}_{id}^f=-\frac{1}{N}\sum_{n=1}^{N}\sum_{l=1}^{L} y_{n,l}\log(\frac{e^{\mathbf{w}_l^\top f_n}}{\sum_{m=1}^L e^{\mathbf{w}_m^\top f_n}})$$$
+\mathcal{L}_{id}^f=-\frac{1}{N}\sum_{n=1}^{N}\sum_{l=1}^{L} y_{n,l}\log(\frac{e^{\mathbf{w}_l^\top f_n}}{\sum_{m=1}^L e^{\mathbf{w}_m^\top f_n}})
+$$
 
 ## Experiments
 

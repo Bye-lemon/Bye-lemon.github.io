@@ -198,6 +198,15 @@ CI 结构：
 - 同一 PR 连续推送会取消旧运行（`cancel-in-progress`），只保留最新一次；`src` 上不取消
 - `models:normalize` / `models:audit` 会直接改工作区文件，因此不进 CI，只在本地手动跑
 
+### 5.1 依赖升级（尤其是 astro 大版本）
+
+- **astro 7 起必须显式安装 `@astrojs/markdown-remark`**。astro 7 把默认 Markdown 处理器换成 Sätteri（`@astrojs/markdown-satteri`），`@astrojs/markdown-remark` 于是从默认依赖降为 peerDependency（`^7.3.0`）。本仓库 `astro.config.mjs` 用了 `remarkMath`、`rehypeKatex` 和三个自定义 rehype 插件，走的是 remark/rehype 管线，缺了就构建失败：
+  `markdown.remarkPlugins ... which is no longer installed by default now that Sätteri is the default Markdown processor`
+  修法：在 `package.json` 的 `dependencies` 里加 `"@astrojs/markdown-remark": "^7.3.0"`，版本跟随 astro 的 peer 范围。
+- 顺带确认 `@astrojs/rss`、`@astrojs/sitemap` 是否支持目标大版本。
+- **「构建通过」不等于没问题**：升级后比对 `dist`，页面总数与 `class="katex`、`<figure`、`astro-code`、`data-chapter` 这些标记的出现次数应与升级前完全一致；数量变了说明某个插件没接上（astro 5→7 实测 336 页、1482/37/173/188，全部一致）。
+- CI 用的是 `npm ci`：改完依赖要先 `npm install` 更新 lock，再本地跑一次 `npm ci` + `npm run build`，两者都通过再提交（lock 与 `package.json` 不一致会直接让 CI 变红）。
+
 ## 6. UI 约定（给改页面的 Agent）
 
 - 列表页从 `/models.json` 取数，表格用 Tabulator；筛选维度：`category/tasks/modalities_in/languages/domains/role/access`
@@ -244,6 +253,7 @@ CI 结构：
 9. **集合/组织页要解析成模型列表**：`huggingface.co/collections/...` 通过 Collections API 展开为 `collection_models`，组织页通过 `/api/models?author=` 展开为 `org_models`；详情页会全部列出。
 10. **作者是品牌名，不是 HF org id**：`Meta/facebook`、`MongoDB/voyageai` 这类差异是正常的，不要机械合并。
 11. **Series 条目保留区间参数量**：如 `100B~1T`，不要用单个 repo 的 safetensors 数值覆盖。
+12. **astro 大版本升级后插件失效**：先查 `@astrojs/markdown-remark` 有没有显式声明，见 §5.1。
 
 ## 8. 迁移记录
 

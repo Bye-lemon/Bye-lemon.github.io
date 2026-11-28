@@ -14,9 +14,10 @@
     "models:audit": "node scripts/audit-models.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.0",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.14.0",
+    "astro": "^7.4.13",
     "flexsearch": "^0.8.212",
     "jieba-wasm": "^2.4.0",
     "js-yaml": "^4.1.0",

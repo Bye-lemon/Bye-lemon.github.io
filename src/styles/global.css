@@ -71,11 +71,42 @@ footer.site .footer-inner a:hover { color: var(--ink); }
 /* ---------- 标题层级 ---------- */
 h1, h2, h3, h4 { font-weight: 400; line-height: 1.42; text-wrap: balance; }
 h1 { font-size: 2.35rem; letter-spacing: -.004em; margin: 0 0 .62em; }
-h2 { font-family: var(--serif-italic); font-style: italic; font-size: 1.45rem; margin: 2.4em 0 .7em; }
-h3 { font-family: var(--serif); font-style: normal; font-weight: 600; font-size: 1.24rem; line-height: 1.5; margin: 2.1em 0 .5em; }
+h2 { font-family: var(--serif); font-style: normal; font-weight: 600; font-size: 1.5rem; line-height: 1.45; margin: 2.4em 0 .7em; }
+h3 { font-family: var(--serif); font-style: normal; font-weight: 600; font-size: 1.3rem; line-height: 1.5; margin: 2.2em 0 .55em; }
 h4 { font-size: 1.02rem; font-weight: 600; font-family: var(--sans); letter-spacing: .01em; margin: 1.9em 0 .4em; }
 .prose > h2:first-child, .prose > h3:first-child, .prose > h4:first-child { margin-top: 0; }
 h2, h3, h4 { scroll-margin-top: 1.5em; }
+.post .prose h2 {
+  font-size: 1.62rem;
+  margin: 2.8em 0 .8em;
+  padding-top: .8em;
+  border-top: 1px solid var(--line);
+}
+/* 章节序号：窄屏并入标题行，宽屏悬挂到版心左侧的页边 */
+.post .prose h2 { position: relative; }
+.post .prose h2[data-chapter]::before {
+  content: attr(data-chapter);
+  display: inline-block;
+  margin-right: .55em;
+  font-family: var(--sans);
+  font-size: .58em;
+  font-weight: 400;
+  letter-spacing: .06em;
+  color: var(--faint);
+  vertical-align: .12em;
+}
+@media (min-width: 1280px) {
+  .post .prose h2[data-chapter]::before {
+    position: absolute;
+    left: -4.3em;
+    top: 1.9em;
+    width: 2.4em;
+    margin: 0;
+    text-align: right;
+    font-size: .56em;
+    letter-spacing: .04em;
+  }
+}
 
 p { margin: 0 0 1.35em; text-wrap: pretty; }
 ul, ol { padding-left: 1.45em; margin: 0 0 1.35em; }
@@ -147,6 +178,7 @@ main { counter-reset: sidenote-counter; }
 .toc li { margin: 0; }
 .toc a { display: block; padding: .3em 0 .3em .9em; color: var(--ink); text-decoration: none; line-height: 1.5; }
 .toc a.is-active { color: var(--ink); box-shadow: inset 2px 0 0 var(--accent); }
+.toc-num { display: inline-block; min-width: 1.3em; margin-right: .3em; color: var(--faint); font-variant-numeric: tabular-nums; }
 .toc a:hover { color: var(--accent); }
 .toc li:not(.d3):not(:first-child) { margin-top: .5em; }
 .toc li.d3 a { padding-left: 1.7em; font-size: .95em; color: var(--muted); }
@@ -191,8 +223,9 @@ main { counter-reset: sidenote-counter; }
   main { padding: 34px 0 64px; }
   main > * { max-width: 100%; }
   h1 { font-size: 1.72rem; }
-  h2 { font-size: 1.32rem; }
-  h3 { font-size: 1.18rem; }
+  h2 { font-size: 1.36rem; }
+  .post .prose h2 { font-size: 1.42rem; }
+  h3 { font-size: 1.2rem; }
   blockquote { margin-left: 0; }
 }
 

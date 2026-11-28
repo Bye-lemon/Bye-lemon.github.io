@@ -3,12 +3,13 @@ import sitemap from '@astrojs/sitemap';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeTableWrap from './src/plugins/rehype-table-wrap.mjs';
+import rehypeChapterNumbers from './src/plugins/rehype-chapter-numbers.mjs';
 
 export default defineConfig({
   site: 'https://bye-lemon.github.io',
   markdown: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex, rehypeTableWrap],
+    rehypePlugins: [rehypeKatex, rehypeChapterNumbers, rehypeTableWrap],
     shikiConfig: { theme: 'github-light', wrap: false },
   },
   integrations: [

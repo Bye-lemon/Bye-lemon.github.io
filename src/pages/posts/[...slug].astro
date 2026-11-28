@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { slugOf, tagsOf, dateOf } from '../../lib/posts';
 import { tagSlug } from '../../lib/tags';
+import { isChapterHeading } from '../../plugins/rehype-chapter-numbers.mjs';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -15,6 +16,12 @@ const data = post.data as any;
 const fmt = dateOf(post).toISOString().slice(0, 10);
 const title = String(data.title || slugOf(post));
 const toc = headings.filter((h) => h.depth <= 3);
+const h2s = headings.filter((h) => h.depth === 2);
+const chapters = new Map<string, number>();
+if (h2s.filter((h) => isChapterHeading(h.text)).length > 1) {
+  let n = 0;
+  for (const h of h2s) if (isChapterHeading(h.text)) chapters.set(h.slug, ++n);
+}
 ---
 <BaseLayout title={title} description={String(data.abstract || title)} current="/">
   <article class="post">
@@ -35,7 +42,7 @@ const toc = headings.filter((h) => h.depth <= 3);
           <summary>目录</summary>
           <nav aria-label="文章目录">
             <ol>
-              {toc.map((h) => <li class={h.depth > 2 ? 'd3' : undefined}><a href={`#${h.slug}`}>{h.text}</a></li>)}
+              {toc.map((h) => <li class={h.depth > 2 ? 'd3' : undefined}><a href={`#${h.slug}`}>{chapters.get(h.slug) && <span class="toc-num">{chapters.get(h.slug)}</span>}{h.text}</a></li>)}
             </ol>
           </nav>
         </details>

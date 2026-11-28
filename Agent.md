@@ -204,10 +204,12 @@ npm run build
 ### 6.1 阅读版式（Tufte）
 
 - 版式令牌：`--content: 42rem`（1440 宽下约 35 个汉字/行），旁注栏 `--note`；模型库/导航用 `body.wide` 保持 56rem，不要在阅读页放宽 `--content`
-- 正文 19px / 行高 1.82（窄屏 17.5px / 1.86）；标题层级 h1 2.35rem（斜体 h2 1.45rem、h3 1.24rem 加粗直立）——中文没有真斜体，h3 靠字号+字重区分层级
+- 正文 19px / 行高 1.82（窄屏 17.5px / 1.86）；标题层级：h1 2.35rem，页面级 h2 1.5rem，正文 h2 1.62rem（加粗直立 + 上方细线），h3 1.3rem 加粗 —— 中文没有真斜体，只能靠字号 + 字重 + 留白区分层级
+- 章节序号：`src/plugins/rehype-chapter-numbers.mjs` 给正文 h2 加 `data-chapter`；`global.css` 在 ≥1280px 把序号悬挂到版心左侧页边，更窄时并入标题行；目录用同一套规则（`isChapterHeading`）在标题前显示序号
 - 小字号一律用 `em` 相对正文（旁注/代码块/元信息 14–16px）。**不要用 `rem` 写小字**——`rem` 以 16px 为基准，会排到 11–12px
 - 文字颜色只有三档：`--ink`（正文）、`--muted`（旁注/次要，9:1）、`--faint`（元信息，4.9:1，只用于小字标签，不要再调浅）
 - 文章页 `article.post` 是两栏网格：正文在左，目录 `details.toc` 常驻右栏并 sticky；窄于 1100px 时目录折叠成整行入口。内联脚本负责：宽屏自动展开、窄屏点完关闭、以及滚动时给当前章节加 `aria-current` / `.is-active`
+- 编号跳过：`Paper Information` / 参考文献 / 附录 / 致谢 / 传送门 / 相关链接，以及已手动编号的标题（`一、`、`1.`、`Step 1`）；可编号小节少于 2 个时不编号。想要「Chapter 1」字样，只改 `.post .prose h2[data-chapter]::before` 的 `content`
 - 文章里出现 `.sidenote` / `.marginnote` 时，目录自动回到正文流，右栏让给旁注（`global.css` 的 `:has()` 规则）；有目录的文章，`.fullwidth` 不再溢出右栏
 - 列表页（首页/归档/笔记/标签）用 `grid` 定宽日期列 5.8em，移动端日期在上；新增列表页沿用 `.post-list`
 - 移动端顶栏：第一行「品牌 + 搜索/RSS」，第二行导航；不要再把图标塞回 `nav.site` 里

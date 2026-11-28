@@ -29,45 +29,57 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
 <BaseLayout title="导航" current="/nav/" wide>
   <h1>{pageAliases.nav}</h1>
   <style>
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-    .desk { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: start; max-width: var(--content); }
-  @media (min-width: 1100px) { .desk { grid-template-columns: minmax(0, 1fr) var(--note); max-width: calc(var(--content) + var(--note) + var(--note-gap)); width: 100%; } }
-    .rail { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; font-family: var(--sans); font-size: .74rem; }
-    .rail h2 { font-family: var(--sans); font-style: normal; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 .8em; }
-    .rail a { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; color: var(--muted); text-decoration: none; }
-    .rail a:hover { color: var(--ink); }
-    .rail a.active { color: var(--ink); text-decoration: underline; text-underline-offset: .25em; }
-    .rail .sub { padding-left: 12px; font-size: .72rem; }
-    .rail .n { color: var(--faint); font-size: .68rem; }
-    .rail .grp { margin-bottom: 1.2em; }
+    .desk { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.4em; align-items: start; max-width: var(--content); }
+    @media (min-width: 1100px) { .desk { grid-template-columns: minmax(0, 1fr) var(--note); gap: var(--note-gap); max-width: calc(var(--content) + var(--note) + var(--note-gap)); width: 100%; } }
 
-    .desk-bar { position: sticky; top: 0; z-index: 5; background: var(--paper); padding: 12px 0 10px; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 26px; }
-    .desk-bar input { flex: 1 1 180px; min-width: 0; font-family: var(--sans); font-size: .85rem; padding: 9px 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
+    /* 右侧分类索引 */
+    .rail { position: sticky; top: 24px; max-height: calc(100vh - 48px); overflow-y: auto; font-family: var(--sans); font-size: .8rem; scrollbar-width: thin; overscroll-behavior: contain; }
+    .rail h2 { font-family: var(--sans); font-style: normal; font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 0 0 .7em; }
+    .rail .grp { margin-bottom: 1.5em; }
+    .rail a { display: flex; justify-content: space-between; gap: 10px; padding: .22em 0; color: var(--muted); text-decoration: none; line-height: 1.5; }
+    .rail a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .22em; }
+    .rail a.active { color: var(--ink); text-decoration: underline; text-underline-offset: .22em; }
+    .rail .sub { padding-left: .9em; font-size: .95em; }
+    .rail .n { color: var(--faint); font-variant-numeric: tabular-nums; font-size: .95em; }
+
+    /* 顶部筛选条 */
+    .desk-bar { position: sticky; top: 0; z-index: 5; background: var(--paper); padding: 12px 0 10px; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 30px; }
+    .desk-bar input { flex: 1 1 200px; min-width: 0; font-family: var(--sans); font-size: .92rem; padding: 9px 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
+    .desk-bar input::placeholder { color: var(--faint); }
     .desk-bar input:focus { outline: 0; border-color: var(--ink); }
-    .desk-bar select { font: inherit; font-size: .78rem; padding: 7px 9px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
-    .desk-enter { font-family: var(--sans); font-size: .72rem; color: var(--faint); white-space: nowrap; }
-    .desk-bar kbd { font-family: var(--mono); font-size: .66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 2px 5px; }
-    .desk-count { font-family: var(--sans); font-size: .74rem; color: var(--muted); white-space: nowrap; margin-left: auto; }
+    .desk-bar select { font: inherit; font-family: var(--sans); font-size: .86rem; padding: 8px 10px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; }
+    .desk-enter { font-family: var(--sans); font-size: .76rem; color: var(--faint); white-space: nowrap; }
+    .desk-bar kbd { font-family: var(--mono); font-size: .72rem; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 2px 5px; }
+    .desk-count { font-family: var(--sans); font-size: .8rem; color: var(--muted); white-space: nowrap; margin-left: auto; font-variant-numeric: tabular-nums; }
 
-    .sec { margin: 0 0 2.4em; scroll-margin-top: 70px; }
-    .sec h2 { font-family: var(--serif); font-style: normal; font-size: 1.15rem; margin: 0 0 .9em; display: flex; align-items: baseline; gap: 10px; }
-    .sec h2 .n { font-family: var(--sans); font-size: .7rem; color: var(--faint); font-weight: 400; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
-    .site { display: block; padding: 12px 14px; border: 1px solid var(--line); border-radius: 2px; text-decoration: none; background: transparent; transition: background .12s; }
-    .site:hover { background: rgba(17,17,17,.03); }
-    .site .t { display: flex; align-items: center; gap: 8px; font-family: var(--serif); font-size: .95rem; color: var(--ink); }
-    .site .t img { width: 16px; height: 16px; object-fit: contain; }
-    .site .d { display: block; margin-top: 4px; font-family: var(--sans); font-size: .7rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .site .u { font-family: var(--mono); font-size: .66rem; color: var(--faint); }
+    /* 分区与站点目录 */
+    .sec { margin: 0 0 2.8em; scroll-margin-top: 76px; }
+    .sec h2 { font-family: var(--serif-italic); font-style: italic; font-weight: 400; font-size: 1.35rem; margin: 0 0 .75em; display: flex; align-items: baseline; gap: .65em; font-synthesis: none; }
+    .sec h2 .n { font-family: var(--sans); font-style: normal; font-size: .72rem; color: var(--faint); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+    .sites { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); column-gap: 2.4em; }
+    .site { display: block; padding: .55em 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+    .site .t { display: flex; align-items: center; gap: .5em; font-family: var(--serif); font-size: 1rem; line-height: 1.4; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .site .t img { width: 15px; height: 15px; object-fit: contain; flex: none; opacity: .92; }
+    .site .m { display: block; margin-top: .12em; font-family: var(--sans); font-size: .76em; line-height: 1.55; color: var(--faint); min-width: 0; }
+    .site .u { display: block; white-space: nowrap; }
+    .site .d { display: block; color: var(--muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .site:hover .t { text-decoration: underline; text-underline-offset: .18em; }
+    .site:hover .u { color: var(--muted); }
     .empty { display: none; font-family: var(--sans); color: var(--muted); padding: 2em 0; }
 
     @media (max-width: 1099px) {
-      .desk { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-      .rail { order: -1; }
-      .rail { position: static; max-height: none; display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 1.2em; }
-      .rail .grp { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
+      .desk { gap: 1em; }
+      .rail { position: static; max-height: none; order: -1; display: flex; flex-wrap: wrap; gap: .4em 1.2em; margin-bottom: .8em; font-size: .78rem; }
+      .rail .grp { margin: 0; display: flex; flex-wrap: wrap; gap: .2em .9em; align-items: baseline; }
       .rail h2 { display: none; }
       .rail .sub { padding-left: 0; }
+      .rail { display: none; }
+    }
+
+    @media (max-width: 767px) {
+      .sec h2 { font-size: 1.2rem; }
+      .sites { grid-template-columns: minmax(0, 1fr); }
+      .desk-bar input, .desk-bar select { font-size: 16px; }
     }
   </style>
 
@@ -89,16 +101,20 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
 
       {sections.map((s) => (
         <section class="sec" id={s.id} data-section={s.id}>
-          <h2>{s.title} <span class="n" data-count={s.id}>{s.links.length}</span></h2>
-          <div class="grid">
+          <h2>{s.title}<span class="n" data-count={s.id}>{s.links.length}</span></h2>
+          <ul class="sites">
             {s.links.map((l) => (
-              <a class="site" href={l.url} target="_blank" rel="noopener" data-text={`${l.title} ${l.description || ''} ${host(l.url)}`.toLowerCase()}>
-                <span class="t">{l.logo && <img src={l.logo} alt="" loading="lazy" onerror="this.style.display='none'" />}{l.title}</span>
-                <span class="d">{l.description || host(l.url)}</span>
-                <span class="u">{host(l.url)} ↗</span>
-              </a>
+              <li>
+                <a class="site" href={l.url} target="_blank" rel="noopener" data-text={`${l.title} ${l.description || ''} ${host(l.url)}`.toLowerCase()}>
+                  <span class="t">{l.logo && <img src={l.logo} alt="" loading="lazy" onerror="this.style.display='none'" />}{l.title}</span>
+                  <span class="m">
+                    <span class="u">{host(l.url)} ↗</span>
+                    {l.description && l.description !== l.title && l.description !== host(l.url) && <span class="d">{l.description}</span>}
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
       ))}
       <p class="empty" id="desk-empty">没有匹配的站点。</p>
@@ -132,7 +148,7 @@ const host = (url?: string) => { try { return new URL(url).host.replace(/^www\./
         let n = 0;
         for (const site of sec.querySelectorAll('.site')) {
           const hit = !q || site.dataset.text.includes(q);
-          site.style.display = hit ? '' : 'none';
+          site.parentElement.style.display = hit ? '' : 'none';
           if (hit) { n++; shown++; }
         }
         sec.style.display = n ? '' : 'none';

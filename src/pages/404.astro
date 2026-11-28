@@ -4,7 +4,13 @@ import { pageAliases } from '../data/aliases';
 ---
 <BaseLayout title="404">
   <h1>{pageAliases.notFound}</h1>
-  <p class="lead">404 · 这一页走丢了。</p>
-  <p class="lead">这一页走丢了。</p>
-  <p><a href="/">回到首页</a> · <a href="/archive/">全部文章</a></p>
+  <p class="lead notfound-line">404 · 这一页走丢了。</p>
+  <p class="notfound-links">
+    <a href="/">回到首页</a><span class="sep">·</span><a href="/archive/">全部文章</a><span class="sep">·</span><a href="/nav/">站点导航</a>
+  </p>
+  <style>
+    .notfound-line { margin: 0 0 1.6em; }
+    .notfound-links { font-family: var(--sans); font-size: .84rem; display: flex; align-items: baseline; gap: .8em; flex-wrap: wrap; }
+    .notfound-links .sep { color: var(--faint); }
+  </style>
 </BaseLayout>

@@ -49,7 +49,15 @@ const hfUrl = m.hf_id ? 'https://huggingface.co/' + m.hf_id : '';
 ---
 <BaseLayout title={String(m.name)} wide>
   <p class="back"><a href="/models/">← 模型库</a></p>
-  <h1>{m.name}</h1>
+  <header class="model-head">
+    <h1>{m.name}</h1>
+    <p class="model-byline">
+      {m.category && <span>{label('category', m.category)}</span>}
+      {m.author && <span>{m.author}</span>}
+      {m.params && <span>{m.params}</span>}
+      {m.updated && <span>更新 {m.updated}</span>}
+    </p>
+  </header>
   <div class="model-detail">
     <dl class="model-meta">
       {rows.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
@@ -88,23 +96,30 @@ const hfUrl = m.hf_id ? 'https://huggingface.co/' + m.hf_id : '';
     <div class="prose model-body"><Content /></div>
   </div>
   <style>
-    .back { font-family: var(--sans); font-size: .74rem; margin: 0 0 1.4em; }
+    .back { font-family: var(--sans); font-size: .8rem; margin: 0 0 1.2em; letter-spacing: .01em; }
     .back a { text-decoration: none; color: var(--muted); }
+    .back a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .2em; }
+    .model-head h1 { font-size: 2.1rem; margin-bottom: .25em; }
+    .model-byline { display: flex; flex-wrap: wrap; gap: .35em 1.6em; margin: 0 0 1.6em; font-family: var(--sans); font-size: .8rem; letter-spacing: .02em; color: var(--muted); }
+    .model-byline span { white-space: nowrap; }
     .model-detail { max-width: 62rem; }
-    .model-meta { display: grid; grid-template-columns: 8em 1fr; gap: .45em 1.2em; font-family: var(--sans); font-size: .8rem; margin: 1.6em 0; }
-    .model-meta dt { color: var(--muted); }
-    .model-meta dd { margin: 0; }
-    .model-links { display: flex; gap: 1.4em; flex-wrap: wrap; font-family: var(--sans); font-size: .8rem; margin-bottom: 1em; }
-    .model-links a { text-decoration: none; }
-    .model-links .dim { color: var(--muted); font-size: .72rem; }
-    .model-tags { margin: 0 0 1.8em; }
+    .model-meta { display: grid; grid-template-columns: 7em minmax(0, 1fr) 7em minmax(0, 1fr); gap: .5em 1.4em; margin: 1.8em 0 1.4em; padding: 1.1em 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    @media (max-width: 1099px) { .model-meta { grid-template-columns: 6.6em minmax(0, 1fr); } }
+    .model-meta dt { font-family: var(--sans); font-size: .76rem; letter-spacing: .04em; color: var(--muted); padding-top: .18em; }
+    .model-meta dd { margin: 0; font-family: var(--serif); font-size: .98rem; line-height: 1.55; overflow-wrap: anywhere; }
+    .model-links { display: flex; gap: .4em 1.6em; flex-wrap: wrap; font-family: var(--sans); font-size: .84rem; margin-bottom: 1.2em; }
+    .model-links a { text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+    .model-links a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+    .model-links .dim { color: var(--faint); font-size: .9em; }
+    .model-tags { display: flex; flex-wrap: wrap; gap: .45em; margin: 0 0 1.8em; }
+    .model-tags .m-tag { font-family: var(--sans); font-size: .74rem; line-height: 1.6; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: .05em .5em; }
     .model-body { max-width: 52rem; }
-    .hf-list { margin: 2em 0 1em; max-width: 62rem; }
-    .hf-list h2 { font-family: var(--serif); font-style: normal; font-size: 1.1rem; margin: 0 0 .4em; display: flex; align-items: baseline; gap: .5em; }
-    .hf-list h2 .n { font-family: var(--sans); font-size: .7rem; color: var(--faint); font-weight: 400; }
-    .hf-source { font-family: var(--sans); font-size: .7rem; color: var(--muted); margin: 0 0 .8em; }
-    .hf-list ul { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 2em; font-family: var(--mono); font-size: .72rem; }
-    .hf-list li { margin: 0 0 .3em; break-inside: avoid; }
+    .hf-list { margin: 2.4em 0 1em; max-width: 62rem; }
+    .hf-list h2 { font-family: var(--serif-italic); font-style: italic; font-weight: 400; font-size: 1.28rem; margin: 0 0 .35em; display: flex; align-items: baseline; gap: .5em; font-synthesis: none; }
+    .hf-list h2 .n { font-family: var(--sans); font-style: normal; font-size: .72rem; color: var(--faint); font-weight: 400; }
+    .hf-source { font-family: var(--sans); font-size: .78rem; color: var(--muted); margin: 0 0 .9em; }
+    .hf-list ul { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 2em; font-family: var(--mono); font-size: .78rem; line-height: 1.6; }
+    .hf-list li { margin: 0 0 .35em; break-inside: avoid; }
     .hf-list a { text-decoration: none; border-bottom: 1px solid var(--line); }
     .hf-list a:hover { color: var(--accent); border-color: var(--accent); }
     @media (max-width: 767px) { .hf-list ul { columns: 1; } }

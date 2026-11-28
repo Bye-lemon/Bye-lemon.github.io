@@ -15,7 +15,7 @@ const timeline = Array.isArray(data.timeline) ? data.timeline : [];
   {timeline.length > 0 && (
     <section>
       <h2>经历</h2>
-      <ul class="post-list">
+      <ul class="post-list about-list">
         {timeline.map((row) => (
           <li>
             <time>{row.when}</time>
@@ -35,7 +35,12 @@ const timeline = Array.isArray(data.timeline) ? data.timeline : [];
   )}
 
   <style>
-    .about-where { margin-left: auto; font-family: var(--sans); font-size: .72rem; color: var(--muted); }
+    .about-list li { grid-template-columns: 7.5em minmax(0, 1fr) auto; }
+    .about-where { font-family: var(--sans); font-size: .78rem; color: var(--faint); white-space: nowrap; }
     .about-now { margin: 0; font-size: 1rem; }
+    @media (max-width: 640px) {
+      .about-list li { grid-template-columns: minmax(0, 1fr); }
+      .about-where { font-size: .76rem; }
+    }
   </style>
 </BaseLayout>
